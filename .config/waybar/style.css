@@ -1,0 +1,156 @@
+/* Reset styles */
+* {
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* The  bar */
+#waybar {
+    background: #1d2021;
+    color: white;
+    font-family: "awesome 5";
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#pulseaudio,
+#temperature,
+#cpu,
+#memory,
+#battery,
+#backlight,
+#network {
+    min-width: 65px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#tags button {
+    font-weight: bold;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: #6b705c;
+    background: #1d2021;
+    /*border-radius: 10px;*/
+}
+
+#tags button:hover {
+    all: inherit;
+    padding-left: 8px;
+    padding-right: 9px;
+    color: #6b705c;
+    background: #1d2021;
+}
+
+#tags button.occupied {
+    font-weight: bold;
+    color: #DDBEA9;
+    background-color: #1d2021;
+}
+
+#tags button.focused {
+    font-weight: bold;
+    color: #1d2021;
+    background-color: #b7b7a4;
+}
+
+#clock.date {
+    padding-left: 10px;
+	padding-right: 10px;
+	background: #CB997E;
+    color: #1d2021;
+    font-weight: bold;
+}
+
+#clock.time {
+    padding-left: 10px;
+	padding-right: 10px;
+    background: #6B705C;
+    color: #1d2021;
+    font-weight: bold;
+}
+
+#pulseaudio {
+    background: #9d6b53;
+    color: #1d2021;
+}
+
+#pulseaudio.muted {
+    /*color: darkred;*/
+}
+
+#temperature {
+    background: #CB997E;
+    color: #1d2021;
+}
+
+#temperature.warning {
+    color: darkred;
+}
+
+#temperature.critical {
+    color: red;
+}
+
+#cpu {
+    background: #DDBEA9;
+    color: #1d2021;
+}
+
+#cpu.warning {
+    color: darkred;
+}
+
+#cpu.critical {
+    color: red;
+}
+
+#memory {
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    background: #FFE8D6;
+    color: #1d2021;
+}
+
+#memory.warning {
+    color: darkred;
+}
+
+#memory.critical {
+    color: red;
+}
+
+#battery {
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    background: #B7B7A4;
+    color: #1d2021;
+}
+
+#battery.warning {
+    color: darkred;
+}
+
+#battery.critical {
+    color: red;
+}
+
+#backlight {
+    background: #A5A58D;
+    color: #1d2021;
+}
+
+#network {
+	min-width: 120px;
+    background: #6B705C;
+    color: #1d2021;
+}
+
+#network.disconnected {
+    /*color: darkred;*/
+}

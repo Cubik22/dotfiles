@@ -1,0 +1,7 @@
+[user]
+	email = lorenzo.bianco22@protonmail.com
+	name = Lorenzo Bianco
+    signingkey =
+[core]
+	editor = nvim
+	autocrlf = false

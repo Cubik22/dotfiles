@@ -1,0 +1,139 @@
+{
+    //GLOBAL
+
+    "layer": "top",
+
+    "position": "top",
+
+    "modules-left": [
+        //"tray",
+        "river/tags"
+    ],
+  
+    "modules-center": [
+        "clock#date",
+        "clock#time"
+    ],
+    "modules-right": [
+        "pulseaudio",
+	"temperature",
+        "cpu",
+        "memory",
+        "backlight",
+        "battery",
+        "network"
+    ],
+
+    //MODULES
+
+    "clock#time": {
+        "interval": 60,
+	"format": "{:%H:%M}",
+        //"format": " {:%H:%M}",
+        "tooltip": false
+    },
+
+    "clock#date": {
+        "interval": 60,
+	"format": "{:%d/%m/%Y}",
+        //"format": " {:%d/%m/%Y}", // Icon: calendar-alt
+        //"tooltip-format": "{:%e %B %Y}"
+        "tooltip": false
+    },
+
+    "temperature": {
+      	"interval": 10,
+	"critical-threshold": 80,
+      	"format": "{icon}  {temperatureC}°C",
+      	"format-icons": [
+	    "", // Icon: temperature-empty
+	    "", // Icon: temperature-quarter
+            "", // Icon: temperature-half
+            "", // Icon: temperature-three-quarters
+            ""  // Icon: temperature-full
+	],
+       	"tooltip": false
+    },
+
+    "battery": {
+        "interval": 60,
+        "states": {
+            "warning": 30,
+            "critical": 10
+        },
+        // Connected to AC
+        "format": " {capacity}%", // Icon: bolt
+        // Not connected to AC
+        "format-discharging": " {capacity}%",
+        "format-icons": [
+            "", // Icon: battery-full
+            "", // Icon: battery-three-quarters
+            "", // Icon: battery-half
+            "", // Icon: battery-quarter
+            ""  // Icon: battery-empty
+        ],
+        "tooltip": false
+    },
+
+    "cpu": {
+        "interval": 10,
+        "tooltip": false,
+        "format": " {usage}%", //Icon: microchip
+        "states": {
+          "warning": 70,
+          "critical": 90
+        }
+    },
+
+    "memory": {
+        "interval": 10,
+        "format": " {}%", // Icon: memory
+        "states": {
+            "warning": 70,
+            "critical": 90
+        }
+    },
+
+    "network": {
+        "interval": 10,
+        "format-wifi": "  {essid}", // Icon: wifi
+        "format-ethernet": "  {ifname}", // Icon: ethernet
+        "format-disconnected": "Disconnected",
+        "tooltip-format": "{ifname}: {ipaddr}",
+	"on-click": "swaymsg exec cmst"
+    },
+
+    "pulseaudio": {
+        "scroll-step": 1,
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "{icon} {volume}%",
+        "format-muted": "",
+        "format-icons": {
+            "headphones": "",
+            "handsfree": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+
+    "backlight": {
+        // "device": "acpi_video1",
+        "format": "{icon} {percent}% ",
+        "states": [0,50],
+        "format-icons": ["", ""]
+    },
+
+    "tray": {
+        "icon-size": 22
+        //"spacing": 10
+    },
+
+    //"custom/bar": {
+    //    "format": "",
+    //    "tooltip": false
+    //}
+}

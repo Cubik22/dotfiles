@@ -1,0 +1,155 @@
+{
+    //GLOBAL
+
+    "layer": "top",
+
+    "position": "top",
+
+    "modules-left": [
+        //"tray",
+        "river/tags"
+    ],
+  
+    "modules-center": [
+        "clock#date",
+        "clock#time"
+    ],
+
+    "modules-right": [
+        "pulseaudio",
+		"temperature",
+        "cpu",
+        "memory",
+        "battery",
+        "backlight",
+        "network"
+    ],
+
+    //MODULES
+
+    "clock#time": {
+        "interval": 60,
+        "tooltip": false,
+		"format": "{:%H:%M}"
+        //"format": " {:%H:%M}"
+    },
+
+    "clock#date": {
+        "interval": 60,
+        "tooltip": false,
+		"format": "{:%d/%m/%Y}"
+        //"format": " {:%d/%m/%Y}" // Icon: calendar-alt
+        //"tooltip-format": "{:%e %B %Y}"
+    },
+
+    "pulseaudio": {
+        "tooltip": false,
+        "scroll-step": 0.5,
+		"states": {
+	    "low": 10
+		},
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "{icon} {volume}%",
+        //"format-bluetooth": "{icon} {volume}%",
+        "format-muted": " {volume}%",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ""
+	    	//"default": ["", ""]
+        },
+        "on-click": "mute_unmute_audio.sh"
+    },
+
+    "temperature": {
+      	"interval": 10,
+        "tooltip": false,
+		"states": {
+            "warning": 70,
+            "critical": 90
+        },
+        "critical-threshold": 90,
+      	"format": "{icon} {temperatureC}°C",
+      	"format-icons": [
+	    	"", // Icon: temperature-empty
+	    	"", // Icon: temperature-quarter
+            "", // Icon: temperature-half
+            "", // Icon: temperature-three-quarters
+            ""  // Icon: temperature-full
+		]
+    },
+
+    "cpu": {
+        "interval": 10,
+        "tooltip": false,
+        "format": "  {usage}%", //Icon: microchip
+        "states": {
+          "warning": 70,
+          "critical": 90
+        },
+		"on-click": "riverctl spawn 'foot htop'"
+    },
+
+    "memory": {
+        "interval": 10,
+        "tooltip": false,
+        "format": "  {percentage}%", // Icon: memory
+        "states": {
+            "warning": 70,
+            "critical": 90
+        },
+		"on-click": "riverctl spawn 'foot htop'"
+    },
+
+    "battery": {
+        "interval": 60,
+        "tooltip": false,
+        "states": {
+            "warning": 25,
+            "critical": 10
+        },
+        // Connected to AC
+        "format": " {capacity}%", // Icon: bolt
+        // Not connected to AC
+        "format-discharging": "  {capacity}%",
+        "format-icons": [
+            "", // Icon: battery-full
+            "", // Icon: battery-three-quarters
+            "", // Icon: battery-half
+            "", // Icon: battery-quarter
+            ""  // Icon: battery-empty
+        ],
+		// TODO: create script using "upower -d"
+		"on-click": "riverctl spawn 'foot doas powertop'"
+    },
+
+    "backlight": {
+        "interval": 10,
+        "tooltip": false,
+        // "device": "acpi_video1",
+        "format": "  {percent}%",
+        //"format": "{icon} {percent}%",
+        //"states": [0,50],
+		//"format-icons": ["", ""],
+		"on-click-right": "adjust_brightness.sh up",
+		"on-click": "adjust_brightness.sh down"
+    },
+
+    "network": {
+        "interval": 10,
+        "tooltip": false,
+        "format-wifi": "  {essid}", // Icon: wifi
+        "format-ethernet": "  {ifname}", // Icon: ethernet
+        "format-disconnected": "Disconnected",
+		"on-click": "start_stop_iwd.sh"
+    },
+
+    //"tray": {
+    //    "icon-size": 22
+    //    //"spacing": 10
+    //},
+}
