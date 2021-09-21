@@ -25,7 +25,7 @@ alias trexa="exa --long --header --modified --git --tree --color --icons --all -
 alias nv='nvim'
 alias snv='doas nvim'
 alias wifiscan='iwctl station wlan0 scan'
-alias chromium="ungoogled_chromium.sh"
+#alias chromium="ungoogled_chromium.sh"
 
 # move to directory without using cd
 shopt -s autocd
