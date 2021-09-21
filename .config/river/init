@@ -209,6 +209,15 @@ riverctl default-layout rivertile
 # Lausanne coordinates
 wlsunset -l 46.5 -L 6.6 &
 
-waybar &
+# old way to start now with runit
+#waybar &
+#exec rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.6
 
-exec rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.6
+svdir="/tmp/$(id -u)-sv-${WAYLAND_DISPLAY}"
+
+pgrep -f "^runsvdir ${svdir}" && exec echo "runsvdir already running for wayland session"
+
+# recursive, deref links, preserve mode, if target is a dir, overwrite instead of copying into it
+cp -rLpT ~/.local/sv $svdir
+
+exec runsvdir $svdir
