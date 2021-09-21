@@ -16,7 +16,8 @@ export LD_LIBRARY_PATH="${HOME}/.local/lib"
 export PKG_CONFIG_PATH="${HOME}/.local/lib/pkgconfig"
 export PATH="${PATH}:${HOME}/.local/bin"
 
-export BROWSER="${HOME}/.local/bin/ungoogled_chromium.sh"
+export BROWSER=firefox
+#export BROWSER="${HOME}/.local/bin/ungoogled_chromium.sh"
 
 if [ -z "${WAYLAND_DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
 	exec river
