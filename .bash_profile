@@ -2,7 +2,7 @@
 # ~/.bash_profile
 #
 
-[[ -f ~/.bashrc ]] && . ~/.bashrc
+[[ -f ${HOME}/.bashrc ]] && . ${HOME}/.bashrc
 
 # USER ENVIROMENT VARIABLES
 
