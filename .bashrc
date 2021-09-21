@@ -5,6 +5,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+alias config='/usr/bin/git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME"'
 alias sudo="doas"
 alias ls='ls --color=auto --group-directories-first --format=horizontal --human-readable'
 alias dir='dir --color=auto'
