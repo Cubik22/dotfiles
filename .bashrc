@@ -5,7 +5,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-#alias sudo="doas"
+alias sudo="doas"
 alias ls='ls --color=auto --group-directories-first --format=horizontal --human-readable'
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
@@ -23,6 +23,7 @@ alias cd..='cd ..'
 alias trexa="exa --long --tree --all --group-directories-first"
 alias nv='nvim'
 alias snv='doas nvim'
+alias wifiscan='iwctl station wlan0 scan'
 alias chromium="ungoogled_chromium.sh"
 
 # move to directory without using cd
