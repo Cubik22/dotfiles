@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# first clone this repository normally in order to have scripts
+# then run this script which will clone again this repository but bare
+
 # set dotfiles folder name
 folder="$HOME"/.dotfiles
 
@@ -21,3 +24,7 @@ config checkout
 
 # set to not show untracked files
 config config status.showUntrackedFiles no
+
+# remove scripts from $HOME
+rm "$HOME"/git_bare_repository.sh
+rm "$HOME"/user_install.sh
