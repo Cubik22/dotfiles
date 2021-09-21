@@ -19,6 +19,6 @@ export PATH="${PATH}:${HOME}/.local/bin"
 export BROWSER=firefox
 #export BROWSER="${HOME}/.local/bin/ungoogled_chromium.sh"
 
-if [ -z "${WAYLAND_DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+if [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty1" ]; then
 	exec river
 fi
