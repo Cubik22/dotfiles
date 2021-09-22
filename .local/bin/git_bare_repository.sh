@@ -25,6 +25,9 @@ config checkout
 # set to not show untracked files
 config config status.showUntrackedFiles no
 
+# set to track upstram
+config push --set-upstream origin main
+
 # add runtime dir
 mkdir "${HOME}"/.local/runtime
 chmod 700 "${HOME}"/.local/runtime
