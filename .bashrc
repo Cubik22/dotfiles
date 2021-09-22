@@ -28,6 +28,11 @@ alias snv='doas nvim'
 alias wifiscan='iwctl station wlan0 scan'
 #alias chromium="ungoogled_chromium.sh"
 
+# void mirrors in order to quickly change when one si slow (R flag)
+mirror1="https://alpha.de.repo.voidlinux.org/current/musl"
+mirror2="https://mirrors.servercentral.com/voidlinux/current/musl"
+mirror3="https://alpha.us.repo.voidlinux.org/current/musl"
+
 # move to directory without using cd
 #shopt -s autocd
 
