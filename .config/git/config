@@ -1,8 +1,13 @@
 [user]
 	email = lorenzo.bianco22@protonmail.com
 	name = Lorenzo Bianco
-	signingkey = 0FE08B131CD366A782CC07946CAE7125408AE337
+	signingkey = 1EE9CF7201A9FA5DEDE952DD77856CAB58A32F3F
 [core]
 	editor = nvim
 [commit]
 	gpgSign = true
+[gpg]
+	program = gpg2
+[credential]
+	helper = store
+
