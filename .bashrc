@@ -8,6 +8,7 @@
 alias config='/usr/bin/git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME"'
 alias sudo="doas"
 alias ls='ls --color=auto --group-directories-first --format=horizontal --human-readable'
+alias lsa='ls -a --color=auto --group-directories-first --format=horizontal --human-readable'
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 alias grep='grep --color=auto'
