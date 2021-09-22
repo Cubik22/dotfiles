@@ -28,7 +28,7 @@ alias wifiscan='iwctl station wlan0 scan'
 #alias chromium="ungoogled_chromium.sh"
 
 # move to directory without using cd
-shopt -s autocd
+#shopt -s autocd
 
 PS1="\[\e[1;32m\]\w\[\e[m\] \[\e[1;31m\]>\[\e[m\]\[\e[1;33m\]>\[\e[m\]\[\e[1;36m\]>\[\e[m\] "
 #PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[m\] '
