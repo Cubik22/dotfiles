@@ -28,3 +28,6 @@ config config status.showUntrackedFiles no
 # add runtime dir
 mkdir "${HOME}"/.local/runtime
 chmod 700 "${HOME}"/.local/runtime
+
+# set git to remeber credentials (danger but with github token you can give small permission)
+git config --global credential.helper store
