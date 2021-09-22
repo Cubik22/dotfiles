@@ -28,7 +28,3 @@ config config status.showUntrackedFiles no
 # add runtime dir
 mkdir "${HOME}"/.local/runtime
 chmod 700 "${HOME}"/.local/runtime
-
-# remove scripts from $HOME
-rm "$HOME"/git_bare_repository.sh
-rm "$HOME"/user_install.sh
