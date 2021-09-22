@@ -147,9 +147,4 @@
         "format-disconnected": "Disconnected",
 		"on-click": "start_stop_iwd.sh"
     },
-
-    //"tray": {
-    //    "icon-size": 22
-    //    //"spacing": 10
-    //},
 }
