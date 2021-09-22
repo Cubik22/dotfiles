@@ -22,7 +22,10 @@ mod="Mod4"
 riverctl map normal $mod+Control Return spawn foot
 
 # C chromium
-riverctl map normal $mod+Control C spawn "chromium --force-dark-mode --enable-features=UseOzonePlatform,WebUIDarkMode --ozone-platform=wayland"
+#riverctl map normal $mod+Control C spawn "chromium --force-dark-mode --enable-features=UseOzonePlatform,WebUIDarkMode --ozone-platform=wayland"
+
+# F firefox
+riverctl map normal $mod+Control F spawn "firefox"
 
 ### WINDOWS ###
 
