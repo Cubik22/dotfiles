@@ -12,3 +12,5 @@
 	rebase = false
 [credential]
 	helper = store
+[submodule]
+	recurse = true
