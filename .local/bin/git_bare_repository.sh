@@ -27,12 +27,18 @@ config checkout
 # set to not show untracked files
 config config status.showUntrackedFiles no
 
+# source bash profile and bashrc
+source "$HOME"/.bash_profile
+source "$HOME"/.bashrc
+
 # import gpg key
 gpg2 --search-keys $email
 
 # trust key
-echo "-------------------- type 'trust', '5', 'y', 'save' --------------------"
+echo "-------------------- type 'trust', '5', 'y', 'primary', 'save' --------------------"
 gpg2 --edit-key $email
+
+cargo install rbw
 
 # set to track upstram
 config push --set-upstream origin main
