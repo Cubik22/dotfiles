@@ -11,6 +11,7 @@
 export XDG_CONFIG_HOME="${HOME}/.config"
 #export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 export XDG_RUNTIME_DIR="${HOME}/.local/runtime"
+export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
 export GTK2_RC_FILES="${XDG_CONFIG_HOME}/gtk-2.0/config"
 export C_INCLUDE_PATH="${HOME}/.local/include"
 export LD_LIBRARY_PATH="${HOME}/.local/lib"
