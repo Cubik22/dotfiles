@@ -9,6 +9,9 @@ alias config='/usr/bin/git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME"'
 alias sudo="doas"
 alias ls='ls --color=auto --group-directories-first --format=horizontal --human-readable'
 alias lsa='ls -a --color=auto --group-directories-first --format=horizontal --human-readable'
+alias lsl='ls -l --color=auto --group-directories-first --format=horizontal --human-readable'
+alias lsal='ls -a -l --color=auto --group-directories-first --format=horizontal --human-readable'
+alias lsla='ls -l -a --color=auto --group-directories-first --format=horizontal --human-readable'
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 alias grep='grep --color=auto'
@@ -25,7 +28,8 @@ alias cd..='cd ..'
 alias trexa="exa --long --header --modified --git --tree --color --icons --all --group-directories-first"
 alias nv='nvim'
 alias snv='doas nvim'
-alias wifiscan='iwctl station wlan0 scan'
+alias gpg='gpg2'
+#alias wifiscan='iwctl station wlan0 scan'
 #alias chromium="ungoogled_chromium.sh"
 
 # void mirrors in order to quickly change when one si slow (R flag)

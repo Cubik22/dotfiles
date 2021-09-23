@@ -6,6 +6,8 @@
 # set dotfiles folder name
 folder="$HOME"/.dotfiles
 
+email="lorenzo.bianco22@protonmail.com"
+
 # clone repository
 git clone --bare https://github.com/Cubik22/dotfiles.git "$folder"
 
@@ -24,6 +26,13 @@ config checkout
 
 # set to not show untracked files
 config config status.showUntrackedFiles no
+
+# import gpg key
+gpg2 --search-keys $email
+
+# trust key
+echo "-------------------- type 'trust', '5', 'y', 'quit' --------------------"
+gpg2 --edit-key $email
 
 # set to track upstram
 config push --set-upstream origin main

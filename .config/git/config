@@ -1,7 +1,7 @@
 [user]
 	email = lorenzo.bianco22@protonmail.com
 	name = Lorenzo Bianco
-	signingkey = 1EE9CF7201A9FA5DEDE952DD77856CAB58A32F3F
+	signingkey = 684CA4D079BE5028F25EC33FF2518EE8F2C2066F
 [core]
 	editor = nvim
 [commit]
