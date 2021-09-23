@@ -10,7 +10,7 @@
 	program = gpg2
 [pull]
 	rebase = false
-[credential]
-	helper = store
+#[credential]
+#	helper = store
 [submodule]
 	recurse = true
