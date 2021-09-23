@@ -31,6 +31,10 @@ config config status.showUntrackedFiles no
 source "$HOME"/.bash_profile
 source "$HOME"/.bashrc
 
+# add runtime dir
+mkdir "${HOME}"/.local/runtime
+chmod 700 "${HOME}"/.local/runtime
+
 # import gpg key
 gpg2 --search-keys $email
 
@@ -40,12 +44,12 @@ gpg2 --edit-key $email
 
 cargo install rbw
 
+rbw config set email "lorenzo.bianco22@protonmail.com"
+
+rbw unlock
+
 # set to track upstram
 config push --set-upstream origin main
-
-# add runtime dir
-mkdir "${HOME}"/.local/runtime
-chmod 700 "${HOME}"/.local/runtime
 
 # set git to remeber credentials (danger but with github token you can give small permission)
 #git config --global credential.helper store
