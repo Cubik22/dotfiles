@@ -13,7 +13,7 @@ git clone --bare https://github.com/Cubik22/dotfiles.git "$folder"
 
 # create temporary alias
 config () {
-   /usr/bin/git --git-dir="$folder"/ --work-tree="$HOME" $@
+   /usr/bin/git --git-dir="$folder"/ --work-tree="$HOME" "$@"
 }
 
 # remove files if present
