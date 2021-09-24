@@ -13,6 +13,6 @@ git clone https://github.com/Alexays/Waybar
 
 cd "$HOME"/Waybar
 
-meson build
+meson build -Dgtk-layer-shell=enabled -Dlibudev=enabled -Dman-pages=enabled -Dsystemd=disabled -Drfkill=enabled
 
 ninja -C build install
