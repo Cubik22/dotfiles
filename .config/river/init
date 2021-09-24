@@ -212,6 +212,9 @@ riverctl default-layout rivertile
 # Lausanne coordinates
 wlsunset -l 46.5 -L 6.6 &
 
+# libinput-gestures
+libinput-gestures &
+
 # old way to start
 waybar &
 exec rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.6
