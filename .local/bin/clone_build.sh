@@ -16,7 +16,7 @@ git clone https://github.com/Alexays/Waybar "$HOME"/waybar
 cd "$HOME"/waybar
 
 # build options enabled/disabled
-meson build -Dprefix=$prefix_dir -Dlibnl=enabled -Dlibudev=enabled -Dlibevdev=enabled -Dpulseaudio=enabled -Dsystemd=disabled -Ddbusmenu-gtk=disabled -Dman-pages=enabled -Dmpd=disabled -Dgtk-layer-shell=disabled -Drfkill=enabled -Dsndio=disabled -Dtests=disabled
+meson -Dprefix=$prefix_dir -Dlibnl=enabled -Dlibudev=enabled -Dlibevdev=enabled -Dpulseaudio=enabled -Dsystemd=disabled -Ddbusmenu-gtk=disabled -Dman-pages=enabled -Dmpd=disabled -Dgtk-layer-shell=disabled -Drfkill=enabled -Dsndio=disabled -Dtests=disabled build
 
 ninja -C build install
 
