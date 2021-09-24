@@ -40,6 +40,9 @@ mirror3="https://alpha.us.repo.voidlinux.org/current/musl"
 # move to directory without using cd
 #shopt -s autocd
 
+# autocomplete doas
+complete -cf doas
+
 PS1="\[\e[1;32m\]\w\[\e[m\] \[\e[1;31m\]>\[\e[m\]\[\e[1;33m\]>\[\e[m\]\[\e[1;36m\]>\[\e[m\] "
 #PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[m\] '
 
