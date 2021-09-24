@@ -52,6 +52,7 @@ complete -cf doas
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main config
 
 # autocomplete alias config (git bare repository)
+# remember to sometimes check https://github.com/cykerway/complete-alias
 #complete -F _complete_alias config
 
 # void mirrors in order to quickly change when one si slow (R flag)
