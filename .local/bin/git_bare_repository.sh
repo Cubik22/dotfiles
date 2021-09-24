@@ -31,7 +31,7 @@ config config status.showUntrackedFiles no
 gpg2 --search-keys $email
 
 # trust key
-echo "-------------------- type 'trust', '5', 'y', 'quit' --------------------"
+echo "-------------------- type 'trust', '5', 'y', 'save' --------------------"
 gpg2 --edit-key $email
 
 # set to track upstram
