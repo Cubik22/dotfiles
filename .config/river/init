@@ -11,7 +11,7 @@
 # Start pipewire (before waybar otherwise PulseAudio module cannot start)
 pipewire &
 pipewire-pulse &
-pipewire-media-session &
+#pipewire-media-session &
 
 # Use the "logo" key as the primary modifier
 mod="Mod4"
