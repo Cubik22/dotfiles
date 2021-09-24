@@ -10,7 +10,8 @@
 	program = gpg2
 [pull]
 	rebase = false
-#[credential]
+[credential]
+	helper = bitwarden
 #	helper = store
 [submodule]
 	recurse = true
