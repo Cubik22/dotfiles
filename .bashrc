@@ -50,6 +50,7 @@ function config {
 complete -cf doas
 
 # autocomplete config as git
+# has to be sourced in bash_completion.sh
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main config
 
 # autocomplete alias config (git bare repository)
