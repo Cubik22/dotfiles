@@ -6,8 +6,6 @@
 # set dotfiles folder name
 folder="$HOME"/.dotfiles
 
-email="lorenzo.bianco22@protonmail.com"
-
 # clone repository
 git clone --bare https://github.com/Cubik22/dotfiles.git "$folder"
 
@@ -44,7 +42,8 @@ gpg2 --edit-key $email
 
 cargo install rbw
 
-rbw config set email "lorenzo.bianco22@protonmail.com"
+# already set in config folder
+#rbw config set email "lorenzo.bianco22@protonmail.com"
 
 rbw unlock
 
