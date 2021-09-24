@@ -36,9 +36,10 @@ alias gpg='gpg2'
 # git bare repository dotfiles
 function config {
 	/usr/bin/git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" "$@"
-	# when pulling remove README from HOME	
+	# when pulling remove README from HOME and set git to not track in locale
 	if [ $1 = "pull" ]; then
 		rm -f "$HOME"/README.md
+		/usr/bin/git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" update-index --assume-unchanged "$HOME"/README.md
 	fi
 }
 
