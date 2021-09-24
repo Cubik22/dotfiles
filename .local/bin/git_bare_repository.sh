@@ -53,6 +53,12 @@ config push --set-upstream origin main
 # set git to remeber credentials (danger but with github token you can give small permission)
 #git config --global credential.helper store
 
+# change root PS1
+doas cat << EOF >> /root/.bashrc
+PS1="\[\e[1;31m\]\w\[\e[m\] \[\e[1;31m\]>\[\e[m\]\[\e[1;33m\]>\[\e[m\]\[\e[1;36m\]>\[\e[m\] "
+#PS1="\[\e[1;31m\][\u@\h \W]\$\[\e[m\] "
+EOF
+
 # symlink nvim config to root
-doas mkdir -p "/root/.config/nvim
+doas mkdir -p "/root/.config/nvim"
 doas ln -s "$HOME"/.config/nvim/init.vim /root/.config/nvim/init.vim
