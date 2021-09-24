@@ -43,6 +43,9 @@ mirror3="https://alpha.us.repo.voidlinux.org/current/musl"
 # autocomplete doas
 complete -cf doas
 
+# autocomplete config (git bare repository)
+complete -F _complete_alias config
+
 PS1="\[\e[1;32m\]\w\[\e[m\] \[\e[1;31m\]>\[\e[m\]\[\e[1;33m\]>\[\e[m\]\[\e[1;36m\]>\[\e[m\] "
 #PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[m\] '
 
