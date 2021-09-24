@@ -44,6 +44,7 @@ mirror3="https://alpha.us.repo.voidlinux.org/current/musl"
 complete -cf doas
 
 # autocomplete config (git bare repository)
+# remember to sometimes check https://github.com/cykerway/complete-alias
 complete -F _complete_alias config
 
 PS1="\[\e[1;32m\]\w\[\e[m\] \[\e[1;31m\]>\[\e[m\]\[\e[1;33m\]>\[\e[m\]\[\e[1;36m\]>\[\e[m\] "
