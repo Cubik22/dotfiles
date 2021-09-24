@@ -17,6 +17,7 @@ export C_INCLUDE_PATH="${HOME}/.local/include"
 export LD_LIBRARY_PATH="${HOME}/.local/lib"
 export PKG_CONFIG_PATH="${HOME}/.local/lib/pkgconfig"
 
+export MANPATH="/usr/share/man:${HOME}/.local/share/man"
 export PATH="${PATH}:${HOME}/.local/bin:${HOME}/.cargo/bin"
 
 export BROWSER=firefox
