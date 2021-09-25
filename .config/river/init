@@ -18,8 +18,8 @@ mod="Mod4"
 
 ### APP Mode+Control ###
 
-# Return foot 
-riverctl map normal $mod+Control Return spawn foot
+# Return footclient 
+riverctl map normal $mod+Control Return spawn footclient
 
 # C chromium
 #riverctl map normal $mod+Control C spawn "chromium --force-dark-mode --enable-features=UseOzonePlatform,WebUIDarkMode --ozone-platform=wayland"
@@ -211,6 +211,9 @@ riverctl default-layout rivertile
 # wlsunset -l 45.1 -L 7.7 &
 # Lausanne coordinates
 wlsunset -l 46.5 -L 6.6 &
+
+# start foot server
+foot --server &
 
 # libinput-gestures
 libinput-gestures &
