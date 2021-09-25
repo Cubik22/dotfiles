@@ -28,7 +28,7 @@ alias trexa="exa --long --header --modified --git --tree --color --icons --all -
 alias nv='nvim'
 alias snv='doas nvim'
 alias gpg='gpg2'
-#alias wifiscan='iwctl station wlan0 scan'
+alias iwdscan='iwctl station wlan0 scan'
 #alias chromium="ungoogled_chromium.sh"
 
 #alias config='/usr/bin/git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME"'
@@ -44,10 +44,11 @@ function config {
 }
 
 # move to directory without using cd
+# has to be sourced in bash_completion.sh
 #shopt -s autocd
 
-# autocomplete doas
-complete -cf doas
+# autocomplete doas as sudo
+complete -F _sudo doas
 
 # autocomplete config as git
 # has to be sourced in bash_completion.sh
