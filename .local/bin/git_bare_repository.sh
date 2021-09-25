@@ -58,3 +58,6 @@ config push --set-upstream origin main
 # symlink nvim config to root
 doas mkdir -p "/root/.config/nvim"
 doas ln -s "$HOME"/.config/nvim/init.vim /root/.config/nvim/init.vim
+
+# clone, build and install river and waybar
+clone_build.sh install
