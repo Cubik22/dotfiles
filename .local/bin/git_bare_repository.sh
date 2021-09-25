@@ -44,8 +44,8 @@ cargo install rbw
 # already set in config folder
 #rbw config set email $email
 
-# add cargo directory to path in order to run rbw and rbw-agent
-PATH="$PATH:$HOME/.cargo/bin"
+# add local and cargo directories to path in order to run rbw, rbw-agent and git-credential-bitwarden
+PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin"
 
 rbw unlock
 
