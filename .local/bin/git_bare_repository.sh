@@ -44,7 +44,10 @@ cargo install rbw
 # already set in config folder
 #rbw config set email $email
 
-"$HOME"/.cargo/bin/rbw unlock
+# add cargo directory to path in order to run rbw and rbw-agent
+PATH="$PATH:$HOME/.cargo/bin"
+
+rbw unlock
 
 # set to track upstram
 config push --set-upstream origin main
