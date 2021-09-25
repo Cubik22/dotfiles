@@ -35,6 +35,10 @@ alias iwdscan='iwctl station wlan0 scan'
 
 # git bare repository dotfiles
 function config {
+	# when adding echo to remember to pull before commit
+	if [ $1 = "add" ]; then
+		echo "remember to pull before commit"
+	fi
 	/usr/bin/git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" "$@"
 	# when pulling remove README from HOME and set git to not track in locale
 	if [ $1 = "pull" ]; then
