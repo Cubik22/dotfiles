@@ -27,15 +27,12 @@ config checkout
 # set to not show untracked files
 config config status.showUntrackedFiles no
 
-# source bash profile and bashrc
-source "$HOME"/.bash_profile
-source "$HOME"/.bashrc
-
 # add runtime dir
 mkdir "${HOME}"/.local/runtime
 chmod 700 "${HOME}"/.local/runtime
 
 # import gpg key
+echo "------------------------ type the number of your identity -------------------------"
 gpg2 --search-keys $email
 
 # trust key
