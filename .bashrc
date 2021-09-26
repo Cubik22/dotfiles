@@ -21,15 +21,27 @@ alias ip='ip -color=auto'
 alias mkdir='mkdir -pv'
 alias space="du -sh"
 alias n3="nnn"
-alias sn3="doas nnn"
 alias ..='cd ..'
 alias cd..='cd ..'
 alias trexa="exa --long --header --modified --git --tree --color --icons --all --group-directories-first"
 alias nv='nvim'
-alias snv='doas nvim'
 alias gpg='gpg2'
 alias iwdscan='iwctl station wlan0 scan'
 #alias chromium="ungoogled_chromium.sh"
+
+# root privileges
+# so the root can link and use this bashrc
+if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
+	PS1="\[\e[1;31m\]\w\[\e[m\] \[\e[1;31m\]>\[\e[m\]\[\e[1;33m\]>\[\e[m\]\[\e[1;36m\]>\[\e[m\] "
+	#PS1='\[\e[1;31m\][\u@\h \W]\$\[\e[m\] '
+	
+else
+	PS1="\[\e[1;32m\]\w\[\e[m\] \[\e[1;31m\]>\[\e[m\]\[\e[1;33m\]>\[\e[m\]\[\e[1;36m\]>\[\e[m\] "
+	#PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[m\] '
+
+	alias sn3="doas nnn"
+	alias snv='doas nvim'
+fi
 
 #alias config='/usr/bin/git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME"'
 
@@ -52,10 +64,13 @@ function config {
 #shopt -s autocd
 
 # autocomplete doas as sudo
+# has to be sourced in bash_completion.sh
+_completion_loader doas
 complete -F _sudo doas
 
 # autocomplete config as git
 # has to be sourced in bash_completion.sh
+_completion_loader __git_wrap__git_main
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main config
 
 # autocomplete alias config (git bare repository)
@@ -66,9 +81,6 @@ complete -o bashdefault -o default -o nospace -F __git_wrap__git_main config
 mirror1="https://alpha.de.repo.voidlinux.org/current/musl"
 mirror2="https://mirrors.servercentral.com/voidlinux/current/musl"
 mirror3="https://alpha.us.repo.voidlinux.org/current/musl"
-
-PS1="\[\e[1;32m\]\w\[\e[m\] \[\e[1;31m\]>\[\e[m\]\[\e[1;33m\]>\[\e[m\]\[\e[1;36m\]>\[\e[m\] "
-#PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[m\] '
 
 HISTSIZE=
 HISTFILESIZE=

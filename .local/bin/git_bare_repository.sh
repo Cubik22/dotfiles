@@ -55,9 +55,18 @@ config push --set-upstream origin main
 # set git to remeber credentials (danger but with github token you can give small permission)
 #git config --global credential.helper store
 
-# symlink nvim config to root
+# symlink stuff to root
+doas rm -f /root/.bashrc
+doas rm -f /root/.inputrc
+doas rm -f /root/.dir_colors
+doas rm -f /root/.config/nvim/init.vim
+
+doas ln -s "$HOME"/.bashrc /root/.bashrc
+doas ln -s "$HOME"/.inputrc /root/.inputrc
+doas ln -s "$HOME"/.dir_colors /root/.dir_colors
+
 doas mkdir -p "/root/.config/nvim"
 doas ln -s "$HOME"/.config/nvim/init.vim /root/.config/nvim/init.vim
 
 # clone, build and install river and waybar
-clone_build.sh install
+clone_build install

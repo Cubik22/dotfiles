@@ -7,6 +7,8 @@ elif [ ! "$1" = "install" ] && [ ! "$1" = "update" ]; then
 	echo "wrong parameter"	
 	echo "possible parameters: install update"
 else
+	current_dir="$(pwd)"
+
 	prefix_dir="$HOME/.local"
 	
 	dev="$HOME/dev"
@@ -39,5 +41,5 @@ else
 	
 	ninja -C build install
 	
-	cd "$dev"
+	cd $current_dir
 fi
