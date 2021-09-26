@@ -33,11 +33,11 @@ chmod 700 "${HOME}"/.local/runtime
 
 # import gpg key
 echo "------------------------ type the number of your identity -------------------------"
-gpg2 --search-keys $email
+gpg --search-keys $email
 
 # trust key
 echo "-------------------- type 'trust', '5', 'y', 'primary', 'save' --------------------"
-gpg2 --edit-key $email
+gpg --edit-key $email
 
 cargo install rbw
 
