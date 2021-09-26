@@ -25,7 +25,7 @@ alias ..='cd ..'
 alias cd..='cd ..'
 alias trexa="exa --long --header --modified --git --tree --color --icons --all --group-directories-first"
 alias nv='nvim'
-alias gpg='gpg2'
+#alias gpg='gpg2'
 alias iwdscan='iwctl station wlan0 scan'
 #alias chromium="ungoogled_chromium.sh"
 
