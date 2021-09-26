@@ -25,14 +25,14 @@ riverctl map normal $mod+Control Return spawn footclient
 #riverctl map normal $mod+Control C spawn "chromium --force-dark-mode --enable-features=UseOzonePlatform,WebUIDarkMode --ozone-platform=wayland"
 
 # F firefox
-riverctl map normal $mod+Control F spawn "firefox"
+riverctl map normal $mod+Control F spawn firefox
 
 ### WINDOWS ###
 
 # Mod+Q to close the focused view
 riverctl map normal $mod Q close
 
-# Mod+E to exit river
+# Mod+Shift+E to exit river
 riverctl map normal $mod+Shift E exit
 
 # Mod+J and Mod+K to focus the next/previous view in the layout stack
@@ -177,7 +177,7 @@ riverctl border-width 3
 riverctl focus-follows-cursor normal
 
 # Set repeat rate
-riverctl set-repeat 50 300
+riverctl set-repeat 60 300
 
 # Cursor theme
 #riverctl xcursor-theme OpenZone_White 32
@@ -201,6 +201,7 @@ riverctl input $touchpad natural-scroll enabled
 riverctl input $touchpad left-handed disabled
 riverctl input $touchpad scroll-method two-finger
 
+# scale everything (problems with partial scaling)
 #wlr-randr --output eDP-1 --scale 1.25
 
 # Set and exec into the default layout generator, rivertile.
@@ -218,7 +219,7 @@ foot --server &
 # libinput-gestures
 libinput-gestures &
 
-# old way to start
+# normal way to start
 waybar &
 exec rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.6
 
