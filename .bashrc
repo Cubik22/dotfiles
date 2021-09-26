@@ -64,13 +64,13 @@ function config {
 #shopt -s autocd
 
 # autocomplete doas as sudo
-# has to be sourced in bash_completion.sh
-_completion_loader doas
+# has to be loaded here or sourced in bash_completion.sh
+_completion_loader sudo
 complete -F _sudo doas
 
 # autocomplete config as git
-# has to be sourced in bash_completion.sh
-_completion_loader __git_wrap__git_main
+# has to be loaded here has to be sourced in bash_completion.sh
+_completion_loader git
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main config
 
 # autocomplete alias config (git bare repository)
