@@ -63,6 +63,9 @@ function config {
 # has to be sourced in bash_completion.sh
 #shopt -s autocd
 
+# in order to find how a command is completed run
+#complete -p cmd
+
 # autocomplete doas as sudo
 # has to be loaded here or sourced in bash_completion.sh
 _completion_loader sudo
