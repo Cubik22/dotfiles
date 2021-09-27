@@ -49,8 +49,12 @@ PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin"
 
 rbw unlock
 
-# set to track upstram
+# set to track upstram 
 config push --set-upstream origin main
+
+# remove README from HOME and set git to not track in locale
+rm -f "$HOME"/README.md
+/usr/bin/git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" update-index --assume-unchanged "$HOME"/README.md
 
 # set git to remeber credentials (danger but with github token you can give small permission)
 #git config --global credential.helper store
