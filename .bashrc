@@ -50,7 +50,7 @@ function config {
 	# when adding echo to remember to pull before commit
 	if [ $1 = "add" ]; then
 		echo "remember to pull before commit"
-	elif [ $1 = "pull" ]; then
+	elif [ $1 = "push" ]; then
 		rbw unlock
 	fi
 	/usr/bin/git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" "$@"
