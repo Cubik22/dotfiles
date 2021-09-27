@@ -8,10 +8,34 @@
 # See the river(1), riverctl(1), and rivertile(1) man pages for complete
 # documentation.
 
-# Start pipewire (before waybar otherwise PulseAudio module cannot start)
+# Set and exec into the default layout generator, rivertile.
+# River will send the process group of the init executable SIGTERM on exit
+riverctl default-layout rivertile
+
+# start rivertile without padding
+rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.6 &
+
+# start foot server
+foot --server &
+
+# Start pipewire (before waybar otherwise PulseAudio module may not start)
 pipewire &
 pipewire-pulse &
 #pipewire-media-session &
+
+# start waybar
+waybar &
+
+# Turin coordinates
+# wlsunset -l 45.1 -L 7.7 &
+# Lausanne coordinates
+wlsunset -l 46.5 -L 6.6 &
+
+# libinput-gestures
+libinput-gestures &
+
+# scale everything (problems with partial scaling)
+#wlr-randr --output eDP-1 --scale 1.25
 
 # Use the "logo" key as the primary modifier
 mod="Mod4"
@@ -201,27 +225,8 @@ riverctl input $touchpad natural-scroll enabled
 riverctl input $touchpad left-handed disabled
 riverctl input $touchpad scroll-method two-finger
 
-# scale everything (problems with partial scaling)
-#wlr-randr --output eDP-1 --scale 1.25
-
-# Set and exec into the default layout generator, rivertile.
-# River will send the process group of the init executable SIGTERM on exit
-riverctl default-layout rivertile
-
-# Turin coordinates
-# wlsunset -l 45.1 -L 7.7 &
-# Lausanne coordinates
-wlsunset -l 46.5 -L 6.6 &
-
-# start foot server
-foot --server &
-
-# libinput-gestures
-libinput-gestures &
-
-# normal way to start
-waybar &
-exec rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.6
+# start with an instance of foot
+exec riverctl spawn footclient
 
 # starting with runit
 #svdir="/tmp/$(id -u)-sv-${WAYLAND_DISPLAY}"

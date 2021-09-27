@@ -37,10 +37,15 @@
     /*border-radius: 10px;*/
 }
 
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+
 #tags button:hover {
-    all: inherit;
-    padding-left: 8px;
-    padding-right: 9px;
+	/* padding-left and padding-right has to be changed for some reason */
+    /*all: inherit;
+    padding-left: 7px;
+    padding-right: 8px;*/
+	box-shadow: inherit;
+	text-shadow: inherit;
     color: #6b705c;
     background: #1d2021;
 }
