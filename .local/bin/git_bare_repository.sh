@@ -39,13 +39,14 @@ gpg --search-keys $email
 echo "-------------------- type 'trust', '5', 'y', 'primary', 'save' --------------------"
 gpg --edit-key $email
 
-cargo install rbw
+# cargo packages already installed globally
+#cargo install rbw
 
 # already set in config folder
 #rbw config set email $email
 
 # add local and cargo directories to path in order to run rbw, rbw-agent and git-credential-bitwarden
-PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin"
+#PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin"
 
 rbw unlock
 
