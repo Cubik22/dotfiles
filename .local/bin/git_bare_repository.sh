@@ -4,16 +4,16 @@
 # then run this script which will clone again this repository but bare
 
 # set dotfiles folder name
-folder="$HOME"/.dotfiles
+git_dir="$HOME"/.dotfiles
 
 email="lorenzo.bianco22@protonmail.com"
 
 # clone repository
-git clone --bare https://github.com/Cubik22/dotfiles.git "$folder"
+git clone --bare https://github.com/Cubik22/dotfiles.git "$git_dir"
 
 # create temporary alias
 config () {
-   /usr/bin/git --git-dir="$folder"/ --work-tree="$HOME" "$@"
+   /usr/bin/git --git-dir="$git_dir"/ --work-tree="$HOME" "$@"
 }
 
 # remove files if present
@@ -55,7 +55,7 @@ config push --set-upstream origin main
 
 # remove README from HOME and set git to not track in locale
 rm -f "$HOME"/README.md
-/usr/bin/git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" update-index --assume-unchanged "$HOME"/README.md
+/usr/bin/git --git-dir="$git_dir"/ --work-tree="$HOME" update-index --assume-unchanged "$HOME"/README.md
 
 # set git to remeber credentials (danger but with github token you can give small permission)
 #git config --global credential.helper store
