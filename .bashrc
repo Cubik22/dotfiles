@@ -94,12 +94,14 @@ function config {
 # remember to sometimes check https://github.com/cykerway/complete-alias
 #complete -F _complete_alias config
 
-# move to directory without using cd
-# has to be sourced in bash_completion.sh
-#shopt -s autocd
-
 # in order to find how a command is completed run
 #complete -p cmd
+
+# move to directory without using cd
+#shopt -s autocd
+
+# variable expansion on tab complete
+shopt -s direxpand
 
 # autocomplete doas as sudo
 # has to be loaded here or sourced in bash_completion.sh
