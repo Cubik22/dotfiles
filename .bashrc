@@ -30,6 +30,20 @@ alias xq="xbps-query"
 alias iwdscan="iwctl station wlan0 scan"
 #alias chromium="ungoogled_chromium.sh"
 
+# git related
+alias gst="git status"
+alias gad="git add"
+alias gbr="git branch"
+alias gcm="git commit"
+alias gdf="git diff"
+alias gfe="git fetch"
+alias glg="git log"
+alias gco="git checkout"
+alias gps="git push"
+alias grb="git rebase"
+alias gsa="git stash"
+alias gpl="git pull"
+
 # root privileges
 # so the root can link and use this bashrc
 if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
