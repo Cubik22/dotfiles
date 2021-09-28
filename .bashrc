@@ -61,8 +61,8 @@ else
 	PS1="\[\e[1;32m\]\w\[\e[m\] \[\e[1;31m\]>\[\e[m\]\[\e[1;33m\]>\[\e[m\]\[\e[1;36m\]>\[\e[m\] "
 	#PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[m\] '
 	
-	alias sn3="doas nnn"
-	alias snv="doas nvim"
+	alias dn3="doas nnn"
+	alias dnv="doas nvim"
 	
 	alias xi="doas xbps-install"
 	alias xr="doas xbps-remove"
