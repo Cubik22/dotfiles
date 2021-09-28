@@ -5,6 +5,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+alias d="doas"
 alias sudo="doas"
 alias ls="ls --color=auto --group-directories-first --format=horizontal --human-readable"
 alias lsa="ls --color=auto --group-directories-first --format=horizontal --human-readable -a"
@@ -104,6 +105,7 @@ function config {
 # has to be loaded here or sourced in bash_completion.sh
 _completion_loader sudo
 complete -F _sudo doas
+complete -F _sudo d
 
 # autocomplete config as git
 # has to be loaded here has to be sourced in bash_completion.sh
