@@ -1,6 +1,15 @@
-# .zshrc
+# if not running interactively, don't do anything
+[[ $- != *i* ]] && return
 
-export GPG_TTY=$(tty)
+# use the $EDITOR when opening text files
+export NNN_USE_EDITOR=1
+# use a different color for each context
+export NNN_CONTEXT_COLORS="5132"
+# trash (needs trash-cli) instead of delete
+export NNN_TRASH=1
+
+# enable colors and change prompt:
+autoload -U colors && colors
 
 # essentially syncs history between shells
 setopt INC_APPEND_HISTORY
@@ -9,99 +18,131 @@ setopt HIST_IGNORE_ALL_DUPS
 # don't record lines starting with a space in the history
 setopt HIST_IGNORE_SPACE
 
-HISTFILE=$XDG_DATA_HOME/.histfile
-HISTSIZE=
-SAVEHIST=
+# History in cache directory:
+HISTSIZE=10000000
+SAVEHIST=10000000
+HISTFILE="$XDG_DATA_HOME"/zhistory
 
+#PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
+
+if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
+	PS1="%B%{$fg[red]%}%~%{$reset_color%} "
+	#PS1="%B%{$fg[red]%}%~ %{$fg[green]%}>%{$fg[yellow]%}>%{$fg[blue]%}> %{$reset_color%}%b"
+else		
+	PS1="%B%{$fg[green]%}%~%{$reset_color%} "
+	#PS1="%B%{$fg[green]%}%~ %{$fg[red]%}>%{$fg[yellow]%}>%{$fg[blue]%}> %{$reset_color%}%b"
+fi
+
+# Automatically cd into typed directory.
+setopt autocd		
+# Disable ctrl-s to freeze terminal.
+stty stop undef	
 # disable ctrl-S/ctrl-Q for START/STOP
-stty -ixon -ixoff
+#stty -ixon -ixoff
+setopt interactive_comments
+# beeping is annoying
+unsetopt beep
 
-# init some custom behavior
-source $ZDOTDIR/better_ctrl_z.zsh
-
-# nnn config
-# use the $EDITOR when opening text files
-export NNN_USE_EDITOR=1
-# use a different color for each context
-export NNN_CONTEXT_COLORS="5132"
-# trash (needs trash-cli) instead of delete
-export NNN_TRASH=1
-
-# add completion functions from zsh-completions packages to fpath so compinit can find them
-fpath=(/usr/share/zsh/site-functions $fpath)
-fpath=($XDG_DATA_HOME/zsh/site-functions $fpath)
-# initialize completions
-autoload -Uz compinit
+autoload -U compinit
+#&& compinit -u
 zstyle ':completion:*' menu select
+# zstyle ':completion::complete:lsof:*' menu yes select
+# Auto complete with case insenstivity
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 zmodload zsh/complist
 compinit
-# allow completion of hidden files
+# Include hidden files.
 _comp_options+=(globdots)
 
-# intialize autosuggestions plugin with base01 as color and ctrl-N to accept
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=10"
-ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-bindkey '^n' autosuggest-accept
+# vi mode
+bindkey -v
+export KEYTIMEOUT=1
+
+bindkey -M menuselect 'left' vi-backward-char
+bindkey -M menuselect 'down' vi-down-line-or-history
+bindkey -M menuselect 'up' vi-up-line-or-history
+bindkey -M menuselect 'right' vi-forward-char
+# Fix backspace bug when switching modes
+bindkey "^?" backward-delete-char
+
+# Enable searching through history
+bindkey '^R' history-incremental-pattern-search-backward
+
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
+bindkey "^k" up-line-or-beginning-search # Up
+bindkey "^j" down-line-or-beginning-search # Down
+
+# bug you have to press two times
+#autoload -U history-search-end
+#zle -N history-beginning-search-backward-end history-search-end
+#zle -N history-beginning-search-forward-end history-search-end
+#bindkey "^[[A" history-beginning-search-backward-end
+#bindkey "^[[B" history-beginning-search-forward-end
+
+# Edit line in vim with ctrl-e:
+autoload edit-command-line; zle -N edit-command-line
+bindkey '^e' edit-command-line
+
+#bindkey -s "^n" "nvim $(fzf)^M"
 
 # initalize jump
 eval "$(zoxide init --cmd j zsh)"
+eval "$(dircolors /etc/DIR_COLORS)"
 
-# load aliases
-source $ZDOTDIR/aliases.zsh
+# source aliases and some functions which work like aliases
+# it is also sourced by bash
+[ -f "$ZDOTDIR/aliasrc" ] && source "$ZDOTDIR/aliasrc"
 
-# get colorful man pages with less
-source $ZDOTDIR/man.zsh
+# source functions
+[ -f "$ZDOTDIR/functionrc" ] && source "$ZDOTDIR/functionrc"
 
-# custom prompt
-autoload -Uz vcs_info
-precmd_vcs_info() { vcs_info }
-precmd_functions+=(precmd_vcs_info)
-zstyle ':vcs_info:*' formats 'on %F{green}%b%f'
-zstyle ':vcs_info:*' actionformats 'on %F{green}%b%f(%F{red}%a%f)'
-zstyle ':vcs_info:*' enable git
-setopt prompt_subst
-if [ -z $IN_NIX_SHELL ]; then
-    prompt_env=""
-else
-    prompt_env=" (nix-shell)"
-fi
-PROMPT='
-%F{blue}%~%f ${vcs_info_msg_0_}${prompt_env}
-%F{cyan}%(1j.+%j .)%f%F{yellow}❯%f '
+# fzf
+#[ -f /usr/share/doc/fzf/examples/completion.zsh ] && source /usr/share/doc/fzf/examples/completion.zsh
+#[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh
+
+# intialize autosuggestions plugin with base01 as color and ctrl-N to accept
+#ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=10,bold"
+#ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+bindkey '^y' autosuggest-accept
 
 # initalize syntax highlighting and customize colors
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main)
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+#ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets cursor)
 typeset -A ZSH_HIGHLIGHT_STYLES
 
-ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=12' # base0
-ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=2' # green
-ZSH_HIGHLIGHT_STYLES[precommand]='fg=2' # green
-ZSH_HIGHLIGHT_STYLES[path]='fg=12' # base0
-ZSH_HIGHLIGHT_STYLES[globbing]='fg=3' # yellow
-ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=12' # base0
-ZSH_HIGHLIGHT_STYLES[command-substitution]='fg=12' # base0
-ZSH_HIGHLIGHT_STYLES[command-substitution-quoted]='fg=12' # base0
-ZSH_HIGHLIGHT_STYLES[command-substitution-unquoted]='fg=12' # base0
-ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter]='fg=9' # orange
-ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter-unquoted]='fg=9' # orange
-ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter-quoted]='fg=9' # orange
-ZSH_HIGHLIGHT_STYLES[process-substitution]='fg=12' # base0
-ZSH_HIGHLIGHT_STYLES[process-substitution-delimiter]='fg=9' # orange
-ZSH_HIGHLIGHT_STYLES[back-quoted-argument]='fg=12' # base0
-ZSH_HIGHLIGHT_STYLES[back-quoted-argument-unclosed]='fg=9' # orange
-ZSH_HIGHLIGHT_STYLES[back-quoted-argument-delimiter]='fg=9' # orange
-ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=6' # cyan
-ZSH_HIGHLIGHT_STYLES[single-quoted-argument-unclosed]='fg=6' # cyan
-ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=6' # cyan
-ZSH_HIGHLIGHT_STYLES[double-quoted-argument-unclosed]='fg=6' # cyan
-ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]='fg=6' # cyan
-ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument-unclosed]='fg=6' # cyan
-ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]='fg=9' # orange
-ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]='fg=1' # red
-ZSH_HIGHLIGHT_STYLES[back-dollar-quoted-argument]='fg=1' # red
-ZSH_HIGHLIGHT_STYLES[redirection]='fg=2' # green
+# this have to be customized
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=12,bold' # base0
+ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=2,bold' # green
+ZSH_HIGHLIGHT_STYLES[precommand]='fg=2,bold' # green
+ZSH_HIGHLIGHT_STYLES[path]='fg=12,bold' # base0
+ZSH_HIGHLIGHT_STYLES[globbing]='fg=3,bold' # yellow
+ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=12,bold' # base0
+ZSH_HIGHLIGHT_STYLES[command-substitution]='fg=12,bold' # base0
+ZSH_HIGHLIGHT_STYLES[command-substitution-quoted]='fg=12,bold' # base0
+ZSH_HIGHLIGHT_STYLES[command-substitution-unquoted]='fg=12,bold' # base0
+ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter]='fg=9,bold' # orange
+ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter-unquoted]='fg=9,bold' # orange
+ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter-quoted]='fg=9,bold' # orange
+ZSH_HIGHLIGHT_STYLES[process-substitution]='fg=12,bold' # base0
+ZSH_HIGHLIGHT_STYLES[process-substitution-delimiter]='fg=9,bold' # orange
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument]='fg=12,bold' # base0
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument-unclosed]='fg=9,bold' # orange
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument-delimiter]='fg=9,bold' # orange
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=6,bold' # cyan
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument-unclosed]='fg=6,bold' # cyan
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=6,bold' # cyan
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument-unclosed]='fg=6,bold' # cyan
+ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]='fg=6,bold' # cyan
+ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument-unclosed]='fg=6,bold' # cyan
+ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]='fg=9,bold' # orange
+ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]='fg=1,bold' # red
+ZSH_HIGHLIGHT_STYLES[back-dollar-quoted-argument]='fg=1,bold' # red
+ZSH_HIGHLIGHT_STYLES[redirection]='fg=2,bold' # green
+ZSH_HIGHLIGHT_STYLES[default]='fg=12,bold' # base0
 
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh

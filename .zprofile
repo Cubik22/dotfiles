@@ -1,8 +1,4 @@
-#
-# ~/.bash_profile
-#
-
-[[ -f ${HOME}/.bashrc ]] && . ${HOME}/.bashrc
+# .zprofile
 
 # USER ENVIROMENT VARIABLES
 

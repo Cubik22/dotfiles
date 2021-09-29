@@ -1,4 +1,7 @@
-# aliases
+# aliasrc
+
+# bat as manpager (set bat config)
+#export MANPAGER="bat_man.sh"
 
 alias d="doas"
 alias sudo="doas"
@@ -20,12 +23,33 @@ alias space="du -sh"
 alias n3="nnn"
 alias ..="cd .."
 alias cd..="cd .."
-alias trexa="exa --long --header --modified --git --tree --color --icons --all --group-directories-first"
+alias trexa="exa --long --header --modified --git --tree --color=auto --icons --all --group-directories-first"
 alias nv="nvim"
 alias xq="xbps-query"
 #alias gpg="gpg2"
 alias iwdscan="iwctl station wlan0 scan"
 #alias chromium="ungoogled_chromium.sh"
+
+# confirm before overwriting something
+alias cp="cp -i"
+alias mv='mv -i'
+alias rm='rm -i'
+
+# human-readable sizes
+alias df='df -h'
+# show sizes in MB
+alias free='free -m'
+
+# ps (current processes)
+alias psa="ps auxf"
+alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
+alias psmem='ps auxf | sort -nr -k 4'
+alias pscpu='ps auxf | sort -nr -k 3'
+
+# verify signature for isos
+alias gpg-check="gpg --keyserver-options auto-key-retrieve --verify"
+# receive the key of a developer
+alias gpg-retrieve="gpg --keyserver-options auto-key-retrieve --receive-keys"
 
 # git related
 alias gst="git status"
@@ -41,18 +65,11 @@ alias grb="git rebase"
 alias gsa="git stash"
 alias gpl="git pull"
 
-# root privileges
 # so the root can link and use this bashrc
 if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
-	#PS1="\[\e[1;31m\]\w\[\e[m\] \[\e[1;31m\]>\[\e[m\]\[\e[1;33m\]>\[\e[m\]\[\e[1;36m\]>\[\e[m\] "
-	#PS1='\[\e[1;31m\][\u@\h \W]\$\[\e[m\] '
-	
 	alias xi="xbps-install"
 	alias xr="xbps-remove"
 else
-	#PS1="\[\e[1;32m\]\w\[\e[m\] \[\e[1;31m\]>\[\e[m\]\[\e[1;33m\]>\[\e[m\]\[\e[1;36m\]>\[\e[m\] "
-	#PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[m\] '
-	
 	alias dn3="doas nnn"
 	alias dnv="doas nvim"
 	
@@ -60,8 +77,13 @@ else
 	alias xr="doas xbps-remove"
 fi
 
+# void mirrors in order to quickly change when one si slow (R flag)
+mirror1="https://alpha.de.repo.voidlinux.org/current/musl"
+mirror2="https://mirrors.servercentral.com/voidlinux/current/musl"
+mirror3="https://alpha.us.repo.voidlinux.org/current/musl"
+
 # git bare repository dotfiles
-function config {
+config () {
 	# when adding echo to remember to pull before commit
 	if [ $1 = "add" ]; then
 		echo "remember to pull before commit"
@@ -75,8 +97,3 @@ function config {
 		/usr/bin/git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" update-index --assume-unchanged "$HOME"/README.md
 	fi
 }
-
-# void mirrors in order to quickly change when one si slow (R flag)
-mirror1="https://alpha.de.repo.voidlinux.org/current/musl"
-mirror2="https://mirrors.servercentral.com/voidlinux/current/musl"
-mirror3="https://alpha.us.repo.voidlinux.org/current/musl"

@@ -2,7 +2,7 @@
 # ~/.bash_profile
 #
 
-[[ -f ${HOME}/.bashrc ]] && . ${HOME}/.bashrc
+#[[ -f ${HOME}/.bashrc ]] && . ${HOME}/.bashrc
 
 # USER ENVIROMENT VARIABLES
 
@@ -14,6 +14,7 @@ export XDG_DATA_HOME="${HOME}/.local/share"
 export XDG_STATE_HOME="${HOME}/.local/state"
 #export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 export XDG_RUNTIME_DIR="${HOME}/.local/runtime"
+export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
 export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
 export GTK2_RC_FILES="${XDG_CONFIG_HOME}/gtk-2.0/config"
 export C_INCLUDE_PATH="${HOME}/.local/include"
