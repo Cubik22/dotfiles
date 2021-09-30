@@ -60,10 +60,15 @@ alias gdf="git diff"
 alias gfe="git fetch"
 alias glg="git log"
 alias gco="git checkout"
-alias gps="git push"
+alias gps="rbw unlock; git push"
 alias grb="git rebase"
 alias gsa="git stash"
 alias gpl="git pull"
+
+# void mirrors in order to quickly change when one si slow (R flag)
+mirror1="https://alpha.de.repo.voidlinux.org/current/musl"
+mirror2="https://mirrors.servercentral.com/voidlinux/current/musl"
+mirror3="https://alpha.us.repo.voidlinux.org/current/musl"
 
 # so the root can link and use this bashrc
 if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
@@ -77,23 +82,38 @@ else
 	alias xr="doas xbps-remove"
 fi
 
-# void mirrors in order to quickly change when one si slow (R flag)
-mirror1="https://alpha.de.repo.voidlinux.org/current/musl"
-mirror2="https://mirrors.servercentral.com/voidlinux/current/musl"
-mirror3="https://alpha.us.repo.voidlinux.org/current/musl"
-
-# git bare repository dotfiles
-config () {
-	# when adding echo to remember to pull before commit
-	if [ $1 = "add" ]; then
-		echo "remember to pull before commit"
-	elif [ $1 = "push" ]; then
+# before push unlock bitwarden
+git () {
+	if [ "$#" -ge 1 ] && [ $1 = "push" ]; then
 		rbw unlock
 	fi
-	/usr/bin/git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" "$@"
-	# when pulling remove README from HOME and set git to not track in locale
-	if [ $1 = "pull" ]; then
-		rm -f "$HOME"/README.md
-		/usr/bin/git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME" update-index --assume-unchanged "$HOME"/README.md
+	/usr/bin/git "$@"
+}
+
+# git bare repository config files
+# when called as user dotfiles when called as root global files
+config () {
+	# when adding echo to remember to pull before commit
+	if [ "$#" -ge 1 ]; then
+		if [ $1 = "add" ]; then
+			echo "remember to pull before commit"
+		elif [ $1 = "push" ]; then
+			rbw unlock
+		fi
+	fi
+	if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
+		local work_tree="/"
+		local git_dir="/root/config"
+	else
+		local work_tree="$HOME"
+		local git_dir="$HOME/.dotfiles"
+	fi
+	/usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
+	# when pulling remove README from work_tree and set git to not track in locale
+	if [ "$#" -ge 1 ]; then
+		if [ $1 = "pull" ]; then
+			rm -f "$work_tree"/README.md
+			/usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
+		fi
 	fi
 }
