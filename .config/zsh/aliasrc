@@ -70,50 +70,86 @@ mirror1="https://alpha.de.repo.voidlinux.org/current/musl"
 mirror2="https://mirrors.servercentral.com/voidlinux/current/musl"
 mirror3="https://alpha.us.repo.voidlinux.org/current/musl"
 
-# so the root can link and use this bashrc
-if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
-	alias xi="xbps-install"
-	alias xr="xbps-remove"
-else
-	alias dn3="doas nnn"
-	alias dnv="doas nvim"
-	
-	alias xi="doas xbps-install"
-	alias xr="doas xbps-remove"
-fi
-
 # before push unlock bitwarden
 git () {
-	if [ "$#" -ge 1 ] && [ $1 = "push" ]; then
+	if [ "$#" -ge 1 ] && [ "$1" = "push" ]; then
 		rbw unlock
 	fi
 	/usr/bin/git "$@"
 }
 
-# git bare repository config files
-# when called as user dotfiles when called as root global files
-config () {
+# git bare repository user dotfiles
+ucon () {
 	# when adding echo to remember to pull before commit
 	if [ "$#" -ge 1 ]; then
-		if [ $1 = "add" ]; then
+		if [ "$1" = "add" ]; then
 			echo "remember to pull before commit"
-		elif [ $1 = "push" ]; then
+		elif [ "$1" = "push" ]; then
 			rbw unlock
 		fi
 	fi
-	if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
-		local work_tree="/"
-		local git_dir="/root/config"
-	else
-		local work_tree="$HOME"
-		local git_dir="$HOME/.dotfiles"
-	fi
+	local work_tree="$HOME"
+	local git_dir="$HOME/.dotfiles"
 	/usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
 	# when pulling remove README from work_tree and set git to not track in locale
 	if [ "$#" -ge 1 ]; then
-		if [ $1 = "pull" ]; then
+		if [ "$1" = "pull" ]; then
 			rm -f "$work_tree"/README.md
 			/usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
 		fi
 	fi
 }
+
+# git bare repository root config files
+rcon () {
+	# make sure that when running as user use doas
+	if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
+		local as_root="true"
+	else
+		local as_root="false"
+	fi
+	# when adding echo to remember to pull before commit
+	if [ "$#" -ge 1 ]; then
+		if [ "$1" = "add" ]; then
+			echo "remember to pull before commit"
+		elif [ "$1" = "push" ]; then
+			if [ "$as_root" = "true" ]; then
+				rbw unlock
+			else
+				doas rbw unlock
+			fi
+		fi
+	fi
+	local work_tree="/"
+	local git_dir="/root/config"
+	if [ "$as_root" = "true" ]; then
+		/usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
+	else
+		doas /usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
+	fi
+	# when pulling remove README from work_tree and set git to not track in locale
+	if [ "$#" -ge 1 ]; then
+		if [ "$1" = "pull" ]; then
+			if [ "$as_root" = "true" ]; then
+				rm -f "$work_tree"/README.md
+				/usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
+			else
+				doas rm -f "$work_tree"/README.md
+				doas /usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
+			fi
+		fi
+	fi
+}
+
+
+# so the root can link and use this bashrc
+if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
+	alias xi="xbps-install"
+	alias xr="xbps-remove"
+else
+	alias xi="doas xbps-install"
+	alias xr="doas xbps-remove"
+	
+	alias dn3="doas nnn"
+	alias dnv="doas nvim"
+fi
