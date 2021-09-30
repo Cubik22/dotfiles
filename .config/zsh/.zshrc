@@ -89,8 +89,9 @@ bindkey '^e' edit-command-line
 
 #bindkey -s "^n" "nvim $(fzf)^M"
 
-# initalize jump
-eval "$(zoxide init --cmd j zsh)"
+# initalize zoxide
+eval "$(zoxide init zsh)"
+#eval "$(zoxide init --cmd y zsh)"
 eval "$(dircolors /etc/DIR_COLORS)"
 
 # source aliases and some functions which work like aliases
@@ -108,7 +109,7 @@ eval "$(dircolors /etc/DIR_COLORS)"
 #ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=10,bold"
 #ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-bindkey '^y' autosuggest-accept
+bindkey '^o' autosuggest-accept
 
 # initalize syntax highlighting and customize colors
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)

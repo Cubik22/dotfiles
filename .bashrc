@@ -63,3 +63,6 @@ complete -F _sudo d
 _completion_loader git
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main config
 
+# initalize zoxide
+eval "$(zoxide init bash)"
+#eval "$(zoxide init --cmd y bash)"
