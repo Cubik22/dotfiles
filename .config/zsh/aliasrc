@@ -33,7 +33,7 @@ alias iwdscan="iwctl station wlan0 scan"
 # confirm before overwriting something
 alias cp="cp -i"
 alias mv='mv -i'
-alias rm='rm -i'
+alias rm='echo "in order to move the file/directory in the trash use trash-put"; rm -i'
 
 # human-readable sizes
 alias df='df -h'
