@@ -55,7 +55,7 @@ config push --set-upstream origin main
 
 # remove README from HOME and set git to not track in locale
 rm -f "$HOME"/README.md
-/usr/bin/git --git-dir="$git_dir"/ --work-tree="$HOME" update-index --assume-unchanged "$HOME"/README.md
+config update-index --assume-unchanged "$HOME"/README.md
 
 # set git to remeber credentials (danger but with github token you can give small permission)
 #git config --global credential.helper store
