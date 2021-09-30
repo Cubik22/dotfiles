@@ -4,4 +4,4 @@
 
 [[ -f ${HOME}/.bashrc ]] && . ${HOME}/.bashrc
 
-source "$ZDOTDIR/envrc"
+source "$HOME/.config/zsh/envrc"

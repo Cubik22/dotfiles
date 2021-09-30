@@ -1,3 +1,3 @@
 # .zprofile
 
-source "$ZDOTDIR/envrc"
+source "$HOME/.config/zsh/envrc"
