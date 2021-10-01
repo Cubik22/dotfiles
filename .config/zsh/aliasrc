@@ -3,13 +3,19 @@
 # bat as manpager (set bat config)
 #export MANPAGER="bat_man.sh"
 
+# doas
 alias d="doas"
 alias sudo="doas"
+
+# ls
 alias ls="ls --color=auto --group-directories-first --format=horizontal --human-readable"
 alias lsa="ls --color=auto --group-directories-first --format=horizontal --human-readable -a"
 alias lsl="ls --color=auto --group-directories-first --format=horizontal --human-readable -l"
 alias lsal="ls --color=auto --group-directories-first --format=horizontal --human-readable -a -l"
 alias lsla="ls --color=auto --group-directories-first --format=horizontal --human-readable -l -a"
+alias trexa="exa --long --header --modified --git --tree --color=auto --icons --all --group-directories-first"
+
+# color stuff
 alias dir="dir --color=auto"
 alias vdir="vdir --color=auto"
 alias grep="grep --color=auto"
@@ -17,23 +23,22 @@ alias fgrep="fgrep --color=auto"
 alias egrep="egrep --color=auto"
 alias diff="diff --color=auto"
 alias ip="ip -color=auto"
+
+# confirm before overwriting something and verbose
 alias mkdir="mkdir -pv"
-alias cp="cp -r"
-alias space="du -sh"
-alias n3="nnn"
+alias cp="cp -i"
+alias mv='mv -i'
+alias rm='echo "in order to move the file/directory in the trash use trash-put"; rm -i'
+
 alias ..="cd .."
 alias cd..="cd .."
-alias trexa="exa --long --header --modified --git --tree --color=auto --icons --all --group-directories-first"
+alias space="du -sh"
+alias n3="nnn"
 alias nv="nvim"
 alias xq="xbps-query"
 #alias gpg="gpg2"
 alias iwdscan="iwctl station wlan0 scan"
 #alias chromium="ungoogled_chromium.sh"
-
-# confirm before overwriting something
-alias cp="cp -i"
-alias mv='mv -i'
-alias rm='echo "in order to move the file/directory in the trash use trash-put"; rm -i'
 
 # human-readable sizes
 alias df='df -h'
