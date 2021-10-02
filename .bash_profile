@@ -4,4 +4,4 @@
 
 [[ -f ${HOME}/.bashrc ]] && . ${HOME}/.bashrc
 
-source "$HOME/.config/zsh/envrc"
+source "$HOME/.config/shell/envrc"
