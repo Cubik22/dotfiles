@@ -22,7 +22,7 @@ export BROWSER=firefox
 #export BROWSER="${HOME}/.local/bin/ungoogled_chromium.sh"
 
 # set wayland environment variables and start river
-if [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty1" ]; then
+if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty1" ]; then
 	# Cursor
 	#export XCURSOR_THEME=Adwaita
 	#export XCURSOR_SIZE=22

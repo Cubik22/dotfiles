@@ -32,20 +32,26 @@ mkdir "${HOME}"/.local/runtime
 chmod 700 "${HOME}"/.local/runtime
 
 # symlink stuff to root
+doas rm -r /root/.bash_profile
 doas rm -f /root/.bashrc
 doas rm -f /root/.inputrc
 doas rm -f /root/.dir_colors
-doas rm -f /root/.config/nvim/init.vim
-doas rm -f /root/.config/git/config
-doas rm -f /root/.config/rbw/config.json
+doas rm -fr /root/.config/shell
+doas rm -fr /root/.config/nvim
+doas rm -fr /root/.config/git
+doas rm -fr /root/.config/rbw
 
+doas ln -s "$HOME"/.bash_profile /root/.bash_profile
 doas ln -s "$HOME"/.bashrc /root/.bashrc
 doas ln -s "$HOME"/.inputrc /root/.inputrc
 doas ln -s "$HOME"/.dir_colors /root/.dir_colors
 
+doas mkdir -p "/root/.config/shell"
 doas mkdir -p "/root/.config/nvim"
 doas mkdir -p "/root/.config/git"
 doas mkdir -p "/root/.config/rbw"
+doas ln -s "$HOME"/.config/shell/envrc /root/.config/shell/envrc
+doas ln -s "$HOME"/.config/shell/aliasrc /root/.config/shell/aliasrc
 doas ln -s "$HOME"/.config/nvim/init.vim /root/.config/nvim/init.vim
 doas ln -s "$HOME"/.config/git/config /root/.config/git/config
 doas ln -s "$HOME"/.config/rbw/config.json /root/.config/rbw/config.json

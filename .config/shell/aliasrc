@@ -7,6 +7,9 @@
 alias d="doas"
 alias sudo="doas"
 
+# do not keep environment variables when su
+alias su="su --login"
+
 # ls
 alias ls="ls --color=auto --group-directories-first --format=horizontal --human-readable"
 alias lsa="ls --color=auto --group-directories-first --format=horizontal --human-readable -a"
