@@ -42,7 +42,7 @@ gpg --edit-key $email
 export CARGO_HOME="/usr/local"
 
 # cargo packages already installed globally
-cargo install rbw
+doas cargo install rbw
 
 # already set in config folder
 #rbw config set email $email
