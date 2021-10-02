@@ -39,19 +39,24 @@ gpg --search-keys $email
 echo "-------------------- type 'trust', '5', 'y', 'primary', 'save' --------------------"
 gpg --edit-key $email
 
+export CARGO_HOME="/usr/local"
+
 # cargo packages already installed globally
-#cargo install rbw
+cargo install rbw
 
 # already set in config folder
 #rbw config set email $email
 
 # add local and cargo directories to path in order to run rbw, rbw-agent and git-credential-bitwarden
-#PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin"
+PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin"
 
 rbw unlock
 
 # set to track upstram 
 config push --set-upstream origin main
+
+# set also root config to track upstream
+doas /usr/bin/git --git-dir=/root/config/ --work-tree=/ push --set-upstream https://github.com/Cubik22/config main
 
 # remove README from HOME and set git to not track in locale
 rm -f "$HOME"/README.md
