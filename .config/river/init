@@ -215,15 +215,20 @@ riverctl float-filter-add title "popup title with spaces"
 # Set app-ids and titles of views which should use client side decorations
 riverctl csd-filter-add app-id "gedit"
 
-# Input
-touchpad="1267:5:Elan_Touchpad"
-riverctl input $touchpad events enabled
-riverctl input $touchpad accel-profile none
-riverctl input $touchpad disable-while-typing enabled
-riverctl input $touchpad middle-emulation enabled
-riverctl input $touchpad natural-scroll enabled
-riverctl input $touchpad left-handed disabled
-riverctl input $touchpad scroll-method two-finger
+# Input set all touchpads (so it works on multiple machines)
+touchpads="$(riverctl list-inputs | grep -i touchpad)"
+
+while read touchpad; do
+	riverctl input $touchpad events enabled
+	riverctl input $touchpad accel-profile none
+	riverctl input $touchpad disable-while-typing enabled
+	riverctl input $touchpad middle-emulation enabled
+	riverctl input $touchpad natural-scroll enabled
+	riverctl input $touchpad left-handed disabled
+	riverctl input $touchpad scroll-method two-finger
+done <<EOT
+$(echo "$touchpads")
+EOT
 
 # start with an instance of foot
 exec riverctl spawn footclient
