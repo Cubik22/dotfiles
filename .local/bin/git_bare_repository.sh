@@ -46,7 +46,7 @@ gpg --edit-key $email
 #rbw config set email $email
 
 # add local and cargo directories to path in order to run rbw, rbw-agent and git-credential-bitwarden
-#PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin"
+PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin"
 
 rbw unlock
 
@@ -71,7 +71,11 @@ doas ln -s "$HOME"/.inputrc /root/.inputrc
 doas ln -s "$HOME"/.dir_colors /root/.dir_colors
 
 doas mkdir -p "/root/.config/nvim"
+doas mkdir -p "/root/.config/git"
+doas mkdir -p "/root/.config/rbw"
 doas ln -s "$HOME"/.config/nvim/init.vim /root/.config/nvim/init.vim
+doas ln -s "$HOME"/.config/git/config /root/.config/git/config
+doas ln -s "$HOME"/.config/rbw/config.json /root/.config/rbw/config.json
 
 # clone, build and install river and waybar
 clone_build install
