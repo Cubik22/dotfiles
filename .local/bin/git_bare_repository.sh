@@ -31,13 +31,24 @@ config config status.showUntrackedFiles no
 mkdir "${HOME}"/.local/runtime
 chmod 700 "${HOME}"/.local/runtime
 
-# import gpg key
-echo "------------------------ type the number of your identity -------------------------"
-gpg --search-keys $email
+# symlink stuff to root
+doas rm -f /root/.bashrc
+doas rm -f /root/.inputrc
+doas rm -f /root/.dir_colors
+doas rm -f /root/.config/nvim/init.vim
+doas rm -f /root/.config/git/config
+doas rm -f /root/.config/rbw/config.json
 
-# trust key
-echo "-------------------- type 'trust', '5', 'y', 'primary', 'save' --------------------"
-gpg --edit-key $email
+doas ln -s "$HOME"/.bashrc /root/.bashrc
+doas ln -s "$HOME"/.inputrc /root/.inputrc
+doas ln -s "$HOME"/.dir_colors /root/.dir_colors
+
+doas mkdir -p "/root/.config/nvim"
+doas mkdir -p "/root/.config/git"
+doas mkdir -p "/root/.config/rbw"
+doas ln -s "$HOME"/.config/nvim/init.vim /root/.config/nvim/init.vim
+doas ln -s "$HOME"/.config/git/config /root/.config/git/config
+doas ln -s "$HOME"/.config/rbw/config.json /root/.config/rbw/config.json
 
 export CARGO_HOME="/usr/local"
 
@@ -65,22 +76,13 @@ config update-index --assume-unchanged "$HOME"/README.md
 # set git to remeber credentials (danger but with github token you can give small permission)
 #git config --global credential.helper store
 
-# symlink stuff to root
-doas rm -f /root/.bashrc
-doas rm -f /root/.inputrc
-doas rm -f /root/.dir_colors
-doas rm -f /root/.config/nvim/init.vim
+# import gpg key
+echo "------------------------ type the number of your identity -------------------------"
+gpg --search-keys $email
 
-doas ln -s "$HOME"/.bashrc /root/.bashrc
-doas ln -s "$HOME"/.inputrc /root/.inputrc
-doas ln -s "$HOME"/.dir_colors /root/.dir_colors
-
-doas mkdir -p "/root/.config/nvim"
-doas mkdir -p "/root/.config/git"
-doas mkdir -p "/root/.config/rbw"
-doas ln -s "$HOME"/.config/nvim/init.vim /root/.config/nvim/init.vim
-doas ln -s "$HOME"/.config/git/config /root/.config/git/config
-doas ln -s "$HOME"/.config/rbw/config.json /root/.config/rbw/config.json
+# trust key
+echo "-------------------- type 'trust', '5', 'y', 'primary', 'save' --------------------"
+gpg --edit-key $email
 
 # clone, build and install river and waybar
 clone_build install
