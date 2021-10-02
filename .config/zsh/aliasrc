@@ -99,7 +99,7 @@ ucon () {
 	# when pulling remove README from work_tree and set git to not track in locale
 	if [ "$#" -ge 1 ]; then
 		if [ "$1" = "pull" ]; then
-			rm -f "$work_tree"/README.md
+			/usr/bin/rm -f "$work_tree"/README.md
 			/usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
 		fi
 	fi
@@ -136,10 +136,10 @@ rcon () {
 	if [ "$#" -ge 1 ]; then
 		if [ "$1" = "pull" ]; then
 			if [ "$as_root" = "true" ]; then
-				rm -f "$work_tree"/README.md
+				/usr/bin/rm -f "$work_tree"/README.md
 				/usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
 			else
-				doas rm -f "$work_tree"/README.md
+				doas /usr/bin/rm -f "$work_tree"/README.md
 				doas /usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
 			fi
 		fi
