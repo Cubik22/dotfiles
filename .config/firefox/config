@@ -1,0 +1,61 @@
+toolkit.legacyUserProfileCustomizations.stylesheets					true
+gfx.font_rendering.fontconfig.max_generic_substitutions				127
+widget.gtk.alt-theme.dark											true
+widget.content.allow-gtk-dark-theme									true
+layout.css.dpi														96
+layout.css.math-depth.enabled										true
+layout.css.math-style.enabled										true
+mousewheel.default.delta_multiplier_x								20
+mousewheel.default.delta_multiplier_y								25
+mousewheel.default.delta_multiplier_z								20
+media.ffmpeg.vaapi.enabled											true
+browser.newtabpage.activity-stream.default.sites
+browser.region.network.url
+browser.region.update.enabled										false
+app.update.auto														false
+datareporting.policy.dataSubmissionEnabled							false
+datareporting.healthreport.uploadEnabled							false
+browser.newtabpage.activity-stream.feeds.telemetry					false
+browser.ping-centre.telemetry										false
+browser.tabs.crashReporting.sendReport								false
+devtools.onboarding.telemetry.logged								false
+toolkit.telemetry.enabled											false
+toolkit.telemetry.server
+toolkit.telemetry.server_owner
+toolkit.telemetry.unified											false
+toolkit.telemetry.archive.enabled									false
+toolkit.telemetry.newProfilePing.enabled							false
+toolkit.telemetry.shutdownPingSender.enabled						false
+toolkit.telemetry.updatePing.enabled								false
+toolkit.telemetry.bhrPing.enabled									false
+toolkit.telemetry.firstShutdownPing.enabled							false
+toolkit.coverage.endpoint.base
+breakpad.reportURL
+browser.newtabpage.activity-stream.section.highlights.includePocket false
+extensions.pocket.enabled											false
+network.dns.disablePrefetch											true
+network.predictor.enabled 											false
+network.prefetch-next												false
+pdfjs.enableScripting												false
+security.ssl3.rsa_des_ede3_sha										false
+security.ssl.require_safe_negotiation								true
+identity.fxaccounts.enabled											false
+geo.enabled															false
+dom.webnotifications.enabled										false
+# breaks cookies exceptions
+privacy.firstparty.isolate											true
+privacy.resistFingerprinting										true
+privacy.trackingprotection.enabled									true
+privacy.trackingprotection.fingerprinting.enabled					true
+privacy.trackingprotection.cryptomining.enabled						true
+privacy.trackingprotection.socialtracking.enabled					true
+browser.send_pings													false
+webgl.disabled														true
+media.peerconnection.enabled										false
+media.navigator.enabled												false
+dom.event.clipboardevents.enabled									false
+media.eme.enabled													false
+browser.safebrowsing.phishing.enabled 								false
+browser.safebrowsing.malware.enabled								false
+dom.push.enabled													false
+beacon.enabled														false

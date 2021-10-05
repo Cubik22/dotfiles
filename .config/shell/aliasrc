@@ -149,7 +149,6 @@ rcon () {
 	fi
 }
 
-
 # so the root can link and use this bashrc
 if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
 	alias xi="xbps-install"

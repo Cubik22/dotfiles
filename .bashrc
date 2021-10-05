@@ -58,6 +58,11 @@ _completion_loader sudo
 complete -F _sudo doas
 complete -F _sudo d
 
+# autocomplete xbps
+complete -F _complete_alias xi
+complete -F _complete_alias xr
+complete -F _complete_alias xq
+
 # autocomplete config as git
 # has to be loaded here has to be sourced in bash_completion.sh
 _completion_loader git

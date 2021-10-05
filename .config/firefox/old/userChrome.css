@@ -1,0 +1,8 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+* {
+	/*font-family: inherit !important;*/
+   	font-family: "DejaVuSerif" !important;
+   	/*font: "FiraSans-Regular" !important;*/
+   	/*font-size: 14pt !important;*/
+}
