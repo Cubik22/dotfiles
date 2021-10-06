@@ -3,3 +3,17 @@
     margin: 0;
     border: none;
 }
+
+/* reduce titlebar */
+headerbar,
+headerbar entry,
+headerbar spinbutton,
+headerbar button,
+headerbar separator,
+window.ssd headerbar.titlebar {
+    min-height: 0px;
+	/*max-height: 0px;
+	height:0px;*/
+	margin: 0px 0px 0px 0px;
+    padding: 2px 2px 2px 2px;
+}
