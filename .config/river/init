@@ -49,7 +49,9 @@ riverctl map normal $mod+Control Return spawn footclient
 #riverctl map normal $mod+Control C spawn "chromium --force-dark-mode --enable-features=UseOzonePlatform,WebUIDarkMode --ozone-platform=wayland"
 
 # F firefox
-riverctl map normal $mod+Control F spawn firefox
+riverctl map normal $mod+Control F spawn firefox-wayland
+# incognito mode
+riverctl map normal $mod+Control+Shift F spawn "firefox-wayland -private-window"
 
 ### WINDOWS ###
 

@@ -29,9 +29,9 @@ alias ip="ip -color=auto"
 
 # confirm before overwriting something and verbose
 alias mkdir="mkdir -pv"
-alias cp="cp -i"
-alias mv='mv -i'
-alias rm='echo "in order to move the file/directory in the trash use trash-put"; rm -i'
+alias cp="cp"
+alias mv='mv'
+alias rm='echo "in order to move the file/directory in the trash use trash-put"; rm'
 
 alias ..="cd .."
 alias cd..="cd .."

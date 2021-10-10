@@ -51,11 +51,12 @@ privacy.trackingprotection.cryptomining.enabled						true
 privacy.trackingprotection.socialtracking.enabled					true
 browser.send_pings													false
 webgl.disabled														true
-media.peerconnection.enabled										false
-media.navigator.enabled												false
 dom.event.clipboardevents.enabled									false
 media.eme.enabled													false
 browser.safebrowsing.phishing.enabled 								false
 browser.safebrowsing.malware.enabled								false
 dom.push.enabled													false
 beacon.enabled														false
+# WebRTC 
+media.peerconnection.enabled										false
+media.navigator.enabled												false

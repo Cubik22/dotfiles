@@ -90,5 +90,8 @@ gpg --search-keys $email
 echo "-------------------- type 'trust', '5', 'y', 'primary', 'save' --------------------"
 gpg --edit-key $email
 
+# clone packer for neovim
+git clone --depth 1 https://github.com/wbthomason/packer.nvim "$HOME"/.local/share/nvim/site/pack/packer/start/packer.nvim
+
 # clone, build and install river and waybar
 clone_build install

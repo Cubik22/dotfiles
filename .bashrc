@@ -12,7 +12,7 @@ HISTCONTROL=ignoredups
 
 # source aliases and some functions which work like aliases
 # it is also sourced by zsh
-[ -f "$ZDOTDIR/aliasrc" ] && source "$ZDOTDIR/aliasrc"
+[ -f "$HOME/.config/shell/aliasrc" ] && source "$HOME/.config/shell/aliasrc"
 
 # root privileges
 # so the root can link and use this bashrc
