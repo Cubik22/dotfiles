@@ -29,7 +29,7 @@ alias ip="ip -color=auto"
 
 # confirm before overwriting something and verbose
 alias mkdir="mkdir -pv"
-alias cp="cp"
+alias cp="cp -r"
 alias mv='mv'
 alias rm='echo "in order to move the file/directory in the trash use trash-put"; rm'
 
@@ -40,8 +40,13 @@ alias n3="nnn"
 alias nv="nvim"
 alias xq="xbps-query"
 #alias gpg="gpg2"
-alias iwdscan="iwctl station wlan0 scan"
 #alias chromium="ungoogled_chromium.sh"
+
+# wifi
+alias iwdscan="iwctl station wlan0 scan;"
+
+# bluetooth
+alias bluescan="bluetoothctl scan on;"
 
 # human-readable sizes
 alias df='df -h'
@@ -153,10 +158,16 @@ rcon () {
 if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
 	alias xi="xbps-install"
 	alias xr="xbps-remove"
+	
+	alias blueon="sv up bluetoothd; bluetoothctl power on;"
+	alias blueoff="bluetoothctl power off; sv down bluetoothd;"
 else
 	alias xi="doas xbps-install"
 	alias xr="doas xbps-remove"
 	
 	alias dn3="doas nnn"
 	alias dnv="doas nvim"
+	
+	alias blueon="doas sv up bluetoothd; bluetoothctl power on;"
+	alias blueoff="bluetoothctl power off; doas sv down bluetoothd;"
 fi

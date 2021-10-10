@@ -18,9 +18,6 @@ export PKG_CONFIG_PATH="${HOME}/.local/lib/pkgconfig"
 export MANPATH="/usr/share/man:${HOME}/.local/share/man"
 export PATH="${PATH}:${HOME}/.local/bin:${HOME}/.cargo/bin"
 
-export BROWSER=firefox
-#export BROWSER="${HOME}/.local/bin/ungoogled_chromium.sh"
-
 # set wayland environment variables and start river
 if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty1" ]; then
 	# Cursor
@@ -65,5 +62,12 @@ if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty
 	# needed for some Java applications
 	#export _JAVA_AWT_WM_NONREPARENTING=1
 	
+	export BROWSER=firefox
+	#export BROWSER="${HOME}/.local/bin/ungoogled_chromium.sh"
+
+	# set GTK theme
+	export GTK_THEME=Adwaita:dark
+	
+	# finally start river
 	exec river
 fi

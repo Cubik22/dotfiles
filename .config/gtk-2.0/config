@@ -1,3 +1,5 @@
+gtk-theme-name="Adwaita"
+#gtk-theme-name="Adwaita:dark"
 #gtk-font-name="Source Code Pro 14"
 #gtk-cursor-theme-name="OpenZone_White"
 #gtk-cursor-theme-name="Human"
