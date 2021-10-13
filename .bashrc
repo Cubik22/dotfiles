@@ -66,7 +66,8 @@ complete -F _complete_alias xq
 # autocomplete config as git
 # has to be loaded here has to be sourced in bash_completion.sh
 _completion_loader git
-complete -o bashdefault -o default -o nospace -F __git_wrap__git_main config
+complete -o bashdefault -o default -o nospace -F __git_wrap__git_main ucon
+complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rcon
 
 # initalize zoxide
 eval "$(zoxide init bash)"

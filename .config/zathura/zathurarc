@@ -4,6 +4,9 @@ set adjust-open "best-fit"
 # One page per row by default
 set pages-per-row 1
 
+# Zoom settings
+set zoom-step 5
+
 # scrolling options
 #set scroll-full-overlap 0.01
 #set scroll-step 50

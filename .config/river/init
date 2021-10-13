@@ -53,6 +53,9 @@ riverctl map normal $mod+Control F spawn firefox-wayland
 # incognito mode
 riverctl map normal $mod+Control+Shift F spawn "firefox-wayland -private-window"
 
+# Z zathura
+# riverctl map normal $mod+Control Z spawn "zathura $zopen"
+
 ### WINDOWS ###
 
 # Mod+Q to close the focused view
@@ -82,8 +85,8 @@ riverctl map normal $mod+Shift Comma send-to-output previous
 riverctl map normal $mod Return zoom
 
 # Mod+H and Mod+L to decrease/increase the main ratio of rivertile(1)
-riverctl map normal $mod H send-layout-cmd rivertile "main-ratio -0.05"
-riverctl map normal $mod L send-layout-cmd rivertile "main-ratio +0.05"
+riverctl map normal $mod H send-layout-cmd rivertile "main-ratio -0.025"
+riverctl map normal $mod L send-layout-cmd rivertile "main-ratio +0.025"
 
 # Mod+Shift+H and Mod+Shift+L to increment/decrement the main count of rivertile(1)
 riverctl map normal $mod+Shift H send-layout-cmd rivertile "main-count +1"
