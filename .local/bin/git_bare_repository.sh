@@ -41,6 +41,9 @@ doas rm -fr /root/.config/git
 doas rm -fr /root/.config/rbw
 doas rm -fr /root/.config/nvim
 doas rm -fr /root/.local/share/nvim
+doas rm -fr /root/.config/kak
+doas rm -fr /root/.config/kak-lsp
+doas rm -fr /root/.local/share/kak
 
 doas ln -s "$HOME"/.bash_profile /root/.bash_profile
 doas ln -s "$HOME"/.bashrc /root/.bashrc
@@ -59,7 +62,11 @@ doas ln -s "$HOME"/.config/git/config /root/.config/git/config
 doas ln -s "$HOME"/.config/rbw/config.json /root/.config/rbw/config.json
 doas ln -s "$HOME"/.config/nvim /root/.config/
 doas ln -s "$HOME"/.local/share/nvim /root/.local/share/
+doas ln -s "$HOME"/.config/kak /root/.config/
+doas ln -s "$HOME"/.config/kak-lsp /root/.config/
+doas ln -s "$HOME"/.local/share/kak /root/.local/share/
 
+export RUSTUP_HOME="/usr/local"
 export CARGO_HOME="/usr/local"
 
 # cargo packages already installed globally
