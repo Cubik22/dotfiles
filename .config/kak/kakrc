@@ -8,12 +8,9 @@ evaluate-commands %sh{
 		modeline.kak
 		language-server.kak
 	"
-#		languages.kak
-#    "
-
     for file in $config_files; do
         printf "%s" "
-          	try %{
+            try %{
                 source %{${kak_config:?}/$file}
             } catch %{
                 echo -debug %val{error}

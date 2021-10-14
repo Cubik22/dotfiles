@@ -5,14 +5,42 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-HISTSIZE=
-HISTFILESIZE=
-
-HISTCONTROL=ignoredups
-
 # source aliases and some functions which work like aliases
 # it is also sourced by zsh
 [ -f "$HOME/.config/shell/aliasrc" ] && source "$HOME/.config/shell/aliasrc"
+
+## <https://wiki.bash-hackers.org/internals/shell_options>
+
+# variable expansion on tab complete
+shopt -s direxpand
+# prepend cd to directory names automatically
+shopt -s autocd 2>/dev/null
+# correct spelling errors in arguments supplied to cd
+shopt -s cdspell 2>/dev/null
+# check the window size after each command
+shopt -s checkwinsize
+# save multi-line commands as one command
+shopt -s cmdhist
+# correct spelling errors during tab-completion
+shopt -s dirspell 2>/dev/null
+# turn on recursive globbing
+shopt -s globstar 2>/dev/null
+# append to the history file, don't overwrite it
+shopt -s histappend
+# case-insensitive globbing
+shopt -s nocaseglob
+
+bind 'tab:menu-complete'
+
+# ------------------------------------------------
+# [ BASH HISTORY ]
+# ------------------------------------------------
+# export HISTTIMEFORMAT='%f %t '
+export HISTSIZE=
+export HISTFILESIZE=
+export HISTCONTROL="erasedups:ignoreboth"
+export HISTIGNORE="cd:pwd:exit:q:c:e:ea:et::fe:clear:nnn:n3:xb*():curl"
+export HISTFILE="$HOME"/.cache/bash/bash_history
 
 # root privileges
 # so the root can link and use this bashrc
@@ -45,12 +73,6 @@ fi
 
 # in order to find how a command is completed run
 #complete -p cmd
-
-# move to directory without using cd
-shopt -s autocd
-
-# variable expansion on tab complete
-shopt -s direxpand
 
 # autocomplete doas as sudo
 # has to be loaded here or sourced in bash_completion.sh

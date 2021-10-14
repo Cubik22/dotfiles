@@ -1,3 +1,4 @@
+#!/bin/bash
 # envrc
 
 #export XDG_DOCUMENTS_DIR="${HOME}/documents"

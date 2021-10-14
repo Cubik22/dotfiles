@@ -10,6 +10,9 @@ hook global WinSetOption filetype=(sh|c|cpp|rust|zig|python|html|css|json) %{
 #set-option global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
 
 # Shell
+hook global BufCreate .*.inputrc %{
+	set-option buffer filetype sh
+}
 hook global WinSetOption filetype=sh %{
 	set-option window formatcmd "shfmt -fn -ci"
 	set-option window lintcmd "shellcheck -f gcc -x -a"

@@ -27,7 +27,15 @@ hook global BufWritePre .* %{
 }
 
 # load editorconfig for all buffers except special ones like *debug*
-hook global WinCreate ^[^*]+$ %{editorconfig-load}
+# hook global WinCreate ^[^*]+$ %{editorconfig-load}
+
+# Enable editor config
+hook global BufOpenFile .* %{ editorconfig-load }
+hook global BufNewFile  .* %{ editorconfig-load }
+
+# Show git diff
+hook global BufWritePost .* %{ git show-diff }
+hook global BufReload    .* %{ git show-diff }
 
 # state save
 hook global KakBegin .* %{
@@ -89,12 +97,25 @@ add-highlighter global/ show-matching
 # Highlight TODO/FIXME/...
 add-highlighter global/ regex \b(TODO|FIXME|XXX|NOTE|REF|USAGE|REQUIREMENTS|OPTIONALS)\b 0:default+r
 
+# Highlight trailing whitespace
+# add-highlighter global/ regex \h+$ 0:Error
+
+# Highlight all occurences of word under the cursor
+# set-face global CurWord default,rgba:e0e0e16e
+# hook global NormalIdle .* %{
+# 	eval -draft %{ try %{
+# 		exec <space><a-i>w <a-k>\A\w+\z<ret>
+# 		add-highlighter -override global/curword regex "\b\Q%val{selection}\E\b" 0:CurWord
+# 	} catch %{
+# 		add-highlighter -override global/curword group
+# 	} }
+# }
+
 set-option global scrolloff 3,3
-#set-option global ui_options ncurses_assistant=none
+# set-option global ui_options ncurses_enable_mouse=true
+# set-option global ui_options ncurses_assistant=none
 
 #set-option global startup_info_version 20210828
-
-#set-option global gdb_location_symbol ▶
 
 # key bindings
 # ==============================================================================
@@ -109,6 +130,14 @@ map global normal <a-backspace> <a-space> -docstring 'remove main sel'
 map global normal '#' :comment-line<ret>      -docstring 'comment line'
 map global normal '<a-#>' :comment-block<ret> -docstring 'comment block'
 
+map global normal = '|fmt -w $kak_opt_autowrap_column<ret>' -docstring 'wrap lines'
+
+# wrap to 80 characters
+# map global user f '|fmt -w 80<ret>' -docstring 'wrap to 80'
+
+# wrap to 80 with comments and shit
+# map global user F '<a-x>Z<a-;>;Wyzs^<c-r>"<ret>dz|fmt -w 77<ret><a-s>ghP<space>' -docstring 'wrap to 80 and shit'
+
 # Case-insensitive search
 map global normal /     '/(?i)'
 map global normal ?     '?(?i)'
@@ -117,18 +146,27 @@ map global normal <a-?> '<a-?>(?i)'
 
 # map global insert <c-p> <a-semicolon>P
 
-# map global normal = '|fmt -w $kak_opt_autowrap_column<ret>' -docstring 'wrap lines'
+# Custom text objects
+# map global user W 'c\s,\s<ret>' -docstring "select between whitespace"
 
 # general utility
 map global user w ': w<ret>' -docstring 'write'
+map global user z ': q<ret>' -docstring 'quit'
 map global user g ': grep ' -docstring 'grep'
-map global user p ': fuzzy-open-file<ret>' -docstring 'open file'
 map global user t ': ctags-search<ret>' -docstring 'ctag def'
 map global user d ': db<ret>' -docstring 'close buffer'
 map global user m ': make<ret>' -docstring 'make'
 
-# Custom text objects
-map global object W 'c\s,\s<ret>' -docstring "select between whitespace"
+# Git
+declare-user-mode git
+map global user g  ': enter-user-mode git<ret>' -docstring 'mode git'
+map global git l   ': git log<ret>'             -docstring 'Log'
+map global git s   ': git status<ret>'          -docstring 'Status'
+map global git d   ': git diff<ret>'            -docstring 'Diff'
+map global git b   ': git blame<ret>'           -docstring 'Blame'
+map global git B   ': git hide-blame<ret>'      -docstring 'Hide blame'
+map global git p   ': git prev-hunk<ret>'       -docstring 'Prev hunk'
+map global git n   ': git next-hunk<ret>'       -docstring 'Next hunk'
 
 # System clipboard
 hook global RegisterModified '"' %{ nop %sh{
@@ -142,12 +180,6 @@ map global user y '<a-|>wl-copy<ret>'     -docstring 'copy System'
 # map global user c '<a-|>wl-copy<ret>' -docstring 'wl-copy'
 # map global user v '!wl-paste -n<ret>' -docstring 'wl-paste'
 
-# wrap to 80 characters
-# map global user f '|fmt -w 80<ret>' -docstring 'wrap to 80'
-
-# wrap to 80 with comments and shit
-# map global user F '<a-x>Z<a-;>;Wyzs^<c-r>"<ret>dz|fmt -w 77<ret><a-s>ghP<space>' -docstring 'wrap to 80 and shit'
-
 # lsp mode
 map global user l ': enter-user-mode lsp<ret>' -docstring 'lsp mode'
 
@@ -160,6 +192,8 @@ map global spell r ': spell-replace<ret>' -docstring 'replace'
 map global user s ': enter-user-mode spell<ret>' -docstring 'spell mode'
 
 # gdb
+# set-option global gdb_location_symbol ▶
+
 #declare-user-mode gdb
 #map global gdb n ': gdb-next<ret>' -docstring 'next'
 #map global gdb s ': gdb-step<ret>' -docstring 'step'
