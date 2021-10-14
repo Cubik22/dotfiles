@@ -97,5 +97,22 @@ gpg --edit-key $email
 # clone packer for neovim
 #git clone --depth 1 https://github.com/wbthomason/packer.nvim "$HOME"/.local/share/nvim/site/pack/packer/start/packer.nvim
 
+## languge servers
+
+# bash
+doas npm i -g bash-language-server
+
+# rust
+doas rustup component add rls rust-analysis rust-src
+
+# zig
+zls_dir="$HOME/dev/zls"
+mkdir -p $zls_dir
+curl -L https://github.com/zigtools/zls/releases/download/0.1.0/x86_64-linux.tar.xz | tar -xJ --strip-components=1 -C "$zls_dir"
+doas cp "$zls_dir/zls" /usr/local/bin/
+
+# html css json
+doas npm install -g vscode-{html,css,json}-languageserver-bin
+
 # clone, build and install river and waybar
 clone_build install

@@ -38,6 +38,7 @@ alias cd..="cd .."
 alias space="du -sh"
 alias n3="nnn"
 alias nv="nvim"
+alias ka="kak"
 alias xq="xbps-query"
 #alias gpg="gpg2"
 #alias chromium="ungoogled_chromium.sh"
@@ -161,13 +162,18 @@ if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
 	
 	alias blueon="sv up bluetoothd; bluetoothctl power on;"
 	alias blueoff="bluetoothctl power off; sv down bluetoothd;"
+
+	alias servstat="sv status /var/service/*"
 else
 	alias xi="doas xbps-install"
 	alias xr="doas xbps-remove"
 	
 	alias dn3="doas nnn"
 	alias dnv="doas nvim"
+	alias dka="doas kak"
 	
 	alias blueon="doas sv up bluetoothd; bluetoothctl power on;"
 	alias blueoff="bluetoothctl power off; doas sv down bluetoothd;"
+
+	alias servstat="doas sv status /var/service/*"
 fi
