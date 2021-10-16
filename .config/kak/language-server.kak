@@ -1,10 +1,11 @@
 # Enable kak-lsp for some filetypes
 evaluate-commands %sh{kak-lsp --kakoune -s $kak_session}
-hook global WinSetOption filetype=(sh|c|cpp|rust|zig|python|html|css|json) %{
+hook global WinSetOption filetype=(sh|c|cpp|rust|zig|python|html|css|json|javascript|typescript) %{
     lsp-enable-window
+	# lsp-auto-hover-enable
 }
 
-#hook global WinSetOption filetype=(sh|c|cpp|rust|zig|python|html|css|json) expandtab
+#hook global WinSetOption filetype=(sh|c|cpp|rust|zig|python|html|css|json|javascript|typescript) expandtab
 
 # uncomment to enable debug logging for kak-lsp
 #set-option global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
@@ -20,7 +21,11 @@ hook global WinSetOption filetype=sh %{
 
 # C/Cpp
 hook global WinSetOption filetype=(c|cpp) %{
-    set-option buffer formatcmd 'clang-format'
+	set-option buffer formatcmd 'clang-format'
+	clang-enable-autocomplete
+	clang-enable-diagnostics
+	alias window lint clang-parse
+	alias window lint-next-error clang-diagnostics-next
 }
 
 # Inlay hints are a feature supported by rust-analyzer, which show inferred types,
@@ -53,13 +58,15 @@ hook global WinSetOption filetype=zig %{
     }
 }
 
-# python-language-server does not currently use initialization options
-# python-language-server#403, so you can not configure it via kak-lsp.toml.
-# Instead, set the lsp_config option in your kakrc to send workspace/didChangeConfiguration
-# This requires settings_section = "_" in kak-lsp.toml
-set-option global lsp_config %{
-    [language.python.settings._]
-    "pyls.configurationSources" = ["flake8"]
+hook global WinSetOption filetype=python %{
+	# python-language-server does not currently use initialization options
+	# python-language-server#403, so you can not configure it via kak-lsp.toml.
+	# Instead, set the lsp_config option in your kakrc to send workspace/didChangeConfiguration
+	# This requires settings_section = "_" in kak-lsp.toml
+	set-option global lsp_config %{
+	    [language.python.settings._]
+	    "pyls.configurationSources" = ["flake8"]
+	}
 }
 
 # Markdown

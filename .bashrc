@@ -39,8 +39,9 @@ bind 'tab:menu-complete'
 export HISTSIZE=
 export HISTFILESIZE=
 export HISTCONTROL="erasedups:ignoreboth"
-export HISTIGNORE="cd:pwd:exit:q:c:e:ea:et::fe:clear:nnn:n3:xb*():curl"
-export HISTFILE="$HOME"/.cache/bash/bash_history
+export HISTIGNORE="pwd:exit:clear:"
+# export HISTIGNORE="cd:pwd:exit:q:c:e:ea:et::fe:clear:nnn:n3:xb*():curl"
+# export HISTFILE="$HOME"/.cache/bash/bash_history
 
 # root privileges
 # so the root can link and use this bashrc

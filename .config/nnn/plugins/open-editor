@@ -1,0 +1,3 @@
+#!/bin/sh
+# Open $EDITOR in a folder
+"$EDITOR" --

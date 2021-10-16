@@ -1,0 +1,3 @@
+#!/bin/sh
+# Make file executable
+[ -f "$1" ] && chmod 774 -- "$1"

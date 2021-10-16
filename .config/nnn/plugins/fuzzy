@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# Fuzzy find a file in directory subtree with fzf and edit in $EDITOR
+#
+# REQUIREMENTS: fzf - fd
+# OPTIONALS:
+
+"${EDITOR:-kak}" -- "$(fd -t f | fzf)"

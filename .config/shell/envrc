@@ -1,6 +1,8 @@
 #!/bin/bash
 # envrc
 
+export PAGER=less
+
 #export XDG_DOCUMENTS_DIR="${HOME}/documents"
 #export XDG_DOWNLOAD_DIR="${HOME}/downloads"
 export XDG_CONFIG_HOME="${HOME}/.config"
@@ -10,6 +12,7 @@ export XDG_STATE_HOME="${HOME}/.local/state"
 #export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 export XDG_RUNTIME_DIR="${HOME}/.local/runtime"
 export ZDOTDIR="${XDG_CONFIG_HOME}/shell"
+export GPG_TTY=$(tty)
 export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
 export GTK2_RC_FILES="${XDG_CONFIG_HOME}/gtk-2.0/config"
 export C_INCLUDE_PATH="${HOME}/.local/include"
@@ -18,6 +21,29 @@ export PKG_CONFIG_PATH="${HOME}/.local/lib/pkgconfig"
 
 export MANPATH="/usr/share/man:${HOME}/.local/share/man"
 export PATH="${PATH}:${HOME}/.local/bin:${HOME}/.cargo/bin"
+
+export LESS='-F -g -i -R -w'
+export LESSHISTFILE='$XDG_DATA_HOME/less/lesshst'
+
+# [ Runit ]
+# export SVDIR="$XDG_CONFIG_HOME"/service
+
+# NNN
+export NNN_OPTS='eEHr'
+export NNN_COLORS='3415'
+export NNN_FCOLORS='070704030f05060808010301'
+export NNN_TRASH=1
+export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rar|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
+export NNN_SEL='/tmp/.sel'
+export NNN_FIFO='/tmp/nnn.fifo'
+
+NNN_BMS_CONFIG='c:~/.config;l:~/.local'
+NNN_BMS_DEV='v:~/dev'
+NNN_BMS_DOC='d:~/doc'
+NNN_BMS_DOW='w:~/dow'
+export NNN_BMS="$NNN_BMS_CONFIG;$NNN_BMS_DEV;$NNN_BMS_DOC;$NNN_BMS_DOW"
+
+
 
 # set wayland environment variables and start river
 if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty1" ]; then

@@ -121,5 +121,8 @@ doas cp "$zls_dir/zls" /usr/local/bin/
 # html css json
 doas npm install -g vscode-{html,css,json}-languageserver-bin
 
+# javascript typescript
+doas npm install -g javascript-typescript-langserver
+
 # clone, build and install river and waybar
 clone_build install

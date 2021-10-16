@@ -49,6 +49,20 @@ hook global KakEnd .* %{
     state-save-reg-save slash
 }
 
+# Completion
+hook global InsertCompletionShow .* %{ try %{
+    execute-keys -draft 'h<a-K>\h<ret>'
+    map window insert <tab> <c-n>
+    map window insert <s-tab> <c-p>
+    map window insert <c-g> <c-o>
+}}
+
+hook global InsertCompletionHide .* %{
+    unmap window insert <tab> <c-n>
+    unmap window insert <s-tab> <c-p>
+    unmap window insert <c-g> <c-o>
+}
+
 ## change cursor color between normal mode and insert mode
 
 # Shades of blue/cyan for normal mode
@@ -93,12 +107,28 @@ colorscheme gruvbox-hard-dark
 
 add-highlighter global/ number-lines -relative -hlcursor -separator ' '
 add-highlighter global/ show-matching
+# add-highlighter global/ wrap -word -indent -marker '↪'
+add-highlighter global/ wrap -word -indent -marker ''
 
 # Highlight TODO/FIXME/...
 add-highlighter global/ regex \b(TODO|FIXME|XXX|NOTE|REF|USAGE|REQUIREMENTS|OPTIONALS)\b 0:default+r
 
 # Highlight trailing whitespace
 # add-highlighter global/ regex \h+$ 0:Error
+
+# require-module kak
+# add-highlighter shared/kakrc/code/if_else regex \b(if|when|unless)\b 0:keyword
+
+# Highlighters
+set-face global delimiter rgb:af3a03,default
+set-face global operator rgb:5a947f,default
+
+hook global WinCreate .* %{
+	add-highlighter window/delimiters		regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
+	add-highlighter window/operators		regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
+	# add-highlighter window/function 		regex ([a-zA-Z_0-9]+\(+)) 0:function
+	# add-highlighter window/class			regex ([^a-z][A-Z][a-zA-Z_0-9]+) 0:class
+}
 
 # Highlight all occurences of word under the cursor
 # set-face global CurWord default,rgba:e0e0e16e
