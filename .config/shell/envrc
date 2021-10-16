@@ -43,7 +43,11 @@ NNN_BMS_DOC='d:~/doc'
 NNN_BMS_DOW='w:~/dow'
 export NNN_BMS="$NNN_BMS_CONFIG;$NNN_BMS_DEV;$NNN_BMS_DOC;$NNN_BMS_DOW"
 
-
+NNN_PLUG_EDIT='c:cmx;e:exec'
+NNN_PLUG_FUZZY='f:fuzzy;a:autojump'
+NNN_PLUG_OPEN='u:doasedit;o:open-editor;i:imgview'
+NNN_PLUG_GIT='l:!git log;s:!git status'
+export NNN_PLUG="$NNN_PLUG_EDIT;$NNN_PLUG_FUZZY;$NNN_PLUG_OPEN;$NNN_PLUG_GIT"
 
 # set wayland environment variables and start river
 if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty1" ]; then
