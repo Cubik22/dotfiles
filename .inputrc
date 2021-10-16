@@ -6,6 +6,25 @@ set input-meta on
 set convert-meta off
 set output-meta on
 
+set completion-ignore-case on
+set colored-stats on
+set visible-stats on
+set mark-symlinked-directories On
+set colored-completion-prefix On
+set menu-complete-display-prefix On
+set show-all-if-ambiguous on
+set show-all-if-unmodified on
+set print-completions-horizontally on
+set page-completions off
+
+# change cursor shape normal/insert mode
+set show-mode-in-prompt on
+set vi-cmd-mode-string "\1\e[2 q\2"
+set vi-ins-mode-string "\1\e[6 q\2"
+
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
 ## for linux console and RH/Debian xterm
 "\e[1~": beginning-of-line
 "\e[4~": end-of-line
@@ -20,17 +39,3 @@ set output-meta on
 "\e\e[D": backward-word
 "\e[1;5C": forward-word
 "\e[1;5D": backward-word
-
-set completion-ignore-case on
-set colored-stats on
-set visible-stats on
-set mark-symlinked-directories On
-set colored-completion-prefix On
-set menu-complete-display-prefix On
-set show-all-if-ambiguous on
-set show-all-if-unmodified on
-set print-completions-horizontally on
-set page-completions off
-
-"\e[A": history-search-backward
-"\e[B": history-search-forward

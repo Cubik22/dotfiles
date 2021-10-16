@@ -31,7 +31,7 @@ alias ip="ip -color=auto"
 # confirm before overwriting something and verbose
 alias mkdir="mkdir -pv"
 alias cp="cp -r"
-alias mv='mv'
+# alias mv='mv'
 alias rm='echo "in order to move the file/directory in the trash use trash-put"; rm'
 
 alias ..="cd .."
@@ -41,6 +41,7 @@ alias n3="nnn"
 alias nv="nvim"
 alias ka="kak"
 alias xq="xbps-query"
+alias xs="xbps-query -s"
 #alias gpg="gpg2"
 #alias chromium="ungoogled_chromium.sh"
 
@@ -156,25 +157,58 @@ rcon () {
 	fi
 }
 
+# nnn audocd when pressing ^G
+nnn () {
+    # Block nesting of nnn in subshells
+    if [ -n $NNNLVL ] && [ "${NNNLVL:-0}" -ge 1 ]; then
+        echo "nnn is already running"
+        return
+    fi
+
+    # The behaviour is set to cd on quit (nnn checks if NNN_TMPFILE is set)
+    # To cd on quit only on ^G, either remove the "export" as in:
+    #    NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+    #    (or, to a custom path: NNN_TMPFILE=/tmp/.lastd)
+    # or, export NNN_TMPFILE after nnn invocation
+    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+
+    # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
+    # stty start undef
+    # stty stop undef
+    # stty lwrap undef
+    # stty lnext undef
+
+    nnn "$@"
+
+    if [ -f "$NNN_TMPFILE" ]; then
+            . "$NNN_TMPFILE"
+            rm -f "$NNN_TMPFILE" > /dev/null
+    fi
+}
+
 # so the root can link and use this bashrc
 if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
-	alias xi="xbps-install"
-	alias xr="xbps-remove"
+    alias xbps-install="echo 'remember to add package to /etc/config'; xbps-install"
+    alias xbps-remove="echo 'remember to remove package from /etc/config'; xbps-remove"
+   	alias xi="echo 'remember to add package to /etc/config'; xbps-install"
+    alias xr="echo 'remember to remove package from /etc/config'; xbps-remove"
 	
 	alias blueon="sv up bluetoothd; bluetoothctl power on;"
 	alias blueoff="bluetoothctl power off; sv down bluetoothd;"
 
 	alias servstat="sv status /var/service/*"
 else
-	alias xi="doas xbps-install"
-	alias xr="doas xbps-remove"
-	
-	alias dn3="doas nnn"
-	alias dnv="doas nvim"
-	alias dka="doas kak"
+    alias xbps-install="echo 'remember to add package to /etc/config'; doas xbps-install"
+    alias xbps-remove="echo 'remember to remove package from /etc/config'; doas xbps-remove"
+    alias xi="echo 'remember to add package to /etc/config'; doas xbps-install"
+    alias xr="echo 'remember to remove package from /etc/config'; doas xbps-remove"
 	
 	alias blueon="doas sv up bluetoothd; bluetoothctl power on;"
 	alias blueoff="bluetoothctl power off; doas sv down bluetoothd;"
 
 	alias servstat="doas sv status /var/service/*"
+	
+	alias dn3="doas nnn"
+	alias dnv="doas nvim"
+	alias dka="doas kak"
 fi

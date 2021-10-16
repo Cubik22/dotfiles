@@ -9,6 +9,15 @@
 # it is also sourced by zsh
 [ -f "$HOME/.config/shell/aliasrc" ] && source "$HOME/.config/shell/aliasrc"
 
+# use vim mode
+PS0="\e[2 q\2"
+set -o vi
+# typing alt+letter send <esc>+letter
+# alt+e normal mode end of line
+# alt+o normal mode before cursor
+# alt+l normal mode after cursor
+# bind '"<something>":vi-movement-mode'
+
 ## <https://wiki.bash-hackers.org/internals/shell_options>
 
 # variable expansion on tab complete

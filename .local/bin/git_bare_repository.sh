@@ -113,7 +113,7 @@ doas npm i -g bash-language-server
 doas rustup component add rls rust-analysis rust-src
 
 # zig
-zls_dir="$HOME/dev/zls"
+zls_dir="$HOME/dev/zig/zls"
 mkdir -p $zls_dir
 curl -L https://github.com/zigtools/zls/releases/download/0.1.0/x86_64-linux.tar.xz | tar -xJ --strip-components=1 -C "$zls_dir"
 doas cp "$zls_dir/zls" /usr/local/bin/
