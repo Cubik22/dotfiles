@@ -1,11 +1,18 @@
 # Enable kak-lsp for some filetypes
 evaluate-commands %sh{kak-lsp --kakoune -s $kak_session}
+
+# hook global WinCreate filetype=(sh|c|cpp|rust|zig|python|html|css|json|javascript|typescript) %{
+	# add-highlighter window/delimiters		regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
+	# add-highlighter window/operators		regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
+	# add-highlighter window/function 		regex ([a-zA-Z_0-9]+\(+)) 0:function
+	# add-highlighter window/class			regex ([^a-z][A-Z][a-zA-Z_0-9]+) 0:class
+# }
+
 hook global WinSetOption filetype=(sh|c|cpp|rust|zig|python|html|css|json|javascript|typescript) %{
+	# expandtab
     lsp-enable-window
 	# lsp-auto-hover-enable
 }
-
-#hook global WinSetOption filetype=(sh|c|cpp|rust|zig|python|html|css|json|javascript|typescript) expandtab
 
 # uncomment to enable debug logging for kak-lsp
 #set-option global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"

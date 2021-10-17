@@ -107,8 +107,8 @@ colorscheme gruvbox-hard-dark
 
 add-highlighter global/ number-lines -relative -hlcursor -separator ' '
 add-highlighter global/ show-matching
-# add-highlighter global/ wrap -word -indent -marker '↪'
-add-highlighter global/ wrap -word -indent -marker ''
+add-highlighter global/ wrap -word -indent -marker '↪'
+# add-highlighter global/ wrap -word -indent -marker ''
 
 # Highlight TODO/FIXME/...
 add-highlighter global/ regex \b(TODO|FIXME|XXX|NOTE|REF|USAGE|REQUIREMENTS|OPTIONALS)\b 0:default+r
@@ -123,6 +123,7 @@ add-highlighter global/ regex \b(TODO|FIXME|XXX|NOTE|REF|USAGE|REQUIREMENTS|OPTI
 set-face global delimiter rgb:af3a03,default
 set-face global operator rgb:5a947f,default
 
+# moded to languge-server.kak
 hook global WinCreate .* %{
 	add-highlighter window/delimiters		regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
 	add-highlighter window/operators		regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
