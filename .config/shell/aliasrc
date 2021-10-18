@@ -12,11 +12,16 @@ alias sudo="doas"
 alias su="su --login"
 
 # ls
-alias ls="ls --color=auto --group-directories-first --format=horizontal --human-readable"
-alias lsa="ls --color=auto --group-directories-first --format=horizontal --human-readable -a"
-alias lsl="ls --color=auto --group-directories-first --format=horizontal --human-readable -l"
-alias lsal="ls --color=auto --group-directories-first --format=horizontal --human-readable -a -l"
-alias lsla="ls --color=auto --group-directories-first --format=horizontal --human-readable -l -a"
+lsplus="ls --color=auto --group-directories-first --format=horizontal --human-readable"
+alias ls="$lsplus"
+alias lsa="$lsplus -a"
+alias lsl="$lsplus -l"
+alias lsal="$lsplus -a -l"
+alias lsla="$lsplus -l -a"
+cdl () {
+    cd "$@"
+    eval "$lsplus"
+}
 alias trexa="exa --long --header --modified --git --tree --color=auto --icons --all --group-directories-first"
 
 # color stuff
