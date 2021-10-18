@@ -1,28 +1,41 @@
 #!/bin/bash
 # envrc
 
-#export XDG_DOCUMENTS_DIR="${HOME}/documents"
-#export XDG_DOWNLOAD_DIR="${HOME}/downloads"
+# XDG
+#export XDG_DOCUMENTS_DIR="${HOME}/doc"
+#export XDG_DOWNLOAD_DIR="${HOME}/dow"
 export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_CACHE_HOME="${HOME}/.cache"
 export XDG_DATA_HOME="${HOME}/.local/share"
 export XDG_STATE_HOME="${HOME}/.local/state"
-#export XDG_RUNTIME_DIR="/run/user/$(id -u)"
-export XDG_RUNTIME_DIR="${HOME}/.local/runtime"
+
+# runtime dir
+export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+# export XDG_RUNTIME_DIR="${HOME}/.local/runtime"
+
+# zsh shell
 export ZDOTDIR="${XDG_CONFIG_HOME}/shell"
+
+# gpg
 export GPG_TTY="$(tty)"
 export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
+
+# gtk-2.0 config file
 export GTK2_RC_FILES="${XDG_CONFIG_HOME}/gtk-2.0/config"
+
+# development
 export C_INCLUDE_PATH="${HOME}/.local/include"
 export LD_LIBRARY_PATH="${HOME}/.local/lib"
 export PKG_CONFIG_PATH="${HOME}/.local/lib/pkgconfig"
 
+# paths
 export MANPATH="/usr/share/man:${HOME}/.local/share/man"
 export PATH="${PATH}:${HOME}/.local/bin:${HOME}/.cargo/bin"
 
+# less history
 export LESSHISTFILE="$XDG_DATA_HOME/less/lesshst"
 
-# [ Runit ]
+# runit
 # export SVDIR="$XDG_CONFIG_HOME"/service
 
 # NNN
@@ -31,7 +44,7 @@ export NNN_COLORS='3415'
 export NNN_FCOLORS='070704030f05060808010301'
 export NNN_TRASH=1
 # export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rar|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
-# remove rar
+# without rar
 export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
 export NNN_SEL='/tmp/.sel'
 export NNN_FIFO='/tmp/nnn.fifo'

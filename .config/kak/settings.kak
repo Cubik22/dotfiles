@@ -66,8 +66,8 @@ hook global InsertCompletionHide .* %{
 ## change cursor color between normal mode and insert mode
 
 # Shades of blue/cyan for normal mode
-set-face global PrimarySelection white,blue+F
-set-face global SecondarySelection black,blue+F
+set-face global PrimarySelection white,bright-blue+F
+set-face global SecondarySelection black,bright-blue+F
 set-face global PrimaryCursor black,bright-cyan+F
 set-face global SecondaryCursor black,bright-blue+F
 set-face global PrimaryCursorEol black,bright-cyan
@@ -75,8 +75,8 @@ set-face global SecondaryCursorEol black,bright-blue
 
 # Shades of green/yellow for insert mode.
 hook global ModeChange (push|pop):.*:insert %{
-    set-face window PrimarySelection white,green+F
-    set-face window SecondarySelection black,green+F
+    set-face window PrimarySelection white,bright-green+F
+    set-face window SecondarySelection black,bright-green+F
     set-face window PrimaryCursor black,bright-yellow+F
     set-face window SecondaryCursor black,bright-green+F
     set-face window PrimaryCursorEol black,bright-yellow
@@ -174,6 +174,10 @@ map global normal /     '/(?i)'
 map global normal ?     '?(?i)'
 map global normal <a-/> '<a-/>(?i)'
 map global normal <a-?> '<a-?>(?i)'
+
+# insert mode
+map global insert <c-a> <home>
+map global insert <c-e> <end>
 
 # map global insert <c-p> <a-semicolon>P
 

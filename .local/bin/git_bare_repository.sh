@@ -28,8 +28,12 @@ config checkout
 config config status.showUntrackedFiles no
 
 # add runtime dir
-mkdir "${HOME}"/.local/runtime
-chmod 700 "${HOME}"/.local/runtime
+# mkdir "${HOME}"/.local/runtime
+# chmod 700 "${HOME}"/.local/runtime
+runtime_dir="/run/user/$(id -u)"
+doas mkdir -p "$runtime_dir"
+doas chown "$USER:$USER" "$runtime_dir"
+doas chmod 700 "$runtime_dir"
 
 # symlink stuff to root
 doas rm -r /root/.bash_profile
