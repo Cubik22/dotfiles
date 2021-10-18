@@ -42,7 +42,6 @@ alias nv="nvim"
 alias ka="kak"
 alias xq="xbps-query"
 alias xs="xbps-query -s"
-#alias gpg="gpg2"
 #alias chromium="ungoogled_chromium.sh"
 
 # wifi
@@ -63,6 +62,7 @@ alias psmem='ps auxf | sort -nr -k 4'
 alias pscpu='ps auxf | sort -nr -k 3'
 
 # verify signature for isos
+#alias gpg="gpg2"
 alias gpg-check="gpg --keyserver-options auto-key-retrieve --verify"
 # receive the key of a developer
 alias gpg-retrieve="gpg --keyserver-options auto-key-retrieve --receive-keys"
@@ -85,6 +85,19 @@ alias gpl="git pull"
 mirror1="https://alpha.de.repo.voidlinux.org/current/musl"
 mirror2="https://mirrors.servercentral.com/voidlinux/current/musl"
 mirror3="https://alpha.us.repo.voidlinux.org/current/musl"
+
+zat () {
+	if [ "$#" -ne 2 ]; then
+    	echo "insert two parameters:"
+    	echo "first parameter file"
+    	echo "second parameter tag"
+	else
+    	file="$1"
+    	tag="$2"
+    	riverctl set-focused-tags "$((1 << ("$tag" - 1)))"
+    	zathura "$file" &
+	fi
+}
 
 # before push unlock bitwarden
 git () {
