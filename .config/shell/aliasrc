@@ -9,7 +9,7 @@ alias d="doas"
 alias sudo="doas"
 
 # do not keep environment variables when su
-alias su="su --login"
+alias su="su --login --whitelist-environment=WAYLAND_DISPLAY"
 
 # ls
 lsplus="ls --color=auto --group-directories-first --format=horizontal --human-readable"
@@ -90,6 +90,17 @@ alias gpl="git pull"
 mirror1="https://alpha.de.repo.voidlinux.org/current/musl"
 mirror2="https://mirrors.servercentral.com/voidlinux/current/musl"
 mirror3="https://alpha.us.repo.voidlinux.org/current/musl"
+
+phel () {
+    echo "WIFI"
+    echo "iwdscan"
+    echo "iwctl: station wlan0 show/scan/get-networks/(dis)connect"
+    echo
+    echo "BLUE"
+    echo "blueon blueoff bluescan"
+    echo "bluetoothctl default-agent/power on/scan on/trust/connect"
+    # TODO: expand print help
+}
 
 zat () {
 	if [ "$#" -ne 2 ]; then

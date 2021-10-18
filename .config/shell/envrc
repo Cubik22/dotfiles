@@ -17,7 +17,7 @@ export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 export ZDOTDIR="${XDG_CONFIG_HOME}/shell"
 
 # gpg
-export GPG_TTY="$(tty)"
+# export GPG_TTY="$(tty)"
 export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
 
 # gtk-2.0 config file
