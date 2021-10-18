@@ -184,8 +184,9 @@ do
     riverctl map $mode None XF86MonBrightnessDown spawn 'light -U 5'
 done
 
-# Map power off key to block system
-riverctl map normal None XF86PowerOff spawn "waylock --init-color 0xebdbb2 --input-color 0xb8bb26 --fail-color 0xfb4934"
+# Map power off key to lock system
+# riverctl map normal None XF86PowerOff spawn "waylock --init-color 0xebdbb2 --input-color 0xb8bb26 --fail-color 0xfb4934"
+riverctl map normal None XF86PowerOff spawn "waylock"
 
 # Spawn new window in less important part
 riverctl attach-mode bottom

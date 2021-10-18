@@ -40,9 +40,10 @@ doas rm -r /root/.bash_profile
 doas rm -f /root/.bashrc
 doas rm -f /root/.inputrc
 doas rm -f /root/.dir_colors
-doas rm -fr /root/.config/shell
 doas rm -fr /root/.config/git
 doas rm -fr /root/.config/rbw
+doas rm -fr /root/.config/waylock
+doas rm -fr /root/.config/shell
 doas rm -fr /root/.config/nvim
 doas rm -fr /root/.local/share/nvim
 doas rm -fr /root/.config/kak
@@ -54,16 +55,17 @@ doas ln -s "$HOME"/.bashrc /root/.bashrc
 doas ln -s "$HOME"/.inputrc /root/.inputrc
 doas ln -s "$HOME"/.dir_colors /root/.dir_colors
 
-doas mkdir -p "/root/.config/shell"
 doas mkdir -p "/root/.config/git"
 doas mkdir -p "/root/.config/rbw"
-#doas mkdir -p "/root/.config/nvim"
-#doas mkdir -p "/root/.local/share/nvim"
+doas mkdir -p "/root/.config/waylock"
+# doas mkdir -p "/root/.config/shell"
+# doas mkdir -p "/root/.config/nvim"
+# doas mkdir -p "/root/.local/share/nvim"
 
-doas ln -s "$HOME"/.config/shell/envrc /root/.config/shell/envrc
-doas ln -s "$HOME"/.config/shell/aliasrc /root/.config/shell/aliasrc
-doas ln -s "$HOME"/.config/git/config /root/.config/git/config
-doas ln -s "$HOME"/.config/rbw/config.json /root/.config/rbw/config.json
+doas ln -s "$HOME"/.config/git/config /root/.config/git/
+doas ln -s "$HOME"/.config/rbw/config.json /root/.config/rbw/
+doas ln -s "$HOME"/.config/waylock/waylock.toml /root/.config/waylock/
+doas ln -s "$HOME"/.config/shell /root/.config/
 doas ln -s "$HOME"/.config/nvim /root/.config/
 doas ln -s "$HOME"/.local/share/nvim /root/.local/share/
 doas ln -s "$HOME"/.config/kak /root/.config/

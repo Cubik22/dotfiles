@@ -205,11 +205,11 @@ map global git n   ': git next-hunk<ret>'       -docstring 'Next hunk'
 
 # System clipboard
 hook global RegisterModified '"' %{ nop %sh{
-	printf %s "$kak_main_reg_dquote" | wl-copy > /dev/null 2>&1 &
+	printf %s "$kak_main_reg_dquote" | wl-copy-env > /dev/null 2>&1 &
 }}
-map global user p '!wl-paste -n<ret>'     -docstring 'paste System (before)'
-map global user P '<a-!>wl-paste -n<ret>' -docstring 'paste System (after)'
-map global user y '<a-|>wl-copy<ret>'     -docstring 'copy System'
+map global user p '!wl-paste-env -n<ret>'     -docstring 'paste System (before)'
+map global user P '<a-!>wl-paste-env -n<ret>' -docstring 'paste System (after)'
+map global user y '<a-|>wl-copy-env<ret>'     -docstring 'copy System'
 
 # system clipboard
 # map global user c '<a-|>wl-copy<ret>' -docstring 'wl-copy'

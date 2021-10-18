@@ -1,0 +1,9 @@
+# waylock.toml
+
+[colors]
+# Specify the initial color of the lock screen.
+init_color = 0xebdbb2
+# Specify the color of the lock screen after input is received.
+input_color = 0xb8bb26
+# Specify the color of the lock screen on authentication failure.
+fail_color = 0xfb4934
