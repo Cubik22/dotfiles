@@ -22,6 +22,7 @@ set -o vi
 # binding useful keybindings when in insert mode
 bind '\C-a:beginning-of-line'
 bind '\C-e:end-of-line'
+bind -x '"\C-l":"clear -x"'
 
 ## <https://wiki.bash-hackers.org/internals/shell_options>
 
