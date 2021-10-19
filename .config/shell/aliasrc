@@ -95,14 +95,18 @@ mirror3="https://alpha.us.repo.voidlinux.org/current/musl"
 phel () {
     echo "WIFI"
     echo "iwdscan"
-    echo "iwctl: station wlan0 show/scan/get-networks/(dis)connect"
+    echo "iwctl station wlan0 show/scan/get-networks/(dis)connect"
     echo
-    echo "BLUE"
+    echo "BLUEZ"
     echo "blueon blueoff bluescan"
-    echo "bluetoothctl default-agent/power on/scan on/trust/connect"
+    echo "bluetoothctl default-agent/power on/scan on/trust <device>/connect <device>"
     echo
-    echo "ALSA"
-    echo "alsamixer"
+    echo "AUDIO"
+    echo "alsamixer (alsa)"
+    echo "pactl (pipewire)"
+    echo
+    echo "REMOVABLE DRIVE"
+    echo "udisksctl (un)mount -b <drive (from lsblk)>"
     # TODO: expand print help
 }
 

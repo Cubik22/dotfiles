@@ -66,6 +66,9 @@ riverctl map normal $mod+Control+Shift F spawn "firefox-wayland -private-window"
 
 ### WINDOWS ###
 
+# screenshots
+riverctl map normal $mod S spawn 'grim -g "$(slurp)" - | wl-copy-env'
+
 # Mod+Q to close the focused view
 riverctl map normal $mod Q close
 
