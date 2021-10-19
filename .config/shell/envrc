@@ -64,8 +64,9 @@ export NNN_PLUG="$NNN_PLUG_EDIT;$NNN_PLUG_FUZZY;$NNN_PLUG_OPEN;$NNN_PLUG_GIT"
 # set wayland environment variables and start river
 if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty1" ]; then
 	# Cursor
-	#export XCURSOR_THEME=Adwaita
-	#export XCURSOR_SIZE=22
+	# remember to change also in river
+	export XCURSOR_THEME=Adwaita
+	export XCURSOR_SIZE=20
 	
 	# session and desktop
 	export XDG_SESSION_TYPE=wayland

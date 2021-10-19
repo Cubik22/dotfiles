@@ -210,9 +210,10 @@ riverctl focus-follows-cursor normal
 riverctl set-repeat 60 300
 
 # Cursor theme
-#riverctl xcursor-theme OpenZone_White 32
-#riverctl xcursor-theme Human 32
-riverctl xcursor-theme Adwaita 22
+# remember to change also environment variables (.config/shell/envrc)
+riverctl xcursor-theme Adwaita 20
+# riverctl xcursor-theme OpenZone_White 32
+# riverctl xcursor-theme Human 32
 
 # Make certain views start floating
 riverctl float-filter-add app-id float
