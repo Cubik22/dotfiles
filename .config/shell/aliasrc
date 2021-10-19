@@ -244,7 +244,10 @@ else
 	alias blueoff="bluetoothctl power off; doas sv down bluetoothd;"
 
 	alias servstat="doas sv status /var/service/*"
-	
+
+	alias poweroff="doas poweroff"
+	alias reboot="doas reboot"
+
 	alias dn3="doas nnn"
 	alias dnv="doas nvim"
 	alias dka="doas kak"
