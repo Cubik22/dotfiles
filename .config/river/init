@@ -181,6 +181,11 @@ do
     # riverctl map $mode None XF86AudioLowerVolume spawn "amixer -M set Master 5%- | sed -En 's/.*\[([0-9]+)%\].*/\1/p' | head -1 > $WOB_PIPE"
     # riverctl map $mode None XF86AudioMute spawn "amixer -M set Master toggle | sed -En '/\[on\]/ s/.*\[([0-9]+)%\].*/\1/ p; /\[off\]/ s/.*/0/p' | head -1 > $WOB_PIPE"
 
+	# control microphone volume with alsa
+    riverctl map $mode Control XF86AudioRaiseVolume spawn "amixer -M set Capture 5%+ | sed -En 's/.*\[([0-9]+)%\].*/\1/p' | head -1 > $WOB_PIPE"
+    riverctl map $mode Control XF86AudioLowerVolume spawn "amixer -M set Capture 5%- | sed -En 's/.*\[([0-9]+)%\].*/\1/p' | head -1 > $WOB_PIPE"
+    riverctl map $mode Control XF86AudioMute spawn "amixer -M set Capture toggle | sed -En '/\[on\]/ s/.*\[([0-9]+)%\].*/\1/ p; /\[off\]/ s/.*/0/p' | head -1 > $WOB_PIPE"
+
 	# control audio volume with pipewire
     riverctl map $mode None XF86AudioRaiseVolume spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%; print-volume-pactl > $WOB_PIPE"
     riverctl map $mode None XF86AudioLowerVolume spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%; print-volume-pactl > $WOB_PIPE"
