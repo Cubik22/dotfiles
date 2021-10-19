@@ -91,6 +91,7 @@ mirror1="https://alpha.de.repo.voidlinux.org/current/musl"
 mirror2="https://mirrors.servercentral.com/voidlinux/current/musl"
 mirror3="https://alpha.us.repo.voidlinux.org/current/musl"
 
+# print informations
 phel () {
     echo "WIFI"
     echo "iwdscan"
@@ -99,6 +100,9 @@ phel () {
     echo "BLUE"
     echo "blueon blueoff bluescan"
     echo "bluetoothctl default-agent/power on/scan on/trust/connect"
+    echo
+    echo "ALSA"
+    echo "alsamixer"
     # TODO: expand print help
 }
 

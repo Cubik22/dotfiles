@@ -1,0 +1,3 @@
+#!/bin/sh
+volume="$(pactl get-sink-volume @DEFAULT_SINK@ | grep -i volume | awk '{ print $5 }')"
+echo "${volume%?}"

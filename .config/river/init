@@ -34,6 +34,14 @@ wlsunset -l 46.5 -L 6.6 &
 # libinput-gestures
 libinput-gestures &
 
+# wob
+if [ -p "$WOB_PIPE" ]; then
+    killall wob
+	rm -f "$WOB_PIPE"
+fi
+mkfifo $WOB_PIPE
+tail -f $WOB_PIPE | wob --anchor "top" --anchor "right" &
+
 # scale everything (problems with partial scaling)
 #wlr-randr --output eDP-1 --scale 1.25
 
@@ -161,32 +169,37 @@ riverctl map normal $mod F11 enter-mode passthrough
 # Mod+F11 to return to normal mode
 riverctl map passthrough $mod F11 enter-mode normal
 
-# Various media key mapping examples for both normal and locked mode which do
-# not have a modifier
+# Various media key mapping
 for mode in normal locked
 do
-    # Eject the optical drive
+    # eject the optical drive
     riverctl map $mode None XF86Eject spawn 'eject -T'
 
-    # Control pulse audio volume with pamixer (https://github.com/cdemoulins/pamixer)
-    riverctl map $mode None XF86AudioRaiseVolume  spawn 'pamixer -i 5'
-    riverctl map $mode None XF86AudioLowerVolume  spawn 'pamixer -d 5'
-    riverctl map $mode None XF86AudioMute         spawn 'pamixer --toggle-mute'
+    # control audio volume with alsa
+    # for some reason -M option is not working
+    # riverctl map $mode None XF86AudioRaiseVolume spawn "amixer -M set Master 5%+ | sed -En 's/.*\[([0-9]+)%\].*/\1/p' | head -1 > $WOB_PIPE"
+    # riverctl map $mode None XF86AudioLowerVolume spawn "amixer -M set Master 5%- | sed -En 's/.*\[([0-9]+)%\].*/\1/p' | head -1 > $WOB_PIPE"
+    # riverctl map $mode None XF86AudioMute spawn "amixer -M set Master toggle | sed -En '/\[on\]/ s/.*\[([0-9]+)%\].*/\1/ p; /\[off\]/ s/.*/0/p' | head -1 > $WOB_PIPE"
 
-    # Control MPRIS aware media players with playerctl (https://github.com/altdesktop/playerctl)
+	# control audio volume with pipewire
+    riverctl map $mode None XF86AudioRaiseVolume spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%; print-volume-pactl > $WOB_PIPE"
+    riverctl map $mode None XF86AudioLowerVolume spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%; print-volume-pactl > $WOB_PIPE"
+    riverctl map $mode None XF86AudioMute spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle; print-volume-mute-status-pactl > $WOB_PIPE"
+
+    # control MPRIS aware media players with playerctl (https://github.com/altdesktop/playerctl)
     riverctl map $mode None XF86AudioMedia spawn 'playerctl play-pause'
     riverctl map $mode None XF86AudioPlay  spawn 'playerctl play-pause'
     riverctl map $mode None XF86AudioPrev  spawn 'playerctl previous'
     riverctl map $mode None XF86AudioNext  spawn 'playerctl next'
 
-    # Control screen backlight brighness with light (https://github.com/haikarainen/light)
-    riverctl map $mode None XF86MonBrightnessUp   spawn 'light -A 5'
-    riverctl map $mode None XF86MonBrightnessDown spawn 'light -U 5'
-done
+	# brightness
+	riverctl map $mode None XF86MonBrightnessUp   spawn "adjust_brightness.sh up > $WOB_PIPE"
+	riverctl map $mode None XF86MonBrightnessDown spawn "adjust_brightness.sh down > $WOB_PIPE"
 
-# Map power off key to lock system
-# riverctl map normal None XF86PowerOff spawn "waylock --init-color 0xebdbb2 --input-color 0xb8bb26 --fail-color 0xfb4934"
-riverctl map normal None XF86PowerOff spawn "waylock"
+	# Map power off key to lock system
+	# riverctl map normal None XF86PowerOff spawn "waylock --init-color 0xebdbb2 --input-color 0xb8bb26 --fail-color 0xfb4934"
+	riverctl map $mode None XF86PowerOff spawn "waylock"
+done
 
 # Spawn new window in less important part
 riverctl attach-mode bottom
