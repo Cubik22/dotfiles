@@ -10,18 +10,15 @@
 [ -f "$HOME/.config/shell/aliasrc" ] && source "$HOME/.config/shell/aliasrc"
 
 # use vim/kak mode
-PS0="\e[2 q\2"
+# PS0="\e[2 q\2"
 set -o vi
 # typing <alt>+letter send <esc>+letter
-# <alt>+e normal mode end of line
 # <alt>+o normal mode before cursor
 # <alt>+l normal mode after cursor
-# bind something to <esc>
-# bind '"<something>":vi-movement-mode'
+# <alt>+b normal mode beginning of line
+# <alt>+e normal mode end of line
 
-# binding useful keybindings when in insert mode
-bind '\C-a:beginning-of-line'
-bind '\C-e:end-of-line'
+# bind control l
 bind -x '"\C-l":"clear -x"'
 
 ## <https://wiki.bash-hackers.org/internals/shell_options>

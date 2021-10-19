@@ -17,10 +17,24 @@ set show-all-if-unmodified on
 set print-completions-horizontally on
 set page-completions off
 
+# enable Readline not waiting for additional input when a key is pressed.
+set keyseq-timeout 0
 # change cursor shape normal/insert mode
 set show-mode-in-prompt on
 set vi-cmd-mode-string "\1\e[2 q\2"
 set vi-ins-mode-string "\1\e[6 q\2"
+
+# bind something to <esc>
+# bind '"<something>":vi-movement-mode'
+
+# binding useful keybindings when in insert mode
+# <alt>+o normal mode before cursor
+# <alt>+l normal mode after cursor
+# <alt>+b normal mode beginning of line
+# <alt>+e normal mode end of line
+'\C-a': beginning-of-line
+'\C-b': beginning-of-line
+'\C-e': end-of-line
 
 # when command is half complete search command that complete it
 "\e[A": history-search-backward
