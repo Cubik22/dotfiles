@@ -10,7 +10,8 @@ export XDG_DATA_HOME="${HOME}/.local/share"
 export XDG_STATE_HOME="${HOME}/.local/state"
 
 # runtime dir
-export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+idu="$(id -u)"
+export XDG_RUNTIME_DIR="/run/user/$idu"
 # export XDG_RUNTIME_DIR="${HOME}/.local/runtime"
 
 # zsh shell
@@ -139,7 +140,10 @@ if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty
 	
 	# wob pipe directory
 	export WOB_PIPE="/tmp/wobpipe"
-	
+
+	# load brightness level
+	echo "brightness level is: $(adjust_brightness.sh load)"
+
 	# finally start river with a dbus-session
 	exec dbus-run-session river
 fi
