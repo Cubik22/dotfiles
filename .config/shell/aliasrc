@@ -49,6 +49,9 @@ alias xq="xbps-query"
 alias xs="xbps-query -s"
 #alias chromium="ungoogled_chromium.sh"
 
+# imv
+alias imv="imv-wayland"
+
 # wifi
 alias iwdscan="iwctl station wlan0 scan;"
 

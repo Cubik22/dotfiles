@@ -5,10 +5,6 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# source aliases and some functions which work like aliases
-# it is also sourced by zsh
-[ -f "$HOME/.config/shell/aliasrc" ] && source "$HOME/.config/shell/aliasrc"
-
 # use vim/kak mode
 # PS0="\e[2 q\2"
 set -o vi
@@ -20,6 +16,15 @@ set -o vi
 
 # bind control l
 bind -x '"\C-l":"clear -x"'
+
+# source aliases and some functions which work like aliases
+# it is also sourced by zsh
+[ -f "$HOME/.config/shell/aliasrc" ] && source "$HOME/.config/shell/aliasrc"
+
+# source fzf completion and key-bindings
+# export FZF_COMPLETION_TRIGGER='**'
+[ -f "/usr/share/doc/fzf/completion.bash" ] && source "/usr/share/doc/fzf/completion.bash"
+[ -f "/usr/share/doc/fzf/key-bindings.bash" ] && source "/usr/share/doc/fzf/key-bindings.bash"
 
 ## <https://wiki.bash-hackers.org/internals/shell_options>
 
@@ -44,14 +49,13 @@ shopt -s nocaseglob
 
 bind 'tab:menu-complete'
 
-# ------------------------------------------------
-# [ BASH HISTORY ]
-# ------------------------------------------------
+## bash history
+
 # export HISTTIMEFORMAT='%f %t '
 export HISTSIZE=
 export HISTFILESIZE=
 export HISTCONTROL="erasedups:ignoreboth"
-export HISTIGNORE="pwd:exit:clear:"
+export HISTIGNORE="pwd:exit:clear"
 # export HISTIGNORE="cd:pwd:exit:q:c:e:ea:et::fe:clear:nnn:n3:xb*():curl"
 # export HISTFILE="$HOME"/.cache/bash/bash_history
 
@@ -103,6 +107,10 @@ complete -F _complete_alias xq
 _completion_loader git
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main ucon
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rcon
+
+# fzf complete for kak
+_fzf_setup_completion path kak
+_fzf_setup_completion path ka
 
 # initalize zoxide
 eval "$(zoxide init bash)"

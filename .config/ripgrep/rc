@@ -1,0 +1,11 @@
+# ripgrep
+
+# limit max number of columns
+# --max-columns=150
+# --max-columns-preview
+
+# Using glob patterns to include/exclude files or folders
+--glob
+!git/*
+
+--smart-case
