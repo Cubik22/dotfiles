@@ -87,11 +87,6 @@ _fzf_compgen_dir() {
 
 # set wayland environment variables and start river
 if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty1" ]; then
-	# Cursor
-	# remember to change also in river
-	export XCURSOR_THEME=Adwaita
-	export XCURSOR_SIZE=20
-	
 	# session and desktop
 	export XDG_SESSION_TYPE=wayland
 	export XDG_SESSION_DESKTOP=river
@@ -136,6 +131,12 @@ if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty
 	# set GTK theme
 	# export GTK_THEME=Adwaita:dark
 
+	# Cursor
+	# remember to change also in river (.config/river/init)
+	# remember to change also .icons/default/index.theme
+	export XCURSOR_THEME=Adwaita
+	export XCURSOR_SIZE=20
+	
 	# wob pipe directory
 	export WOB_PIPE="/tmp/wobpipe"
 	
