@@ -14,10 +14,10 @@ alias su="su --login --whitelist-environment=WAYLAND_DISPLAY"
 # ls
 lsplus="ls --color=auto --group-directories-first --format=horizontal --human-readable"
 alias ls="$lsplus"
-alias lsa="$lsplus -a"
-alias lsl="$lsplus -l"
-alias lsal="$lsplus -a -l"
-alias lsla="$lsplus -l -a"
+alias la="$lsplus -a"
+alias ll="$lsplus -l"
+alias lal="$lsplus -a -l"
+alias lla="$lsplus -l -a"
 cdl () {
     cd "$@"
     eval "$lsplus"
@@ -105,8 +105,14 @@ phel () {
     echo "bluetoothctl default-agent/power on/scan on/trust <device>/connect <device>"
     echo
     echo "AUDIO"
-    echo "alsamixer (alsa)"
+    echo "amixer/alsamixer (alsa)"
     echo "pactl (pipewire)"
+    echo
+    echo "RUNIT"
+    echo "ln -s /etc/sv/<service> /var/service/"
+    echo "ln -s /etc/sv/<service> /etc/runit/runsvdir/default/"
+    echo "touch /etc/sv/<service>/down"
+    echo "servstat (info services)"
     echo
     echo "REMOVABLE DRIVE"
     echo "udisksctl (un)mount -b <drive (from lsblk)>"
