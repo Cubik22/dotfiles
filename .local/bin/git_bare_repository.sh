@@ -8,6 +8,9 @@ git_dir="$HOME"/.dotfiles
 
 email="lorenzo.bianco22@protonmail.com"
 
+# when changing user name change
+# HOME/.config/mpv/script-opts/mpv_crop_script.conf
+
 # clone repository
 git clone --bare https://github.com/Cubik22/dotfiles.git "$git_dir"
 
