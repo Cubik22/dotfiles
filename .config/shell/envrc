@@ -108,7 +108,9 @@ if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty
 
 	# SDL
 	export SDL_VIDEODRIVER=wayland
-
+	# if no sound in SDL applications
+	# export SDL_AUDIODRIVER=alsa
+	
 	# Clutter
 	#export CLUTTER_BACKEND=wayland
 
