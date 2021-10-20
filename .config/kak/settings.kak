@@ -163,6 +163,9 @@ map global normal '<a-#>' :comment-block<ret> -docstring 'comment block'
 
 map global normal = '|fmt -w $kak_opt_autowrap_column<ret>' -docstring 'wrap lines'
 
+# remap a to enter insert mode without also selecting a character
+map global normal a li -docstring 'enter insert mode after cursor'
+
 # wrap to 80 characters
 # map global user f '|fmt -w 80<ret>' -docstring 'wrap to 80'
 
@@ -175,9 +178,13 @@ map global normal ?     '?(?i)'
 map global normal <a-/> '<a-/>(?i)'
 map global normal <a-?> '<a-?>(?i)'
 
-# insert mode
+# insert mode go to start/end line
 map global insert <c-a> <home>
 map global insert <c-e> <end>
+
+# insert mode enter normal mode start/end line
+map global insert <a-a> <home><esc>
+map global insert <a-e> <end><esc>
 
 # map global insert <c-p> <a-semicolon>P
 

@@ -96,6 +96,9 @@ doas /usr/bin/git --git-dir=/root/config/ --work-tree=/ push --set-upstream http
 rm -f "$HOME"/README.md
 config update-index --assume-unchanged "$HOME"/README.md
 
+# also untrack data files
+config update-index --assume-unchanged "$HOME/.local/share/state/brightness_level"
+
 # set git to remeber credentials (danger but with github token you can give small permission)
 #git config --global credential.helper store
 

@@ -110,17 +110,34 @@ phel () {
     # TODO: expand print help
 }
 
-zat () {
-	if [ "$#" -ne 2 ]; then
-    	echo "insert two parameters:"
-    	echo "first parameter file"
-    	echo "second parameter tag"
-	else
-    	file="$1"
-    	tag="$2"
-    	riverctl set-focused-tags "$((1 << ("$tag" - 1)))"
-    	zathura "$file" &
+spa () {
+	if [ "$#" -lt 2 ]; then
+    	echo "insert at least two parameters"
+    	echo "first parameter: tag"
+    	echo "second parameter: program"
+    	echo "following parameters (optional): arguments of program"
+    	return 1
 	fi
+	tag="$1"
+	program="$2"
+	# shift arguments by two, now 3 becomes 0
+	shift 2
+    riverctl set-focused-tags "$((1 << ("$tag" - 1)))"
+	eval '"$program" "$@" &'
+}
+
+zat () {
+	if [ "$#" -lt 2 ]; then
+    	echo "insert at least two parameters"
+    	echo "first parameter: tag"
+    	echo "other parameters: arguments"
+    	return 1
+	fi
+    tag="$1"
+	# shift arguments by two, now 3 becomes 0
+	shift 1
+    riverctl set-focused-tags "$((1 << ("$tag" - 1)))"
+    zathura "$@" &
 }
 
 # before push unlock bitwarden
@@ -218,8 +235,8 @@ nnn () {
     nnn "$@"
 
     if [ -f "$NNN_TMPFILE" ]; then
-            . "$NNN_TMPFILE"
-            rm -f "$NNN_TMPFILE" > /dev/null
+    	. "$NNN_TMPFILE"
+    	rm -f "$NNN_TMPFILE" > /dev/null
     fi
 }
 
