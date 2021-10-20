@@ -139,6 +139,6 @@ if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty
 	# wob pipe directory
 	export WOB_PIPE="/tmp/wobpipe"
 	
-	# finally start river
-	exec river
+	# finally start river with a dbus-session
+	exec dbus-run-session river
 fi
