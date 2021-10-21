@@ -8,7 +8,7 @@ foot --server &
 # Start pipewire (before waybar otherwise PulseAudio module may not start)
 pipewire &
 pipewire-pulse &
-#pipewire-media-session &
+# pipewire-media-session &
 
 # start waybar
 waybar &
@@ -34,7 +34,7 @@ mkfifo "$WOB_PIPE"
 tail -f "$WOB_PIPE" | wob --anchor "top" --anchor "right" &
 
 # scale everything (problems with partial scaling)
-#wlr-randr --output eDP-1 --scale 1.25
+# wlr-randr --output eDP-1 --scale 1.25
 
 # Use the "logo" key as the primary modifier
 mod="Mod4"
@@ -45,7 +45,7 @@ mod="Mod4"
 riverctl map normal $mod+Control Return spawn footclient
 
 # C chromium
-#riverctl map normal $mod+Control C spawn "chromium --force-dark-mode --enable-features=UseOzonePlatform,WebUIDarkMode --ozone-platform=wayland"
+# riverctl map normal $mod+Control C spawn "chromium --force-dark-mode --enable-features=UseOzonePlatform,WebUIDarkMode --ozone-platform=wayland"
 
 # F firefox
 riverctl map normal $mod+Control F spawn firefox-wayland
@@ -57,7 +57,7 @@ riverctl map normal $mod+Control+Shift F spawn "firefox-wayland -private-window"
 
 ### Windows
 
-# screenshots
+# screenshots with grim and slurp
 riverctl map normal $mod S spawn 'grim -g "$(slurp)" - | wl-copy-env'
 
 # Mod+Q to close the focused view
@@ -183,7 +183,7 @@ for mode in normal locked; do
     riverctl map $mode None XF86AudioLowerVolume spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%; print-volume-pactl > $WOB_PIPE"
     riverctl map $mode None XF86AudioMute spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle; print-volume-mute-status-pactl > $WOB_PIPE"
 
-    # control MPRIS aware media players with playerctl (https://github.com/altdesktop/playerctl)
+    # control MPRIS aware media players with playerctl
     riverctl map $mode None XF86AudioMedia spawn 'playerctl play-pause'
     riverctl map $mode None XF86AudioPlay  spawn 'playerctl play-pause'
     riverctl map $mode None XF86AudioPrev  spawn 'playerctl previous'
@@ -205,8 +205,8 @@ riverctl attach-mode bottom
 # Set background and border color
 riverctl background-color 0x1d2021
 # default
-#riverctl border-color-focused 0x93a1a1
-#riverctl border-color-unfocused 0x586e75
+# riverctl border-color-focused 0x93a1a1
+# riverctl border-color-unfocused 0x586e75
 # new
 riverctl border-color-focused 0x6e6e6e
 riverctl border-color-unfocused 0x525252 
@@ -263,11 +263,11 @@ riverctl default-layout rivertile
 exec rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.5
 
 # starting with runit
-#svdir="/tmp/$(id -u)-sv-${WAYLAND_DISPLAY}"
+# svdir="/tmp/$(id -u)-sv-${WAYLAND_DISPLAY}"
 
-#pgrep -f "^runsvdir ${svdir}" && exec echo "runsvdir already running for wayland session"
+# pgrep -f "^runsvdir ${svdir}" && exec echo "runsvdir already running for wayland session"
 
 # recursive, deref links, preserve mode, if target is a dir, overwrite instead of copying into it
-#cp -rLpT ~/.local/sv $svdir
+# cp -rLpT ~/.local/sv $svdir
 
-#exec runsvdir $svdir
+# exec runsvdir $svdir
