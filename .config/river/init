@@ -1,19 +1,6 @@
 #!/bin/sh
 
-# This is the example configuration file for river.
-#
-# If you wish to edit this, you will probably want to copy it to
-# $XDG_CONFIG_HOME/river/init or $HOME/.config/river/init first.
-#
-# See the river(1), riverctl(1), and rivertile(1) man pages for complete
-# documentation.
-
-# Set and exec into the default layout generator, rivertile.
-# River will send the process group of the init executable SIGTERM on exit
-riverctl default-layout rivertile
-
-# start rivertile without padding
-rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.5 &
+### start all program/services in the background
 
 # start foot server
 foot --server &
@@ -43,8 +30,8 @@ if [ -p "$WOB_PIPE" ]; then
     killall wob
 	rm -f "$WOB_PIPE"
 fi
-mkfifo $WOB_PIPE
-tail -f $WOB_PIPE | wob --anchor "top" --anchor "right" &
+mkfifo "$WOB_PIPE"
+tail -f "$WOB_PIPE" | wob --anchor "top" --anchor "right" &
 
 # scale everything (problems with partial scaling)
 #wlr-randr --output eDP-1 --scale 1.25
@@ -52,7 +39,7 @@ tail -f $WOB_PIPE | wob --anchor "top" --anchor "right" &
 # Use the "logo" key as the primary modifier
 mod="Mod4"
 
-### APP Mode+Control ###
+### Programs Mode+Control
 
 # Return footclient 
 riverctl map normal $mod+Control Return spawn footclient
@@ -68,7 +55,7 @@ riverctl map normal $mod+Control+Shift F spawn "firefox-wayland -private-window"
 # Z zathura
 # riverctl map normal $mod+Control Z spawn "zathura $zopen"
 
-### WINDOWS ###
+### Windows
 
 # screenshots
 riverctl map normal $mod S spawn 'grim -g "$(slurp)" - | wl-copy-env'
@@ -131,21 +118,20 @@ riverctl map-pointer normal $mod BTN_LEFT move-view
 # Mod + Right Mouse Button to resize views
 riverctl map-pointer normal $mod BTN_RIGHT resize-view
 
-for i in $(seq 1 9)
-do
-    tags=$((1 << ($i - 1)))
+for i in $(seq 1 9); do
+    tags=$((1 << (i - 1)))
 
     # Mod+[1-9] to focus tag [1-9]
-    riverctl map normal $mod $i set-focused-tags $tags
+    riverctl map normal $mod "$i" set-focused-tags $tags
 
     # Mod+Shift+[1-9] to tag focused view with tag [1-9]
-    riverctl map normal $mod+Shift $i set-view-tags $tags
+    riverctl map normal $mod+Shift "$i" set-view-tags $tags
 
     # Mod+Ctrl+[1-9] to toggle focus of tag [1-9]
-    riverctl map normal $mod+Control $i toggle-focused-tags $tags
+    riverctl map normal $mod+Control "$i" toggle-focused-tags $tags
 
     # Mod+Shift+Ctrl+[1-9] to toggle tag [1-9] of focused view
-    riverctl map normal $mod+Shift+Control $i toggle-view-tags $tags
+    riverctl map normal $mod+Shift+Control "$i" toggle-view-tags $tags
 done
 
 # Mod+0 to focus all tags
@@ -177,8 +163,7 @@ riverctl map normal $mod F11 enter-mode passthrough
 riverctl map passthrough $mod F11 enter-mode normal
 
 # Various media key mapping
-for mode in normal locked
-do
+for mode in normal locked; do
     # eject the optical drive
     riverctl map $mode None XF86Eject spawn 'eject -T'
 
@@ -252,23 +237,30 @@ riverctl csd-filter-add app-id "gedit"
 # Input set all touchpads (so it works on multiple machines)
 touchpads="$(riverctl list-inputs | grep -i touchpad)"
 
-while read touchpad; do
-	riverctl input $touchpad events enabled
-	riverctl input $touchpad accel-profile none
-	riverctl input $touchpad disable-while-typing enabled
-	riverctl input $touchpad middle-emulation enabled
-	riverctl input $touchpad natural-scroll enabled
-	riverctl input $touchpad left-handed disabled
-	riverctl input $touchpad scroll-method two-finger
+while read -r touchpad; do
+	riverctl input "$touchpad" events enabled
+	riverctl input "$touchpad" accel-profile none
+	riverctl input "$touchpad" disable-while-typing enabled
+	riverctl input "$touchpad" middle-emulation enabled
+	riverctl input "$touchpad" natural-scroll enabled
+	riverctl input "$touchpad" left-handed disabled
+	riverctl input "$touchpad" scroll-method two-finger
 done <<EOT
 $(echo "$touchpads")
 EOT
 
 # start with an instance of foot
-# exec riverctl spawn footclient
+# riverctl spawn footclient
 
 # init-river-session
-init-river-session
+init-river-session &
+
+# Set and exec into the default layout generator, rivertile.
+# River will send the process group of the init executable SIGTERM on exit
+riverctl default-layout rivertile
+
+# start rivertile without padding
+exec rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.5
 
 # starting with runit
 #svdir="/tmp/$(id -u)-sv-${WAYLAND_DISPLAY}"
