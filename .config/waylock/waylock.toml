@@ -2,8 +2,23 @@
 
 [colors]
 # Specify the initial color of the lock screen.
-init_color = 0xebdbb2
+# white
+# init_color = 0xebdbb2
+# black
+init_color = 0x1d2021
+
 # Specify the color of the lock screen after input is received.
+# green bright
 input_color = 0xb8bb26
+# green normal
+# input_color = 0x98971a
+# blue light
+# input_color = 0x83a598
+# blue normal
+# input_color = 0x458588
+
 # Specify the color of the lock screen on authentication failure.
-fail_color = 0xfb4934
+# red light
+# fail_color = 0xfb4934
+# red normal
+fail_color = 0xcc241d

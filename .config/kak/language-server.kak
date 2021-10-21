@@ -9,6 +9,8 @@ evaluate-commands %sh{kak-lsp --kakoune -s $kak_session}
 # }
 
 hook global WinSetOption filetype=(sh|c|cpp|rust|zig|python|html|css|json|javascript|typescript) %{
+    # attention when a file has include if there is not a space between the # it interpret the file as a c/cpp
+
 	# expandtab
     lsp-enable-window
 	# lsp-auto-hover-enable

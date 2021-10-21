@@ -13,13 +13,13 @@ alias su="su --login --whitelist-environment=WAYLAND_DISPLAY"
 
 # ls
 lsplus="ls --color=auto --group-directories-first --format=horizontal --human-readable"
-alias ls="$lsplus"
-alias la="$lsplus -a"
-alias ll="$lsplus -l"
-alias lal="$lsplus -a -l"
-alias lla="$lsplus -l -a"
+alias ls='$lsplus'
+alias la='$lsplus -a'
+alias ll='$lsplus -l'
+alias lal='$lsplus -a -l'
+alias lla='$lsplus -l -a'
 cdl () {
-    cd "$@"
+    cd "$@" || return
     eval "$lsplus"
 }
 alias trexa="exa --long --header --modified --git --tree --color=auto --icons --all --group-directories-first"
@@ -90,9 +90,9 @@ alias gsa="git stash"
 alias gpl="git pull"
 
 # void mirrors in order to quickly change when one si slow (R flag)
-mirror1="https://alpha.de.repo.voidlinux.org/current/musl"
-mirror2="https://mirrors.servercentral.com/voidlinux/current/musl"
-mirror3="https://alpha.us.repo.voidlinux.org/current/musl"
+export mirror1="https://alpha.de.repo.voidlinux.org/current/musl"
+export mirror2="https://mirrors.servercentral.com/voidlinux/current/musl"
+export mirror3="https://alpha.us.repo.voidlinux.org/current/musl"
 
 # print informations
 phel () {
@@ -119,22 +119,6 @@ phel () {
     # TODO: expand print help
 }
 
-spa () {
-	if [ "$#" -lt 2 ]; then
-    	echo "insert at least two parameters"
-    	echo "first parameter: tag"
-    	echo "second parameter: program"
-    	echo "following parameters (optional): arguments of program"
-    	return 1
-	fi
-	tag="$1"
-	program="$2"
-	# shift arguments by two, now 3 becomes 0
-	shift 2
-    riverctl set-focused-tags "$((1 << ("$tag" - 1)))"
-	eval '"$program" "$@" &'
-}
-
 zat () {
 	if [ "$#" -lt 2 ]; then
     	echo "insert at least two parameters"
@@ -146,7 +130,7 @@ zat () {
 	# shift arguments by two, now 3 becomes 0
 	shift 1
     riverctl set-focused-tags "$((1 << ("$tag" - 1)))"
-    zathura "$@" &
+    riverctl spawn "zathura $*"
 }
 
 # before push unlock bitwarden
@@ -223,7 +207,7 @@ rcon () {
 # nnn audocd when pressing ^G
 nnn () {
     # Block nesting of nnn in subshells
-    if [ -n $NNNLVL ] && [ "${NNNLVL:-0}" -ge 1 ]; then
+    if [ -n "$NNNLVL" ] && [ "${NNNLVL:-0}" -ge 1 ]; then
         echo "nnn is already running"
         return
     fi
@@ -273,6 +257,9 @@ else
 
 	alias poweroff="doas poweroff"
 	alias reboot="doas reboot"
+
+	alias zzz="doas zzz"
+	alias ZZZ="doas ZZZ"
 
 	alias dn3="doas nnn"
 	alias dnv="doas nvim"

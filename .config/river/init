@@ -13,7 +13,7 @@
 riverctl default-layout rivertile
 
 # start rivertile without padding
-rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.6 &
+rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.5 &
 
 # start foot server
 foot --server &
@@ -33,6 +33,10 @@ wlsunset -l 46.5 -L 6.6 &
 
 # libinput-gestures
 libinput-gestures &
+
+# load brightness level
+adjust_brightness.sh load &
+# echo "brightness level is: $(adjust_brightness.sh load)"
 
 # wob
 if [ -p "$WOB_PIPE" ]; then
@@ -205,8 +209,9 @@ do
 	riverctl map $mode None XF86MonBrightnessDown spawn "adjust_brightness.sh down > $WOB_PIPE"
 
 	# Map power off key to lock system
+	# done with acpi
 	# riverctl map normal None XF86PowerOff spawn "waylock --init-color 0xebdbb2 --input-color 0xb8bb26 --fail-color 0xfb4934"
-	riverctl map $mode None XF86PowerOff spawn "waylock"
+	# riverctl map $mode None XF86PowerOff spawn "waylock"
 done
 
 # Spawn new window in less important part
@@ -260,7 +265,10 @@ $(echo "$touchpads")
 EOT
 
 # start with an instance of foot
-exec riverctl spawn footclient
+# exec riverctl spawn footclient
+
+# init-river-session
+init-river-session
 
 # starting with runit
 #svdir="/tmp/$(id -u)-sv-${WAYLAND_DISPLAY}"

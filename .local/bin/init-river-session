@@ -1,0 +1,19 @@
+#!/bin/sh
+
+pos_foot="$((1 << (1 - 1)))"
+first_firefox="$((1 << (9 - 1)))"
+second_firefox="$((1 << (8 - 1)))"
+
+riverctl set-focused-tags "$second_firefox"
+
+riverctl spawn firefox-wayland
+
+sleep 2
+
+riverctl set-view-tags "$first_firefox"
+
+sleep 2
+
+riverctl set-focused-tags "$pos_foot"
+
+riverctl spawn footclient
