@@ -132,7 +132,9 @@ curl -L https://github.com/zigtools/zls/releases/download/0.1.0/x86_64-linux.tar
 doas cp "$zls_dir/zls" /usr/local/bin/
 
 # html css json
-doas npm install -g vscode-{html,css,json}-languageserver-bin
+doas npm install -g vscode-html-languageserver-bin
+doas npm install -g vscode-css-languageserver-bin
+doas npm install -g vscode-json-languageserver-bin
 
 # javascript typescript
 doas npm install -g javascript-typescript-langserver
