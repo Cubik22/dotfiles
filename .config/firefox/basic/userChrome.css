@@ -1,4 +1,8 @@
-/* Drag space */
+/*** chrome.css ***/
+
+/* with privacy.resistFingerprinting tab do not start from top left */
+
+/* drag space */
 .titlebar-placeholder[type="pre-tabs"],
 .titlebar-placeholder[type="post-tabs"] {
 	width: 0px !important;

@@ -27,17 +27,20 @@ alias trexa="exa --long --header --modified --git --tree --color=auto --icons --
 # color stuff
 alias dir="dir --color=auto"
 alias vdir="vdir --color=auto"
-alias grep="grep --color=auto"
-alias fgrep="fgrep --color=auto"
-alias egrep="egrep --color=auto"
 alias diff="diff --color=auto"
 alias ip="ip -color=auto"
+alias grep="grep --color=auto"
 
-# confirm before overwriting something and verbose
+# ignore case
+alias grepi="grep --color=auto"
+alias rgi="rg -i"
+
+# verbose and recursive
 alias mkdir="mkdir -pv"
 alias cp="cp -r"
 # alias mv='mv'
-alias rm='echo "in order to move the file/directory in the trash use trash-put"; rm'
+# alias rm='echo "in order to move the file/directory in the trash use trash-put"; rm'
+alias rmr="rm -r"
 
 alias ..="cd .."
 alias cd..="cd .."
@@ -116,6 +119,9 @@ phel () {
     echo
     echo "REMOVABLE DRIVE"
     echo "udisksctl (un)mount -b <drive (from lsblk)>"
+    echo
+    echo "DECOMPRESSION"
+    echo "aunpack (atool)"
     # TODO: expand print help
 }
 
