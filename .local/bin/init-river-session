@@ -18,8 +18,8 @@ sleep 2
 
 riverctl set-view-tags "$first_firefox"
 
-# sleep for some less time, river has just to change the tag assigned to the window
-sleep 1
+# sleep again for some time, river has to change the tag assigned to the window
+sleep 2
 
 riverctl set-focused-tags "$pos_foot"
 
