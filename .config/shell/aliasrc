@@ -267,6 +267,8 @@ else
 	alias zzz="doas zzz"
 	alias ZZZ="doas ZZZ"
 
+	alias powertop="doas powertop"
+
 	alias dn3="doas nnn"
 	alias dnv="doas nvim"
 	alias dka="doas kak"
