@@ -76,6 +76,10 @@ doas ln -s "$HOME"/.config/kak /root/.config/
 doas ln -s "$HOME"/.config/kak-lsp /root/.config/
 doas ln -s "$HOME"/.local/share/kak /root/.local/share/
 
+# wob
+mkdir -p "$HOME/.local/share/state"
+touch "$HOME/.local/share/state/brightness_level"
+
 # R
 # make sure directories are created otherwise there may be problems
 mkdir -p "$HOME/.local/share/R"
