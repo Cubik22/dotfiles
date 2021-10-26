@@ -76,6 +76,11 @@ doas ln -s "$HOME"/.config/kak /root/.config/
 doas ln -s "$HOME"/.config/kak-lsp /root/.config/
 doas ln -s "$HOME"/.local/share/kak /root/.local/share/
 
+# R
+# make sure directories are created otherwise there may be problems
+mkdir -p "$HOME/.local/share/R"
+mkdir -p "$HOME/.local/lib/R"
+
 export RUSTUP_HOME="/usr/local"
 export CARGO_HOME="/usr/local"
 

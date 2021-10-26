@@ -2,12 +2,12 @@
 # envrc
 
 # XDG
-#export XDG_DOCUMENTS_DIR="${HOME}/doc"
-#export XDG_DOWNLOAD_DIR="${HOME}/dow"
 export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_CACHE_HOME="${HOME}/.cache"
 export XDG_DATA_HOME="${HOME}/.local/share"
 export XDG_STATE_HOME="${HOME}/.local/state"
+#export XDG_DOCUMENTS_DIR="${HOME}/doc"
+#export XDG_DOWNLOAD_DIR="${HOME}/dow"
 
 # runtime dir
 idu="$(id -u)"
@@ -18,7 +18,7 @@ export XDG_RUNTIME_DIR="/run/user/$idu"
 export ZDOTDIR="${XDG_CONFIG_HOME}/shell"
 
 # ripgrep config file
-export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/rc"
+export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgrep/rc"
 
 # gpg
 # export GPG_TTY="$(tty)"
@@ -31,6 +31,13 @@ export GTK2_RC_FILES="${XDG_CONFIG_HOME}/gtk-2.0/config"
 export C_INCLUDE_PATH="${HOME}/.local/include"
 export LD_LIBRARY_PATH="${HOME}/.local/lib"
 export PKG_CONFIG_PATH="${HOME}/.local/lib/pkgconfig"
+
+# R
+export R_HOME_USER="${XDG_DATA_HOME}/R"
+export R_LIBS_USER="${HOME}/.local/lib/R"
+export R_ENVIRON_USER="${XDG_CONFIG_HOME}/R/renviron"
+export R_PROFILE_USER="${XDG_CONFIG_HOME}/R/rprofile"
+export R_HISTFILE="${XDG_DATA_HOME}/R/rhistory"
 
 # paths
 export MANPATH="/usr/share/man:${HOME}/.local/share/man"
