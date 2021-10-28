@@ -46,6 +46,8 @@ shopt -s globstar 2>/dev/null
 shopt -s histappend
 # case-insensitive globbing
 shopt -s nocaseglob
+# expand aliases
+# shopt -s expand_aliases
 
 bind 'tab:menu-complete'
 
