@@ -64,7 +64,7 @@
 			//"default": ""
 	    	//"default": ["", ""]
         },
-        "on-click": "mute_unmute_audio.sh"
+        "on-click": "toggle_volume.sh toggle"
     },
 
     "temperature": {
@@ -117,13 +117,13 @@
         // Connected to AC
         "format": " {capacity}%", // Icon: bolt
         // Not connected to AC
-        "format-discharging": "  {capacity}%",
+        "format-discharging": "{icon}  {capacity}%",
         "format-icons": [
-            "", // Icon: battery-full
-            "", // Icon: battery-three-quarters
+            "", // Icon: battery-empty
+            "", // Icon: battery-quarter
             "", // Icon: battery-half
-            "", // Icon: battery-quarter
-            ""  // Icon: battery-empty
+            "", // Icon: battery-three-quarters
+            ""  // Icon: battery-full
         ],
 		// TODO: create script using "upower -d"
 		"on-click": "riverctl spawn 'foot doas powertop'"

@@ -78,7 +78,8 @@ doas ln -s "$HOME"/.local/share/kak /root/.local/share/
 
 # wob
 mkdir -p "$HOME/.local/share/state"
-touch "$HOME/.local/share/state/brightness_level"
+echo "5" > "$HOME/.local/share/state/brightness_level"
+echo "off" > "$HOME/.local/share/state/audio_status"
 
 # R
 # make sure directories are created otherwise there may be problems
@@ -136,7 +137,7 @@ doas rustup component add rls rust-analysis rust-src
 
 # zig
 zls_dir="$HOME/dev/zig/zls"
-mkdir -p $zls_dir
+mkdir -p "$zls_dir"
 curl -L https://github.com/zigtools/zls/releases/download/0.1.0/x86_64-linux.tar.xz | tar -xJ --strip-components=1 -C "$zls_dir"
 doas cp "$zls_dir/zls" /usr/local/bin/
 

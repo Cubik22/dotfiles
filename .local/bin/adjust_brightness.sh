@@ -1,16 +1,17 @@
 #!/bin/sh
 
 if [ "$#" -ne 1 ]; then
-    echo "please insert one parameter: 'up' 'down' 'load'"
+	echo "please insert one parameter: 'up' 'down' 'load'"
     echo "you inserted $# parameters"
-    exit
+    return 1
 fi
 
 mode=$1
 
 if [ "$mode" != "up" ] && [ "$mode" != "down" ] && [ "$mode" != "load" ]; then
-   echo "please pass as a parameter: 'up' 'down' 'load'"
-   exit
+	echo "please pass as a parameter: 'up' 'down' 'load'"
+	echo "you passed $*"
+	return 1
 fi
 
 Brightness_Path="/sys/class/backlight/intel_backlight/brightness"

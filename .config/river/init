@@ -21,10 +21,6 @@ wlsunset -l 46.5 -L 6.6 &
 # libinput-gestures
 libinput-gestures &
 
-# load brightness level
-adjust_brightness.sh load &
-# echo "brightness level is: $(adjust_brightness.sh load)"
-
 # wob
 if [ -p "$WOB_PIPE" ]; then
     killall wob
