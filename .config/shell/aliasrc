@@ -49,7 +49,8 @@ alias cd..="cd .."
 alias space="du -sh"
 alias n3="nnn"
 alias nv="nvim"
-alias ka="kak"
+alias kak="kak-smart no"
+alias ka="kak-smart no"
 alias xq="xbps-query"
 alias xs="xbps-query -s"
 #alias chromium="ungoogled_chromium.sh"
@@ -127,9 +128,26 @@ phel () {
     # TODO: expand print help
 }
 
-kak () {
+# supposed to be used just with aliases
+kak-smart () {
 	# cd if directory
 	# open with kak if file
+
+	# first parameter check if running as root
+	if [ "$#" -le 0 ]; then
+	    echo "please insert the first parameter: whether or no to run as root"
+	    return 1
+	fi
+
+	root="$1"
+
+	if [ "$root" != "yes" ] && [ "$root" != "no" ]; then
+    	echo "the first parameter determine if running as root or not"
+    	echo "values accepted are yes or no"
+    	return 1
+    fi
+
+	shift 1
 
 	if [ "$#" -le 0 ]; then
 	    echo "please insert a parameter: directory or file"
@@ -141,7 +159,11 @@ kak () {
 	if [ -d "$arg" ]; then
 	    cd "$arg" || return 1
 	elif [ -f "$arg" ]; then
-	    /bin/kak "$arg"
+		if [ "$root" = "no" ]; then
+	    	/bin/kak "$arg"
+	    elif [ "$root" = "yes" ]; then
+    	    doas /bin/kak "$arg"
+		fi
 	else
 	    # if is not an existing directory or file
 	    # if nevertheless exists then do not open it
@@ -149,9 +171,13 @@ kak () {
 	    if [ -e "$arg" ]; then
 	        echo "the argument exists but is neither a directory or file"
 	        /bin/ls --color=auto --human-readable -l "$arg"
-	        /bin/file "$arg"
+    	    /bin/file "$arg"
 	    else
-	        /bin/kak "$arg"
+			if [ "$root" = "no" ]; then
+	    		/bin/kak "$arg"
+	    	elif [ "$root" = "yes" ]; then
+    		    doas /bin/kak "$arg"
+			fi
 	    fi
 	fi
 }
@@ -302,5 +328,5 @@ else
 
 	alias dn3="doas nnn"
 	alias dnv="doas nvim"
-	alias dka="doas kak"
+	alias dka="kak-smart yes"
 fi
