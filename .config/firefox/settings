@@ -8,6 +8,7 @@ layout.css.math-depth.enabled										true
 mousewheel.default.delta_multiplier_x								20
 mousewheel.default.delta_multiplier_y								25
 mousewheel.default.delta_multiplier_z								20
+# may give video problems
 media.ffmpeg.vaapi.enabled											true
 
 browser.newtabpage.activity-stream.default.sites					""

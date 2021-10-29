@@ -15,6 +15,7 @@ user_pref("mousewheel.default.delta_multiplier_x", 20);
 user_pref("mousewheel.default.delta_multiplier_y", 25);
 user_pref("mousewheel.default.delta_multiplier_z", 20);
 /* enable hardware acceleration */
+/* may give video problems */
 user_pref("media.ffmpeg.vaapi.enabled", true);
 /* remove picture-in-picture control */
 user_pref("media.videocontrols.picture-in-picture.video-toggle.enabled", false);

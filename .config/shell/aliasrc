@@ -63,6 +63,7 @@ alias iwdscan="iwctl station wlan0 scan;"
 
 # bluetooth
 alias bluescan="bluetoothctl scan on;"
+alias bluectl="bluetoothctl"
 
 # human-readable sizes
 alias df='df -h'
