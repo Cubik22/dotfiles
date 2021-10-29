@@ -1,93 +1,202 @@
-#!/bin/zsh
-# functionrc
+#!/bin/bash
 
-man() {
-    LESS_TERMCAP_md=$'\e[01;34m' \
-    LESS_TERMCAP_me=$'\e[0m' \
-    LESS_TERMCAP_se=$'\e[0m' \
-    LESS_TERMCAP_so=$'\e[01;44;90m' \
-    LESS_TERMCAP_ue=$'\e[0m' \
-    LESS_TERMCAP_us=$'\e[01;32m' \
-    command man "$@"
+# functionrc
+# functions for bash and zsh
+
+# print informations
+phel () {
+    echo "WIFI"
+    echo "iwdscan"
+    echo "iwctl station wlan0 show/scan/get-networks/(dis)connect"
+    echo
+    echo "BLUEZ"
+    echo "blueon blueoff bluescan"
+    echo "bluetoothctl default-agent/power on/scan on/trust <device>/connect <device>"
+    echo
+    echo "AUDIO"
+    echo "amixer/alsamixer (alsa)"
+    echo "pactl (pipewire)"
+    echo
+    echo "RUNIT"
+    echo "ln -s /etc/sv/<service> /var/service/"
+    echo "ln -s /etc/sv/<service> /etc/runit/runsvdir/default/"
+    echo "touch /etc/sv/<service>/down"
+    echo "servstat (info services)"
+    echo
+    echo "REMOVABLE DRIVE"
+    echo "udisksctl (un)mount -b <drive (from lsblk)>"
+    echo
+    echo "DECOMPRESSION"
+    echo "aunpack (atool)"
+    # TODO: expand print help
 }
 
-# resume the most recently stopped job
-better-ctrl-z () {
-    # if the list of stopped jobs is not empty
-    if [[ -n $(jobs -sp) ]]; then
-        # if the current buffer is not empty
-        if [[ $#BUFFER -ne 0 ]]; then
-            # save whatever is in the current buffer for later
-            zle push-input
-        fi
-        # put the command to resume the most recently stopped job on the buffer
-        # BUFFER="fg %$(jobs -sp | tail -n 1 | cut -c 2)"
-        BUFFER="fg"
-        # run the command currently on the buffer
-        zle accept-line
+# wrapper around kak
+# cd if directory
+# open with kak if file
+# supposed to be used just with aliases
+kak-smart () {
+	# first parameter check if running as root
+	if [ "$#" -le 0 ]; then
+	    echo "please insert the first parameter: whether or no to run as root"
+	    return 1
+	fi
+
+	root="$1"
+
+	if [ "$root" != "yes" ] && [ "$root" != "no" ]; then
+    	echo "the first parameter determine if running as root or not"
+    	echo "values accepted are yes or no"
+    	return 1
+    fi
+
+	shift 1
+
+	if [ "$#" -le 0 ]; then
+	    echo "please insert a parameter: directory or file"
+	    return 1
+	fi
+
+	arg="$1"
+
+	if [ -d "$arg" ]; then
+	    cd "$arg" || return 1
+	elif [ -f "$arg" ]; then
+		if [ "$root" = "no" ]; then
+	    	/bin/kak "$arg"
+	    elif [ "$root" = "yes" ]; then
+    	    doas /bin/kak "$arg"
+		fi
+	else
+	    # if is not an existing directory or file
+	    # if nevertheless exists then do not open it
+	    # if it does not exists then can be opened as a file by kak
+	    if [ -e "$arg" ]; then
+	        echo "the argument exists but is neither a directory or file"
+	        /bin/ls --color=auto --human-readable -l "$arg"
+    	    /bin/file "$arg"
+	    else
+			if [ "$root" = "no" ]; then
+	    		/bin/kak "$arg"
+	    	elif [ "$root" = "yes" ]; then
+    		    doas /bin/kak "$arg"
+			fi
+	    fi
+	fi
+}
+
+# spawn zathura in a specified river tag
+# better spa (global script)
+zat () {
+	if [ "$#" -lt 2 ]; then
+    	echo "insert at least two parameters"
+    	echo "first parameter: tag"
+    	echo "other parameters: arguments"
+    	return 1
+	fi
+    tag="$1"
+	# shift arguments by two, now 3 becomes 0
+	shift 1
+    riverctl set-focused-tags "$((1 << ("$tag" - 1)))"
+    riverctl spawn "zathura $*"
+}
+
+# wrapper around git that before push, unlock bitwarden
+git () {
+	if [ "$#" -ge 1 ] && [ "$1" = "push" ]; then
+		rbw unlock
+	fi
+	/usr/bin/git "$@"
+}
+
+# git bare repository user dotfiles
+ucon () {
+	# when adding echo to remember to pull before commit
+	if [ "$#" -ge 1 ]; then
+		if [ "$1" = "add" ]; then
+			echo "remember to pull before commit"
+		elif [ "$1" = "push" ]; then
+			rbw unlock
+		fi
+	fi
+	local work_tree="$HOME"
+	local git_dir="$HOME/.dotfiles"
+	/usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
+	# when pulling remove README from work_tree and set git to not track in locale
+	if [ "$#" -ge 1 ]; then
+		if [ "$1" = "pull" ]; then
+			/usr/bin/rm -f "$work_tree"/README.md
+			/usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
+		fi
+	fi
+}
+
+# git bare repository root config files
+rcon () {
+	# make sure that when running as user use doas
+	if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
+		local as_root="true"
+	else
+		local as_root="false"
+	fi
+	# when adding echo to remember to pull before commit
+	if [ "$#" -ge 1 ]; then
+		if [ "$1" = "add" ]; then
+			echo "remember to pull before commit"
+		elif [ "$1" = "push" ]; then
+			if [ "$as_root" = "true" ]; then
+				rbw unlock
+			else
+				doas rbw unlock
+			fi
+		fi
+	fi
+	local work_tree="/"
+	local git_dir="/root/config"
+	if [ "$as_root" = "true" ]; then
+		/usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
+	else
+		doas /usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
+	fi
+	# when pulling remove README from work_tree and set git to not track in locale
+	if [ "$#" -ge 1 ]; then
+		if [ "$1" = "pull" ]; then
+			if [ "$as_root" = "true" ]; then
+				/usr/bin/rm -f "$work_tree"/README.md
+				/usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
+			else
+				doas /usr/bin/rm -f "$work_tree"/README.md
+				doas /usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
+			fi
+		fi
+	fi
+}
+
+# nnn audocd when pressing ^G
+nnn () {
+    # Block nesting of nnn in subshells
+    if [ -n "$NNNLVL" ] && [ "${NNNLVL:-0}" -ge 1 ]; then
+        echo "nnn is already running"
+        return
+    fi
+
+    # The behaviour is set to cd on quit (nnn checks if NNN_TMPFILE is set)
+    # To cd on quit only on ^G, either remove the "export" as in:
+    #    NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+    #    (or, to a custom path: NNN_TMPFILE=/tmp/.lastd)
+    # or, export NNN_TMPFILE after nnn invocation
+    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+
+    # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
+    # stty start undef
+    # stty stop undef
+    # stty lwrap undef
+    # stty lnext undef
+
+    nnn "$@"
+
+    if [ -f "$NNN_TMPFILE" ]; then
+    	. "$NNN_TMPFILE"
+    	rm -f "$NNN_TMPFILE" > /dev/null
     fi
 }
-# add new keymap and bind it to ctrl-Z
-zle -N better-ctrl-z
-bindkey '^z' better-ctrl-z
-
-# substitute 2 with 1 and 6 with 5 for blinking animation
-
-# Change cursor shape for different vi modes.
-zle-keymap-select () {
-    case $KEYMAP in
-        vicmd) echo -ne '\e[2 q';;      # block
-        viins|main) echo -ne '\e[6 q';; # beam
-    esac
-}
-zle -N zle-keymap-select
-
-zle-line-init () {
-    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-    echo -ne "\e[6 q"
-}
-zle -N zle-line-init
-
-echo -ne '\e[6 q' # Use beam shape cursor on startup.
-preexec() { echo -ne '\e[6 q' ;} # Use beam shape cursor for each new prompt.
-
-# function extract for common file formats
-SAVEIFS=$IFS
-IFS=$(echo -en "\n\b")
-extract () {
- if [ -z "$1" ]; then
-    # display usage if no parameters given
-    echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
-    echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
- else
-    for n in "$@"
-    do
-      if [ -f "$n" ] ; then
-          case "${n%,}" in
-            *.cbt|*.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar)
-                         tar xvf "$n"       ;;
-            *.lzma)      unlzma ./"$n"      ;;
-            *.bz2)       bunzip2 ./"$n"     ;;
-            *.cbr|*.rar)       unrar x -ad ./"$n" ;;
-            *.gz)        gunzip ./"$n"      ;;
-            *.cbz|*.epub|*.zip)       unzip ./"$n"       ;;
-            *.z)         uncompress ./"$n"  ;;
-            *.7z|*.arj|*.cab|*.cb7|*.chm|*.deb|*.dmg|*.iso|*.lzh|*.msi|*.pkg|*.rpm|*.udf|*.wim|*.xar)
-                         7z x ./"$n"        ;;
-            *.xz)        unxz ./"$n"        ;;
-            *.exe)       cabextract ./"$n"  ;;
-            *.cpio)      cpio -id < ./"$n"  ;;
-            *.cba|*.ace)      unace x ./"$n"      ;;
-            *)
-                         echo "extract: '$n' - unknown archive method"
-                         return 1
-                         ;;
-          esac
-      else
-          echo "'$n' - file does not exist"
-          return 1
-      fi
-    done
-fi
-}
-IFS=$SAVEIFS

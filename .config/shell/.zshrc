@@ -99,7 +99,11 @@ eval "$(dircolors /etc/DIR_COLORS)"
 [ -f "$ZDOTDIR/aliasrc" ] && source "$ZDOTDIR/aliasrc"
 
 # source functions
+# it is also sourced by bash
 [ -f "$ZDOTDIR/functionrc" ] && source "$ZDOTDIR/functionrc"
+
+# source functions specific to zsh
+[ -f "$ZDOTDIR/zfuncrc" ] && source "$ZDOTDIR/zfuncrc"
 
 # fzf
 #[ -f /usr/share/doc/fzf/examples/completion.zsh ] && source /usr/share/doc/fzf/examples/completion.zsh

@@ -17,7 +17,11 @@ set -o vi
 # bind control l
 bind -x '"\C-l":"clear -x"'
 
-# source aliases and some functions which work like aliases
+# source functions
+# it is also sourced by zsh
+[ -f "$HOME/.config/shell/functionrc" ] && source "$HOME/.config/shell/functionrc"
+
+# source aliases and some small functions which work like aliases
 # it is also sourced by zsh
 [ -f "$HOME/.config/shell/aliasrc" ] && source "$HOME/.config/shell/aliasrc"
 

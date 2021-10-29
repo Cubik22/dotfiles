@@ -1,8 +1,10 @@
 #!/bin/bash
+
 # aliasrc
+# aliases for bash/zsh
 
 # bat as manpager (set bat config)
-#export MANPAGER="bat_man.sh"
+# export MANPAGER="bat_man.sh"
 
 # doas
 alias d="doas"
@@ -32,7 +34,7 @@ alias ip="ip -color=auto"
 alias grep="grep --color=auto"
 
 # ignore case
-alias grepi="grep --color=auto"
+alias grepi="grep --color=auto -i"
 alias rgi="rg -i"
 
 # verbose and recursive
@@ -45,6 +47,7 @@ alias rmr="rm -r"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
+alias .....="cd ../../../.."
 alias cd..="cd .."
 alias space="du -sh"
 alias n3="nnn"
@@ -96,208 +99,12 @@ alias grb="git rebase"
 alias gsa="git stash"
 alias gpl="git pull"
 
-# void mirrors in order to quickly change when one si slow (R flag)
+# void mirrors in order to quickly change when one is slow (R flag)
 export mirror1="https://alpha.de.repo.voidlinux.org/current/musl"
 export mirror2="https://mirrors.servercentral.com/voidlinux/current/musl"
 export mirror3="https://alpha.us.repo.voidlinux.org/current/musl"
 
-# print informations
-phel () {
-    echo "WIFI"
-    echo "iwdscan"
-    echo "iwctl station wlan0 show/scan/get-networks/(dis)connect"
-    echo
-    echo "BLUEZ"
-    echo "blueon blueoff bluescan"
-    echo "bluetoothctl default-agent/power on/scan on/trust <device>/connect <device>"
-    echo
-    echo "AUDIO"
-    echo "amixer/alsamixer (alsa)"
-    echo "pactl (pipewire)"
-    echo
-    echo "RUNIT"
-    echo "ln -s /etc/sv/<service> /var/service/"
-    echo "ln -s /etc/sv/<service> /etc/runit/runsvdir/default/"
-    echo "touch /etc/sv/<service>/down"
-    echo "servstat (info services)"
-    echo
-    echo "REMOVABLE DRIVE"
-    echo "udisksctl (un)mount -b <drive (from lsblk)>"
-    echo
-    echo "DECOMPRESSION"
-    echo "aunpack (atool)"
-    # TODO: expand print help
-}
-
-# supposed to be used just with aliases
-kak-smart () {
-	# cd if directory
-	# open with kak if file
-
-	# first parameter check if running as root
-	if [ "$#" -le 0 ]; then
-	    echo "please insert the first parameter: whether or no to run as root"
-	    return 1
-	fi
-
-	root="$1"
-
-	if [ "$root" != "yes" ] && [ "$root" != "no" ]; then
-    	echo "the first parameter determine if running as root or not"
-    	echo "values accepted are yes or no"
-    	return 1
-    fi
-
-	shift 1
-
-	if [ "$#" -le 0 ]; then
-	    echo "please insert a parameter: directory or file"
-	    return 1
-	fi
-
-	arg="$1"
-
-	if [ -d "$arg" ]; then
-	    cd "$arg" || return 1
-	elif [ -f "$arg" ]; then
-		if [ "$root" = "no" ]; then
-	    	/bin/kak "$arg"
-	    elif [ "$root" = "yes" ]; then
-    	    doas /bin/kak "$arg"
-		fi
-	else
-	    # if is not an existing directory or file
-	    # if nevertheless exists then do not open it
-	    # if it does not exists then can be opened as a file by kak
-	    if [ -e "$arg" ]; then
-	        echo "the argument exists but is neither a directory or file"
-	        /bin/ls --color=auto --human-readable -l "$arg"
-    	    /bin/file "$arg"
-	    else
-			if [ "$root" = "no" ]; then
-	    		/bin/kak "$arg"
-	    	elif [ "$root" = "yes" ]; then
-    		    doas /bin/kak "$arg"
-			fi
-	    fi
-	fi
-}
-
-zat () {
-	if [ "$#" -lt 2 ]; then
-    	echo "insert at least two parameters"
-    	echo "first parameter: tag"
-    	echo "other parameters: arguments"
-    	return 1
-	fi
-    tag="$1"
-	# shift arguments by two, now 3 becomes 0
-	shift 1
-    riverctl set-focused-tags "$((1 << ("$tag" - 1)))"
-    riverctl spawn "zathura $*"
-}
-
-# before push unlock bitwarden
-git () {
-	if [ "$#" -ge 1 ] && [ "$1" = "push" ]; then
-		rbw unlock
-	fi
-	/usr/bin/git "$@"
-}
-
-# git bare repository user dotfiles
-ucon () {
-	# when adding echo to remember to pull before commit
-	if [ "$#" -ge 1 ]; then
-		if [ "$1" = "add" ]; then
-			echo "remember to pull before commit"
-		elif [ "$1" = "push" ]; then
-			rbw unlock
-		fi
-	fi
-	local work_tree="$HOME"
-	local git_dir="$HOME/.dotfiles"
-	/usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
-	# when pulling remove README from work_tree and set git to not track in locale
-	if [ "$#" -ge 1 ]; then
-		if [ "$1" = "pull" ]; then
-			/usr/bin/rm -f "$work_tree"/README.md
-			/usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
-		fi
-	fi
-}
-
-# git bare repository root config files
-rcon () {
-	# make sure that when running as user use doas
-	if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
-		local as_root="true"
-	else
-		local as_root="false"
-	fi
-	# when adding echo to remember to pull before commit
-	if [ "$#" -ge 1 ]; then
-		if [ "$1" = "add" ]; then
-			echo "remember to pull before commit"
-		elif [ "$1" = "push" ]; then
-			if [ "$as_root" = "true" ]; then
-				rbw unlock
-			else
-				doas rbw unlock
-			fi
-		fi
-	fi
-	local work_tree="/"
-	local git_dir="/root/config"
-	if [ "$as_root" = "true" ]; then
-		/usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
-	else
-		doas /usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
-	fi
-	# when pulling remove README from work_tree and set git to not track in locale
-	if [ "$#" -ge 1 ]; then
-		if [ "$1" = "pull" ]; then
-			if [ "$as_root" = "true" ]; then
-				/usr/bin/rm -f "$work_tree"/README.md
-				/usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
-			else
-				doas /usr/bin/rm -f "$work_tree"/README.md
-				doas /usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
-			fi
-		fi
-	fi
-}
-
-# nnn audocd when pressing ^G
-nnn () {
-    # Block nesting of nnn in subshells
-    if [ -n "$NNNLVL" ] && [ "${NNNLVL:-0}" -ge 1 ]; then
-        echo "nnn is already running"
-        return
-    fi
-
-    # The behaviour is set to cd on quit (nnn checks if NNN_TMPFILE is set)
-    # To cd on quit only on ^G, either remove the "export" as in:
-    #    NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-    #    (or, to a custom path: NNN_TMPFILE=/tmp/.lastd)
-    # or, export NNN_TMPFILE after nnn invocation
-    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-
-    # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
-    # stty start undef
-    # stty stop undef
-    # stty lwrap undef
-    # stty lnext undef
-
-    nnn "$@"
-
-    if [ -f "$NNN_TMPFILE" ]; then
-    	. "$NNN_TMPFILE"
-    	rm -f "$NNN_TMPFILE" > /dev/null
-    fi
-}
-
-# so the root can link and use this bashrc
+# so the root can link and use bash/zsh config
 if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
     alias xbps-install="echo 'remember to add package to /etc/config'; xbps-install"
     alias xbps-remove="echo 'remember to remove package from /etc/config'; xbps-remove"
