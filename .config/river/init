@@ -13,6 +13,9 @@ pipewire-pulse &
 # start waybar
 waybar &
 
+# scale everything (problems with partial scaling)
+# wlr-randr --output eDP-1 --scale 1.25
+
 # Turin coordinates
 # wlsunset -l 45.1 -L 7.7 &
 # Lausanne coordinates
@@ -29,8 +32,9 @@ fi
 mkfifo "$WOB_PIPE"
 tail -f "$WOB_PIPE" | wob --anchor "top" --anchor "right" &
 
-# scale everything (problems with partial scaling)
-# wlr-randr --output eDP-1 --scale 1.25
+# load brightness level
+adjust_brightness.sh load
+# echo "brightness level is: $(adjust_brightness.sh load)"
 
 # Use the "logo" key as the primary modifier
 mod="Mod4"

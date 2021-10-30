@@ -25,13 +25,9 @@ riverctl set-focused-tags "$pos_foot"
 
 riverctl spawn footclient
 
-## load brightness and audio status
+# load audio status
 # it is done here in order to wait for pipewire to load in the backgroud
 # if done before pipewire resets audio status
-
-# load brightness level
-adjust_brightness.sh load
-# echo "brightness level is: $(adjust_brightness.sh load)"
 
 # set volume status to off
 toggle_volume.sh off
