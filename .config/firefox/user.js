@@ -36,6 +36,8 @@ user_pref("browser.urlbar.placeholderName", "DuckDuckGo");
 /* disable password settings */
 user_pref("signon.generation.enabled", false);
 user_pref("signon.management.page.breach-alerts.enabled", false);
+/* disable sidebar in pdf by default */
+user_pref("pdfjs.sidebarViewOnLoad", 0);
 
 /******
 * name: arkenfox user.js
