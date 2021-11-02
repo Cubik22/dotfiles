@@ -25,12 +25,16 @@ wlsunset -l 46.5 -L 6.6 &
 libinput-gestures &
 
 # wob
-if [ -p "$WOB_PIPE" ]; then
+if [ -p "$WOB_PIPE" ] || [ -p "$WOB_PIPE_CENTER" ]; then
     killall wob
 	rm -f "$WOB_PIPE"
+	rm -f "$WOB_PIPE_CENTER"
 fi
 mkfifo "$WOB_PIPE"
+mkfifo "$WOB_PIPE_CENTER"
 tail -f "$WOB_PIPE" | wob --anchor "top" --anchor "right" &
+tail -f "$WOB_PIPE_CENTER" | wob --anchor "center" --width 400 &
+# tail -f "$WOB_PIPE_CENTER" | wob --anchor "center" --width 400 --height 400 &
 
 # load brightness level
 adjust_brightness.sh load
@@ -58,7 +62,9 @@ riverctl map normal $mod+Control+Shift F spawn "firefox-wayland -private-window"
 ### Windows
 
 # screenshots with grim and slurp
-riverctl map normal $mod S spawn 'grim -g "$(slurp)" - | wl-copy-env'
+# riverctl map normal $mod S spawn 'grim -g "$(slurp)" - | wl-copy-env'
+riverctl map normal $mod       S spawn 'screenshot selection; echo "100" > $WOB_PIPE_CENTER'
+riverctl map normal $mod+Shift S spawn 'screenshot fullscreen; echo "100" > $WOB_PIPE_CENTER'
 
 # Mod+Q to close the focused view
 riverctl map normal $mod Q close
@@ -228,8 +234,12 @@ riverctl xcursor-theme Adwaita 20
 # riverctl xcursor-theme Human 32
 
 # Make certain views start floating
-riverctl float-filter-add app-id float
-riverctl float-filter-add title "popup title with spaces"
+# Set app-ids of views which should float
+# <https://git.sr.ht/~leon_plickat/lswt>
+riverctl float-filter-add app-id "float"
+riverctl float-filter-add app-id "popup"
+riverctl float-filter-add app-id "mpv"
+riverctl float-filter-add app-id "imv"
 
 # Set app-ids and titles of views which should use client side decorations
 riverctl csd-filter-add app-id "gedit"

@@ -79,7 +79,6 @@ export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden -E .git --color=alw
 # Uses tree command to show the entries of the directory
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 
-
 # Use fd (https://github.com/sharkdp/fd) instead of the default find
 # command for listing path candidates.
 # - The first argument to the function ($1) is the base path to start traversal
@@ -149,6 +148,7 @@ if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty
 	
 	# wob pipe directory
 	export WOB_PIPE="/tmp/wobpipe"
+	export WOB_PIPE_CENTER="/tmp/wobpipe-center"
 
 	# finally start river with a dbus-session
 	exec dbus-run-session river
