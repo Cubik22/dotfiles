@@ -16,7 +16,7 @@ else
 	mkdir -p "$dev"
 
 	if [ "$1" = "install" ]; then
-		git clone --recursive https://github.com/ifreund/river "$dev"/river
+		git clone --recurse-submodules https://github.com/ifreund/river "$dev"/river
 	fi
 	
 	cd "$dev"/river || return 1
@@ -36,7 +36,7 @@ else
 	# zig build -Drelease-safe -Dman-pages -Dxwayland --prefix $prefix_dir install
 	
 	if [ "$1" = "install" ]; then
-		git clone --recursive https://github.com/Alexays/Waybar "$dev"/waybar
+		git clone --recurse-submodules https://github.com/Alexays/Waybar "$dev"/waybar
 	fi
 
 	cd "$dev"/waybar || return 1
