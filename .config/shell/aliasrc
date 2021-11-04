@@ -99,6 +99,16 @@ alias grb="git rebase"
 alias gsa="git stash"
 alias gpl="git pull"
 
+# git config
+alias ucs="ucon status"
+alias uca="ucon add"
+alias ucc="ucon commit"
+alias ucp="ucon push"
+alias rcs="rcon status"
+alias rca="rcon add"
+alias rcc="rcon commit"
+alias rcp="rcon push"
+
 # void mirrors in order to quickly change when one is slow (R flag)
 export mirror1="https://alpha.de.repo.voidlinux.org/current/musl"
 export mirror2="https://mirrors.servercentral.com/voidlinux/current/musl"
