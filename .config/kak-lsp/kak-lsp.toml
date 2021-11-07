@@ -1,8 +1,11 @@
+# when adding language remember to also add in kak/language-server
+
 [server]
 # exit session if no requests were received during given period in seconds
 # works only in unix sockets mode (-s/--session)
 # set to 0 to disable
-timeout = 1800 # seconds = 30 minutes
+# 1800 seconds = 30 minutes
+timeout = 1800
 
 [language.bash]
 filetypes = ["sh"]
@@ -14,7 +17,7 @@ args = ["start"]
 filetypes = ["c", "cpp"]
 roots = ["compile_commands.json", ".clangd", ".git", ".hg"]
 command = "clangd"
-#args = [ "--background-index", "--suggest-missing-includes", "--clang-tidy", "--fallback-style=LLVM"]
+# args = [ "--background-index", "--suggest-missing-includes", "--clang-tidy", "--fallback-style=LLVM"]
 offset_encoding = "utf-8"
 
 [language.rust]
@@ -39,11 +42,11 @@ filetypes = ["zig"]
 roots = ["build.zig"]
 command = "zls"
 
-#[language.lua]
-#filetypes = ["lua"]
-#roots = [".git"]
-#command = "lua-language-server"
-#args = ["-E", "$HOME/.local/share/src/lsp/lua/main.lua"]
+# [language.lua]
+# filetypes = ["lua"]
+# roots = [".git"]
+# command = "lua-language-server"
+# args = ["-E", "$HOME/.local/share/src/lsp/lua/main.lua"]
 
 [language.python]
 filetypes = ["python"]
@@ -56,6 +59,12 @@ settings_section = "_"
 # See https://github.com/palantir/python-language-server#configuration
 # and https://github.com/palantir/python-language-server/blob/develop/vscode-client/package.json
 # pyls.configurationSources = ["flake8"]
+
+[language.r]
+filetypes = ["r"]
+roots = ["DESCRIPTION", ".git", ".hg"]
+command = "R"
+args = ["--slave", "-e", "languageserver::run()"]
 
 [language.html]
 filetypes = ["html"]

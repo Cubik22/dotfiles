@@ -93,7 +93,7 @@ export CARGO_HOME="/usr/local"
 doas cargo install rbw
 
 # already set in config folder
-#rbw config set email $email
+# rbw config set email $email
 
 # add local and cargo directories to path in order to run rbw, rbw-agent and git-credential-bitwarden
 PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin"
@@ -114,7 +114,7 @@ config update-index --assume-unchanged "$HOME"/README.md
 config update-index --assume-unchanged "$HOME/.local/share/state/brightness_level"
 
 # set git to remeber credentials (danger but with github token you can give small permission)
-#git config --global credential.helper store
+# git config --global credential.helper store
 
 # import gpg key
 echo "------------------------ type the number of your identity -------------------------"
@@ -125,12 +125,15 @@ echo "-------------------- type 'trust', '5', 'y', 'primary', 'save' -----------
 gpg --edit-key $email
 
 # clone packer for neovim
-#git clone --depth 1 https://github.com/wbthomason/packer.nvim "$HOME"/.local/share/nvim/site/pack/packer/start/packer.nvim
+# git clone --depth 1 https://github.com/wbthomason/packer.nvim "$HOME"/.local/share/nvim/site/pack/packer/start/packer.nvim
 
 ## languge servers
 
+# to update npm
+# doas npm -g update
+
 # bash
-doas npm i -g bash-language-server
+doas npm install -g bash-language-server
 
 # rust
 doas rustup component add rls rust-analysis rust-src
@@ -140,6 +143,12 @@ zls_dir="$HOME/dev/zig/zls"
 mkdir -p "$zls_dir"
 curl -L https://github.com/zigtools/zls/releases/download/0.1.0/x86_64-linux.tar.xz | tar -xJ --strip-components=1 -C "$zls_dir"
 doas cp "$zls_dir/zls" /usr/local/bin/
+
+# R
+echo "install.packages(\"languageserver\")"
+echo "quit()"
+# to update: update.packages()
+R
 
 # html css json
 doas npm install -g vscode-html-languageserver-bin

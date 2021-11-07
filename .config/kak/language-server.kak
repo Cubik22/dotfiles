@@ -1,14 +1,14 @@
 # Enable kak-lsp for some filetypes
 evaluate-commands %sh{kak-lsp --kakoune -s $kak_session}
 
-# hook global WinCreate filetype=(sh|c|cpp|rust|zig|python|html|css|json|javascript|typescript) %{
+# hook global WinCreate filetype=(sh|c|cpp|rust|zig|python|r|html|css|json|javascript|typescript) %{
 	# add-highlighter window/delimiters		regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
 	# add-highlighter window/operators		regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
 	# add-highlighter window/function 		regex ([a-zA-Z_0-9]+\(+)) 0:function
 	# add-highlighter window/class			regex ([^a-z][A-Z][a-zA-Z_0-9]+) 0:class
 # }
 
-hook global WinSetOption filetype=(sh|c|cpp|rust|zig|python|html|css|json|javascript|typescript) %{
+hook global WinSetOption filetype=(sh|c|cpp|rust|zig|python|r|html|css|json|javascript|typescript) %{
     # attention when a file has include if there is not a space between the # it interpret the file as a c/cpp
 
 	# expandtab
@@ -17,7 +17,7 @@ hook global WinSetOption filetype=(sh|c|cpp|rust|zig|python|html|css|json|javasc
 }
 
 # uncomment to enable debug logging for kak-lsp
-#set-option global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
+# set-option global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
 
 # Shell
 hook global BufCreate .*.inputrc %{
@@ -79,14 +79,14 @@ hook global WinSetOption filetype=python %{
 }
 
 # Markdown
-#hook global WinSetOption filetype=markdown %{
-#	set-option window formatcmd "prettier --tab-width 4 --stdin-filepath='%val{buffile}'"
-#}
+# hook global WinSetOption filetype=markdown %{
+# set-option window formatcmd "prettier --tab-width 4 --stdin-filepath='%val{buffile}'"
+# }
 
 # Makefile
-#hook global BufCreate .*\.mk$ %{
+# hook global BufCreate .*\.mk$ %{
 #    set-option buffer filetype makefile
-#}
+# }
 
 # Assemply
 hook global WinSetOption filetype=gas %{
