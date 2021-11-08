@@ -259,7 +259,7 @@ riverctl float-filter-add app-id "mpv"
 riverctl float-filter-add app-id "imv"
 
 # Set app-ids and titles of views which should use client side decorations
-riverctl csd-filter-add app-id "gedit"
+# riverctl csd-filter-add app-id "gedit"
 
 # Input set all touchpads (so it works on multiple machines)
 touchpads="$(riverctl list-inputs | grep -i touchpad)"
