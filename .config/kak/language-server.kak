@@ -1,6 +1,9 @@
 # Enable kak-lsp for some filetypes
 evaluate-commands %sh{kak-lsp --kakoune -s $kak_session}
 
+# information on current buffer filetype
+# echo %opt{filetype}
+
 # hook global WinCreate filetype=(sh|c|cpp|rust|zig|python|r|html|css|json|javascript|typescript) %{
 	# add-highlighter window/delimiters		regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
 	# add-highlighter window/operators		regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
@@ -92,3 +95,9 @@ hook global WinSetOption filetype=python %{
 hook global WinSetOption filetype=gas %{
     set-option window comment_line '#'
 }
+
+# Octave
+# remove from /usr/share/kak/rc/filetype/c-family.kak
+# hook global BufCreate .*\.m %{
+#     set-option buffer filetype objc
+# }
