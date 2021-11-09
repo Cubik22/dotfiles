@@ -27,8 +27,8 @@ bind -x '"\C-l":"clear -x"'
 
 # source fzf completion and key-bindings
 # export FZF_COMPLETION_TRIGGER='**'
-[ -f "/usr/share/doc/fzf/completion.bash" ] && source "/usr/share/doc/fzf/completion.bash"
-[ -f "/usr/share/doc/fzf/key-bindings.bash" ] && source "/usr/share/doc/fzf/key-bindings.bash"
+[ -f "/usr/share/fzf/completion.bash" ] && source "/usr/share/fzf/completion.bash"
+[ -f "/usr/share/fzf/key-bindings.bash" ] && source "/usr/share/fzf/key-bindings.bash"
 
 ## <https://wiki.bash-hackers.org/internals/shell_options>
 
