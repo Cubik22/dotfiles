@@ -41,9 +41,10 @@ add-highlighter shared/octave regions
 add-highlighter shared/octave/code default-region group
 add-highlighter shared/octave/comment region '%' '$' fill comment
 add-highlighter shared/octave/line_comment region '%' '$' fill comment
-add-highlighter shared/octave/documentation region '%%'  '$' fill documentation
-add-highlighter shared/octave/single_string region "'"   (?<!\\)(\\\\)*'  fill string
-add-highlighter shared/octave/double_string region '"'   (?<!\\)(\\\\)*"  fill string
+add-highlighter shared/octave/documentation region '%%' '$' fill documentation
+# problem with transposing
+# add-highlighter shared/octave/single_string region "'" (?<!\\)(\\\\)*' fill string
+add-highlighter shared/octave/double_string region '"' (?<!\\)(\\\\)*" fill string
 
 # Integer formats
 add-highlighter shared/octave/code/ regex '(?i)\b0b[01]+l?\b' 0:value
@@ -57,9 +58,9 @@ add-highlighter shared/octave/code/ regex '\b\d+\.' 0:value
 # Imaginary formats
 add-highlighter shared/octave/code/ regex '\b\d+\+\d+[jJ]\b' 0:value
 
-add-highlighter shared/octave/code/ regex \b[a-z][A-Za-z_0-9]*(?=\.\w) 0:module
-add-highlighter shared/octave/code/ regex \b[a-z][A-Za-z_0-9]*(?=__\w) 0:module
-add-highlighter shared/octave/code/ regex \b[A-Z][A-Za-z_0-9]*\b 0:variable
+# add-highlighter shared/octave/code/ regex \b[a-z][A-Za-z_0-9]*(?=\.\w) 0:module
+# add-highlighter shared/octave/code/ regex \b[a-z][A-Za-z_0-9]*(?=__\w) 0:module
+# add-highlighter shared/octave/code/ regex \b[A-Z][A-Za-z_0-9]*\b 0:variable
 
 # operator symbols
 add-highlighter shared/octave/code/ regex (\.|!|!\.|!:|@|\^|:|\*\*|\\|\*|/|//|<<|>>|\+|\+\+|-|--|/\\|\\/|\.\.|:=|=\^|<|=|=\.\.|=:=|=<|==|=\\=|>|>=|@<|@=<|@>|@>=|\\=|\\==|~=|\\\+|~|<=|<=>|=>|,|&|->|\;|::|:-|\?-) 0:operator
@@ -70,7 +71,7 @@ evaluate-commands %sh{
 
     meta="import"
 
-	keywords="return function arguments switch case else elseif end if otherwise break continue do for while parfor spmd classdef methods properties events persistent global try catch rethrow throw"
+	keywords="return function arguments switch case else elseif endif end if otherwise break continue do for while parfor spmd classdef methods properties events persistent global try catch rethrow throw"
 
 	types="double single int8 int16 int32 int64 uint8 uint16 uint32 uint64 string char"
 

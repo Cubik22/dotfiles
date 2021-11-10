@@ -1,7 +1,10 @@
 # editor
 EDITOR("kak");
 
-# use gnuplot better when using cli
+# suppress gnuplot warning
+warning("off", "Octave:gnuplot-graphics");
+
+# use gnuplot (better when using octave-cli)
 graphics_toolkit("gnuplot");
 
 # use man instead of help
