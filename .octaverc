@@ -1,0 +1,17 @@
+# editor
+EDITOR("kak");
+
+# use gnuplot better when using cli
+graphics_toolkit("gnuplot");
+
+# use man instead of help
+function man (name = "help");
+	# lock in memory so it's not removed by clear all
+	mlock(); 
+	help(char(name));
+endfunction
+
+# pretty prompt
+PS1("\\[\\033[01;31m\\]\\s:\\#> \\[\\033[0m\\]");
+# no > for multi-line input
+PS2("");

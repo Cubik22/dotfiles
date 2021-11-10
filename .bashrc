@@ -5,18 +5,6 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# use vim/kak mode
-# PS0="\e[2 q\2"
-set -o vi
-# typing <alt>+letter send <esc>+letter
-# <alt>+o normal mode before cursor
-# <alt>+l normal mode after cursor
-# <alt>+b normal mode beginning of line
-# <alt>+e normal mode end of line
-
-# bind control l
-bind -x '"\C-l":"clear -x"'
-
 # source functions
 # it is also sourced by zsh
 [ -f "$HOME/.config/shell/functionrc" ] && source "$HOME/.config/shell/functionrc"
@@ -53,7 +41,8 @@ shopt -s nocaseglob
 # expand aliases
 # shopt -s expand_aliases
 
-bind 'tab:menu-complete'
+# bind control l
+bind -x '"\C-l":"clear -x"'
 
 ## bash history
 
