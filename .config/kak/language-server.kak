@@ -23,7 +23,7 @@ hook global WinSetOption filetype=(sh|c|cpp|rust|zig|python|r|html|css|json|java
 # set-option global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
 
 # Shell
-hook global BufCreate .*.inputrc %{
+hook global BufCreate .*[.](inputrc) %{
 	set-option buffer filetype sh
 }
 hook global WinSetOption filetype=sh %{
@@ -97,7 +97,13 @@ hook global WinSetOption filetype=gas %{
 }
 
 # Octave
+
 # remove from /usr/share/kak/rc/filetype/c-family.kak
 # hook global BufCreate .*\.m %{
 #     set-option buffer filetype objc
+# }
+
+# remove from /usr/share/kak/rc/filetype/mercury.kak
+# hook global BufCreate .*[.](m) %{
+#     set-option buffer filetype mercury
 # }

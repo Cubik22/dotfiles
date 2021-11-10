@@ -1,13 +1,14 @@
 evaluate-commands %sh{
     config_files="
-		indentation.kak
-		wayland.kak
-		git-commit-overflow.kak
-		state-save.kak
-		settings.kak
-		modeline.kak
-		language-server.kak
-		doas-write.kak
+    	filetype/octave.kak
+    	indentation.kak
+    	wayland.kak
+    	git-commit-overflow.kak
+    	state-save.kak
+    	settings.kak
+    	modeline.kak
+    	language-server.kak
+    	doas-write.kak
 	"
 
     for file in $config_files; do
