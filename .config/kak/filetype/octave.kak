@@ -190,8 +190,8 @@ evaluate-commands %sh{
         add-highlighter shared/octave/code/ regex '\b($(join "${keywords} ${soft_keywords}" '|'))\b' 0:keyword
         add-highlighter shared/octave/code/ regex '\b($(join "${types}" '|'))\b' 0:type
         add-highlighter shared/octave/code/ regex '\b($(join "${attributes}" '|'))\b' 0:attribute
-        add-highlighter shared/octave/code/ regex '\bdef\s+($(join "${methods}" '|'))\b' 1:function
-        add-highlighter shared/octave/code/ regex '\b($(join "${functions}" '|'))\b\(' 1:builtin
+        add-highlighter shared/octave/code/ regex '\bdef\s+($(join "${methods}" '|'))\b' 1:builtin
+        add-highlighter shared/octave/code/ regex '\b($(join "${functions}" '|'))\b\(' 1:function
         add-highlighter shared/octave/code/ regex '^\h*(@[\w_.]+))' 1:attribute
     "
 }

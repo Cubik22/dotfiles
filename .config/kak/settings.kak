@@ -122,6 +122,9 @@ add-highlighter global/ regex \b(TODO|FIXME|XXX|NOTE|REF|USAGE|REQUIREMENTS|OPTI
 # Highlighters
 set-face global delimiter rgb:af3a03,default
 set-face global operator rgb:5a947f,default
+set-face global function rgb:ffba19,default
+# set-face global function rgb:d79921,default
+# set-face global function rgb:fabd2f,default
 
 # moded to languge-server.kak
 hook global WinCreate .* %{
