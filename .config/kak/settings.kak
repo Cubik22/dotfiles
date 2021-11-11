@@ -120,11 +120,16 @@ add-highlighter global/ regex \b(TODO|FIXME|XXX|NOTE|REF|USAGE|REQUIREMENTS|OPTI
 # add-highlighter shared/kakrc/code/if_else regex \b(if|when|unless)\b 0:keyword
 
 # Highlighters
+# delimiter red
 set-face global delimiter rgb:af3a03,default
+# operator blue
 set-face global operator rgb:5a947f,default
+# function yellow
 set-face global function rgb:ffba19,default
 # set-face global function rgb:d79921,default
 # set-face global function rgb:fabd2f,default
+# builtin orange
+set-face global builtin rgb:f49008,default
 
 # moded to languge-server.kak
 hook global WinCreate .* %{
