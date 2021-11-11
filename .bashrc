@@ -2,7 +2,7 @@
 # /etc/bash.bashrc
 #
 
-# If not running interactively, don't do anything
+# if not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
 # source functions
@@ -54,6 +54,8 @@ export HISTIGNORE="pwd:exit:clear"
 # export HISTIGNORE="cd:pwd:exit:q:c:e:ea:et::fe:clear:nnn:n3:xb*():curl"
 # export HISTFILE="$HOME"/.cache/bash/bash_history
 
+## completion
+
 # alias config='/usr/bin/git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME"'
 
 # autocomplete alias config (git bare repository)
@@ -64,16 +66,10 @@ export HISTIGNORE="pwd:exit:clear"
 # complete -p cmd
 
 # autocomplete doas as sudo
-# has to be loaded here or sourced in bash_completion.sh
+# has to be loaded here or in /etc/bash/bashrc.d/bash_completion.sh
 _completion_loader sudo
 complete -F _sudo doas
 complete -F _sudo d
-
-# autocomplete xbps
-complete -F _complete_alias xi
-complete -F _complete_alias xr
-complete -F _complete_alias xq
-complete -F _complete_alias xs
 
 # autocomplete config as git
 # has to be loaded here or in /etc/bash/bashrc.d/bash_completion.sh
@@ -103,6 +99,12 @@ complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rca
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rcc
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rcp
 
+# autocomplete xbps
+complete -F _complete_alias xi
+complete -F _complete_alias xr
+complete -F _complete_alias xq
+complete -F _complete_alias xs
+
 # fzf complete for kak
 _fzf_setup_completion path kak
 _fzf_setup_completion path ka
@@ -121,6 +123,7 @@ else
 	# PS1="\[\e[1;32m\]\w\[\e[m\] \[\e[1;31m\]>\[\e[m\]\[\e[1;33m\]>\[\e[m\]\[\e[1;36m\]>\[\e[m\] "
 	# PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[m\] '
 
+    # fzf complete for kak as root
     _fzf_setup_completion path dka
 fi
 
