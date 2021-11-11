@@ -54,7 +54,8 @@ else
 
 	## qrupdate
 	# https://sourceforge.net/projects/qrupdate
-	# add -fallow-argument-mismatch to FFLAGS
+	# FFLAGS add -fallow-argument-mismatch
+	# BLAS=-lopenblas
 
 	cd "$current_dir" || return 1
 fi
