@@ -69,21 +69,21 @@ hook global InsertCompletionHide .* %{
 ## change cursor color between normal mode and insert mode
 
 # Shades of blue/cyan for normal mode
-# set-face global PrimarySelection white,bright-blue+F
-# set-face global SecondarySelection black,bright-blue+F
-# set-face global PrimaryCursor black,bright-cyan+F
-# set-face global SecondaryCursor black,bright-blue+F
-# set-face global PrimaryCursorEol black,bright-cyan
-# set-face global SecondaryCursorEol black,bright-blue
+set-face global PrimarySelection 	white,bright-blue+g
+set-face global SecondarySelection 	black,bright-blue+g
+set-face global PrimaryCursor 		black,bright-cyan+fg
+set-face global SecondaryCursor 	black,bright-blue+fg
+set-face global PrimaryCursorEol 	black,bright-cyan
+set-face global SecondaryCursorEol 	black,bright-blue
 
 # Shades of green/yellow for insert mode.
 hook global ModeChange (push|pop):.*:insert %{
-    set-face window PrimarySelection white,bright-green+F
-    set-face window SecondarySelection black,bright-green+F
-    set-face window PrimaryCursor black,bright-yellow+F
-    set-face window SecondaryCursor black,bright-green+F
-    set-face window PrimaryCursorEol black,bright-yellow
-    set-face window SecondaryCursorEol black,bright-green
+    set-face window PrimarySelection 	white,bright-green+g
+    set-face window SecondarySelection 	black,bright-green+g
+    set-face window PrimaryCursor 		black,bright-yellow+fg
+    set-face window SecondaryCursor 	black,bright-green+fg
+    set-face window PrimaryCursorEol 	black,bright-yellow
+    set-face window SecondaryCursorEol 	black,bright-green
 }
 
 # Undo colour changes when we leave insert mode.
@@ -99,8 +99,9 @@ hook global ModeChange (push|pop):insert:.* %{
 set-option global scrolloff 3,3
 # set-option global ui_options ncurses_enable_mouse=true
 # set-option global ui_options ncurses_assistant=none
+# set-option global ui_options terminal_assistant=none
 
-# set-option global startup_info_version 20210828
+set-option global startup_info_version 20211028
 
 # tiny.kak
 remove-scratch-message
