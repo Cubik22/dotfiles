@@ -11,7 +11,7 @@ evaluate-commands %sh{
     	key-bindings.kak
     	functionality.kak
     	modeline.kak
-    	language-server.kak
+    	languages.kak
     	doas-write.kak
 	"
 
