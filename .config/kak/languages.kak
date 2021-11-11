@@ -24,10 +24,12 @@ hook global WinSetOption filetype=(sh|c|cpp|rust|zig|python|r|html|css|json|java
 # uncomment to enable debug logging for kak-lsp
 # set-option global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
 
-# shell
+# inputrc
 hook global BufCreate .*[.](inputrc) %{
 	set-option buffer filetype sh
 }
+
+# shell
 hook global WinSetOption filetype=sh %{
 	set-option window formatcmd "shfmt -fn -ci"
 	set-option window lintcmd "shellcheck -f gcc -x -a"
@@ -35,7 +37,7 @@ hook global WinSetOption filetype=sh %{
 
 # c/cpp
 hook global WinSetOption filetype=(c|cpp) %{
-	set-option buffer formatcmd 'clang-format'
+	set-option buffer formatcmd 'clang-format -style="{IndentWidth: 4,TabWidth: 4}"'
 	clang-enable-autocomplete
 	clang-enable-diagnostics
 	alias window lint clang-parse
