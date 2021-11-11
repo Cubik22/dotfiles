@@ -101,12 +101,12 @@ if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty
 	export DESKTOP_SESSION=river
 
 	# for multi-gpu setup
-	#export WLR_DRM_DEVICES=/dev/dri/card0
+	# export WLR_DRM_DEVICES=/dev/dri/card0
 
 	# seat management
 	# seatd is more minimal
 	export LIBSEAT_BACKEND=seatd
-	#export LIBSEAT_BACKEND=logind
+	# export LIBSEAT_BACKEND=logind
 
 	# QT
 	export QT_QPA_PLATFORM=wayland-egl
@@ -118,24 +118,24 @@ if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty
 	# export SDL_AUDIODRIVER=alsa
 	
 	# Clutter
-	#export CLUTTER_BACKEND=wayland
+	# export CLUTTER_BACKEND=wayland
 
 	# Elementary/EFL
-	#export ECORE_EVAS_ENGINE=wayland_egl
-	#export ELM_ENGINE=wayland_egl
-	#export ELM_DISPLAY=wl
-	#export ELM_ACCEL=opengl
+	# export ECORE_EVAS_ENGINE=wayland_egl
+	# export ELM_ENGINE=wayland_egl
+	# export ELM_DISPLAY=wl
+	# export ELM_ACCEL=opengl
 
 	# Mozilla
 	export MOZ_ENABLE_WAYLAND=1
 	# Open links in external applications in Firefox
-	#export MOZ_DBUS_REMOTE=1
+	# export MOZ_DBUS_REMOTE=1
 
 	# needed for some Java applications
-	#export _JAVA_AWT_WM_NONREPARENTING=1
+	# export _JAVA_AWT_WM_NONREPARENTING=1
 	
 	export BROWSER=firefox
-	#export BROWSER="${HOME}/.local/bin/ungoogled_chromium.sh"
+	# export BROWSER="${HOME}/.local/bin/ungoogled_chromium.sh"
 
 	# set GTK theme
 	# export GTK_THEME=Adwaita:dark
