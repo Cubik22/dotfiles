@@ -4,7 +4,7 @@
 # Detection
 # ‾‾‾‾‾‾‾‾‾
 
-hook global BufCreate .*[.](m) %{
+hook global BufCreate .*[.](m|matlab) %{
     set-option buffer filetype octave
 }
 
