@@ -1,4 +1,4 @@
-# gruvbox theme
+# gruvbox-hard-dark theme
 
 evaluate-commands %sh{
     gray="rgb:928374"
@@ -76,6 +76,8 @@ evaluate-commands %sh{
         face global MenuInfo           ${bg}
         face global Information        ${bg},${fg}
         face global Error              ${bg},${red}
+        face global DiagnosticError    ${red}
+        face global DiagnosticWarning  ${yellow}
         face global StatusLine         ${fg},${bg}
         face global StatusLineMode     ${yellow}+b
         face global StatusLineInfo     ${purple}

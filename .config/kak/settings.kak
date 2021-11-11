@@ -6,6 +6,7 @@
 # default tab size and indentation of 4 spaces
 set-option global tabstop 4
 set-option global indentwidth 4
+# set-option global aligntab true
 
 # disable all default indent and insert hooks
 set-option global disabled_hooks '.*-indent'
