@@ -10,8 +10,18 @@ evaluate-commands %sh{
     aqua="rgb:8ec07c"
     orange="rgb:fe8019"
 
+	gray_nor="rgb:7c6f64"
+	red_nor="rgb:cc241d"
+	green_nor="rgb:98971a"
+	yellow_nor="rgb:d79921"
+	blue_nor="rgb:458588"
+	purple_nor="rgb:b16286"
+	aqua_nor="rgb:689d6a"
+	orange_nor="rgb:d65d0e"
+
     bg="rgb:1d2021"
-    bg_alpha="rgba:282828a0"
+    bg_alpha="rgba:1d2021a0"
+    bg0="rgb:928374"
     bg1="rgb:3c3836"
     bg2="rgb:504945"
     bg3="rgb:665c54"
@@ -20,6 +30,7 @@ evaluate-commands %sh{
     fg="rgb:ebdbb2"
     fg_alpha="rgba:ebdbb2a0"
     fg0="rgb:fbf1c7"
+    fg1="rgb:ebdbb2"
     fg2="rgb:d5c4a1"
     fg3="rgb:bdae93"
     fg4="rgb:a89984"
@@ -29,16 +40,17 @@ evaluate-commands %sh{
         face global value         ${purple}
         face global type          ${yellow}
         face global variable      ${blue}
-        face global module        ${green}
-        face global function      ${fg}
+        face global module        ${green_nor}
+        face global function      ${yellow_nor}
         face global string        ${green}
         face global keyword       ${red}
-        face global operator      ${fg}
+        face global operator      ${blue_nor}
         face global attribute     ${orange}
-        face global comment       ${gray}+i
-        face global documentation comment
+        face global comment       ${gray}
+        face global documentation ${gray_nor}
         face global meta          ${aqua}
-        face global builtin       ${fg}+b
+        face global builtin       ${orange_nor}
+        face global delimiter     ${red_nor}
 
         # Markdown highlighting
         face global title     ${green}+b

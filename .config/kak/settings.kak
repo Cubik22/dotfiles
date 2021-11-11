@@ -63,15 +63,18 @@ hook global InsertCompletionHide .* %{
     unmap window insert <c-g> <c-o>
 }
 
+# ui settings
+# ==============================================================================
+
 ## change cursor color between normal mode and insert mode
 
 # Shades of blue/cyan for normal mode
-set-face global PrimarySelection white,bright-blue+F
-set-face global SecondarySelection black,bright-blue+F
-set-face global PrimaryCursor black,bright-cyan+F
-set-face global SecondaryCursor black,bright-blue+F
-set-face global PrimaryCursorEol black,bright-cyan
-set-face global SecondaryCursorEol black,bright-blue
+# set-face global PrimarySelection white,bright-blue+F
+# set-face global SecondarySelection black,bright-blue+F
+# set-face global PrimaryCursor black,bright-cyan+F
+# set-face global SecondaryCursor black,bright-blue+F
+# set-face global PrimaryCursorEol black,bright-cyan
+# set-face global SecondaryCursorEol black,bright-blue
 
 # Shades of green/yellow for insert mode.
 hook global ModeChange (push|pop):.*:insert %{
@@ -93,16 +96,32 @@ hook global ModeChange (push|pop):insert:.* %{
     unset-face window SecondaryCursorEol
 }
 
-# use ripgrep for grepping
-set-option global grepcmd 'rg --column'
+set-option global scrolloff 3,3
+# set-option global ui_options ncurses_enable_mouse=true
+# set-option global ui_options ncurses_assistant=none
 
-# use foot as the terminal
-set-option global windowing_modules 'wayland'
+# set-option global startup_info_version 20210828
 
-# ui settings
-# ==============================================================================
+# tiny.kak
+remove-scratch-message
 
-#colorscheme gruvbox
+# Auto-pairing of characters
+# set-option global auto_pairs ( ) { } [ ] '"' '"' "'" "'" ` ` “ ” ‘ ’ « » ‹ ›
+hook global WinSetOption filetype=(.*) %{
+	set-option global auto_pairs ( ) { } [ ] '"' '"' "'" "'"
+}
+hook global WinSetOption filetype=(octave) %{
+	set-option global auto_pairs ( ) { } [ ] '"' '"'
+}
+hook global WinSetOption filetype=(.*) %{
+	enable-auto-pairs
+}
+
+# Integration
+synchronize-terminal-clipboard
+make-directory-on-save
+
+# colorscheme gruvbox
 colorscheme gruvbox-hard-dark
 
 add-highlighter global/ number-lines -relative -hlcursor -separator ' '
@@ -120,18 +139,19 @@ add-highlighter global/ regex \b(TODO|FIXME|XXX|NOTE|REF|USAGE|REQUIREMENTS|OPTI
 # add-highlighter shared/kakrc/code/if_else regex \b(if|when|unless)\b 0:keyword
 
 # Highlighters
+# done in colors
 # delimiter red
-set-face global delimiter rgb:af3a03,default
+# set-face global delimiter rgb:af3a03,default
 # operator blue
-set-face global operator rgb:5a947f,default
+# set-face global operator rgb:5a947f,default
 # function yellow
-set-face global function rgb:ffba19,default
+# set-face global function rgb:ffba19,default
 # set-face global function rgb:d79921,default
 # set-face global function rgb:fabd2f,default
 # builtin orange
-set-face global builtin rgb:f49008,default
+# set-face global builtin rgb:f49008,default
 
-# moded to languge-server.kak
+# move to languge-server.kak in order to just highlight lsp files
 hook global WinCreate .* %{
 	add-highlighter window/delimiters		regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
 	add-highlighter window/operators		regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
@@ -140,144 +160,12 @@ hook global WinCreate .* %{
 }
 
 # Highlight all occurences of word under the cursor
-# set-face global CurWord default,rgba:e0e0e16e
-# hook global NormalIdle .* %{
-# 	eval -draft %{ try %{
-# 		exec <space><a-i>w <a-k>\A\w+\z<ret>
-# 		add-highlighter -override global/curword regex "\b\Q%val{selection}\E\b" 0:CurWord
-# 	} catch %{
-# 		add-highlighter -override global/curword group
-# 	} }
-# }
-
-set-option global scrolloff 3,3
-# set-option global ui_options ncurses_enable_mouse=true
-# set-option global ui_options ncurses_assistant=none
-
-#set-option global startup_info_version 20210828
-
-# key bindings
-# ==============================================================================
-
-# space is the best leader
-map global normal <space> , -docstring 'leader'
-
-# use backspace to do what space used to do
-map global normal <backspace> <space> -docstring 'remove all sels except main'
-map global normal <a-backspace> <a-space> -docstring 'remove main sel'
-
-map global normal '#' :comment-line<ret>      -docstring 'comment line'
-map global normal '<a-#>' :comment-block<ret> -docstring 'comment block'
-
-map global normal = '|fmt -w $kak_opt_autowrap_column<ret>' -docstring 'wrap lines'
-
-# remap a to enter insert mode without also selecting a character
-map global normal a li -docstring 'enter insert mode after cursor'
-
-# wrap to 80 characters
-# map global user f '|fmt -w 80<ret>' -docstring 'wrap to 80'
-
-# wrap to 80 with comments and shit
-# map global user F '<a-x>Z<a-;>;Wyzs^<c-r>"<ret>dz|fmt -w 77<ret><a-s>ghP<space>' -docstring 'wrap to 80 and shit'
-
-# Case-insensitive search
-map global normal /     '/(?i)'
-map global normal ?     '?(?i)'
-map global normal <a-/> '<a-/>(?i)'
-map global normal <a-?> '<a-?>(?i)'
-
-# insert mode go to start/end line
-map global insert <c-a> <home>
-map global insert <c-e> <end>
-
-# insert mode enter normal mode start/end line
-map global insert <a-a> <home><esc>
-map global insert <a-e> <end><esc>
-
-# map global insert <c-p> <a-semicolon>P
-
-# Custom text objects
-# map global user W 'c\s,\s<ret>' -docstring "select between whitespace"
-
-# general utility
-map global user w ': w<ret>' -docstring 'write'
-map global user z ': q<ret>' -docstring 'quit'
-map global user g ': grep ' -docstring 'grep'
-map global user t ': ctags-search<ret>' -docstring 'ctag def'
-map global user d ': db<ret>' -docstring 'close buffer'
-map global user m ': make<ret>' -docstring 'make'
-
-# Git
-declare-user-mode git
-map global user g  ': enter-user-mode git<ret>' -docstring 'mode git'
-map global git l   ': git log<ret>'             -docstring 'Log'
-map global git s   ': git status<ret>'          -docstring 'Status'
-map global git d   ': git diff<ret>'            -docstring 'Diff'
-map global git b   ': git blame<ret>'           -docstring 'Blame'
-map global git B   ': git hide-blame<ret>'      -docstring 'Hide blame'
-map global git p   ': git prev-hunk<ret>'       -docstring 'Prev hunk'
-map global git n   ': git next-hunk<ret>'       -docstring 'Next hunk'
-
-# System clipboard
-hook global RegisterModified '"' %{ nop %sh{
-	printf %s "$kak_main_reg_dquote" | wl-copy-env > /dev/null 2>&1 &
-}}
-map global user P '!wl-paste-env -n<ret>'     -docstring 'paste system (before)'
-map global user p '<a-!>wl-paste-env -n<ret>' -docstring 'paste system (after)'
-map global user y '<a-|>wl-copy-env<ret>'     -docstring 'copy system'
-
-# system clipboard
-# map global user c '<a-|>wl-copy<ret>' -docstring 'wl-copy'
-# map global user v '!wl-paste -n<ret>' -docstring 'wl-paste'
-
-# lsp mode
-map global user l ': enter-user-mode lsp<ret>' -docstring 'lsp mode'
-
-# spell checking
-declare-user-mode spell
-map global spell s ': spell<ret>' -docstring 'spell'
-map global spell c ': spell-clear<ret>' -docstring 'clear'
-map global spell n ': spell-next<ret>' -docstring 'next'
-map global spell r ': spell-replace<ret>' -docstring 'replace'
-map global user s ': enter-user-mode spell<ret>' -docstring 'spell mode'
-
-# gdb
-# set-option global gdb_location_symbol ▶
-
-#declare-user-mode gdb
-#map global gdb n ': gdb-next<ret>' -docstring 'next'
-#map global gdb s ': gdb-step<ret>' -docstring 'step'
-#map global gdb c ': gdb-continue<ret>' -docstring 'continue'
-#map global gdb f ': gdb-finish<ret>' -docstring 'finish function'
-#map global gdb b ': gdb-toggle-breakpoint<ret>' -docstring 'break'
-#map global gdb g ': gdb-jump-to-location<ret>' -docstring 'goto current location'
-#map global gdb p ': gdb-print<ret>' -docstring 'print selection'
-#map global gdb t ': gdb-backtrace<ret>' -docstring 'print backtrace'
-#define-command gdb -params 0 'enter-user-mode -lock gdb' -docstring 'gdb mode'
-
-# extra functionality
-# ==============================================================================
-
-# Fzf
-define-command -docstring 'Open files with fzf' fuzzy-files %{
-	try %sh{
-		footclient --app-id 'float' sh -c "kak-fuzzy-files $kak_session $kak_client"
-	}
+set-face global CurWord default,rgb:3c3836
+hook global NormalIdle .* %{
+	eval -draft %{ try %{
+		exec <space><a-i>w <a-k>\A\w+\z<ret>
+		add-highlighter -override global/curword regex "\b\Q%val{selection}\E\b" 0:CurWord
+	} catch %{
+		add-highlighter -override global/curword group
+	} }
 }
-map global user o ': fuzzy-files<ret>' -docstring '[FZF] Open Files'
-
-# Nnn
-define-command -docstring 'Open file with nnn' nnn %{
-	try %sh{
-		footclient --app-id 'float' sh -c "kak-nnn $kak_session $kak_client"
-	}
-}
-map global user n ': nnn<ret>' -docstring '[NNN] Open file'
-
-# Ripgrep
-define-command -docstring 'Search with ripgrep and fzf' fuzzy-grep %{
-	try %sh{
-		footclient --app-id 'float' -w 1840x1000 sh -c "kak-fuzzy-grep $kak_session $kak_client"
-	}
-}
-map global user r ': fuzzy-grep<ret>' -docstring '[FZF] Live grep'

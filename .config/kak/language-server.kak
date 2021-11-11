@@ -1,4 +1,4 @@
-# Enable kak-lsp for some filetypes
+# enable kak-lsp for some filetypes
 evaluate-commands %sh{kak-lsp --kakoune -s $kak_session}
 
 # information on current buffer filetype
@@ -22,7 +22,7 @@ hook global WinSetOption filetype=(sh|c|cpp|rust|zig|python|r|html|css|json|java
 # uncomment to enable debug logging for kak-lsp
 # set-option global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
 
-# Shell
+# shell
 hook global BufCreate .*[.](inputrc) %{
 	set-option buffer filetype sh
 }
@@ -31,7 +31,7 @@ hook global WinSetOption filetype=sh %{
 	set-option window lintcmd "shellcheck -f gcc -x -a"
 }
 
-# C/Cpp
+# c/cpp
 hook global WinSetOption filetype=(c|cpp) %{
 	set-option buffer formatcmd 'clang-format'
 	clang-enable-autocomplete
@@ -40,7 +40,7 @@ hook global WinSetOption filetype=(c|cpp) %{
 	alias window lint-next-error clang-diagnostics-next
 }
 
-# Inlay hints are a feature supported by rust-analyzer, which show inferred types,
+# inlay hints are a feature supported by rust-analyzer, which show inferred types,
 # parameter names in function calls, and the types of chained calls inline in the code
 hook global WinSetOption filetype=rust %{
     set-option buffer formatcmd 'rustfmt'
@@ -81,22 +81,27 @@ hook global WinSetOption filetype=python %{
 	}
 }
 
-# Markdown
+# markdown
 # hook global WinSetOption filetype=markdown %{
 # set-option window formatcmd "prettier --tab-width 4 --stdin-filepath='%val{buffile}'"
 # }
 
-# Makefile
+# makefile
 # hook global BufCreate .*\.mk$ %{
 #    set-option buffer filetype makefile
 # }
 
-# Assemply
+# assemply
 hook global WinSetOption filetype=gas %{
     set-option window comment_line '#'
 }
 
-# Octave
+# ini
+hook global WinSetOption filetype=ini %{
+    set-option window comment_line '#'
+}
+
+# octave
 
 # remove from /usr/share/kak/rc/filetype/c-family.kak
 # hook global BufCreate .*\.m %{
