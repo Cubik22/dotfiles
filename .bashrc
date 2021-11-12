@@ -89,11 +89,11 @@ complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rcon
 
 # complete -o bashdefault -o default -o nospace -F __git_wrap__git_main ucs
 # complete -o bashdefault -o default -o nospace -F __git_wrap__git_main uca
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main ucc
+# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main ucm
 # complete -o bashdefault -o default -o nospace -F __git_wrap__git_main ucp
 # complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rcs
 # complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rca
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rcc
+# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rcm
 # complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rcp
 
 # autocomplete xbps
