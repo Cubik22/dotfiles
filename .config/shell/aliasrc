@@ -37,6 +37,9 @@ alias grep="grep --color=auto"
 alias grepi="grep --color=auto -i"
 alias rgi="rg -i"
 
+# hidden
+alias fdh="fd --hidden"
+
 # verbose and recursive
 alias mkdir="mkdir -pv"
 alias cp="cp -r"
