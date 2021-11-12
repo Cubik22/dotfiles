@@ -87,7 +87,7 @@ bindkey "^j" down-line-or-beginning-search # Down
 autoload edit-command-line; zle -N edit-command-line
 bindkey '^e' edit-command-line
 
-#bindkey -s "^n" "nvim $(fzf)^M"
+#bindkey -s "^n" "kak $(fzf)^M"
 
 # initalize zoxide
 eval "$(zoxide init zsh)"
