@@ -58,6 +58,14 @@ TAB: menu-complete
 "\C-k": history-search-backward
 "\C-j": history-search-forward
 
+# clear screen
+"\C-l": clear-screen
+
+# if else example
+# $if not Bash/Octave
+# $else
+# $endif
+
 ## for linux console and RH/Debian xterm
 # "\e[1~": beginning-of-line
 # "\e[4~": end-of-line

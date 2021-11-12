@@ -41,9 +41,6 @@ shopt -s nocaseglob
 # expand aliases
 # shopt -s expand_aliases
 
-# bind control l
-bind -x '"\C-l":"clear -x"'
-
 ## bash history
 
 # export HISTTIMEFORMAT='%f %t '
