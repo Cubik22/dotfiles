@@ -13,6 +13,7 @@ evaluate-commands %sh{
     	modeline.kak
     	languages.kak
     	doas-write.kak
+    	palette.kak
 	"
 
     for file in $config_files; do

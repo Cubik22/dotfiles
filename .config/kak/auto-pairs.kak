@@ -1,38 +1,4 @@
 # Auto-pairing of characters
-# Heavily based on Visual Studio Code.
-# https://code.visualstudio.com
-#
-# Public commands: ["enable-auto-pairs", "disable-auto-pairs"]
-# Public options: ["auto_pairs"]
-#
-# Usage:
-#
-# enable-auto-pairs
-#
-# Configuration:
-#
-# set-option global auto_pairs ( ) { } [ ] '"' '"' "'" "'" ` ` “ ” ‘ ’ « » ‹ ›
-#
-# How does it work?
-#
-# The script installs insert hooks on opening pair characters, such as brackets and quotes.
-# When auto-closing has been triggered, it activates the following functionalities:
-#
-# – {closing-pair} ⇒ Insert character or move right in pair
-# – Enter ⇒ Insert a new indented line in pair (only for the next key)
-# – Control+Enter ⇒ Prompt a count for new indented lines in pair (only for the next key)
-#
-# When moving or leaving insert mode, the functionalities deactivate.
-#
-# Technical details:
-#
-# – Insert hooks are added on opening pair characters from %opt{auto_pairs} option.
-# – Evaluates %opt{auto_close_trigger} option to activate auto-pairing.
-# – Provides %opt{opening_pair} expansion in expressions.
-# – Uses %opt{inserted_pairs} count to keep track of inserted pairs for inserting or moving in pair.
-# – Uses the same implementation for nestable (such as brackets) and non-nestable (such as quotes) pairs.
-# Since insert hooks are added on opening pair characters (for auto-pairing) and mappings on closing pair characters (for moving in pair),
-# we can distinguish same pair characters once auto-pairing has been activated.
 
 # Configuration ────────────────────────────────────────────────────────────────
 

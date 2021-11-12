@@ -30,11 +30,11 @@ hook global BufWritePre .* %{
 # load editorconfig for all buffers except special ones like *debug*
 # hook global WinCreate ^[^*]+$ %{editorconfig-load}
 
-# Enable editor config
+# enable editor config
 hook global BufOpenFile .* %{ editorconfig-load }
 hook global BufNewFile  .* %{ editorconfig-load }
 
-# Show git diff
+# show git diff
 hook global BufWritePost .* %{ git show-diff }
 hook global BufReload    .* %{ git show-diff }
 
@@ -50,26 +50,27 @@ hook global KakEnd .* %{
     state-save-reg-save slash
 }
 
-# Completion
-hook global InsertCompletionShow .* %{ try %{
-    execute-keys -draft 'h<a-K>\h<ret>'
-    map window insert <tab> <c-n>
-    map window insert <s-tab> <c-p>
-    map window insert <c-g> <c-o>
-}}
+# completion
+# <c-n> <c-p> <c-o>
+# hook global InsertCompletionShow .* %{ try %{
+#     execute-keys -draft 'h<a-K>\h<ret>'
+#     map window insert <tab> <c-n>
+#     map window insert <s-tab> <c-p>
+#     map window insert <c-g> <c-o>
+# } }
 
-hook global InsertCompletionHide .* %{
-    unmap window insert <tab> <c-n>
-    unmap window insert <s-tab> <c-p>
-    unmap window insert <c-g> <c-o>
-}
+# hook global InsertCompletionHide .* %{
+#     unmap window insert <tab> <c-n>
+#     unmap window insert <s-tab> <c-p>
+#     unmap window insert <c-g> <c-o>
+# }
 
 # ui settings
 # ==============================================================================
 
 ## change cursor color between normal mode and insert mode
 
-# Shades of blue/cyan for normal mode
+# shades of blue/cyan for normal mode
 set-face global PrimarySelection 	white,bright-blue+g
 set-face global SecondarySelection 	black,bright-blue+g
 set-face global PrimaryCursor 		black,bright-cyan+fg
@@ -77,7 +78,7 @@ set-face global SecondaryCursor 	black,bright-blue+fg
 set-face global PrimaryCursorEol 	black,bright-cyan
 set-face global SecondaryCursorEol 	black,bright-blue
 
-# Shades of green/yellow for insert mode.
+# shades of green/yellow for insert mode.
 hook global ModeChange (push|pop):.*:insert %{
     set-face window PrimarySelection 	white,bright-green+g
     set-face window SecondarySelection 	black,bright-green+g
@@ -87,7 +88,7 @@ hook global ModeChange (push|pop):.*:insert %{
     set-face window SecondaryCursorEol 	black,bright-green
 }
 
-# Undo colour changes when we leave insert mode.
+# undo colour changes when we leave insert mode.
 hook global ModeChange (push|pop):insert:.* %{
     unset-face window PrimarySelection
     unset-face window SecondarySelection
@@ -98,16 +99,21 @@ hook global ModeChange (push|pop):insert:.* %{
 }
 
 set-option global scrolloff 3,3
-# set-option global ui_options ncurses_enable_mouse=true
-# set-option global ui_options ncurses_assistant=none
-# set-option global ui_options terminal_assistant=none
+
+# set-option -add global ui_options terminal_set_title=true
+# set-option -add global ui_options terminal_status_on_top=true
+# set-option -add global ui_options terminal_assistant=cat
+set-option -add global ui_options terminal_assistant=dilbert
+# set-option -add global ui_options terminal_assistant=none
+# set-option -add global ui_options terminal_enable_mouse=false
+# set-option -add global ui_options terminal_synchronized=true
 
 set-option global startup_info_version 20211028
 
 # tiny.kak
 remove-scratch-message
 
-# Auto-pairing of characters
+# auto-pairing of characters
 # set-option global auto_pairs ( ) { } [ ] '"' '"' "'" "'" ` ` “ ” ‘ ’ « » ‹ ›
 hook global WinSetOption filetype=(.*) %{
 	set-option global auto_pairs ( ) { } [ ] '"' '"' "'" "'"
@@ -119,7 +125,7 @@ hook global WinSetOption filetype=(.*) %{
 	enable-auto-pairs
 }
 
-# Integration
+# integration
 synchronize-terminal-clipboard
 make-directory-on-save
 
@@ -131,25 +137,25 @@ add-highlighter global/ show-matching
 add-highlighter global/ wrap -word -indent -marker '↪'
 # add-highlighter global/ wrap -word -indent -marker ''
 
-# Highlight TODO/FIXME/...
+# highlight TODO/FIXME/...
 add-highlighter global/ regex \b(TODO|FIXME|XXX|NOTE|REF|USAGE|REQUIREMENTS|OPTIONALS)\b 0:default+r
 
-# Highlight trailing whitespace
+# highlight trailing whitespace
 # add-highlighter global/ regex \h+$ 0:Error
 
 # require-module kak
 # add-highlighter shared/kakrc/code/if_else regex \b(if|when|unless)\b 0:keyword
 
-# Highlighters
-# done in colors
+# highlighters
+# moved to colors
 # delimiter red
 # set-face global delimiter rgb:af3a03,default
 # operator blue
 # set-face global operator rgb:5a947f,default
 # function yellow
 # set-face global function rgb:ffba19,default
-# set-face global function rgb:d79921,default
-# set-face global function rgb:fabd2f,default
+# # set-face global function rgb:d79921,default
+# # set-face global function rgb:fabd2f,default
 # builtin orange
 # set-face global builtin rgb:f49008,default
 
@@ -161,7 +167,7 @@ hook global WinCreate .* %{
 	# add-highlighter window/class			regex ([^a-z][A-Z][a-zA-Z_0-9]+) 0:class
 }
 
-# Highlight all occurences of word under the cursor
+# highlight all occurences of word under the cursor
 set-face global CurWord default,rgb:3c3836
 hook global NormalIdle .* %{
 	eval -draft %{ try %{
