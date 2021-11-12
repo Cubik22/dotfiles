@@ -2,8 +2,7 @@
 
 define-command doas-write -docstring "write the content of the buffer as root using doas" %{
 	nop %sh{
-        # tricky posix-way of getting the first character of a variable
-        # no subprocess!
+        # tricky posix-way of getting the first character of a variable with no subprocess
         if [ "${kak_buffile%"${kak_buffile#?}"}" != "/" ]; then
             # not entirely foolproof as a scratch buffer may start with '/', but good enough
             printf 'fail "Not a file"'

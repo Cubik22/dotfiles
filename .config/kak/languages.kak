@@ -64,11 +64,12 @@ hook global WinSetOption filetype=rust %{
 hook global WinSetOption filetype=zig %{
     set-option window formatcmd 'zig fmt --stdin'
 
-    # Enable lsp support with semantic highlighting
+    # enable lsp support with semantic highlighting
 	set-option window lsp_insert_spaces true
 	set-option global lsp_server_configuration zls.zig_lib_path="/usr/lib/zig"
 	set-option -add global lsp_server_configuration zls.warn_style=true
 	set-option -add global lsp_server_configuration zls.enable_semantic_tokens=true
+
     hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
     hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
     hook window -group semantic-tokens InsertIdle .* lsp-semantic-tokens
@@ -80,8 +81,8 @@ hook global WinSetOption filetype=zig %{
 hook global WinSetOption filetype=python %{
 	# python-language-server does not currently use initialization options
 	# python-language-server#403, so you can not configure it via kak-lsp.toml.
-	# Instead, set the lsp_config option in your kakrc to send workspace/didChangeConfiguration
-	# This requires settings_section = "_" in kak-lsp.toml
+	# instead, set the lsp_config option in your kakrc to send workspace/didChangeConfiguration
+	# this requires settings_section = "_" in kak-lsp.toml
 	set-option global lsp_config %{
 	    [language.python.settings._]
 	    "pyls.configurationSources" = ["flake8"]
@@ -90,7 +91,7 @@ hook global WinSetOption filetype=python %{
 
 # markdown
 # hook global WinSetOption filetype=markdown %{
-# set-option window formatcmd "prettier --tab-width 4 --stdin-filepath='%val{buffile}'"
+# 	set-option window formatcmd "prettier --tab-width 4 --stdin-filepath='%val{buffile}'"
 # }
 
 # makefile

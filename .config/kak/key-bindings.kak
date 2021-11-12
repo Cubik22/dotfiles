@@ -1,5 +1,4 @@
 # key bindings
-# ==============================================================================
 
 # space is the best leader
 map global normal <space> , -docstring 'leader'
@@ -22,7 +21,7 @@ map global normal a li -docstring 'enter insert mode after cursor'
 # wrap to 80 with comments and shit
 # map global user F '<a-x>Z<a-;>;Wyzs^<c-r>"<ret>dz|fmt -w 77<ret><a-s>ghP<space>' -docstring 'wrap to 80 and shit'
 
-# Case-insensitive search
+# case-insensitive search
 map global normal /     '/(?i)'
 map global normal ?     '?(?i)'
 map global normal <a-/> '<a-/>(?i)'
@@ -38,7 +37,7 @@ map global insert <a-e> <end><esc>
 
 # map global insert <c-p> <a-semicolon>P
 
-# Custom text objects
+# custom text objects
 # map global user W 'c\s,\s<ret>' -docstring "select between whitespace"
 
 # general utility
@@ -49,7 +48,7 @@ map global user t ': ctags-search<ret>' -docstring 'ctag def'
 map global user d ': db<ret>' -docstring 'close buffer'
 map global user m ': make<ret>' -docstring 'make'
 
-# Git
+# git
 declare-user-mode git
 map global user g  ': enter-user-mode git<ret>' -docstring 'mode git'
 map global git l   ': git log<ret>'             -docstring 'Log'
@@ -60,10 +59,10 @@ map global git B   ': git hide-blame<ret>'      -docstring 'Hide blame'
 map global git p   ': git prev-hunk<ret>'       -docstring 'Prev hunk'
 map global git n   ': git next-hunk<ret>'       -docstring 'Next hunk'
 
-# System clipboard
+# system clipboard
 hook global RegisterModified '"' %{ nop %sh{
 	printf %s "$kak_main_reg_dquote" | wl-copy-env > /dev/null 2>&1 &
-}}
+} }
 map global user P '!wl-paste-env -n<ret>'     -docstring 'paste system (before)'
 map global user p '<a-!>wl-paste-env -n<ret>' -docstring 'paste system (after)'
 map global user y '<a-|>wl-copy-env<ret>'     -docstring 'copy system'

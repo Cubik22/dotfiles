@@ -1,7 +1,6 @@
 # kakrc
 
-# editor settings
-# ==============================================================================
+### editor settings
 
 # default tab size and indentation of 4 spaces
 set-option global tabstop 4
@@ -65,8 +64,7 @@ hook global KakEnd .* %{
 #     unmap window insert <c-g> <c-o>
 # }
 
-# ui settings
-# ==============================================================================
+### ui settings
 
 ## change cursor color between normal mode and insert mode
 
