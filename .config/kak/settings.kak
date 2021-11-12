@@ -84,38 +84,6 @@ hook global KakEnd .* %{
 #     unmap window insert <c-g> <c-o>
 # }
 
-### ui settings
-
-## change cursor color between normal mode and insert mode
-
-# shades of blue/cyan for normal mode
-set-face global PrimarySelection 	white,bright-blue+g
-set-face global SecondarySelection 	black,bright-blue+g
-set-face global PrimaryCursor 		black,bright-cyan+fg
-set-face global SecondaryCursor 	black,bright-blue+fg
-set-face global PrimaryCursorEol 	black,bright-cyan
-set-face global SecondaryCursorEol 	black,bright-blue
-
-# shades of green/yellow for insert mode.
-hook global ModeChange (push|pop):.*:insert %{
-    set-face window PrimarySelection 	white,bright-green+g
-    set-face window SecondarySelection 	black,bright-green+g
-    set-face window PrimaryCursor 		black,bright-yellow+fg
-    set-face window SecondaryCursor 	black,bright-green+fg
-    set-face window PrimaryCursorEol 	black,bright-yellow
-    set-face window SecondaryCursorEol 	black,bright-green
-}
-
-# undo colour changes when we leave insert mode.
-hook global ModeChange (push|pop):insert:.* %{
-    unset-face window PrimarySelection
-    unset-face window SecondarySelection
-    unset-face window PrimaryCursor
-    unset-face window SecondaryCursor
-    unset-face window PrimaryCursorEol
-    unset-face window SecondaryCursorEol
-}
-
 # tiny.kak
 remove-scratch-message
 
@@ -134,6 +102,38 @@ hook global WinSetOption filetype=(.*) %{
 # integration
 synchronize-terminal-clipboard
 make-directory-on-save
+
+### ui settings
+
+## change cursor color between normal mode and insert mode
+
+# shades of blue/cyan for normal mode
+set-face global PrimarySelection 	white,bright-blue+g
+set-face global SecondarySelection 	black,bright-blue+g
+set-face global PrimaryCursor 		black,bright-cyan+fg
+set-face global SecondaryCursor 	black,bright-blue+fg
+set-face global PrimaryCursorEol 	black,bright-cyan
+set-face global SecondaryCursorEol 	black,bright-blue
+
+# shades of green/yellow for insert mode
+hook global ModeChange (push|pop):.*:insert %{
+    set-face window PrimarySelection 	white,bright-green+g
+    set-face window SecondarySelection 	black,bright-green+g
+    set-face window PrimaryCursor 		black,bright-yellow+fg
+    set-face window SecondaryCursor 	black,bright-green+fg
+    set-face window PrimaryCursorEol 	black,bright-yellow
+    set-face window SecondaryCursorEol 	black,bright-green
+}
+
+# undo colour changes when leaving insert mode
+hook global ModeChange (push|pop):insert:.* %{
+    unset-face window PrimarySelection
+    unset-face window SecondarySelection
+    unset-face window PrimaryCursor
+    unset-face window SecondaryCursor
+    unset-face window PrimaryCursorEol
+    unset-face window SecondaryCursorEol
+}
 
 # colorscheme gruvbox
 colorscheme gruvbox-hard-dark

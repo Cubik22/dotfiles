@@ -11,9 +11,9 @@ evaluate-commands %sh{
     	key-bindings.kak
     	functionality.kak
     	modeline.kak
-    	languages.kak
     	doas-write.kak
     	palette.kak
+    	languages.kak
 	"
 
     for file in $config_files; do
