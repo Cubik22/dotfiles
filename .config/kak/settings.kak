@@ -5,7 +5,27 @@
 # default tab size and indentation of 4 spaces
 set-option global tabstop 4
 set-option global indentwidth 4
+
+# number of lines, columns to keep visible around the cursor when scrolling
+set-option global scrolloff 3,3
+
+# use tabs for alignment command
 # set-option global aligntab true
+
+# display automatic information box in the enabled contexts
+# set-option global autoinfo command|onkey|normal
+
+# options that are forwarded to the user interface implementation NCurses UI
+# set-option -add global ui_options terminal_set_title=true
+# set-option -add global ui_options terminal_status_on_top=true
+# set-option -add global ui_options terminal_assistant=cat
+set-option -add global ui_options terminal_assistant=dilbert
+# set-option -add global ui_options terminal_assistant=none
+# set-option -add global ui_options terminal_enable_mouse=false
+# set-option -add global ui_options terminal_synchronized=true
+
+# messages in the startup info box only from the version greater than the value
+set-option global startup_info_version 20211028
 
 # disable all default indent and insert hooks
 set-option global disabled_hooks '.*-indent'
@@ -95,18 +115,6 @@ hook global ModeChange (push|pop):insert:.* %{
     unset-face window PrimaryCursorEol
     unset-face window SecondaryCursorEol
 }
-
-set-option global scrolloff 3,3
-
-# set-option -add global ui_options terminal_set_title=true
-# set-option -add global ui_options terminal_status_on_top=true
-# set-option -add global ui_options terminal_assistant=cat
-set-option -add global ui_options terminal_assistant=dilbert
-# set-option -add global ui_options terminal_assistant=none
-# set-option -add global ui_options terminal_enable_mouse=false
-# set-option -add global ui_options terminal_synchronized=true
-
-set-option global startup_info_version 20211028
 
 # tiny.kak
 remove-scratch-message
