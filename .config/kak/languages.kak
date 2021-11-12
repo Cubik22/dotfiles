@@ -28,6 +28,9 @@ hook global WinSetOption filetype=(sh|c|cpp|rust|zig|python|r|html|css|json|java
 hook global BufCreate .*[.](inputrc|octaverc) %{
 	set-option buffer filetype sh
 }
+hook global BufCreate .*(renviron|rprofile) %{
+	set-option buffer filetype sh
+}
 
 # shell
 hook global WinSetOption filetype=sh %{
