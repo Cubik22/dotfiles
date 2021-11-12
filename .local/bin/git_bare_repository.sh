@@ -6,6 +6,8 @@
 # set dotfiles folder name
 git_dir="$HOME"/.dotfiles
 
+username="lbia"
+
 email="lorenzo.bianco22@protonmail.com"
 
 # when changing user name change
@@ -13,7 +15,7 @@ email="lorenzo.bianco22@protonmail.com"
 # HOME/.config/mpv/script-opts/mpv_crop_script.conf (crop screenshot)
 
 # clone repository
-git clone --bare https://github.com/Cubik22/dotfiles.git "$git_dir"
+git clone --bare https://github.com/"$username"/dotfiles.git "$git_dir"
 
 # create temporary alias
 config () {
@@ -104,7 +106,7 @@ rbw unlock
 config push --set-upstream origin main
 
 # set also root config to track upstream
-doas /usr/bin/git --git-dir=/root/config/ --work-tree=/ push --set-upstream https://github.com/Cubik22/config main
+doas /usr/bin/git --git-dir=/root/config/ --work-tree=/ push --set-upstream https://github.com/"$username"/config main
 
 # remove README from HOME and set git to not track in locale
 rm -f "$HOME"/README.md
