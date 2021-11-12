@@ -117,11 +117,15 @@ if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
 	# PS1="\[\e[1;31m\]\w\[\e[m\]\[\e[1;34m\]#\[\e[m\] "
 	# PS1="\[\e[1;31m\]\w\[\e[m\] \[\e[1;32m\]>\[\e[m\]\[\e[1;33m\]>\[\e[m\]\[\e[1;36m\]>\[\e[m\] "
 	# PS1='\[\e[1;31m\][\u@\h \W]\$\[\e[m\] '
+
+	# PS2=""
 else
 	PS1="\[\e[1;32m\]\w\[\e[m\] "
 	# PS1="\[\e[1;32m\]\w\[\e[m\]\[\e[1;34m\]$\[\e[m\] "
 	# PS1="\[\e[1;32m\]\w\[\e[m\] \[\e[1;31m\]>\[\e[m\]\[\e[1;33m\]>\[\e[m\]\[\e[1;36m\]>\[\e[m\] "
 	# PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[m\] '
+
+	# PS2=""
 
     # fzf complete for kak as root
     _fzf_setup_completion path dka

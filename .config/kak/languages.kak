@@ -25,7 +25,7 @@ hook global WinSetOption filetype=(sh|c|cpp|rust|zig|python|r|html|css|json|java
 # set-option global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
 
 # inputrc
-hook global BufCreate .*[.](inputrc) %{
+hook global BufCreate .*[.](inputrc|octaverc) %{
 	set-option buffer filetype sh
 }
 

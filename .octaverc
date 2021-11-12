@@ -14,7 +14,9 @@ function man (name = "help");
 	help(char(name));
 endfunction
 
-# pretty prompt
-PS1("\\[\\033[01;31m\\]\\s:\\#> \\[\\033[0m\\]");
+# prompt
+# black: 30 red: 31 green: 32 yellow: 33 blue: 34 purple: 35 cyan: 36 white: 37
+# PS1("\\[\\033[01;31m\\]\\s:\\#> \\[\\033[0m\\]");
+PS1("\\[\\e[1;36m\\]\\w\\[\\e[m\\] ");
 # no > for multi-line input
 PS2("");
