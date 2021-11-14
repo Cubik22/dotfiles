@@ -25,11 +25,11 @@ window.ssd:backdrop headerbar.titlebar,
 .ssd:backdrop .titlebar {
     min-height: 0px;
     min-width: 0px;
-	/*max-height: 0px;*/
-	/*max-width: 0px;*/
-	/*height: 0px;*/
-	/*width: 0px;*/
-	margin: 0px 0px 0px 0px;
+    /*max-height: 0px;*/
+    /*max-width: 0px;*/
+    /*height: 0px;*/
+    /*width: 0px;*/
+    margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
     border-width: 0px 0px 0px 0px;
     border: none;
@@ -41,7 +41,7 @@ window.ssd:backdrop headerbar.titlebar,
     background-image: none;
     /*opacity: 0;*/
     /*color: transparent;*/
-	color: rgb(1,1,1);
+    color: rgb(1,1,1);
     /*color: #ebdbb2;*/
     /*background-color: transparent;*/
     background-color: rgb(0,0,0);
