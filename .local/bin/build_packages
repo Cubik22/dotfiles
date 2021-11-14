@@ -53,9 +53,11 @@ else
 	ninja -C build install
 
 	## qrupdate
+
 	# https://sourceforge.net/projects/qrupdate
 	# FFLAGS add -fallow-argument-mismatch
 	# BLAS=-lopenblas
 
-	cd "$current_dir" || return 1
+    # useless: cd in scripts does not change acutal directory
+	# cd "$current_dir" || return 1
 fi

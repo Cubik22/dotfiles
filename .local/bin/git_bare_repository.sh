@@ -161,4 +161,4 @@ doas npm install -g vscode-json-languageserver-bin
 doas npm install -g javascript-typescript-langserver
 
 # clone, build and install river and waybar
-clone_build install
+build_packages install
