@@ -28,6 +28,10 @@ phel () {
     echo
     echo "DECOMPRESSION"
     echo "aunpack (atool)"
+    echo
+    echo "GIT"
+    echo "git rm --cached -r"
+    echo "git clone --recurse-submodules"
     # TODO: expand print help
 }
 
