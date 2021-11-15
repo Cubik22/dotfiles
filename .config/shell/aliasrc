@@ -7,8 +7,10 @@
 # export MANPAGER="bat_man.sh"
 
 # doas
-alias d="doas"
-alias sudo="doas"
+# space after alias make bash try to interpret also next word as alias
+alias doas="doas "
+alias d="doas "
+alias sudo="doas "
 
 # do not keep environment variables when su
 alias su="su --login --whitelist-environment=WAYLAND_DISPLAY"

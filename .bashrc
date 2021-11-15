@@ -20,26 +20,26 @@
 
 ## <https://wiki.bash-hackers.org/internals/shell_options>
 
-# variable expansion on tab complete
-shopt -s direxpand
 # prepend cd to directory names automatically
-shopt -s autocd 2>/dev/null
+shopt -s autocd
 # correct spelling errors in arguments supplied to cd
-shopt -s cdspell 2>/dev/null
+shopt -s cdspell
 # check the window size after each command
 shopt -s checkwinsize
 # save multi-line commands as one command
 shopt -s cmdhist
+# variable expansion on tab complete
+shopt -s direxpand
 # correct spelling errors during tab-completion
-shopt -s dirspell 2>/dev/null
+shopt -s dirspell
+# expand aliases
+shopt -s expand_aliases
 # turn on recursive globbing
-shopt -s globstar 2>/dev/null
+shopt -s globstar
 # append to the history file, don't overwrite it
 shopt -s histappend
 # case-insensitive globbing
 shopt -s nocaseglob
-# expand aliases
-# shopt -s expand_aliases
 
 ## bash history
 
