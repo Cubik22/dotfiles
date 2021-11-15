@@ -244,7 +244,8 @@ riverctl focus-follows-cursor normal
 riverctl set-repeat 60 300
 
 # Cursor theme
-# remember to change also environment variables (.config/shell/envrc)
+# remember to change also .config/shell/envrc
+# remember to change also .config/gtk-{2, 3}.0/{config, settings.ini}
 # remember to change also .icons/default/index.theme
 riverctl xcursor-theme Adwaita 20
 # riverctl xcursor-theme OpenZone_White 32

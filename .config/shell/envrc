@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # envrc
 
 # XDG
@@ -76,10 +77,10 @@ export NNN_PLUG="$NNN_PLUG_EDIT;$NNN_PLUG_FUZZY;$NNN_PLUG_OPEN;$NNN_PLUG_GIT"
 # gruvbox hard dark color and other default options
 export FZF_DEFAULT_OPTS='--color=bg+:#1d2021,bg:#1d2021,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934 --reverse --margin 2% --cycle --multi --ansi --no-height --preview "bat --style=numbers --color=always --line-range :500 {}"'
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden -E .git --color=always'
-# Uses tree command to show the entries of the directory
+# uses tree command to show the entries of the directory
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 
-# Use fd (https://github.com/sharkdp/fd) instead of the default find
+# use fd (https://github.com/sharkdp/fd) instead of the default find
 # command for listing path candidates.
 # - The first argument to the function ($1) is the base path to start traversal
 # - See the source code (completion.{bash,zsh}) for the details.
@@ -87,7 +88,7 @@ _fzf_compgen_path() {
   fd --hidden --follow --exclude ".git" . "$1"
 }
 
-# Use fd to generate the list for directory completion
+# use fd to generate the list for directory completion
 _fzf_compgen_dir() {
   fd --type d --hidden --follow --exclude ".git" . "$1"
 }
@@ -117,16 +118,16 @@ if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty
 	# if no sound in SDL applications
 	# export SDL_AUDIODRIVER=alsa
 	
-	# Clutter
+	# clutter
 	# export CLUTTER_BACKEND=wayland
 
-	# Elementary/EFL
+	# elementary/EFL
 	# export ECORE_EVAS_ENGINE=wayland_egl
 	# export ELM_ENGINE=wayland_egl
 	# export ELM_DISPLAY=wl
 	# export ELM_ACCEL=opengl
 
-	# Mozilla
+	# mozilla
 	export MOZ_ENABLE_WAYLAND=1
 	# Open links in external applications in Firefox
 	# export MOZ_DBUS_REMOTE=1
@@ -140,8 +141,9 @@ if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty
 	# set GTK theme
 	# export GTK_THEME=Adwaita:dark
 
-	# Cursor
-	# remember to change also in river (.config/river/init)
+	# cursor
+	# remember to change also .config/river/init
+	# remember to change also .config/gtk-{2, 3}.0/{config, settings.ini}
 	# remember to change also .icons/default/index.theme
 	export XCURSOR_THEME=Adwaita
 	export XCURSOR_SIZE=20
