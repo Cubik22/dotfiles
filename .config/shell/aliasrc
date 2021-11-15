@@ -105,11 +105,11 @@ alias gpl="git pull"
 # git config
 alias ucs="ucon status"
 alias uca="ucon add"
-alias ucm="ucon commit -m"
+alias ucm="ucon commit"
 alias ucp="ucon push"
 alias rcs="rcon status"
 alias rca="rcon add"
-alias rcm="rcon commit -m"
+alias rcm="rcon commit"
 alias rcp="rcon push"
 
 # void mirrors in order to quickly change when one is slow (R flag)
