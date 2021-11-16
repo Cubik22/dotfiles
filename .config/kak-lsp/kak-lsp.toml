@@ -1,4 +1,7 @@
-# when adding language remember to also add in kak/language-server
+# when adding language remember to also add in kak/languages.kak
+
+# snippet_support = false
+# verbosity = 2
 
 [server]
 # exit session if no requests were received during given period in seconds
@@ -24,8 +27,16 @@ offset_encoding = "utf-8"
 filetypes = ["rust"]
 roots = ["Cargo.toml"]
 command = "rls"
-settings_section = "rust-analyzer"
-[language.rust.settings.rust-analyzer]
+# [language.rust.settings.rust]
+# See https://github.com/rust-lang/rls#configuration
+# features = []
+
+# [language.rust]
+# filetypes = ["rust"]
+# roots = ["Cargo.toml"]
+# command = "rust-analyzer"
+# settings_section = "rust-analyzer"
+# [language.rust.settings.rust-analyzer]
 # hoverActions.enable = false # kak-lsp doesn't support this at the moment
 # # cargo.features = []
 # # See https://rust-analyzer.github.io/manual.html#configuration
@@ -42,11 +53,24 @@ filetypes = ["zig"]
 roots = ["build.zig"]
 command = "zls"
 
-# [language.lua]
-# filetypes = ["lua"]
-# roots = [".git"]
-# command = "lua-language-server"
+[language.go]
+filetypes = ["go"]
+roots = ["Gopkg.toml", "go.mod", ".git", ".hg"]
+command = "gopls"
+offset_encoding = "utf-8"
+settings_section = "gopls"
+# [language.go.settings.gopls]
+# See https://github.com/golang/tools/blob/master/gopls/doc/settings.md
+# "build.buildFlags" = []
+
+[language.lua]
+filetypes = ["lua"]
+roots = [".git"]
+command = "lua-language-server"
 # args = ["-E", "$HOME/.local/share/src/lsp/lua/main.lua"]
+# [language.lua.settings.Lua]
+# See https://github.com/sumneko/vscode-lua/blob/master/setting/schema.json
+# diagnostics.enable = true
 
 [language.python]
 filetypes = ["python"]
@@ -55,7 +79,7 @@ command = "pyls"
 offset_encoding = "utf-8"
 workaround_server_sends_plaintext_labeled_as_markdown = true
 settings_section = "_"
-[language.python.settings._]
+# [language.python.settings._]
 # See https://github.com/palantir/python-language-server#configuration
 # and https://github.com/palantir/python-language-server/blob/develop/vscode-client/package.json
 # pyls.configurationSources = ["flake8"]

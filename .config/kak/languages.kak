@@ -6,14 +6,14 @@ evaluate-commands %sh{
 # information on current buffer filetype
 # echo %opt{filetype}
 
-# hook global WinSetOption filetype=(sh|c|cpp|rust|zig|python|r|html|css|json|javascript|typescript) %{
+# hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|html|css|json|javascript|typescript) %{
 # 	add-highlighter window/delimiters		regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
 # 	add-highlighter window/operators		regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
 # 	# add-highlighter window/function 		regex ([a-zA-Z_0-9]+\(+)) 0:function
 # 	# add-highlighter window/class			regex ([^a-z][A-Z][a-zA-Z_0-9]+) 0:class
 # }
 
-hook global WinSetOption filetype=(sh|c|cpp|rust|zig|python|r|html|css|json|javascript|typescript) %{
+hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|html|css|json|javascript|typescript) %{
     # attention when a file has include if there is not a space between the # it interpret the file as a c/cpp
 
 	expandtab
