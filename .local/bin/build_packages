@@ -35,6 +35,9 @@ else
 	        git pull --recurse-submodules
 	    fi
 
+        # prevent lua-language-server from writing .bashrc
+        chmod u-w "$HOME"/.bashrc
+        
 	    cd "$dev"/lua-language-server/3rd/luamake || return 1
 
         ./compile/install.sh
@@ -42,6 +45,9 @@ else
 	    cd "$dev"/lua-language-server || return 1
 
         ./3rd/luamake/luamake rebuild
+
+        # unlock .bashrc
+        chmod u+w "$HOME"/.bashrc
 
         # directory used in kak-lsp/kak-lsp.toml
 	    if [ "$1" = "install" ]; then

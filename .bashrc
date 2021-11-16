@@ -131,5 +131,3 @@ fi
 # initalize zoxide
 eval "$(zoxide init bash)"
 # eval "$(zoxide init --cmd y bash)"
-
-alias luamake=/home/lollo/dev/program/lua-language-server/3rd/luamake/luamake
