@@ -78,6 +78,9 @@ doas ln -s "$HOME"/.config/kak /root/.config/
 doas ln -s "$HOME"/.config/kak-lsp /root/.config/
 doas ln -s "$HOME"/.local/share/kak /root/.local/share/
 
+# zig
+mkdir "$HOME/.local/lib/zig"
+
 # wob
 mkdir -p "$HOME/.local/share/state"
 echo "5" > "$HOME/.local/share/state/brightness_level"
@@ -129,6 +132,9 @@ gpg --edit-key $email
 # clone packer for neovim
 # git clone --depth 1 https://github.com/wbthomason/packer.nvim "$HOME"/.local/share/nvim/site/pack/packer/start/packer.nvim
 
+# clone, build and install packages
+build_packages install
+
 ## languge servers
 
 # to update npm
@@ -137,20 +143,34 @@ gpg --edit-key $email
 # bash
 doas npm install -g bash-language-server
 
+# c/cpp
+# packages: clangclang clang-analyzer clang-tools-extra
+
 # rust
 doas rustup component add rls rust-analysis rust-src
 
 # zig
-zls_dir="$HOME/dev/zig/zls"
-mkdir -p "$zls_dir"
-curl -L https://github.com/zigtools/zls/releases/download/0.1.0/x86_64-linux.tar.xz | tar -xJ --strip-components=1 -C "$zls_dir"
-doas ln -s "$zls_dir/zls" /usr/local/bin/
+# built from source in build_packages zls
+# zls_dir="$HOME/dev/zig/zls"
+# mkdir -p "$zls_dir"
+# zls_location=$(curl -s https://api.github.com/repos/zigtools/zls/releases/latest | grep browser_download_url | grep x86_64-linux.tar.xz | awk '{ print $2 }' | sed 's/,$//' | sed 's/"//g')
+# curl -L "$zls_location" | tar -x --xz --strip-components=1 -C "$zls_dir"
+# doas ln -s "$zls_dir/zls" /usr/local/bin/
+
+# go
+doas go install golang.org/x/tools/gopls@latest
+
+# lua
+# built from source in build_packages lua-language-server
+
+# python
+# package: python3-language-server
 
 # R
 echo "install.packages(\"languageserver\")"
 echo "quit()"
 # to update: update.packages()
-R
+doas R
 
 # html css json
 doas npm install -g vscode-html-languageserver-bin
@@ -159,6 +179,3 @@ doas npm install -g vscode-json-languageserver-bin
 
 # javascript typescript
 doas npm install -g javascript-typescript-langserver
-
-# clone, build and install river and waybar
-build_packages install

@@ -1,3 +1,5 @@
+# https://github.com/kak-lsp/kak-lsp/blob/master/kak-lsp.toml
+
 # when adding language remember to also add in kak/languages.kak
 
 # snippet_support = false
@@ -28,7 +30,7 @@ filetypes = ["rust"]
 roots = ["Cargo.toml"]
 command = "rls"
 # [language.rust.settings.rust]
-# See https://github.com/rust-lang/rls#configuration
+# # See https://github.com/rust-lang/rls#configuration
 # features = []
 
 # [language.rust]
@@ -37,7 +39,8 @@ command = "rls"
 # command = "rust-analyzer"
 # settings_section = "rust-analyzer"
 # [language.rust.settings.rust-analyzer]
-# hoverActions.enable = false # kak-lsp doesn't support this at the moment
+# # kak-lsp doesn't support this at the moment
+# hoverActions.enable = false
 # # cargo.features = []
 # # See https://rust-analyzer.github.io/manual.html#configuration
 # # If you get 'unresolved proc macro' warnings, you have two options
@@ -54,6 +57,7 @@ roots = ["build.zig"]
 command = "zls"
 
 [language.go]
+# https://github.com/golang/tools/tree/master/gopls
 filetypes = ["go"]
 roots = ["Gopkg.toml", "go.mod", ".git", ".hg"]
 command = "gopls"
@@ -66,11 +70,13 @@ settings_section = "gopls"
 [language.lua]
 filetypes = ["lua"]
 roots = [".git"]
-command = "lua-language-server"
-# args = ["-E", "$HOME/.local/share/src/lsp/lua/main.lua"]
-# [language.lua.settings.Lua]
+command = "/usr/local/lib/lua-language-server/lua-language-server"
+args = ["-E", "/usr/local/lib/lua-language-server/main.lua"]
+[language.lua.settings.Lua]
 # See https://github.com/sumneko/vscode-lua/blob/master/setting/schema.json
-# diagnostics.enable = true
+diagnostics.enable = true
+# See https://github.com/sumneko/lua-language-server/wiki/Privacy-Policy
+telemetry.enable = false
 
 [language.python]
 filetypes = ["python"]

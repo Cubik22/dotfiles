@@ -5,15 +5,16 @@
 # XDG
 export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_CACHE_HOME="${HOME}/.cache"
-export XDG_DATA_HOME="${HOME}/.local/share"
-export XDG_STATE_HOME="${HOME}/.local/state"
-#export XDG_DOCUMENTS_DIR="${HOME}/doc"
-#export XDG_DOWNLOAD_DIR="${HOME}/dow"
+export XDG_LOCAL_HOME="${HOME}/.local"
+export XDG_DATA_HOME="${XDG_LOCAL_HOME}/share"
+export XDG_STATE_HOME="${XDG_LOCAL_HOME}/state"
+export XDG_LIB_HOME="${XDG_LOCAL_HOME}/lib"
+export XDG_BIN_HOME="${XDG_LOCAL_HOME}/bin"
 
 # runtime dir
 idu="$(id -u)"
 export XDG_RUNTIME_DIR="/run/user/$idu"
-# export XDG_RUNTIME_DIR="${HOME}/.local/runtime"
+# export XDG_RUNTIME_DIR="${XDG_LOCAL_HOME}/runtime"
 
 # zsh shell
 export ZDOTDIR="${XDG_CONFIG_HOME}/shell"
@@ -29,20 +30,20 @@ export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
 export GTK2_RC_FILES="${XDG_CONFIG_HOME}/gtk-2.0/config"
 
 # development
-export C_INCLUDE_PATH="${HOME}/.local/include"
-export LD_LIBRARY_PATH="${HOME}/.local/lib"
-export PKG_CONFIG_PATH="${HOME}/.local/lib/pkgconfig"
+export C_INCLUDE_PATH="${XDG_LOCAL_HOME}/include"
+export LD_LIBRARY_PATH="${XDG_LIB_HOME}"
+export PKG_CONFIG_PATH="${XDG_LIB_HOME}/pkgconfig"
 
 # R
 export R_HOME_USER="${XDG_DATA_HOME}/R"
-export R_LIBS_USER="${HOME}/.local/lib/R"
+export R_LIBS_USER="${XDG_LIB_HOME}/R"
 export R_ENVIRON_USER="${XDG_CONFIG_HOME}/R/renviron"
 export R_PROFILE_USER="${XDG_CONFIG_HOME}/R/rprofile"
-export R_HISTFILE="${XDG_DATA_HOME}/R/rhistory"
+export R_HISTFILE="${R_HOME_USER}/rhistory"
 
 # paths
-export MANPATH="/usr/share/man:${HOME}/.local/share/man"
-export PATH="${PATH}:${HOME}/.local/bin:${HOME}/.cargo/bin"
+export MANPATH="/usr/share/man:${XDG_DATA_HOME}/man"
+export PATH="${PATH}:${XDG_BIN_HOME}:${HOME}/.cargo/bin"
 
 # less history
 export LESSHISTFILE="$XDG_DATA_HOME/less/lesshst"
@@ -61,22 +62,22 @@ export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|l
 export NNN_SEL='/tmp/.sel'
 export NNN_FIFO='/tmp/nnn.fifo'
 
-NNN_BMS_CONFIG='c:~/.config;l:~/.local'
-NNN_BMS_DEV='v:~/dev'
-NNN_BMS_DOC='d:~/doc'
-NNN_BMS_DOW='w:~/dow'
+NNN_BMS_CONFIG="c:${XDG_CONFIG_HOME};l:${XDG_LOCAL_HOME}"
+NNN_BMS_DEV="v:~/dev"
+NNN_BMS_DOC="d:~/doc"
+NNN_BMS_DOW="w:~/dow"
 export NNN_BMS="$NNN_BMS_CONFIG;$NNN_BMS_DEV;$NNN_BMS_DOC;$NNN_BMS_DOW"
 
-NNN_PLUG_EDIT='c:cmx;e:exec'
-NNN_PLUG_FUZZY='f:fzfd;h:fzhist;a:autojump'
-NNN_PLUG_OPEN='u:doasedit;o:open-editor;i:imgview;d:dragdrop;m:nmount'
-NNN_PLUG_GIT='l:!git log;s:!git status'
+NNN_PLUG_EDIT="c:cmx;e:exec"
+NNN_PLUG_FUZZY="f:fzfd;h:fzhist;a:autojump"
+NNN_PLUG_OPEN="u:doasedit;o:open-editor;i:imgview;d:dragdrop;m:nmount"
+NNN_PLUG_GIT="l:!git log;s:!git status"
 export NNN_PLUG="$NNN_PLUG_EDIT;$NNN_PLUG_FUZZY;$NNN_PLUG_OPEN;$NNN_PLUG_GIT"
 
 # fzf
 # gruvbox hard dark color and other default options
-export FZF_DEFAULT_OPTS='--color=bg+:#1d2021,bg:#1d2021,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934 --reverse --margin 2% --cycle --multi --ansi --no-height --preview "bat --style=numbers --color=always --line-range :500 {}"'
-export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden -E .git --color=always'
+export FZF_DEFAULT_OPTS="--color=bg+:#1d2021,bg:#1d2021,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934 --reverse --margin 2% --cycle --multi --ansi --no-height --preview 'bat --style=numbers --color=always --line-range :500 {}'"
+export FZF_DEFAULT_COMMAND="fd --type file --follow --hidden -E .git --color=always"
 # uses tree command to show the entries of the directory
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 
@@ -136,7 +137,7 @@ if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty
 	# export _JAVA_AWT_WM_NONREPARENTING=1
 	
 	export BROWSER=firefox
-	# export BROWSER="${HOME}/.local/bin/ungoogled_chromium.sh"
+	# export BROWSER="${XDG_BIN_HOME}/ungoogled_chromium.sh"
 
 	# set GTK theme
 	# export GTK_THEME=Adwaita:dark
