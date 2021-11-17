@@ -181,7 +181,7 @@ local({
 install.packages("languageserver")
 EOF
 )
-doas Rscript -e "$rinstall"
+Rscript -e "$rinstall"
 
 ## html css json
 doas npm install -g vscode-html-languageserver-bin
