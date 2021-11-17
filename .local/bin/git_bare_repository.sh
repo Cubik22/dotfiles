@@ -96,7 +96,7 @@ RUSTUP_HOME="/usr/local/lib/rustup"
 CARGO_HOME="/usr/local/lib/cargo"
 
 # add local and cargo directories to path in order to run rbw, rbw-agent and git-credential-bitwarden
-PATH="$PATH:/usr/local/lib/cargo/bin:$HOME/.local/bin:$HOME/.cargo/bin"
+PATH="$HOME/.local/bin:/usr/local/lib/cargo/bin:$PATH"
 
 # cargo packages already installed globally
 doas cargo install rbw
