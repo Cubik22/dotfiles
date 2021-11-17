@@ -91,17 +91,18 @@ echo "off" > "$HOME/.local/share/state/audio_status"
 mkdir -p "$HOME/.local/share/R"
 mkdir -p "$HOME/.local/lib/R"
 
-export RUSTUP_HOME="/usr/local"
-export CARGO_HOME="/usr/local"
+# rustup cargo env
+RUSTUP_HOME="/usr/local/lib/rustup"
+CARGO_HOME="/usr/local/lib/cargo"
+
+# add local and cargo directories to path in order to run rbw, rbw-agent and git-credential-bitwarden
+PATH="$PATH:/usr/local/lib/cargo/bin:$HOME/.local/bin:$HOME/.cargo/bin"
 
 # cargo packages already installed globally
 doas cargo install rbw
 
 # already set in config folder
 # rbw config set email $email
-
-# add local and cargo directories to path in order to run rbw, rbw-agent and git-credential-bitwarden
-PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin"
 
 rbw unlock
 

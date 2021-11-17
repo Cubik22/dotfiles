@@ -76,6 +76,9 @@ alias iwdscan="iwctl station wlan0 scan;"
 alias bluescan="bluetoothctl scan on;"
 alias bluectl="echo \"scan on\"; echo \"connect\"; bluetoothctl"
 
+# lists the installed system libraries
+alias listlib="scanelf --ldpath -BF '%f'"
+
 # human-readable sizes
 alias df='df -h'
 # show sizes in MB

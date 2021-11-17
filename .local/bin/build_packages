@@ -162,6 +162,8 @@ else
 	# https://sourceforge.net/projects/qrupdate
 	# FFLAGS add -fallow-argument-mismatch
 	# BLAS=-lopenblas
+	# if ldconfig works and ld -lqrupdate return something
+	# LIBDIR=lib/qrupdate
 
     # useless: cd in scripts does not change acutal directory
 	# cd "$current_dir" || return 1

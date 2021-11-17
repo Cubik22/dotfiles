@@ -2,6 +2,18 @@
 
 # envrc
 
+# home for the installation of rust and cargo packages
+export RUSTUP_HOME="/usr/local/lib/rustup"
+export CARGO_HOME="/usr/local/lib/cargo"
+
+# go
+# export GOPATH="/usr/local/lib/go
+
+# add cargo to path
+export PATH="/usr/local/lib/cargo/bin:${PATH}"
+# add npm go cargo to path
+# export PATH="/usr/local/lib/npm/bin:/usr/local/lib/go/lib:/usr/local/lib/cargo/bin:${PATH}"
+
 # XDG
 export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_CACHE_HOME="${HOME}/.cache"
@@ -21,6 +33,9 @@ export ZDOTDIR="${XDG_CONFIG_HOME}/shell"
 
 # ripgrep config file
 export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgrep/rc"
+
+# npm config
+# export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}"/npm/npmrc
 
 # gpg
 # export GPG_TTY="$(tty)"
@@ -42,8 +57,8 @@ export R_PROFILE_USER="${XDG_CONFIG_HOME}/R/rprofile"
 export R_HISTFILE="${R_HOME_USER}/rhistory"
 
 # paths
-export MANPATH="/usr/share/man:${XDG_DATA_HOME}/man"
-export PATH="${PATH}:${XDG_BIN_HOME}:${HOME}/.cargo/bin"
+export MANPATH="${XDG_DATA_HOME}/man:/usr/local/share/man:/usr/share/man"
+export PATH="${XDG_BIN_HOME}:${PATH}"
 
 # less history
 export LESSHISTFILE="$XDG_DATA_HOME/less/lesshst"
@@ -52,15 +67,15 @@ export LESSHISTFILE="$XDG_DATA_HOME/less/lesshst"
 # export SVDIR="$XDG_CONFIG_HOME"/service
 
 # NNN
-export NNN_OPTS='eEHr'
-export NNN_COLORS='3415'
-export NNN_FCOLORS='070704030f05060808010301'
+export NNN_OPTS="eEHr"
+export NNN_COLORS="3415"
+export NNN_FCOLORS="070704030f05060808010301"
 export NNN_TRASH=1
 # export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rar|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
 # without rar
 export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
-export NNN_SEL='/tmp/.sel'
-export NNN_FIFO='/tmp/nnn.fifo'
+export NNN_SEL="/tmp/.sel"
+export NNN_FIFO="/tmp/nnn.fifo"
 
 NNN_BMS_CONFIG="c:${XDG_CONFIG_HOME};l:${XDG_LOCAL_HOME}"
 NNN_BMS_DEV="v:~/dev"
