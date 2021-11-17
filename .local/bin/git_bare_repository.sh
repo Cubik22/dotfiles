@@ -136,21 +136,21 @@ gpg --edit-key $email
 # clone, build and install packages
 build_packages install
 
-## languge servers
+### languge servers
 
 # to update npm
 # doas npm -g update
 
-# bash
+## bash
 doas npm install -g bash-language-server
 
-# c/cpp
+## c/cpp
 # packages: clangclang clang-analyzer clang-tools-extra
 
-# rust
+## rust
 doas rustup component add rls rust-analysis rust-src
 
-# zig
+## zig
 # built from source in build_packages zls
 # zls_dir="$HOME/dev/zig/zls"
 # mkdir -p "$zls_dir"
@@ -158,25 +158,35 @@ doas rustup component add rls rust-analysis rust-src
 # curl -L "$zls_location" | tar -x --xz --strip-components=1 -C "$zls_dir"
 # doas ln -s "$zls_dir/zls" /usr/local/bin/
 
-# go
+## go
 doas go install golang.org/x/tools/gopls@latest
 
-# lua
+## lua
 # built from source in build_packages lua-language-server
 
-# python
+## python
 # package: python3-language-server
 
-# R
-echo "install.packages(\"languageserver\")"
-echo "quit()"
+## R
 # to update: update.packages()
-doas R
+rinstall=$(cat << EOF
+# set CRAN mirror
+local({
+  r <- getOption("repos")
+  r["CRAN"] <- "https://cloud.r-project.org/"
+  options(repos = r)
+})
 
-# html css json
+# install packages
+install.packages("languageserver")
+EOF
+)
+doas Rscript -e "$rinstall"
+
+## html css json
 doas npm install -g vscode-html-languageserver-bin
 doas npm install -g vscode-css-languageserver-bin
 doas npm install -g vscode-json-languageserver-bin
 
-# javascript typescript
+## javascript typescript
 doas npm install -g javascript-typescript-langserver

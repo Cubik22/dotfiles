@@ -1,4 +1,4 @@
-## Set CRAN Mirror:
+# set CRAN mirror
 local({
   r <- getOption("repos")
   r["CRAN"] <- "https://cloud.r-project.org/"

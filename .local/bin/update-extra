@@ -1,0 +1,28 @@
+#!/bin/sh
+
+## npm
+doas npm -g update
+
+## rustup
+doas rustup update
+
+## zigup master
+zigup --install-dir "$XDG_LIB_HOME/zig" fetch master
+
+## go
+doas go install golang.org/x/tools/gopls@latest
+
+## R
+rupdate=$(cat << EOF
+# set CRAN mirror
+local({
+  r <- getOption("repos")
+  r["CRAN"] <- "https://cloud.r-project.org/"
+  options(repos = r)
+})
+
+# update packages
+update.packages()
+EOF
+)
+doas Rscript -e "$rupdate"
