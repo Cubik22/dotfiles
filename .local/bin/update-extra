@@ -6,6 +6,9 @@ doas npm -g update
 ## rustup
 doas rustup update
 
+## cargo
+doas cargo install-update --all
+
 ## zigup master
 zigup --install-dir "$XDG_LIB_HOME/zig" fetch master
 

@@ -2,17 +2,9 @@
 
 # envrc
 
-# home for the installation of rust and cargo packages
-export RUSTUP_HOME="/usr/local/lib/rustup"
-export CARGO_HOME="/usr/local/lib/cargo"
-
-# go
-# export GOPATH="/usr/local/lib/go
-
-# add cargo to path
-export PATH="/usr/local/lib/cargo/bin:${PATH}"
 # add npm go cargo to path
-# export PATH="/usr/local/lib/npm/bin:/usr/local/lib/go/lib:/usr/local/lib/cargo/bin:${PATH}"
+# see also .local/bin/git_bare_repository.sh
+export PATH="/usr/local/lib/npm/bin:${GOPATH}/bin:${CARGO_HOME}/bin:${PATH}"
 
 # less
 export LESS="-F -g -i -R -w"

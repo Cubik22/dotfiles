@@ -95,11 +95,14 @@ mkdir -p "$HOME/.local/lib/R"
 RUSTUP_HOME="/usr/local/lib/rustup"
 CARGO_HOME="/usr/local/lib/cargo"
 
-# add local and cargo directories to path in order to run rbw, rbw-agent and git-credential-bitwarden
-PATH="$HOME/.local/bin:/usr/local/lib/cargo/bin:$PATH"
+# go path
+GOPATH="/usr/local/lib/go"
+
+# add npm go and cargo to path in order to install packages in the right places
+PATH="/usr/local/lib/npm/bin:${GOPATH}/bin:${CARGO_HOME}/bin:${PATH}"
 
 # cargo packages already installed globally
-doas cargo install rbw
+doas cargo install cargo-update rbw
 
 # already set in config folder
 # rbw config set email $email
@@ -189,4 +192,4 @@ doas npm install -g vscode-css-languageserver-bin
 doas npm install -g vscode-json-languageserver-bin
 
 ## javascript typescript
-doas npm install -g javascript-typescript-langserver
+doas npm install -g typescript-language-server

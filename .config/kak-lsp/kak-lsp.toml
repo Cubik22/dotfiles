@@ -116,13 +116,15 @@ args = ["--stdio"]
 
 [language.javascript]
 filetypes = ["javascript"]
-roots = ["package.json"]
-command = "language-server-stdio"
+roots = ["package.json", "tsconfig.json", ".git", ".hg"]
+command = "typescript-language-server"
+args = ["--stdio"]
 
 [language.typescript]
 filetypes = ["typescript"]
-roots = ["package.json", "tsconfig.json"]
-command = "javascript-typescript-stdio"
+roots = ["package.json", "tsconfig.json", ".git", ".hg"]
+command = "typescript-language-server"
+args = ["--stdio"]
 
 # Semantic tokens support
 # See https://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocument_semanticTokens
