@@ -11,9 +11,9 @@ substitute="$1"
 
 new_folder="$2"
 
-mkdir -p "$new_folder"
-
 files=$(ls -l | grep "$substitute" | awk '{print $9}')
+
+mkdir -p "$new_folder"
 
 while read file; do
     new_name=$(echo $file | sed "s/$substitute//g")
