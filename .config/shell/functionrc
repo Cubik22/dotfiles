@@ -3,44 +3,8 @@
 # functionrc
 # functions for bash and zsh
 
-# print informations
-phel () {
-    cat << EOF
-# wifi
-iwdscan
-iwctl station wlan0 show/scan/get-networks/(dis)connect
-
-# bluez
-blueon blueoff bluescan
-bluetoothctl default-agent/power on/scan on/trust <device>/connect <device>
-
-# audio
-amixer/alsamixer (alsa)
-pactl (pipewire)
-
-# runit
-ln -s /etc/sv/<service> /var/service/
-ln -s /etc/sv/<service> /etc/runit/runsvdir/default/
-touch /etc/sv/<service>/down
-servstat (info services)
-
-# removable drive
-udisksctl (un)mount -b <drive (from lsblk)>
-
-# decompression
-aunpack (atool)
-tar -x --<compression options> --strip-components=1 -C "<output dir>"
-
-# update
-xi -Su
-update-extra
-    
-# git
-git rm --cached -r
-git clone --recurse-submodules
-EOF
-    # TODO: expand print help
-}
+# source phel
+[ -f "$HOME/.config/shell/phelrc" ] && source "$HOME/.config/shell/phelrc"
 
 # wrapper around kak
 # cd if directory
