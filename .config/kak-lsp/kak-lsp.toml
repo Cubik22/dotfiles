@@ -1,6 +1,6 @@
 # https://github.com/kak-lsp/kak-lsp/blob/master/kak-lsp.toml
 
-# when adding language remember to also edit kak/languages.kak
+# when adding languages remember to also edit kak/languages.kak
 
 # snippet_support = false
 # verbosity = 2
