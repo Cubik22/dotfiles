@@ -2,6 +2,7 @@
 
 package_names=$(cat << EOF
 all
+gn
 lls
 ziget
 zigup
@@ -71,6 +72,31 @@ dev="$HOME/dev/program"
 
 mkdir -p "$dev"
 
+### gn
+# https://gn.googlesource.com/gn
+if [ "$2" = "all" ] || [ "$2" = "gn" ]; then
+    if [ "$1" = "install" ]; then
+        git clone --recurse-submodules https://gn.googlesource.com/gn "$dev"/gn-google
+    fi
+
+    cd "$dev"/gn-google || return 1
+
+    if [ "$1" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    python build/gen.py
+
+    ninja -C out
+
+    # to run tests
+    # out/gn_unittests
+
+    if [ "$1" = "install" ]; then
+        doas ln -s "$dev"/gn-google/out/gn /usr/local/bin/
+    fi
+fi
+
 ## lls
 # https://github.com/sumneko/lua-language-server/wiki/Build-and-Run
 if [ "$2" = "all" ] || [ "$2" = "lls" ]; then
@@ -100,7 +126,7 @@ if [ "$2" = "all" ] || [ "$2" = "lls" ]; then
 
     # directory used in kak-lsp/kak-lsp.toml
     if [ "$1" = "install" ]; then
-        doas ln -s "$HOME"/dev/program/lua-language-server/bin/Linux /usr/local/lib/lua-language-server
+        doas ln -s "$dev"/lua-language-server/bin/Linux /usr/local/lib/lua-language-server
     fi
 fi
 

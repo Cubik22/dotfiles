@@ -102,6 +102,10 @@ GOPATH="/usr/local/lib/go"
 PATH="/usr/local/lib/npm/bin:${GOPATH}/bin:${CARGO_HOME}/bin:${PATH}"
 
 # cargo packages already installed globally
+# --all-features activate all available features
+# --locked require Cargo.lock is up to date
+# --frozen require Cargo.lock and cache are up to date
+# doas cargo install --all-features --locked --frozen
 doas cargo install cargo-update rbw
 
 # set bitwarden mail for normal user
@@ -202,3 +206,4 @@ doas npm install -g vscode-json-languageserver-bin
 
 ## javascript typescript
 doas npm install -g typescript-language-server
+# doas npm install -g javascript-typescript-langserver
