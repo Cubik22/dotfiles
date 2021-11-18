@@ -30,7 +30,8 @@ tar -x --<compression options> --strip-components=1 -C "<output dir>"
 
 # update
 xi -Su
-update-extra
+update-extra all
+build-packages all
     
 # git
 git rm --cached -r

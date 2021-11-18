@@ -141,7 +141,7 @@ gpg --edit-key $email
 # git clone --depth 1 https://github.com/wbthomason/packer.nvim "$HOME"/.local/share/nvim/site/pack/packer/start/packer.nvim
 
 # clone, build and install packages
-build_packages install
+build-packages install
 
 ### languge servers
 
@@ -163,7 +163,7 @@ doas npm install -g bash-language-server
 doas rustup component add rls rust-analysis rust-src
 
 ## zig
-# built from source in build_packages zls
+# built from source in build-packages zls
 # zls_dir="$HOME/dev/zig/zls"
 # mkdir -p "$zls_dir"
 # zls_location=$(curl -s https://api.github.com/repos/zigtools/zls/releases/latest | grep browser_download_url | grep x86_64-linux.tar.xz | awk '{ print $2 }' | sed 's/,$//' | sed 's/"//g')
@@ -174,7 +174,7 @@ doas rustup component add rls rust-analysis rust-src
 doas go install golang.org/x/tools/gopls@latest
 
 ## lua
-# built from source in build_packages lua-language-server
+# built from source in build-packages lua-language-server
 
 ## python
 # package: python3-language-server
