@@ -1,170 +1,218 @@
 #!/bin/sh
 
-num_par="$#"
+package_names=$(cat << EOF
+all
+lls
+ziget
+zigup
+zls
+river
+waybar
+EOF
+)
 
-if [ "$num_par" -lt 1 ]; then
+print_info=$(cat << EOF
+possible first parameter: install update
+possible second parameter:
+$package_names
+EOF
+)
+
+end="false"
+
+if [ "$#" -ne 2 ]; then
 	echo "illegal number of parameters: $#"
-	echo "possible parameters: install update"
-elif [ ! "$1" = "install" ] && [ ! "$1" = "update" ]; then
-	echo "wrong parameter"	
-	echo "possible parameters: install update"
-elif [ "$num_par" -eq 2 ] && [ ! "$2" = "lls" ] && [ ! "$2" = "ziget" ] && [ ! "$2" = "zigup" ] && [ ! "$2" = "zls" ] && [ ! "$2" = "river" ] && [ ! "$2" = "waybar" ]; then
-	echo "wrong optional parameter"
-	echo "$2 is not available"
-	echo "possible parameters: lls ziget zigup zls river waybar"
-else
-    # useless: cd in scripts does not change acutal directory
-	# current_dir="$(pwd)"
-
-	prefix_dir="$HOME/.local"
-	
-	dev="$HOME/dev/program"
-
-	mkdir -p "$dev"
-
-   	## lls
-   	# https://github.com/sumneko/lua-language-server/wiki/Build-and-Run
-   	if [ "$num_par" -eq 1 ] || [ "$2" = "lls" ]; then
-	    if [ "$1" = "install" ]; then
-        	git clone --recurse-submodules https://github.com/sumneko/lua-language-server.git "$dev"/lua-language-server
-	    fi
-
-	    cd "$dev"/lua-language-server || return 1
-
-	    if [ "$1" = "update" ]; then
-	        git pull --recurse-submodules
-	    fi
-
-        # prevent lua-language-server from writing .bashrc
-        chmod u-w "$HOME"/.bashrc
-        
-	    cd "$dev"/lua-language-server/3rd/luamake || return 1
-
-        ./compile/install.sh
-
-	    cd "$dev"/lua-language-server || return 1
-
-        ./3rd/luamake/luamake rebuild
-
-        # unlock .bashrc
-        chmod u+w "$HOME"/.bashrc
-
-        # directory used in kak-lsp/kak-lsp.toml
-	    if [ "$1" = "install" ]; then
-            doas ln -s "$HOME"/dev/program/lua-language-server/bin/Linux /usr/local/lib/lua-language-server
-	    fi
-   	fi
-
-   	## ziget
-   	if [ "$num_par" -eq 1 ] || [ "$2" = "ziget" ]; then
-	    if [ "$1" = "install" ]; then
-        	git clone --recurse-submodules https://github.com/marler8997/ziget.git "$dev"/ziget
-	    fi
-
-	    cd "$dev"/ziget || return 1
-
-	    if [ "$1" = "update" ]; then
-	        git pull --recurse-submodules
-	    fi
-
-	    rm -rf zig-cache
-
-	    zig-master build -Drelease-safe -Dfetch --prefix "$prefix_dir" install
-   	fi
-
-   	## zigup
-   	if [ "$num_par" -eq 1 ] || [ "$2" = "zigup" ]; then
-	    if [ "$1" = "install" ]; then
-        	git clone --recurse-submodules https://github.com/marler8997/zigup.git "$dev"/zigup
-	    fi
-
-	    cd "$dev"/zigup || return 1
-
-	    if [ "$1" = "update" ]; then
-	        git pull --recurse-submodules
-	    fi
-
-	    rm -rf zig-cache
-
-	    zig-master build -Drelease-safe -Dfetch --prefix "$prefix_dir" install
-
-        # update with normal zig installed
-	    # set path-link to a directory that does not exist so it does not automatically link
-	    # zigup --install-dir "$XDG_LIB_HOME/zig" --path-link "does-not-exist" master
-	    # then manually link zig-master
-	    # ln -s "$XDG_LIB_HOME/zig/{version}/files/zig" "$XDG_BIN_HOME/zig-master"
-
-        # update without normal zig installed
-	    # zigup --install-dir "$XDG_LIB_HOME/zig" --path-link "$XDG_BIN_HOME" master
-	    # then manually link zig if it fails
-	    # ln -s "$XDG_LIB_HOME/zig/{version}/files/zig" "$XDG_BIN_HOME/zig"
-   	fi
-
-   	## zls
-   	if [ "$num_par" -eq 1 ] || [ "$2" = "zls" ]; then
-	    if [ "$1" = "install" ]; then
-        	git clone --recurse-submodules https://github.com/zigtools/zls.git "$dev"/zls
-	    fi
-
-	    cd "$dev"/zls || return 1
-
-	    if [ "$1" = "update" ]; then
-	        git pull --recurse-submodules
-	    fi
-
-	    rm -rf zig-cache
-
-        # zig_version="$(xbps-query zig | grep pkgver | awk '{ print $2 }' | sed 's/zig-//g' | sed 's/_.//g')"
-
-	    # zig-master build -Drelease-safe -Ddata_version="$zig_version" --prefix "$prefix_dir" install
-	    zig-master build -Drelease-safe --prefix "$prefix_dir" install
-   	fi
-
-    ## river
-   	if [ "$num_par" -eq 1 ] || [ "$2" = "river" ]; then
-	    if [ "$1" = "install" ]; then
-	    	git clone --recurse-submodules https://github.com/ifreund/river.git "$dev"/river
-	    fi
-
-	    cd "$dev"/river || return 1
-
-	    if [ "$1" = "update" ]; then
-	        git pull --recurse-submodules
-	    fi
-
-	    rm -rf zig-cache
-
-	    # -Dxwayland for xwayland support
-	    zig build -Drelease-safe -Dman-pages --prefix "$prefix_dir" install
-	    # zig build -Drelease-safe -Dman-pages -Dxwayland --prefix $prefix_dir install
-   	fi
-
-    ## waybar
-   	if [ "$num_par" -eq 1 ] || [ "$2" = "waybar" ]; then
-	    if [ "$1" = "install" ]; then
-	    	git clone --recurse-submodules https://github.com/Alexays/Waybar.git "$dev"/waybar
-	    fi
-
-	    cd "$dev"/waybar || return 1
-
-	    if [ "$1" = "update" ]; then
-	        git pull --recurse-submodules
-	    fi
-
-	    # build options enabled/disabled
-	    meson --reconfigure -Dprefix="$prefix_dir" -Dlibnl=enabled -Dlibudev=enabled -Dlibevdev=enabled -Dpulseaudio=enabled -Dsystemd=disabled -Ddbusmenu-gtk=disabled -Dman-pages=enabled -Dmpd=disabled -Dgtk-layer-shell=disabled -Drfkill=enabled -Dsndio=disabled -Dtests=disabled build
-
-	    ninja -C build install
-   	fi
-
-	## qrupdate
-
-	# https://sourceforge.net/projects/qrupdate
-	# FFLAGS add -fallow-argument-mismatch
-	# BLAS=-lopenblas
-	# if ldconfig works and ld -lqrupdate return something
-	# LIBDIR=lib/qrupdate
-
-    # useless: cd in scripts does not change acutal directory
-	# cd "$current_dir" || return 1
+	end="true"
 fi
+
+if [ "$#" -lt 1 ]; then
+    echo "$print_info"
+    return 1
+fi
+
+if [ ! "$1" = "install" ] && [ ! "$1" = "update" ]; then
+	echo "wrong first parameter: $1"
+	end="true"
+fi
+
+if [ "$#" -eq 1 ]; then
+	echo "$print_info"
+	return 1
+fi
+
+found="false"
+while read -r param; do
+    if [ "$2" = "$param" ]; then
+        found="true"
+        break
+    fi
+done <<EOT
+$package_names
+EOT
+if [ "$found" = "false" ]; then
+    echo "wrong second parameter: $2"
+    echo "package not available"
+	end="true"
+fi
+
+if [ "$end" = "true" ]; then
+	echo "$print_info"
+	return 1
+fi
+
+echo "updating package: $2"
+
+# useless: cd in scripts does not change acutal directory
+# current_dir="$(pwd)"
+
+prefix_dir="$HOME/.local"
+	
+dev="$HOME/dev/program"
+
+mkdir -p "$dev"
+
+## lls
+# https://github.com/sumneko/lua-language-server/wiki/Build-and-Run
+if [ "$2" = "all" ] || [ "$2" = "lls" ]; then
+    if [ "$1" = "install" ]; then
+        git clone --recurse-submodules https://github.com/sumneko/lua-language-server.git "$dev"/lua-language-server
+    fi
+
+    cd "$dev"/lua-language-server || return 1
+
+    if [ "$1" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    # prevent lua-language-server from writing .bashrc
+    chmod u-w "$HOME"/.bashrc
+
+    cd "$dev"/lua-language-server/3rd/luamake || return 1
+
+    ./compile/install.sh
+
+    cd "$dev"/lua-language-server || return 1
+
+    ./3rd/luamake/luamake rebuild
+
+    # unlock .bashrc
+    chmod u+w "$HOME"/.bashrc
+
+    # directory used in kak-lsp/kak-lsp.toml
+    if [ "$1" = "install" ]; then
+        doas ln -s "$HOME"/dev/program/lua-language-server/bin/Linux /usr/local/lib/lua-language-server
+    fi
+fi
+
+## ziget
+if [ "$2" = "all" ] || [ "$2" = "ziget" ]; then
+    if [ "$1" = "install" ]; then
+    	git clone --recurse-submodules https://github.com/marler8997/ziget.git "$dev"/ziget
+    fi
+
+    cd "$dev"/ziget || return 1
+
+    if [ "$1" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    rm -rf zig-cache
+
+    zig-master build -Drelease-safe -Dfetch --prefix "$prefix_dir" install
+fi
+
+## zigup
+if [ "$2" = "all" ] || [ "$2" = "zigup" ]; then
+    if [ "$1" = "install" ]; then
+    	git clone --recurse-submodules https://github.com/marler8997/zigup.git "$dev"/zigup
+    fi
+
+    cd "$dev"/zigup || return 1
+
+    if [ "$1" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    rm -rf zig-cache
+
+    zig-master build -Drelease-safe -Dfetch --prefix "$prefix_dir" install
+
+    # update with normal zig installed
+    # set path-link to a directory that does not exist so it does not automatically link
+    # zigup --install-dir "$XDG_LIB_HOME/zig" --path-link "does-not-exist" master
+    # then manually link zig-master
+    # ln -s "$XDG_LIB_HOME/zig/{version}/files/zig" "$XDG_BIN_HOME/zig-master"
+
+    # update without normal zig installed
+    # zigup --install-dir "$XDG_LIB_HOME/zig" --path-link "$XDG_BIN_HOME" master
+    # then manually link zig if it fails
+    # ln -s "$XDG_LIB_HOME/zig/{version}/files/zig" "$XDG_BIN_HOME/zig"
+fi
+
+## zls
+if [ "$2" = "all" ] || [ "$2" = "zls" ]; then
+    if [ "$1" = "install" ]; then
+    	git clone --recurse-submodules https://github.com/zigtools/zls.git "$dev"/zls
+    fi
+
+    cd "$dev"/zls || return 1
+
+    if [ "$1" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    rm -rf zig-cache
+
+    # zig_version="$(xbps-query zig | grep pkgver | awk '{ print $2 }' | sed 's/zig-//g' | sed 's/_.//g')"
+
+    # zig-master build -Drelease-safe -Ddata_version="$zig_version" --prefix "$prefix_dir" install
+    zig-master build -Drelease-safe --prefix "$prefix_dir" install
+fi
+
+## river
+if [ "$2" = "all" ] || [ "$2" = "river" ]; then
+    if [ "$1" = "install" ]; then
+    	git clone --recurse-submodules https://github.com/ifreund/river.git "$dev"/river
+    fi
+
+    cd "$dev"/river || return 1
+
+    if [ "$1" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    rm -rf zig-cache
+
+    # -Dxwayland for xwayland support
+    zig build -Drelease-safe -Dman-pages --prefix "$prefix_dir" install
+    # zig build -Drelease-safe -Dman-pages -Dxwayland --prefix $prefix_dir install
+fi
+
+## waybar
+if [ "$2" = "all" ] || [ "$2" = "waybar" ]; then
+    if [ "$1" = "install" ]; then
+    	git clone --recurse-submodules https://github.com/Alexays/Waybar.git "$dev"/waybar
+    fi
+
+    cd "$dev"/waybar || return 1
+
+    if [ "$1" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    # build options enabled/disabled
+    meson --reconfigure -Dprefix="$prefix_dir" -Dlibnl=enabled -Dlibudev=enabled -Dlibevdev=enabled -Dpulseaudio=enabled -Dsystemd=disabled -Ddbusmenu-gtk=disabled -Dman-pages=enabled -Dmpd=disabled -Dgtk-layer-shell=disabled -Drfkill=enabled -Dsndio=disabled -Dtests=disabled build
+
+    ninja -C build install
+fi
+
+## qrupdate
+
+# https://sourceforge.net/projects/qrupdate
+# FFLAGS add -fallow-argument-mismatch
+# BLAS=-lopenblas
+# if ldconfig works and ld -lqrupdate return something
+# LIBDIR=lib/qrupdate
+
+# useless: cd in scripts does not change acutal directory
+# cd "$current_dir" || return 1

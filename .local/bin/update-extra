@@ -1,22 +1,86 @@
 #!/bin/sh
 
-## npm
-doas npm -g update
+package_names=$(cat << EOF
+all
+rustup
+cargo
+zigup
+go
+npm
+R
+EOF
+)
+
+print_info=$(cat << EOF
+only parameter package name:
+$package_names
+EOF
+)
+
+end="false"
+
+if [ "$#" -ne 1 ]; then
+	echo "illegal number of parameters: $#"
+	end="true"
+fi
+
+if [ "$#" -lt 1 ]; then
+    echo "$print_info"
+    return 1
+fi
+
+found="false"
+while read -r param; do
+    if [ "$1" = "$param" ]; then
+        found="true"
+        break
+    fi
+done <<EOT
+$package_names
+EOT
+if [ "$found" = "false" ]; then
+    echo "wrong parameter: $1"
+    echo "package not available"
+	end="true"
+fi
+
+if [ "$end" = "true" ]; then
+	echo "$print_info"
+	return 1
+fi
+
+echo "updating package: $1"
 
 ## rustup
-doas rustup update
+# stable toolchain
+if [ "$1" = "all" ] || [ "$1" = "rustup" ]; then
+    doas rustup update
+fi
 
 ## cargo
-doas cargo install-update --all
+if [ "$1" = "all" ] || [ "$1" = "cargo" ]; then
+    doas cargo install-update --all
+fi
 
-## zigup master
-zigup --install-dir "$XDG_LIB_HOME/zig" fetch master
+## zigup
+# master branch
+if [ "$1" = "all" ] || [ "$1" = "zigup" ]; then
+    zigup --install-dir "$XDG_LIB_HOME/zig" fetch master
+fi
 
 ## go
-doas go install golang.org/x/tools/gopls@latest
+if [ "$1" = "all" ] || [ "$1" = "go" ]; then
+    doas go install golang.org/x/tools/gopls@latest
+fi
+
+## npm
+if [ "$1" = "all" ] || [ "$1" = "npm" ]; then
+    doas npm -g update
+fi
 
 ## R
-rupdate=$(cat << EOF
+if [ "$1" = "all" ] || [ "$1" = "R" ]; then
+    rupdate=$(cat << EOF
 # set CRAN mirror
 local({
   r <- getOption("repos")
@@ -28,4 +92,5 @@ local({
 update.packages()
 EOF
 )
-Rscript -e "$rupdate"
+    Rscript -e "$rupdate"
+fi

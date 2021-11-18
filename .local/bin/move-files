@@ -11,13 +11,13 @@ substitute="$1"
 
 new_folder="$2"
 
-files=$(ls -l | grep "$substitute" | awk '{print $9}')
+files=$(ls --format=single-column "$substitute"*)
 
 mkdir -p "$new_folder"
 
 while read file; do
-    new_name=$(echo $file | sed "s/$substitute//g")
-    mv $file "$new_folder"/"$new_name"
+    new_name=$(echo "$file" | sed "s/$substitute//g")
+    mv "$file" "$new_folder"/"$new_name"
 done <<EOT
 $(echo "$files")
 EOT
