@@ -145,8 +145,13 @@ build_packages install
 
 ### languge servers
 
+# check for outdated, incorrect, and unused dependencies
+doas npm install -g npm-check
+
 # to update npm
 # doas npm -g update
+# to list packages
+# doas npm -g ls
 
 ## bash
 doas npm install -g bash-language-server
