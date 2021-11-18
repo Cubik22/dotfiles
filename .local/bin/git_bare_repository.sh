@@ -47,7 +47,7 @@ doas rm -f /root/.bashrc
 doas rm -f /root/.inputrc
 doas rm -f /root/.dir_colors
 doas rm -fr /root/.config/git
-doas rm -fr /root/.config/rbw
+# doas rm -fr /root/.config/rbw
 doas rm -fr /root/.config/waylock
 doas rm -fr /root/.config/shell
 doas rm -fr /root/.config/nvim
@@ -62,14 +62,14 @@ doas ln -s "$HOME"/.inputrc /root/.inputrc
 doas ln -s "$HOME"/.dir_colors /root/.dir_colors
 
 doas mkdir -p "/root/.config/git"
-doas mkdir -p "/root/.config/rbw"
+# doas mkdir -p "/root/.config/rbw"
 doas mkdir -p "/root/.config/waylock"
 # doas mkdir -p "/root/.config/shell"
 # doas mkdir -p "/root/.config/nvim"
 # doas mkdir -p "/root/.local/share/nvim"
 
 doas ln -s "$HOME"/.config/git/config /root/.config/git/
-doas ln -s "$HOME"/.config/rbw/config.json /root/.config/rbw/
+# doas ln -s "$HOME"/.config/rbw/config.json /root/.config/rbw/
 doas ln -s "$HOME"/.config/waylock/waylock.toml /root/.config/waylock/
 doas ln -s "$HOME"/.config/shell /root/.config/
 doas ln -s "$HOME"/.config/nvim /root/.config/
@@ -104,8 +104,12 @@ PATH="/usr/local/lib/npm/bin:${GOPATH}/bin:${CARGO_HOME}/bin:${PATH}"
 # cargo packages already installed globally
 doas cargo install cargo-update rbw
 
-# already set in config folder
-# rbw config set email $email
+# set bitwarden mail for normal user
+rbw config set email $email
+# set bitwarden mail for root user
+rbw config set email $email
+
+# rbw may ask api key
 
 rbw unlock
 
