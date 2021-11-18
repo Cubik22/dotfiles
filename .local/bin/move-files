@@ -1,0 +1,23 @@
+#!/bin/sh
+
+if [ "$#" -ne 2 ]; then
+    echo "insert two parameters"
+    echo "first parameter starting name of files"
+    echo "second parameter new folder"
+    return 1
+fi
+
+substitute="$1"
+
+new_folder="$2"
+
+mkdir -p "$new_folder"
+
+files=$(ls -l | grep "$substitute" | awk '{print $9}')
+
+while read file; do
+    new_name=$(echo $file | sed "s/$substitute//g")
+    mv $file "$new_folder"/"$new_name"
+done <<EOT
+$(echo "$files")
+EOT
