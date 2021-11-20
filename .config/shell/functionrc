@@ -260,8 +260,12 @@ nnn-pre() {
     # preview command
     preview_cmd="$XDG_CONFIG_HOME/nnn/plugins/preview-cmd"
 
+    exists() {
+        command -v "$1" >/dev/null 2>&1
+    }
+
     # use a new window with foot as a preview window
-    if (which riverctl &> /dev/null) && (which footclient &> /dev/null); then
+    if exists riverctl && exists footclient; then
         riverctl spawn "footclient $preview_cmd"
         # wait some time otherwise river is still focused on the previous tag
         sleep 0.01
