@@ -12,6 +12,9 @@ browser.tabs.loadBookmarksInTabs									true
 ui.key.menuAccessKey												0
 # may give video problems
 media.ffmpeg.vaapi.enabled											true
+# maximum chrome script time in seconds
+# change temporary just for running scripts
+dom.max_chrome_script_run_time										30
 
 browser.newtabpage.activity-stream.default.sites					""
 browser.region.network.url 											""

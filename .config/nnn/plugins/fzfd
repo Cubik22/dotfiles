@@ -5,4 +5,4 @@
 # REQUIREMENTS: fzf - fd
 # OPTIONALS:
 
-"${EDITOR:-kak}" -- "$(fd -t f | fzf)"
+"${EDITOR:-kak}" -- "$(fd --type file --follow --hidden -E .git --color=always | fzf --ansi)"

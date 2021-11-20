@@ -7,7 +7,10 @@
 export PATH="/usr/local/lib/npm/bin:${GOPATH}/bin:${CARGO_HOME}/bin:${PATH}"
 
 # less
-export LESS="-F -g -i -R -w"
+# -F automatically exit if the entire file can be displayed on the first screen
+# may create problems with nnn
+# export LESS="-F -g -i -R -w"
+export LESS="-g -i -R -w"
 
 # XDG
 export XDG_CONFIG_HOME="${HOME}/.config"
@@ -69,13 +72,14 @@ export NNN_TRASH=1
 # export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rar|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
 # without rar
 export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
+
 export NNN_SEL="/tmp/.sel"
 export NNN_FIFO="/tmp/nnn.fifo"
 
 NNN_BMS_CONFIG="c:${XDG_CONFIG_HOME};l:${XDG_LOCAL_HOME}"
-NNN_BMS_DEV="v:~/dev"
-NNN_BMS_DOC="d:~/doc"
-NNN_BMS_DOW="w:~/dow"
+NNN_BMS_DEV="v:$HOME/dev"
+NNN_BMS_DOC="d:$HOME/doc"
+NNN_BMS_DOW="w:$HOME/dow"
 export NNN_BMS="$NNN_BMS_CONFIG;$NNN_BMS_DEV;$NNN_BMS_DOC;$NNN_BMS_DOW"
 
 NNN_PLUG_EDIT="c:cmx;e:exec"
@@ -86,10 +90,10 @@ export NNN_PLUG="$NNN_PLUG_EDIT;$NNN_PLUG_FUZZY;$NNN_PLUG_OPEN;$NNN_PLUG_GIT"
 
 # fzf
 # gruvbox hard dark color and other default options
-export FZF_DEFAULT_OPTS="--color=bg+:#1d2021,bg:#1d2021,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934 --reverse --margin 2% --cycle --multi --ansi --no-height --preview 'bat --style=numbers --color=always --line-range :500 {}'"
-export FZF_DEFAULT_COMMAND="fd --type file --follow --hidden -E .git --color=always"
+export FZF_DEFAULT_OPTS='--color=bg+:#1d2021,bg:#1d2021,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934 --reverse --margin 2% --cycle --multi --ansi --no-height --preview "bat --style=numbers --color=always --line-range :500 {}"'
+export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden -E .git --color=always'
 # uses tree command to show the entries of the directory
-export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+export FZF_ALT_C_OPTS='--preview "tree -C {} | head -200"'
 
 # use fd (https://github.com/sharkdp/fd) instead of the default find
 # command for listing path candidates.

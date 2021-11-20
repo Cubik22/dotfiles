@@ -2,6 +2,8 @@
 # ~/.bash_profile
 #
 
-[[ -f ${HOME}/.bashrc ]] && . ${HOME}/.bashrc
+envrc="${HOME}/.config/shell/envrc"
+[ -f "$envrc" ] && . "$envrc"
 
-source "$HOME/.config/shell/envrc"
+bashrc="${HOME}/.bashrc"
+[ -f "$bashrc" ] && . "$bashrc"

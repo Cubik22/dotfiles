@@ -59,6 +59,7 @@ alias .....="cd ../../../.."
 alias cd..="cd .."
 alias space="du -sh"
 alias n3="nnn"
+alias n3p="nnn-pre"
 alias nv="nvim"
 alias kak="kak-smart no"
 alias ka="kak-smart no"
@@ -156,6 +157,7 @@ else
 	alias powertop="doas powertop"
 
 	alias dn3="doas nnn"
+	alias dn3p="doas nnn-pre"
 	alias dnv="doas nvim"
 	alias dka="kak-smart yes"
 fi
