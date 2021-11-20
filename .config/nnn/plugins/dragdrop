@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/sh
 
 # Description: Open a Drag and drop window, to drop files onto other programs.
 #              Also provides drag and drop window for files.
@@ -17,7 +17,7 @@
 selection=${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
 resp=f
 all=
-if type dragon-drag-and-drop >/dev/null 2>&1; then
+if command -v dragon-drag-and-drop >/dev/null 2>&1; then
     dnd="dragon-drag-and-drop"
 else
     dnd="dragon"

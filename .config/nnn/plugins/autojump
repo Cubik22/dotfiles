@@ -14,25 +14,29 @@
 # Shell: POSIX compliant
 # Authors: Marty Buchaus, Dave Snider, Tim Adler, Nick Waywood
 
+exists() {
+    command -v "$1" >/dev/null 2>&1
+}
+
 if [ ! -p "$NNN_PIPE" ]; then
     printf 'ERROR: NNN_PIPE is not set!'
     read -r _
     exit 2
 fi
 
-if type jump >/dev/null 2>&1; then
+if exists jump; then
     printf "jump to : "
     IFS= read -r line
     # shellcheck disable=SC2086
     odir="$(jump cd ${line})"
     printf "%s" "0c$odir" > "$NNN_PIPE"
-elif type autojump >/dev/null 2>&1; then
+elif exists autojump; then
     printf "jump to : "
     read -r dir
     odir="$(autojump "$dir")"
     printf "%s" "0c$odir" > "$NNN_PIPE"
-elif type zoxide >/dev/null 2>&1; then
-    if type fzf >/dev/null 2>&1; then
+elif exists zoxide; then
+    if exists fzf; then
     	odir="$(zoxide query -i --)"
     	printf "%s" "0c$odir" > "$NNN_PIPE"
     else
@@ -44,7 +48,7 @@ elif type zoxide >/dev/null 2>&1; then
 else
     # rupa/z uses $_Z_DATA, jethrokuan/z (=port of z for fish) uses $Z_DATA
     datafile="${_Z_DATA:-${Z_DATA:-$HOME/.z}}"
-    if type fzf >/dev/null 2>&1 && [ -f "$datafile" ]; then
+    if exists fzf && [ -f "$datafile" ]; then
         # Read the data from z's file instead of calling
         # z so the data doesn't need to be processed twice
         sel=$(awk -F "|" '{print $1}' "$datafile" | fzf | awk '{$1=$1};1')
