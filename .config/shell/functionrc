@@ -248,6 +248,8 @@ nnn-pre () {
         return 1
     fi
 
+    NNN_TMPFILE="$XDG_CONFIG_HOME"/nnn/.lastd
+
     # this will create a fifo where all nnn selections will be written to
     # NNN_FIFO="$(mktemp --suffix=-nnn -u)"
     # export NNN_FIFO
@@ -268,7 +270,15 @@ nnn-pre () {
         echo "unable to open preview, please install river and foot"
     fi
 
-    nnn "$@"
+    # make sure tmp file does not exists before starting nnn
+    rm -f "$NNN_TMPFILE"
+
+    /bin/nnn "$@"
+
+    # source tmp file which is created just when <C-g> is pressed
+    [ -f "$NNN_TMPFILE" ] && . "$NNN_TMPFILE"
+
+    rm -f "$NNN_TMPFILE"
 
     rm -f "$NNN_FIFO"
 }
