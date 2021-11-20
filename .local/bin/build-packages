@@ -2,8 +2,10 @@
 
 package_names=$(cat << EOF
 all
+fontpreview
+lsix
 gn
-lls
+lua-language-server
 ziget
 zigup
 zls
@@ -72,6 +74,36 @@ dev="$HOME/dev/program"
 
 mkdir -p "$dev"
 
+### fontpreview
+# https://github.com/sdushantha/fontpreview
+if [ "$2" = "all" ] || [ "$2" = "fontpreview" ]; then
+    if [ "$1" = "install" ]; then
+        git clone --recurse-submodules https://github.com/sdushantha/fontpreview.git "$dev"/fontpreview
+    fi
+
+    cd "$dev/fontpreview" || return 1
+    if [ "$1" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    doas make install
+fi
+
+### lsix
+# https://github.com/hackerb9/lsix
+if [ "$2" = "all" ] || [ "$2" = "lsix" ]; then
+    if [ "$1" = "install" ]; then
+        git clone --recurse-submodules https://github.com/hackerb9/lsix.git "$dev"/lsix
+    fi
+
+    cd "$dev/lsix" || return 1
+    if [ "$1" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    doas cp lsix /usr/local/bin/
+fi
+
 ### gn
 # https://gn.googlesource.com/gn
 if [ "$2" = "all" ] || [ "$2" = "gn" ]; then
@@ -97,9 +129,9 @@ if [ "$2" = "all" ] || [ "$2" = "gn" ]; then
     fi
 fi
 
-## lls
+## lua-language-server
 # https://github.com/sumneko/lua-language-server/wiki/Build-and-Run
-if [ "$2" = "all" ] || [ "$2" = "lls" ]; then
+if [ "$2" = "all" ] || [ "$2" = "lua-language-server" ]; then
     if [ "$1" = "install" ]; then
         git clone --recurse-submodules https://github.com/sumneko/lua-language-server.git "$dev"/lua-language-server
     fi

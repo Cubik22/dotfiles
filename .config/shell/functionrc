@@ -11,7 +11,7 @@ phelrc="$HOME/.config/shell/phelrc"
 # cd if directory
 # open with kak if file
 # supposed to be used just with aliases
-kak-smart () {
+kak-smart() {
 	# first parameter check if running as root
 	if [ "$#" -le 0 ]; then
 	    echo "please insert the first parameter: whether or no to run as root"
@@ -63,7 +63,7 @@ kak-smart () {
 
 # spawn zathura in a specified river tag
 # better spa (global script)
-zat () {
+zat() {
 	if [ "$#" -lt 2 ]; then
     	echo "insert at least two parameters"
     	echo "first parameter: tag"
@@ -78,7 +78,7 @@ zat () {
 }
 
 # wrapper around git that before push, unlock bitwarden
-git () {
+git() {
 	if [ "$#" -ge 1 ] && [ "$1" = "push" ]; then
 		rbw unlock
 	fi
@@ -86,7 +86,7 @@ git () {
 }
 
 # git bare repository user dotfiles
-ucon () {
+ucon() {
 	# when adding echo to remember to pull before commit
 	if [ "$#" -ge 1 ]; then
 		if [ "$1" = "add" ]; then
@@ -108,7 +108,7 @@ ucon () {
 }
 
 # git bare repository root config files
-rcon () {
+rcon() {
 	# make sure that when running as user use doas
 	if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
 		local as_root="true"
@@ -149,7 +149,7 @@ rcon () {
 }
 
 # create a file and automatically add it with ucon
-utouch () {
+utouch() {
 	if [ "$#" -le 0 ]; then
     	echo "at least one parameter: the name of the file to be created"
     	return 1
@@ -167,7 +167,7 @@ utouch () {
 }
 
 # create a file and automatically add it with rcon
-rtouch () {
+rtouch() {
 	if [ "$#" -le 0 ]; then
     	echo "at least one parameter: the name of the file to be created"
     	return 1
@@ -186,7 +186,7 @@ rtouch () {
 
 # old
 # audocd when pressing ^G
-# nnn () {
+# nnn() {
 #     # Block nesting of nnn in subshells
 #     if [ -n "$NNNLVL" ] && [ "${NNNLVL:-0}" -ge 1 ]; then
 #         echo "nnn is already running"
@@ -219,7 +219,7 @@ rtouch () {
 
 # audocd when pressing ^G
 # edit also nnn-pre
-nnn () {
+nnn() {
     # block nesting of nnn in subshells
     if [ -n "$NNNLVL" ] && [ "${NNNLVL:-0}" -ge 1 ]; then
         echo "nnn is already running"
@@ -241,7 +241,7 @@ nnn () {
 
 # start nnn with preview
 # https://github.com/jarun/nnn/wiki/Live-previews
-nnn-pre () {
+nnn-pre() {
     # block nesting of nnn in subshells
     if [ -n "$NNNLVL" ] && [ "${NNNLVL:-0}" -ge 1 ]; then
         echo "nnn is already running"

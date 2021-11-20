@@ -12,6 +12,9 @@ export PATH="/usr/local/lib/npm/bin:${GOPATH}/bin:${CARGO_HOME}/bin:${PATH}"
 # export LESS="-F -g -i -R -w"
 export LESS="-g -i -R -w"
 
+# tmp dir
+export TMPDIR="/tmp"
+
 # XDG
 export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_CACHE_HOME="${HOME}/.cache"
@@ -72,6 +75,10 @@ export NNN_TRASH=1
 # export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rar|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
 # without rar
 export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
+
+export NNN_PREVIEWDIR="${XDG_CACHE_HOME}/nnn/previews"
+export NNN_PREVIEWWIDTH="1920"
+export NNN_PREVIEWHEIGHT="1080"
 
 export NNN_SEL="/tmp/.sel"
 export NNN_FIFO="/tmp/nnn.fifo"
