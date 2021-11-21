@@ -108,6 +108,10 @@ PATH="/usr/local/lib/npm/bin:${GOPATH}/bin:${CARGO_HOME}/bin:${PATH}"
 # doas cargo install --all-features --locked --frozen
 doas cargo install cargo-update rbw
 
+# link rbw rbw-agent for doas
+doas ln -s /usr/local/lib/cargo/bin/rbw /usr/local/bin/
+doas ln -s /usr/local/lib/cargo/bin/rbw-agent /usr/local/bin/
+
 # set bitwarden mail for normal user
 rbw config set email $email
 # set bitwarden mail for root user
