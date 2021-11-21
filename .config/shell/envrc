@@ -39,7 +39,8 @@ export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgrep/rc"
 # export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}"/npm/npmrc
 
 # gpg
-# export GPG_TTY="$(tty)"
+GPG_TTY="$(tty)"
+export GPG_TTY
 export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
 
 # gtk-2.0 config file

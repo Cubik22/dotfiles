@@ -87,17 +87,21 @@ hook global KakEnd .* %{
 # tiny.kak
 remove-scratch-message
 
-# auto-pairing of characters
+# auto-pairing of characters with quotes
 # set-option global auto_pairs ( ) { } [ ] '"' '"' "'" "'" ` ` “ ” ‘ ’ « » ‹ ›
-hook global WinSetOption filetype=(.*) %{
-	set-option global auto_pairs ( ) { } [ ] '"' '"' "'" "'"
-}
-hook global WinSetOption filetype=(octave) %{
-	set-option global auto_pairs ( ) { } [ ] '"' '"'
-}
-hook global WinSetOption filetype=(.*) %{
-	enable-auto-pairs
-}
+# hook global WinSetOption filetype=(.*) %{
+# 	set-option global auto_pairs ( ) { } [ ] '"' '"' "'" "'"
+# }
+# hook global WinSetOption filetype=(octave) %{
+# 	set-option global auto_pairs ( ) { } [ ] '"' '"'
+# }
+# hook global WinSetOption filetype=(.*) %{
+# 	enable-auto-pairs
+# }
+
+# auto-pairing of characters without quotes
+set-option global auto_pairs ( ) { } [ ]
+enable-auto-pairs
 
 # integration
 synchronize-terminal-clipboard
