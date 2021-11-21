@@ -12,6 +12,9 @@ export PATH="/usr/local/lib/npm/bin:${GOPATH}/bin:${CARGO_HOME}/bin:${PATH}"
 # export LESS="-F -g -i -R -w"
 export LESS="-g -i -R -w"
 
+# bat as manpager (set bat config)
+# export MANPAGER="bat_man.sh"
+
 # tmp dir
 export TMPDIR="/tmp"
 
