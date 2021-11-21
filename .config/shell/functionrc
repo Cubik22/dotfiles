@@ -5,7 +5,7 @@
 
 # source phel
 phelrc="$HOME/.config/shell/phelrc"
-[ -f "$phelrc" ] && source "$phelrc"
+[ -f "$phelrc" ] && . "$phelrc"
 
 # wrapper around kak
 # cd if directory
@@ -105,7 +105,7 @@ ucon() {
 			/usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
 		fi
 	fi
-}
+} && export -f ucon
 
 # git bare repository root config files
 rcon() {
@@ -146,7 +146,7 @@ rcon() {
 			fi
 		fi
 	fi
-}
+} && export -f rcon
 
 # create a file and automatically add it with ucon
 utouch() {
@@ -164,7 +164,7 @@ utouch() {
         chmod "$2" "$file"
 	fi
 	ucon add "$file"
-}
+} && export -f utouch
 
 # create a file and automatically add it with rcon
 rtouch() {
@@ -182,7 +182,7 @@ rtouch() {
         doas chmod "$2" "$file"
 	fi
 	rcon add "$file"
-}
+} && export -f rtouch
 
 # old
 # audocd when pressing ^G

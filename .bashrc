@@ -7,11 +7,11 @@
 
 # source functions
 # it is also sourced by zsh
-[ -f "$HOME/.config/shell/functionrc" ] && source "$HOME/.config/shell/functionrc"
+[ -f "$HOME/.config/shell/functionrc" ] && . "$HOME/.config/shell/functionrc"
 
 # source aliases and some small functions which work like aliases
 # it is also sourced by zsh
-[ -f "$HOME/.config/shell/aliasrc" ] && source "$HOME/.config/shell/aliasrc"
+[ -f "$HOME/.config/shell/aliasrc" ] && . "$HOME/.config/shell/aliasrc"
 
 # source fzf completion and key-bindings
 # export FZF_COMPLETION_TRIGGER='**'

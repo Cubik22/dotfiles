@@ -34,8 +34,10 @@ update-extra all
 build-packages all
     
 # git
-git rm --cached -r
 git clone --recurse-submodules
+git pull --recurse-submodules
+git diff {--cached}
+git rm {--cached} -r
 EOF
     # TODO: expand print help
 }
