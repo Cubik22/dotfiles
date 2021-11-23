@@ -31,7 +31,7 @@ tar -x --<compression options> --strip-components=1 -C "<output dir>"
 # update
 xi -Su
 update-extra all
-build-packages all
+build-packages update all
     
 # git
 git clone --recurse-submodules
