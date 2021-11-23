@@ -78,6 +78,7 @@ mkdir -p "$dev"
 
 ### amule
 # https://wiki.amule.org/wiki/Compilation_Installation
+# https://wiki.amule.org/t/index.php?title=Requirements
 if [ "$2" = "all" ] || [ "$2" = "amule" ]; then
     if [ "$1" = "install" ]; then
         git clone --recurse-submodules https://github.com/amule-project/amule.git "$dev"/amule
@@ -92,8 +93,14 @@ if [ "$2" = "all" ] || [ "$2" = "amule" ]; then
     # requires autopoint (gettext-devel)
     ./autogen.sh
 
-    ./configure --enable-ccache --disable-debug --enable-optimize --enable-amule-daemon --enable-amulecmd --enable-cas --enable-alcc --enable-geoip
+    # no gui
+    # ./configure --disable-debug --enable-optimize --enable-mmap --disable-monolithic --enable-amule-daemon --enable-amulecmd --enable-webserver --enable-cas --enable-alcc --enable-fileview --enable-geoip
 
+    # gui
+    ./configure --disable-debug --enable-optimize --enable-mmap --enable-amule-daemon --enable-amulecmd --enable-webserver --enable-amule-gui --enable-cas --enable-wxcas --enable-alc --enable-alcc --enable-xas --enable-fileview --enable-geoip
+
+    # if error when building edit /usr/local/include/wx-3.1/wx/tbarbase.h
+    # line 547 const wxBitmap& for const auto&
     doas make -j8 install
 fi
 
@@ -113,7 +120,11 @@ if [ "$2" = "all" ] || [ "$2" = "wxwidgets" ]; then
     # requires autopoint (gettext-devel)
     ./autogen.sh
 
-    ./configure --enable-unicode --enable-optimise --disable-gui
+    # no gui
+    # ./configure --enable-unicode --enable-optimise --disable-gui
+
+    # gui
+    ./configure --enable-unicode --enable-optimise
 
     doas make -j8 install
 
