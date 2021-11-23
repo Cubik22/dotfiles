@@ -58,6 +58,7 @@ alias cd..="cd .."
 
 # space on disk
 alias space="du -sh"
+alias space-sub="du -h -d 1"
 
 # programs
 alias n3="nnn"

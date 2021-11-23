@@ -2,6 +2,8 @@
 
 package_names=$(cat << EOF
 all
+amule
+wxwidgets
 fontpreview
 lsix
 gn
@@ -74,6 +76,50 @@ dev="$HOME/dev/program"
 
 mkdir -p "$dev"
 
+### amule
+# https://wiki.amule.org/wiki/Compilation_Installation
+if [ "$2" = "all" ] || [ "$2" = "amule" ]; then
+    if [ "$1" = "install" ]; then
+        git clone --recurse-submodules https://github.com/amule-project/amule.git "$dev"/amule
+    fi
+
+    cd "$dev/amule" || return 1
+
+    if [ "$1" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    # requires autopoint (gettext-devel)
+    ./autogen.sh
+
+    ./configure --enable-ccache --disable-debug --enable-optimize --enable-amule-daemon --enable-amulecmd --enable-cas --enable-alcc --enable-geoip
+
+    doas make -j8 install
+fi
+
+### wxwidgets
+# https://github.com/wxWidgets/wxWidgets/blob/master/docs/gtk/install.md
+if [ "$2" = "all" ] || [ "$2" = "wxwidgets" ]; then
+    if [ "$1" = "install" ]; then
+        git clone --recurse-submodules https://github.com/wxWidgets/wxWidgets.git "$dev"/wxwidgets
+    fi
+
+    cd "$dev/wxwidgets" || return 1
+
+    if [ "$1" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    # requires autopoint (gettext-devel)
+    ./autogen.sh
+
+    ./configure --enable-unicode --enable-optimise --disable-gui
+
+    doas make -j8 install
+
+    doas ldconfig
+fi
+
 ### fontpreview
 # https://github.com/sdushantha/fontpreview
 if [ "$2" = "all" ] || [ "$2" = "fontpreview" ]; then
@@ -82,11 +128,12 @@ if [ "$2" = "all" ] || [ "$2" = "fontpreview" ]; then
     fi
 
     cd "$dev/fontpreview" || return 1
+
     if [ "$1" = "update" ]; then
         git pull --recurse-submodules
     fi
 
-    doas make install
+    doas make -j8 install
 fi
 
 ### lsix
@@ -97,6 +144,7 @@ if [ "$2" = "all" ] || [ "$2" = "lsix" ]; then
     fi
 
     cd "$dev/lsix" || return 1
+
     if [ "$1" = "update" ]; then
         git pull --recurse-submodules
     fi
@@ -129,7 +177,7 @@ if [ "$2" = "all" ] || [ "$2" = "gn" ]; then
     fi
 fi
 
-## lua-language-server
+### lua-language-server
 # https://github.com/sumneko/lua-language-server/wiki/Build-and-Run
 if [ "$2" = "all" ] || [ "$2" = "lua-language-server" ]; then
     if [ "$1" = "install" ]; then
@@ -162,7 +210,7 @@ if [ "$2" = "all" ] || [ "$2" = "lua-language-server" ]; then
     fi
 fi
 
-## ziget
+### ziget
 if [ "$2" = "all" ] || [ "$2" = "ziget" ]; then
     if [ "$1" = "install" ]; then
     	git clone --recurse-submodules https://github.com/marler8997/ziget.git "$dev"/ziget
@@ -179,7 +227,7 @@ if [ "$2" = "all" ] || [ "$2" = "ziget" ]; then
     zig-master build -Drelease-safe -Dfetch --prefix "$prefix_dir" install
 fi
 
-## zigup
+### zigup
 if [ "$2" = "all" ] || [ "$2" = "zigup" ]; then
     if [ "$1" = "install" ]; then
     	git clone --recurse-submodules https://github.com/marler8997/zigup.git "$dev"/zigup
@@ -195,19 +243,19 @@ if [ "$2" = "all" ] || [ "$2" = "zigup" ]; then
 
     zig-master build -Drelease-safe -Dfetch --prefix "$prefix_dir" install
 
-    # update with normal zig installed
+    ## update with normal zig installed
     # set path-link to a directory that does not exist so it does not automatically link
     # zigup --install-dir "$XDG_LIB_HOME/zig" --path-link "does-not-exist" master
     # then manually link zig-master
     # ln -s "$XDG_LIB_HOME/zig/{version}/files/zig" "$XDG_BIN_HOME/zig-master"
 
-    # update without normal zig installed
+    ## update without normal zig installed
     # zigup --install-dir "$XDG_LIB_HOME/zig" --path-link "$XDG_BIN_HOME" master
     # then manually link zig if it fails
     # ln -s "$XDG_LIB_HOME/zig/{version}/files/zig" "$XDG_BIN_HOME/zig"
 fi
 
-## zls
+### zls
 if [ "$2" = "all" ] || [ "$2" = "zls" ]; then
     if [ "$1" = "install" ]; then
     	git clone --recurse-submodules https://github.com/zigtools/zls.git "$dev"/zls
@@ -227,7 +275,7 @@ if [ "$2" = "all" ] || [ "$2" = "zls" ]; then
     zig-master build -Drelease-safe --prefix "$prefix_dir" install
 fi
 
-## river
+### river
 if [ "$2" = "all" ] || [ "$2" = "river" ]; then
     if [ "$1" = "install" ]; then
     	git clone --recurse-submodules https://github.com/ifreund/river.git "$dev"/river
@@ -246,7 +294,7 @@ if [ "$2" = "all" ] || [ "$2" = "river" ]; then
     # zig build -Drelease-safe -Dman-pages -Dxwayland --prefix $prefix_dir install
 fi
 
-## waybar
+### waybar
 if [ "$2" = "all" ] || [ "$2" = "waybar" ]; then
     if [ "$1" = "install" ]; then
     	git clone --recurse-submodules https://github.com/Alexays/Waybar.git "$dev"/waybar
@@ -264,7 +312,7 @@ if [ "$2" = "all" ] || [ "$2" = "waybar" ]; then
     ninja -C build install
 fi
 
-## qrupdate
+### qrupdate
 
 # https://sourceforge.net/projects/qrupdate
 # FFLAGS add -fallow-argument-mismatch
