@@ -3,6 +3,8 @@
 # aliasrc
 # aliases for bash/zsh
 
+# better not to have too many aliases so it is easier when writing scripts
+
 # doas
 alias d="doas"
 alias sudo="doas"
@@ -36,18 +38,18 @@ alias ip="ip --color=auto"
 alias grep="grep --color=auto"
 
 # ignore case
-alias grepi="grep --color=auto -i"
-alias rgi="rg -i"
+# alias grepi="grep --color=auto -i"
+# alias rgi="rg -i"
 
 # hidden
-alias fdh="fd --hidden"
+# alias fdh="fd --hidden"
 
 # verbose and recursive
-alias mkdir="mkdir -pv"
-alias cp="cp -r"
+# alias mkdir="mkdir -pv"
+# alias cp="cp -r"
 # alias mv="mv -f -v"
 # alias rm='echo "in order to move the file/directory in the trash use trash-put"; rm'
-alias rmr="rm -r"
+# alias rmr="rm -r"
 
 # change directory
 alias ..="cd .."
@@ -86,9 +88,9 @@ alias bluectl="echo \"scan on\"; echo \"connect\"; bluetoothctl"
 alias listlib="scanelf --ldpath -BF '%f'"
 
 # human-readable sizes
-alias df='df -h'
+# alias df='df -h'
 # show sizes in MB
-alias free='free -m'
+# alias free='free -m'
 
 # ps (current processes)
 alias psa="ps auxf"

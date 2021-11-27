@@ -10,6 +10,7 @@ mousewheel.default.delta_multiplier_y								25
 mousewheel.default.delta_multiplier_z								20
 browser.tabs.loadBookmarksInTabs									true
 ui.key.menuAccessKey												0
+view_source.tab														false
 # may give video problems
 media.ffmpeg.vaapi.enabled											true
 # maximum chrome script time in seconds

@@ -2,6 +2,8 @@
 
 package_names=$(cat << EOF
 all
+biglybt
+jna
 amule
 wxwidgets
 fontpreview
@@ -76,12 +78,85 @@ dev="$HOME/dev/program"
 
 mkdir -p "$dev"
 
+### biglybt
+# https://github.com/BiglySoftware/BiglyBT
+if [ "$2" = "all" ] || [ "$2" = "biglybt" ]; then
+    if [ "$1" = "install" ]; then
+        git clone --recurse-submodules https://github.com/BiglySoftware/BiglyBT "$dev/biglybt"
+        mkdir "$dev/biglybt/download"
+        mkdir "$dev/biglybt/home"
+        mkdir "$dev/biglybt/install"
+    fi
+
+    cd "$dev/biglybt" || return 1
+
+    if [ "$1" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    version=$(curl -s https://api.github.com/repos/BiglySoftware/BiglyBT/releases | grep html_url | head -n 1 | awk '{ print $2 }' | sed 's/^.*"https:\/\/github.com\/BiglySoftware\/BiglyBT\/releases\/tag\///' | sed 's/".*$//')
+
+    script_name="biglybt-$version"
+
+    if [ ! -f "$dev/biglybt/download/$script_name" ]; then
+        biglybt_location=$(curl -s https://api.github.com/repos/BiglySoftware/BiglyBT/releases | grep GitHub_BiglyBT_Installer.sh | grep browser_download_url | head -n 1 | awk '{ print $2 }' | sed 's/,$//' | sed 's/"//g')
+
+        curl -L "$biglybt_location" -o "$dev/biglybt/download/$script_name"
+
+        chmod a+x "$dev/biglybt/download/$script_name"
+
+        # java_home_subpath=$(readlink /usr/bin/java | sed 's/^.*\.\.\///' | sed 's/\/bin\/java.*$//')
+
+        # export app_java_home="/usr/$java_home_subpath"
+
+        # export HOME="$dev/biglybt/home"
+
+        # export SUDO_USER="$USER"
+
+        install_dir="$dev/biglybt/install/$version"
+
+        doas sh "$dev/biglybt/download/$script_name" -dir "$install_dir"
+
+        # error when running
+        # SWT check failed with: org.eclipse.swt.SWTError: No more handles [gtk_init_check() failed]
+    else
+        echo "no updates available"
+    fi
+fi
+
+### jna
+# https://github.com/java-native-access/jna
+if [ "$2" = "all" ] || [ "$2" = "jna" ]; then
+    if [ "$1" = "install" ]; then
+        git clone --recurse-submodules https://github.com/java-native-access/jna.git "$dev/jna"
+        mkdir "$dev/jna/download"
+    fi
+
+    cd "$dev/jna" || return 1
+
+    if [ "$1" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    version=$(curl -s https://github.com/java-native-access/jna/tags | grep jna/releases/tag | head -n 1 | sed 's/^.*jna\/releases\/tag\///' | sed 's/".*$//')
+    
+    jna_name="jna-$version.jar"
+
+    if [ ! -f "$dev/jna/download/$jna_name" ]; then
+        curl -L "https://repo1.maven.org/maven2/net/java/dev/jna/jna/$version/jna-$version.jar" -o "$dev/jna/download/$jna_name"
+
+        doas install -Dm775 "$dev/jna/download/$jna_name" "/usr/share/java/jna.jar"
+    else
+        echo "no updates available"
+    fi
+fi
+
 ### amule
 # https://wiki.amule.org/wiki/Compilation_Installation
 # https://wiki.amule.org/t/index.php?title=Requirements
 if [ "$2" = "all" ] || [ "$2" = "amule" ]; then
     if [ "$1" = "install" ]; then
-        git clone --recurse-submodules https://github.com/amule-project/amule.git "$dev"/amule
+        git clone --recurse-submodules https://github.com/amule-project/amule.git "$dev/amule"
     fi
 
     cd "$dev/amule" || return 1
@@ -118,7 +193,7 @@ fi
 # https://github.com/wxWidgets/wxWidgets/blob/master/docs/gtk/install.md
 if [ "$2" = "all" ] || [ "$2" = "wxwidgets" ]; then
     if [ "$1" = "install" ]; then
-        git clone --recurse-submodules https://github.com/wxWidgets/wxWidgets.git "$dev"/wxwidgets
+        git clone --recurse-submodules https://github.com/wxWidgets/wxWidgets.git "$dev/wxwidgets"
     fi
 
     cd "$dev/wxwidgets" || return 1
@@ -145,7 +220,7 @@ fi
 # https://github.com/sdushantha/fontpreview
 if [ "$2" = "all" ] || [ "$2" = "fontpreview" ]; then
     if [ "$1" = "install" ]; then
-        git clone --recurse-submodules https://github.com/sdushantha/fontpreview.git "$dev"/fontpreview
+        git clone --recurse-submodules https://github.com/sdushantha/fontpreview.git "$dev/fontpreview"
     fi
 
     cd "$dev/fontpreview" || return 1
@@ -161,7 +236,7 @@ fi
 # https://github.com/hackerb9/lsix
 if [ "$2" = "all" ] || [ "$2" = "lsix" ]; then
     if [ "$1" = "install" ]; then
-        git clone --recurse-submodules https://github.com/hackerb9/lsix.git "$dev"/lsix
+        git clone --recurse-submodules https://github.com/hackerb9/lsix.git "$dev/lsix"
     fi
 
     cd "$dev/lsix" || return 1
@@ -170,14 +245,14 @@ if [ "$2" = "all" ] || [ "$2" = "lsix" ]; then
         git pull --recurse-submodules
     fi
 
-    doas cp lsix /usr/local/bin/
+    doas install -Dm775 "$dev/lsix/lsix" /usr/local/bin/
 fi
 
 ### gn
 # https://gn.googlesource.com/gn
 if [ "$2" = "all" ] || [ "$2" = "gn" ]; then
     if [ "$1" = "install" ]; then
-        git clone --recurse-submodules https://gn.googlesource.com/gn "$dev"/gn-google
+        git clone --recurse-submodules https://gn.googlesource.com/gn "$dev/gn-google"
     fi
 
     cd "$dev"/gn-google || return 1
@@ -202,7 +277,7 @@ fi
 # https://github.com/sumneko/lua-language-server/wiki/Build-and-Run
 if [ "$2" = "all" ] || [ "$2" = "lua-language-server" ]; then
     if [ "$1" = "install" ]; then
-        git clone --recurse-submodules https://github.com/sumneko/lua-language-server.git "$dev"/lua-language-server
+        git clone --recurse-submodules https://github.com/sumneko/lua-language-server.git "$dev/lua-language-server"
     fi
 
     cd "$dev"/lua-language-server || return 1
@@ -234,7 +309,7 @@ fi
 ### ziget
 if [ "$2" = "all" ] || [ "$2" = "ziget" ]; then
     if [ "$1" = "install" ]; then
-    	git clone --recurse-submodules https://github.com/marler8997/ziget.git "$dev"/ziget
+    	git clone --recurse-submodules https://github.com/marler8997/ziget.git "$dev/ziget"
     fi
 
     cd "$dev"/ziget || return 1
@@ -251,7 +326,7 @@ fi
 ### zigup
 if [ "$2" = "all" ] || [ "$2" = "zigup" ]; then
     if [ "$1" = "install" ]; then
-    	git clone --recurse-submodules https://github.com/marler8997/zigup.git "$dev"/zigup
+    	git clone --recurse-submodules https://github.com/marler8997/zigup.git "$dev/zigup"
     fi
 
     cd "$dev"/zigup || return 1
@@ -279,7 +354,7 @@ fi
 ### zls
 if [ "$2" = "all" ] || [ "$2" = "zls" ]; then
     if [ "$1" = "install" ]; then
-    	git clone --recurse-submodules https://github.com/zigtools/zls.git "$dev"/zls
+    	git clone --recurse-submodules https://github.com/zigtools/zls.git "$dev/zls"
     fi
 
     cd "$dev"/zls || return 1
@@ -299,7 +374,7 @@ fi
 ### river
 if [ "$2" = "all" ] || [ "$2" = "river" ]; then
     if [ "$1" = "install" ]; then
-    	git clone --recurse-submodules https://github.com/ifreund/river.git "$dev"/river
+    	git clone --recurse-submodules https://github.com/ifreund/river.git "$dev/river"
     fi
 
     cd "$dev"/river || return 1
@@ -318,7 +393,7 @@ fi
 ### waybar
 if [ "$2" = "all" ] || [ "$2" = "waybar" ]; then
     if [ "$1" = "install" ]; then
-    	git clone --recurse-submodules https://github.com/Alexays/Waybar.git "$dev"/waybar
+    	git clone --recurse-submodules https://github.com/Alexays/Waybar.git "$dev/waybar"
     fi
 
     cd "$dev"/waybar || return 1
