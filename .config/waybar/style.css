@@ -1,4 +1,4 @@
-/* Reset styles */
+/* reset styles */
 * {
     border: none;
     border-radius: 0;
@@ -7,12 +7,12 @@
     padding: 0;
 }
 
-/* The  bar */
+/* the  bar */
 #waybar {
     background: #1d2021;
     color: white;
-    /* font-family: "Material Icons"; */
-	/* font-family: "Awesome 5 Free Solid"; */
+    /*font-family: "Material Icons";*/
+	/*font-family: "Awesome 5 Free Solid";*/
     font-size: 16px;
     font-weight: bold;
 }
@@ -39,12 +39,12 @@
 }
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
-
 #tags button:hover {
 	/* padding-left and padding-right has to be changed for some reason */
     /*all: inherit;
     padding-left: 7px;
     padding-right: 8px;*/
+
 	box-shadow: inherit;
 	text-shadow: inherit;
     color: #6b705c;
@@ -52,31 +52,43 @@
 }
 
 #tags button.occupied {
-    font-weight: bold;
     color: #DDBEA9;
     background-color: #1d2021;
 }
 
+#tags button.urgent {
+    color: darkred;
+    background-color: #1d2021;
+}
+
 #tags button.focused {
-    font-weight: bold;
     color: #1d2021;
+    background-color: #6B705C;
+}
+
+#tags button.focused.occupied {
+    /*color: #484848;*/
     background-color: #b7b7a4;
 }
 
+#tags button.focused.urgent {
+    color: darkred;
+}
+
 #clock.date {
+    font-weight: bold;
     padding-left: 10px;
 	padding-right: 10px;
 	background: #CB997E;
     color: #1d2021;
-    font-weight: bold;
 }
 
 #clock.time {
+    font-weight: bold;
     padding-left: 10px;
 	padding-right: 10px;
     background: #6B705C;
     color: #1d2021;
-    font-weight: bold;
 }
 
 #pulseaudio {
