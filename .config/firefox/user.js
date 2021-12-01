@@ -39,6 +39,19 @@ user_pref("signon.management.page.breach-alerts.enabled", false);
 /* disable sidebar in pdf by default */
 user_pref("pdfjs.sidebarViewOnLoad", 0);
 
+/** additional hardening **/
+user_pref("javascript.options.asmjs", false);
+
+user_pref("javascript.options.ion", false);
+user_pref("javascript.options.baselinejit", false);
+/*user_pref("javascript.options.jit_trustedprincipals", false);*/
+
+user_pref("javascript.options.wasm", false);
+user_pref("javascript.options.wasm_baselinejit", false);
+user_pref("javascript.options.wasm_optimizingjit", false);
+user_pref("javascript.options.wasm_simd", false);
+/*user_pref("javascript.options.wasm_trustedprincipals", false);*/
+
 /******
 * name: arkenfox user.js
 * date: 12 October 2021

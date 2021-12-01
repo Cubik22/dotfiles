@@ -15,5 +15,8 @@ shift 2
 
 riverctl set-focused-tags "$((1 << (tag - 1)))"
 
-riverctl spawn "$program $*"
-
+if [ "$program" = "zathura" ] || [ "$program" = "zat" ]; then
+    riverctl spawn "export GTK_THEME=Adwaita:dark; zathura $*"
+else
+    riverctl spawn "$program $*"
+fi

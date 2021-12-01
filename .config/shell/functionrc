@@ -61,20 +61,30 @@ kak-smart() {
 	fi
 }
 
+# use dark theme for zathura
+# change also zat and spa
+zathura() {
+	export GTK_THEME=Adwaita:dark
+	/bin/zathura "$@"
+}
+
 # spawn zathura in a specified river tag
 # better spa (global script)
 zat() {
-	if [ "$#" -lt 2 ]; then
-    	echo "insert at least two parameters"
-    	echo "first parameter: tag"
-    	echo "other parameters: arguments"
+	if [ "$#" -lt 1 ]; then
+    	echo "insert at least one parameter"
+    	echo "first parameter: tag (optional)"
+    	echo "if no tag is specified zathura is spawn in the current focused tag"
+    	echo "other parameters: arguments for zathura"
     	return 1
 	fi
-    tag="$1"
-	# shift arguments by two, now 3 becomes 0
-	shift 1
-    riverctl set-focused-tags "$((1 << ("$tag" - 1)))"
-    riverctl spawn "zathura $*"
+    if [ "$#" -gt 1 ]; then
+        tag="$1"
+    	# shift arguments by one, now 2 becomes 1
+    	shift 1
+        riverctl set-focused-tags "$((1 << ("$tag" - 1)))"
+    fi
+    riverctl spawn "export GTK_THEME=Adwaita:dark; zathura $*"
 }
 
 # wrapper around git that before push, unlock bitwarden

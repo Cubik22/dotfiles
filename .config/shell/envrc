@@ -165,6 +165,7 @@ if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty
 	# export BROWSER="${XDG_BIN_HOME}/ungoogled_chromium.sh"
 
 	# set GTK theme
+	# export GTK_THEME=Adwaita
 	# export GTK_THEME=Adwaita:dark
 
 	# cursor
