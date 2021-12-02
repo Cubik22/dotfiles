@@ -38,6 +38,12 @@ git clone --recurse-submodules
 git pull --recurse-submodules
 git diff {--cached}
 git rm {--cached} -r
+
+# latex
+lualatex {...}.tex
+
+# pdf
+pdfunite inputs.pdf output.pdf
 EOF
     # TODO: expand print help
 }
