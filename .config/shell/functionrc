@@ -77,14 +77,24 @@ zat() {
     	echo "if no tag is specified zathura is spawn in the current focused tag"
     	echo "other parameters: arguments for zathura"
     	return 1
-	fi
-    if [ "$#" -gt 1 ]; then
+    fi
+    # check that the first parameter is a number
+    if [ "$#" -gt 1 ] && [ "$1" -ge 0 ] 2> /dev/null; then
         tag="$1"
     	# shift arguments by one, now 2 becomes 1
     	shift 1
         riverctl set-focused-tags "$((1 << ("$tag" - 1)))"
     fi
-    riverctl spawn "export GTK_THEME=Adwaita:dark; zathura $*"
+    # append pwd to the file (last parameter)
+    current_dir="$(pwd)"
+    i=0
+    while [ $((i+=1)) -lt "$#" ]; do
+        set -- "$@" "$1"
+        shift
+    done
+    file="$1"
+    shift
+    riverctl spawn "export GTK_THEME=Adwaita:dark; /bin/zathura $* $current_dir/$file"
 }
 
 # wrapper around git that before push, unlock bitwarden

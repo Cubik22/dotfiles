@@ -16,7 +16,16 @@ shift 2
 riverctl set-focused-tags "$((1 << (tag - 1)))"
 
 if [ "$program" = "zathura" ] || [ "$program" = "zat" ]; then
-    riverctl spawn "export GTK_THEME=Adwaita:dark; zathura $*"
+    # append pwd to the file (last parameter)
+    current_dir="$(pwd)"
+    i=0
+    while [ $((i+=1)) -lt "$#" ]; do
+        set -- "$@" "$1"
+        shift
+    done
+    file="$1"
+    shift
+    riverctl spawn "export GTK_THEME=Adwaita:dark; /bin/zathura $* $current_dir/$file"
 else
     riverctl spawn "$program $*"
 fi

@@ -96,6 +96,17 @@ roots = ["DESCRIPTION", ".git", ".hg"]
 command = "R"
 args = ["--slave", "-e", "languageserver::run()"]
 
+[language.latex]
+filetypes = ["latex"]
+roots = [".git", ".hg"]
+command = "texlab"
+settings_section = "texlab"
+# [language.latex.settings.texlab]
+# See https://github.com/latex-lsp/texlab/blob/master/docs/options.md
+# bibtexFormatter = "texlab"
+# latexFormatter = "latexindent"
+# build.onSave = true
+
 [language.html]
 filetypes = ["html"]
 roots = ["package.json"]
