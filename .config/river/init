@@ -59,10 +59,10 @@ riverctl map normal $mod+Control F spawn "firefox-wayland"
 # Firefox incognito mode
 riverctl map normal $mod+Control+Shift F spawn "firefox-wayland -private-window"
 
-# Z zathura
-# riverctl map normal $mod+Control Z spawn "zathura $zopen"
-
 ### Windows
+
+# D fuzzel
+riverctl map normal $mod D spawn "fuzzel.sh"
 
 # screenshots with grim and slurp
 # riverctl map normal $mod S spawn 'grim -g "$(slurp)" - | wl-copy-env'
