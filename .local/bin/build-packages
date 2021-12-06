@@ -116,7 +116,11 @@ if [ "$2" = "all" ] || [ "$2" = "octave" ]; then
     ./../configure --with-blas=openblas --with-lapack=lapack --without-qt --without-x --prefix="$prefix_dir"
 
     make -j8
-    make check
+
+    if [ "$1" = "install" ]; then
+        make check
+    fi
+
     make install
 fi
 
