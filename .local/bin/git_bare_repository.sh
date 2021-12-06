@@ -151,6 +151,10 @@ gpg --edit-key $email
 # clone, build and install packages
 build-packages install
 
+# java (for octave)
+# doas ln -s /usr/lib/jvm/openjdk11/lib/server/libjvm.so /usr/lib/jvm/openjdk11/lib/
+# doas ln -s /usr/lib/jvm/java-1.8-openjdk/jre/lib/amd64/server/libjvm.so /usr/lib/jvm/java-1.8-openjdk/jre/lib
+
 ### languge servers
 
 # check for outdated, incorrect, and unused dependencies

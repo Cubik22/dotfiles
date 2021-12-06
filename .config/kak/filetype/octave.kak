@@ -71,7 +71,7 @@ evaluate-commands %sh{
 
     meta="import"
 
-	keywords="return function arguments switch case else elseif endif end if otherwise break continue do for while parfor spmd classdef methods properties events persistent global try catch rethrow throw"
+	keywords="return function arguments switch case else elseif end endif endfor endswitch endfunction if otherwise break continue do for while parfor spmd classdef methods properties events persistent global try catch rethrow throw"
 
 	types="double single int8 int16 int32 int64 uint8 uint16 uint32 uint64 string char"
 

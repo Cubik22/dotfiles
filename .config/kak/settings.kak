@@ -84,8 +84,10 @@ hook global KakEnd .* %{
 #     unmap window insert <c-g> <c-o>
 # }
 
-# tiny.kak
-remove-scratch-message
+## tiny.kak
+
+# remove error scratch message
+# remove-scratch-message
 
 # auto-pairing of characters with quotes
 # set-option global auto_pairs ( ) { } [ ] '"' '"' "'" "'" ` ` “ ” ‘ ’ « » ‹ ›

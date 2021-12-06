@@ -2,6 +2,9 @@
 
 package_names=$(cat << EOF
 all
+octave
+sundials
+epstool
 biglybt
 jna
 amule
@@ -67,7 +70,11 @@ if [ "$end" = "true" ]; then
 	return 1
 fi
 
-echo "updating package: $2"
+if [ "$1" = "install" ]; then
+    echo "installing package: $2"
+elif [ "$1" = "update" ]; then
+    echo "updating package: $2"
+fi
 
 # useless: cd in scripts does not change acutal directory
 # current_dir="$(pwd)"
@@ -78,11 +85,105 @@ dev="$HOME/dev/program"
 
 mkdir -p "$dev"
 
+### octave
+# https://wiki.octave.org/Building
+if [ "$2" = "all" ] || [ "$2" = "octave" ]; then
+    if [ "$1" = "install" ]; then
+        # hg clone https://www.octave.org/hg/octave "$dev/octave"
+        hg clone https://hg.savannah.gnu.org/hgweb/octave "$dev/octave"
+
+        # mkdir "$dev/octave/download"
+        # mkdir "$dev/octave/home"
+        # mkdir "$dev/octave/install"
+    fi
+
+    cd "$dev/octave" || return 1
+
+    if [ "$1" = "install" ]; then
+        ./bootstrap
+        mkdir .build
+    fi
+
+    # octave_version=$(curl -L https://ftpmirror.gnu.org/octave | grep href=\"octave- | \
+    #     tail -n 2 | head -n 1 | sed 's/^.*<a href="octave-//' | sed 's/">octave-.*$//')
+
+    if [ "$1" = "update" ]; then
+        hg pull
+    fi
+
+    cd .build || return 1
+
+    ./../configure --with-blas=openblas --with-lapack=lapack --without-qt --without-x --prefix="$prefix_dir"
+
+    make -j8
+    make check
+    make install
+fi
+
+### sundials
+# https://computing.llnl.gov/projects/sundials
+if [ "$2" = "all" ] || [ "$2" = "sundials" ]; then
+    if [ "$1" = "install" ]; then
+        git clone --recurse-submodules https://github.com/LLNL/sundials.git "$dev/sundials"
+
+        mkdir "$dev/sundials/instdir"
+        mkdir "$dev/sundials/builddir"
+    fi
+
+    cd "$dev/sundials" || return 1
+
+    if [ "$1" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    cd builddir || return 1
+
+    doas cmake -DEXAMPLES_INSTALL_PATH="$dev/sundials/instdir/examples" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DENABLE_KLU=ON -DKLU_INCLUDE_DIR=/usr/include -DKLU_LIBRARY_DIR=/usr/lib  \
+        -DENABLE_LAPACK=ON -DLAPACK_LIBRARIES="/usr/lib/liblapack.so;/usr/lib/libopenblas.so" \
+        -DENABLE_PTHREAD=ON -DSUPERLUMT_THREAD_TYPE=Pthread \
+        ../
+        # -DENABLE_OPENMP=ON -DENABLE_OPENMP_DEVICE=ON -DSUPERLUMT_THREAD_TYPE=OpenMP \
+        # -DENABLE_SUPERLUMT=ON -DSUPERLUMT_INCLUDE_DIR=/usr/include -DSUPERLUMT_LIBRARY_DIR=/usr/lib \
+
+    doas make install
+fi
+
+### epstool
+# http://www.ghostgum.com.au/software/epstool.htm
+if [ "$2" = "all" ] || [ "$2" = "epstool" ]; then
+    if [ "$1" = "install" ]; then
+        mkdir "$dev/epstool"
+    fi
+
+    cd "$dev/epstool" || return 1
+
+    epstool_version=$(curl -L http://www.ghostgum.com.au/software/epstool.htm | grep epstool- | grep .tar.gz | sed 's/^.*href="..\/download\/epstool-//' | sed 's/\.tar\.gz">.*$//')
+
+    if [ ! -d "$dev/epstool/$epstool_version" ]; then
+        mkdir "$dev/epstool/$epstool_version"
+        curl -L "http://www.ghostgum.com.au/download/epstool-$epstool_version.tar.gz" | tar -x -z --strip-components=1 -C "$dev/epstool/$epstool_version"
+
+        cd "$dev/epstool/$epstool_version" || return 1
+
+        # strange permissions
+        chmod 755 doc src srcwin
+        chmod 644 LICENCE epstool.txt
+        chmod 755 makefile
+
+        doas make -j8 install
+    else
+        echo "no updates available"
+    fi
+fi
+
 ### biglybt
 # https://github.com/BiglySoftware/BiglyBT
 if [ "$2" = "all" ] || [ "$2" = "biglybt" ]; then
     if [ "$1" = "install" ]; then
         git clone --recurse-submodules https://github.com/BiglySoftware/BiglyBT "$dev/biglybt"
+
         mkdir "$dev/biglybt/download"
         mkdir "$dev/biglybt/home"
         mkdir "$dev/biglybt/install"
@@ -129,6 +230,7 @@ fi
 if [ "$2" = "all" ] || [ "$2" = "jna" ]; then
     if [ "$1" = "install" ]; then
         git clone --recurse-submodules https://github.com/java-native-access/jna.git "$dev/jna"
+
         mkdir "$dev/jna/download"
     fi
 
