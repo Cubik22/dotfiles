@@ -7,8 +7,12 @@ map global normal <space> , -docstring 'leader'
 map global normal <backspace> <space> -docstring 'remove all sels except main'
 map global normal <a-backspace> <a-space> -docstring 'remove main sel'
 
+# comments
 map global normal '#' :comment-line<ret>      -docstring 'comment line'
 map global normal '<a-#>' :comment-block<ret> -docstring 'comment block'
+
+# map control i to jump forward
+map global normal <c-i> <tab> -docstring 'jump forward'
 
 map global normal = '|fmt -w $kak_opt_autowrap_column<ret>' -docstring 'wrap lines'
 

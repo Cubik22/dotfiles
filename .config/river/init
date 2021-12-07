@@ -288,7 +288,7 @@ init-river-session &
 riverctl default-layout rivertile
 
 # start rivertile without padding
-exec rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.5
+exec rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.6
 
 # starting with runit
 # svdir="/tmp/$(id -u)-sv-${WAYLAND_DISPLAY}"

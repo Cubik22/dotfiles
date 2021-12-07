@@ -27,9 +27,12 @@ set-option -add global ui_options terminal_assistant=dilbert
 # messages in the startup info box only from the version greater than the value
 set-option global startup_info_version 20211028
 
+# disable all default indent hooks
+# set-option global disabled_hooks '.*-indent.*'
+# disable all default insert hooks
+# set-option global disabled_hooks '.*-insert.*'
 # disable all default indent and insert hooks
-set-option global disabled_hooks '.*-indent'
-set-option global disabled_hooks '.*-insert'
+# set-option global disabled_hooks '.*-indent.*|.*-insert.*'
 
 # preserve indent level
 hook global InsertChar \n %{
