@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# spawn a new footclient in the same directory
+
+dir=$(pwd)
+
+riverctl spawn "footclient --working-directory=$dir"
