@@ -1,14 +1,14 @@
 # https://www.gnu.org/software/octave
 #
 
-# Detection
+# detection
 # ‾‾‾‾‾‾‾‾‾
 
 hook global BufCreate .*[.](m|matlab) %{
     set-option buffer filetype octave
 }
 
-# Initialization
+# initialization
 # ‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 
 hook global WinSetOption filetype=octave %{
@@ -34,7 +34,7 @@ hook global BufSetOption filetype=octave %{
 
 provide-module octave %§
 
-# Highlighters
+# highlighters
 # ‾‾‾‾‾‾‾‾‾‾‾‾
 
 add-highlighter shared/octave regions
@@ -46,16 +46,16 @@ add-highlighter shared/octave/documentation region '%%' '$' fill documentation
 # add-highlighter shared/octave/single_string region "'" (?<!\\)(\\\\)*' fill string
 add-highlighter shared/octave/double_string region '"' (?<!\\)(\\\\)*" fill string
 
-# Integer formats
+# integer formats
 add-highlighter shared/octave/code/ regex '(?i)\b0b[01]+l?\b' 0:value
 add-highlighter shared/octave/code/ regex '(?i)\b0x[\da-f]+l?\b' 0:value
 add-highlighter shared/octave/code/ regex '(?i)\b0o?[0-7]+l?\b' 0:value
 add-highlighter shared/octave/code/ regex '(?i)\b([1-9]\d*|0)l?\b' 0:value
-# Float formats
+# float formats
 add-highlighter shared/octave/code/ regex '\b\d+[eE][+-]?\d+\b' 0:value
 add-highlighter shared/octave/code/ regex '(\b\d+)?\.\d+\b' 0:value
 add-highlighter shared/octave/code/ regex '\b\d+\.' 0:value
-# Imaginary formats
+# imaginary formats
 add-highlighter shared/octave/code/ regex '\b\d+\+\d+[jJ]\b' 0:value
 
 # add-highlighter shared/octave/code/ regex \b[a-z][A-Za-z_0-9]*(?=\.\w) 0:module
@@ -66,7 +66,8 @@ add-highlighter shared/octave/code/ regex '\b\d+\+\d+[jJ]\b' 0:value
 add-highlighter shared/octave/code/ regex (\.|!|!\.|!:|@|\^|:|\*\*|\\|\*|/|//|<<|>>|\+|\+\+|-|--|/\\|\\/|\.\.|:=|=\^|<|=|=\.\.|=:=|=<|==|=\\=|>|>=|@<|@=<|@>|@>=|\\=|\\==|~=|\\\+|~|<=|<=>|=>|,|&|->|\;|::|:-|\?-) 0:operator
 
 evaluate-commands %sh{
-    # Grammar
+    # grammar
+
     values="true false eps Inf NaN pi NaT"
 
     meta="import"
@@ -181,10 +182,10 @@ evaluate-commands %sh{
 
     join() { sep=$2; eval set -- $1; IFS="$sep"; echo "$*"; }
 
-    # Add the language's grammar to the static completion list
+    # add the language's grammar to the static completion list
     printf %s\\n "declare-option str-list octave_static_words $(join "${values} ${meta} ${keywords} ${types} ${attributes} ${methods} ${functions}" ' ')"
 
-    # Highlight keywords
+    # highlight keywords
     printf %s "
         add-highlighter shared/octave/code/ regex '\b($(join "${values}" '|'))\b' 0:value
         add-highlighter shared/octave/code/ regex '\b($(join "${meta}" '|'))\b' 0:meta
@@ -197,7 +198,7 @@ evaluate-commands %sh{
     "
 }
 
-# Commands
+# commands
 # ‾‾‾‾‾‾‾‾
 
 define-command -hidden octave-insert-on-new-line %{
