@@ -5,6 +5,8 @@
 # if not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+### sourcing
+
 # source functions
 # it is also sourced by zsh
 [ -f "$HOME/.config/shell/functionrc" ] && . "$HOME/.config/shell/functionrc"
@@ -18,7 +20,7 @@
 [ -f "/usr/share/fzf/completion.bash" ] && source "/usr/share/fzf/completion.bash"
 [ -f "/usr/share/fzf/key-bindings.bash" ] && source "/usr/share/fzf/key-bindings.bash"
 
-## <https://wiki.bash-hackers.org/internals/shell_options>
+### <https://wiki.bash-hackers.org/internals/shell_options>
 
 # prepend cd to directory names automatically
 shopt -s autocd
@@ -41,7 +43,7 @@ shopt -s histappend
 # case-insensitive globbing
 shopt -s nocaseglob
 
-## bash history
+### bash history
 
 # export HISTTIMEFORMAT='%f %t '
 export HISTSIZE=
@@ -51,7 +53,15 @@ export HISTIGNORE="pwd:exit:clear"
 # export HISTIGNORE="cd:pwd:exit:q:c:e:ea:et::fe:clear:nnn:n3:xb*():curl"
 # export HISTFILE="$HOME"/.cache/bash/bash_history
 
-## completion
+## sync command history across sessions
+
+# this is faster since only new lines are read from the history file
+# export PROMPT_COMMAND="${PROMPT_COMMAND}${PROMPT_COMMAND:+;}history -a;history -n"
+
+# append to hist file, clear local hist then read hist file and add to local hist
+# export PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
+
+### completion
 
 # alias config='/usr/bin/git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME"'
 
@@ -62,15 +72,19 @@ export HISTIGNORE="pwd:exit:clear"
 # in order to find how a command is completed run
 # complete -p cmd
 
-# autocomplete doas as sudo
+## autocomplete doas as sudo
+
 # has to be loaded here or in /etc/bash/bashrc.d/bash_completion.sh
 _completion_loader sudo
+
 complete -F _sudo doas
 complete -F _sudo d
 
-# autocomplete config as git
+## autocomplete config as git
+
 # has to be loaded here or in /etc/bash/bashrc.d/bash_completion.sh
 _completion_loader git
+
 # complete -o bashdefault -o default -o nospace -F __git_wrap__git_main gst
 # complete -o bashdefault -o default -o nospace -F __git_wrap__git_main gad
 # complete -o bashdefault -o default -o nospace -F __git_wrap__git_main gbr
@@ -128,6 +142,7 @@ else
     _fzf_setup_completion path dka
 fi
 
-# initalize zoxide
+### initalize zoxide
+
 eval "$(zoxide init bash)"
 # eval "$(zoxide init --cmd y bash)"
