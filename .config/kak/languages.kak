@@ -38,7 +38,7 @@ hook global WinSetOption filetype=sh %{
 	hook window InsertChar \n -group sh-indent %{
 		evaluate-commands -draft -itersel %{
 			# copy the indentation of the matching if, and then re-indent afterwards
-			try %{ execute-keys -draft <space> k <a-x> <a-k> \belif$ <ret> gh [c\bif\b,\bfi\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> j <a-gt> }
+			try %{ execute-keys -draft <space> k <a-x> <a-k> \belif\b <ret> gh [c\bif\b,\bfi\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> j <a-gt> }
 		}
 	}
 	set-option window formatcmd "shfmt -fn -ci"

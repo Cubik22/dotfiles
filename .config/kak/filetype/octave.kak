@@ -71,7 +71,7 @@ evaluate-commands %sh{
 
     meta="import"
 
-	keywords="return function arguments switch case else elseif end endif endfor endswitch endfunction if otherwise break continue do for while parfor spmd classdef methods properties events persistent global try catch rethrow throw"
+	keywords="if else elseif for parfor while do until switch case otherwise try catch spmd unwind_protect unwind_protect_cleanup function arguments classdef properties methods events enumeration end endif endfor endparfor endwhile endswitch end_try_catch end_unwind_protect endfunction endclassdef endproperties endmethods endevents enumeration return break continue throw rethrow persistent global __FILE__ __LINE__"
 
 	types="double single int8 int16 int32 int64 uint8 uint16 uint32 uint64 string char"
 
@@ -218,12 +218,70 @@ define-command -hidden octave-indent-on-new-line %<
     evaluate-commands -draft -itersel %<
         # preserve previous line indent
 	    try %{ execute-keys -draft <semicolon> K <a-&> }
+
         # cleanup trailing whitespaces from previous line
         try %{ execute-keys -draft k <a-x> s \h+$ <ret> d }
-        # indent after line ending with :-
-        try %{ execute-keys -draft <space> k <a-x> <a-k> :-$ <ret> j <a-gt> }
+
+        # indent after line ending with ...
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \.\.\.$ <ret> j <a-gt> }
+
         # deindent closing brace/bracket when after cursor
         try %< execute-keys -draft <a-x> <a-k> ^\h*[}\])] <ret> gh / [}\])] <ret> m <a-S> 1<a-&> >
+
+        # indent after if for parfor while switch function classdef properties methods events, also if not at the end of the line
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bif\b <ret> j <a-gt> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bfor\b <ret> j <a-gt> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bparfor\b <ret> j <a-gt> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bwhile\b <ret> j <a-gt> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bswitch\b <ret> j <a-gt> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bfunction\b <ret> j <a-gt> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bclassdef\b <ret> j <a-gt> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bproperties\b <ret> j <a-gt> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bmethods\b <ret> j <a-gt> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bevents\b <ret> j <a-gt> }
+
+        # indent after do try spmd unwind_protect arguments enumeration, just if at the end of the line
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bdo$ <ret> j <a-gt> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \btry$ <ret> j <a-gt> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bspmd$ <ret> j <a-gt> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bunwind_protect$ <ret> j <a-gt> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \barguments$ <ret> j <a-gt> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \benumeration$ <ret> j <a-gt> }
+
+        # copy the indentation of the matching keyword
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bendif$ <ret> gh [c\bif\b,\bendif\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bendfor$ <ret> gh [c\bfor\b,\bendfor\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bendparfor$ <ret> gh [c\bparfor\b,\bendparfor\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bendwhile$ <ret> gh [c\bwhile\b,\bendwhile\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bendswitch$ <ret> gh [c\bswitch\b,\bendswitch\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bend_try_catch$ <ret> gh [c\btry\b,\bend_try_catch\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bend_unwind_protect$ <ret> gh [c\bunwind_protect\b,\bend_unwind_protect\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bendfunction$ <ret> gh [c\bfunction\b,\bendfunction\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bendclassdef$ <ret> gh [c\bclassdef\b,\bendclassdef\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bendproperties$ <ret> gh [c\bproperties\b,\bendproperties\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bendmethods$ <ret> gh [c\bmethods\b,\bendmethods\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bendevents$ <ret> gh [c\bevents\b,\bendevents\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bendenumeration$ <ret> gh [c\benumeration\b,\bendenumeration\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> }
+
+        # end: copy the indentation of the matching keyword
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bend$ <ret> gh [c\b(if|for|parfor|while|switch|try|spmd|unwind_protect|function|arguments|classdef|properties|methods|events|enumeration)\b,\bend\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> }
+
+        # until: copy the indentation of the matching do
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \buntil\b <ret> gh [c\bdo\b,\buntil\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> }
+
+        # else: and elseif copy the indentation of the matching if, and then re-indent afterwards
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \belse$ <ret> gh [c\bif\b,\bendif\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> j <a-gt> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \belesif\b <ret> gh [c\bif\b,\bendif\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> j <a-gt> }
+
+        # case and otherwise: copy the indentation of the matching switch, and then re-indent afterwards
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bcase\b <ret> gh [c\bswitch\b,\bendswitch\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> j <a-gt> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \botherwise$ <ret> gh [c\bswitch\b,\bendswitch\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> j <a-gt> }
+
+        # catch: copy the indentation of the matching try, and then re-indent afterwards
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bcatch\b <ret> gh [c\btry\b,\bend_try_catch\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> j <a-gt> }
+
+        # unwind_protect_cleanup: copy the indentation of the matching unwind_protect, and then re-indent afterwards
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \bunwind_protect_cleanup$ <ret> gh [c\bunwind_protect\b,\bend_unwind_protect\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> j <a-gt> }
     >
 >
 
