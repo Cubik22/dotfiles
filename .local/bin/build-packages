@@ -2,13 +2,14 @@
 
 package_names=$(cat << EOF
 all
-octave
-sundials
+qrupdate
 epstool
-biglybt
+sundials
+octave
 jna
-amule
+biglybt
 wxwidgets
+amule
 fontpreview
 lsix
 gn
@@ -16,21 +17,30 @@ lua-language-server
 ziget
 zigup
 zls
-river
 waybar
+river
 EOF
 )
 
 print_info=$(cat << EOF
-possible first parameter: install update
-possible second parameter:
+just one parameter: package name
+all means all packages
+packages available:
+
 $package_names
 EOF
 )
 
+if [ "$#" -ge 1 ]; then
+    if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+    	echo "$print_info"
+    	return 0
+    fi
+fi
+
 end="false"
 
-if [ "$#" -ne 2 ]; then
+if [ "$#" -ne 1 ]; then
 	echo "illegal number of parameters: $#"
 	end="true"
 fi
@@ -40,19 +50,9 @@ if [ "$#" -lt 1 ]; then
     return 1
 fi
 
-if [ ! "$1" = "install" ] && [ ! "$1" = "update" ]; then
-	echo "wrong first parameter: $1"
-	end="true"
-fi
-
-if [ "$#" -eq 1 ]; then
-	echo "$print_info"
-	return 1
-fi
-
 found="false"
 while read -r param; do
-    if [ "$2" = "$param" ]; then
+    if [ "$1" = "$param" ]; then
         found="true"
         break
     fi
@@ -60,83 +60,136 @@ done <<EOT
 $package_names
 EOT
 if [ "$found" = "false" ]; then
-    echo "wrong second parameter: $2"
+    echo "wrong parameter: $1"
     echo "package not available"
 	end="true"
 fi
 
 if [ "$end" = "true" ]; then
+    echo
 	echo "$print_info"
 	return 1
 fi
 
-if [ "$1" = "install" ]; then
-    echo "installing package: $2"
-elif [ "$1" = "update" ]; then
-    echo "updating package: $2"
-fi
-
-# useless: cd in scripts does not change acutal directory
-# current_dir="$(pwd)"
-
 prefix_dir="$HOME/.local"
-	
-dev="$HOME/dev/program"
+
+dev="$HOME/dev/package"
 
 mkdir -p "$dev"
 
-### octave
-# https://wiki.octave.org/Building
-if [ "$2" = "all" ] || [ "$2" = "octave" ]; then
-    if [ "$1" = "install" ]; then
-        # hg clone https://www.octave.org/hg/octave "$dev/octave"
-        hg clone https://hg.savannah.gnu.org/hgweb/octave "$dev/octave"
+### qrupdate
+# https://sourceforge.net/projects/qrupdate
+qrupdate_install() {
+    echo "installing package: qrupdate"
 
-        # mkdir "$dev/octave/download"
-        # mkdir "$dev/octave/home"
-        # mkdir "$dev/octave/install"
+    if [ ! -d "$dev/qrupdate" ]; then
+        action="install"
+    else
+        action="update"
     fi
 
-    cd "$dev/octave" || return 1
-
-    if [ "$1" = "install" ]; then
-        ./bootstrap
-        mkdir .build
+    if [ "$action" = "install" ]; then
+        mkdir "$dev/qrupdate"
     fi
 
-    # octave_version=$(curl -L https://ftpmirror.gnu.org/octave | grep href=\"octave- | \
-    #     tail -n 2 | head -n 1 | sed 's/^.*<a href="octave-//' | sed 's/">octave-.*$//')
+    cd "$dev/qrupdate" || return 1
 
-    if [ "$1" = "update" ]; then
-        hg pull
+    qrupdate_version=$(curl -s https://sourceforge.net/projects/qrupdate/files/latest/download | grep qrupdate | sed 's/^.*https\:\/\/downloads\.sourceforge\.net\/project\/qrupdate\/qrupdate\///' | sed 's/^.*qrupdate-//' | sed 's/\.tar\.gz.*$//')
+
+    if [ ! -d "$qrupdate_version" ]; then
+        mkdir "$qrupdate_version"
+
+        curl -L -o "download.tar.gz" https://sourceforge.net/projects/qrupdate/files/latest/download
+        tar -x --strip-components=1 -f "download.tar.gz" -C "$qrupdate_version"
+        rm "download.tar.gz"
+
+        cd "$qrupdate_version" || return 1
+
+        # if ldconfig works and ld -lqrupdate return something
+        # LIBDIR=lib/qrupdate
+
+cat << EOF > makeconf.patch
+4c4
+< FFLAGS=-fimplicit-none -O3 -funroll-loops 
+---
+> FFLAGS=-fimplicit-none -O3 -funroll-loops -fallow-argument-mismatch
+9c9
+< BLAS=-lblas
+---
+> BLAS=-lopenblas
+EOF
+
+        patch Makeconf makeconf.patch
+
+        make -j8 lib
+        make -j8 solib
+        make -j8 test
+
+        doas make install
+    else
+        echo "no updates available"
+    fi
+}
+
+### epstool
+# http://www.ghostgum.com.au/software/epstool.htm
+epstool_install() {
+    echo "installing package: epstool"
+
+    if [ ! -d "$dev/epstool" ]; then
+        action="install"
+    else
+        action="update"
     fi
 
-    cd .build || return 1
-
-    ./../configure --with-blas=openblas --with-lapack=lapack --without-qt --without-x --prefix="$prefix_dir"
-
-    make -j8
-
-    if [ "$1" = "install" ]; then
-        make check
+    if [ "$action" = "install" ]; then
+        mkdir "$dev/epstool"
     fi
 
-    make install
-fi
+    cd "$dev/epstool" || return 1
+
+    epstool_version=$(curl -L http://www.ghostgum.com.au/software/epstool.htm | grep epstool- | grep .tar.gz | sed 's/^.*href="..\/download\/epstool-//' | sed 's/\.tar\.gz">.*$//')
+
+    if [ ! -d "$epstool_version" ]; then
+        mkdir "$epstool_version"
+        curl -L "http://www.ghostgum.com.au/download/epstool-$epstool_version.tar.gz" | tar -x --strip-components=1 -C "$epstool_version"
+
+        cd "$epstool_version" || return 1
+
+        # strange permissions
+        chmod 755 doc src srcwin
+        chmod 644 LICENCE epstool.txt
+        chmod 755 makefile
+
+        doas make -j8 install
+    else
+        echo "no updates available"
+    fi
+}
 
 ### sundials
 # https://computing.llnl.gov/projects/sundials
-if [ "$2" = "all" ] || [ "$2" = "sundials" ]; then
-    if [ "$1" = "install" ]; then
-        git clone --recurse-submodules https://github.com/LLNL/sundials.git "$dev/sundials"
+sundials_install() {
+    echo "installing package: sundials"
 
-        mkdir "$dev/sundials/instdir"
-        mkdir "$dev/sundials/builddir"
+    if [ ! -d "$dev/sundials" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://github.com/LLNL/sundials.git "$dev/sundials"
     fi
 
     cd "$dev/sundials" || return 1
 
-    if [ "$1" = "update" ]; then
+    if [ "$action" = "install" ]; then
+        mkdir "instdir"
+        mkdir "builddir"
+    fi
+
+    if [ "$action" = "update" ]; then
         git pull --recurse-submodules
     fi
 
@@ -151,41 +204,120 @@ if [ "$2" = "all" ] || [ "$2" = "sundials" ]; then
         # -DENABLE_OPENMP=ON -DENABLE_OPENMP_DEVICE=ON -DSUPERLUMT_THREAD_TYPE=OpenMP \
         # -DENABLE_SUPERLUMT=ON -DSUPERLUMT_INCLUDE_DIR=/usr/include -DSUPERLUMT_LIBRARY_DIR=/usr/lib \
 
-    doas make install
-fi
+    doas make -j8 install
+}
 
-### epstool
-# http://www.ghostgum.com.au/software/epstool.htm
-if [ "$2" = "all" ] || [ "$2" = "epstool" ]; then
-    if [ "$1" = "install" ]; then
-        mkdir "$dev/epstool"
+### octave
+# https://wiki.octave.org/Building
+octave_install() {
+    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+        qrupdate_install
+        epstool_install
+        sundials_install
     fi
 
-    cd "$dev/epstool" || return 1
+    echo "installing package: octave"
 
-    epstool_version=$(curl -L http://www.ghostgum.com.au/software/epstool.htm | grep epstool- | grep .tar.gz | sed 's/^.*href="..\/download\/epstool-//' | sed 's/\.tar\.gz">.*$//')
+    if [ ! -d "$dev/octave" ]; then
+        action="install"
+    else
+        action="update"
+    fi
 
-    if [ ! -d "$dev/epstool/$epstool_version" ]; then
-        mkdir "$dev/epstool/$epstool_version"
-        curl -L "http://www.ghostgum.com.au/download/epstool-$epstool_version.tar.gz" | tar -x -z --strip-components=1 -C "$dev/epstool/$epstool_version"
+    if [ "$action" = "install" ]; then
+        # hg clone https://www.octave.org/hg/octave "$dev/octave"
+        hg clone https://hg.savannah.gnu.org/hgweb/octave "$dev/octave"
+    fi
 
-        cd "$dev/epstool/$epstool_version" || return 1
+    cd "$dev/octave" || return 1
 
-        # strange permissions
-        chmod 755 doc src srcwin
-        chmod 644 LICENCE epstool.txt
-        chmod 755 makefile
+    # if [ "$action" = "install" ]; then
+    #     mkdir "download"
+    #     mkdir "home"
+    #     mkdir "install"
+    # fi
 
-        doas make -j8 install
+    if [ "$action" = "install" ]; then
+        ./bootstrap
+        mkdir .build
+    fi
+
+    # octave_version=$(curl -L https://ftpmirror.gnu.org/octave | grep href=\"octave- | \
+    #     tail -n 2 | head -n 1 | sed 's/^.*<a href="octave-//' | sed 's/">octave-.*$//')
+
+    if [ "$action" = "update" ]; then
+        hg pull
+    fi
+
+    cd .build || return 1
+
+    ./../configure --with-blas=openblas --with-lapack=lapack --without-qt --without-x --prefix="$prefix_dir"
+
+    make -j8
+
+    if [ "$action" = "install" ]; then
+        make check
+    fi
+
+    make install
+}
+
+### jna
+# https://github.com/java-native-access/jna
+jna_install() {
+    echo "installing package: jna"
+
+    if [ ! -d "$dev/jna" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://github.com/java-native-access/jna.git "$dev/jna"
+    fi
+
+    cd "$dev/jna" || return 1
+
+    if [ "$action" = "install" ]; then
+        mkdir "download"
+    fi
+
+    if [ "$action" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    cd "download" || return 1
+
+    version=$(curl -s https://github.com/java-native-access/jna/tags | grep jna/releases/tag | head -n 1 | sed 's/^.*jna\/releases\/tag\///' | sed 's/".*$//')
+    
+    jna_name="jna-$version.jar"
+
+    if [ ! -f "$jna_name" ]; then
+        curl -L -o "$jna_name" "https://repo1.maven.org/maven2/net/java/dev/jna/jna/$version/jna-$version.jar"
+
+        doas install -Dm775 "$jna_name" "/usr/share/java/jna.jar"
     else
         echo "no updates available"
     fi
-fi
+}
 
 ### biglybt
 # https://github.com/BiglySoftware/BiglyBT
-if [ "$2" = "all" ] || [ "$2" = "biglybt" ]; then
-    if [ "$1" = "install" ]; then
+biglybt_install() {
+    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+        jna_install
+    fi
+
+    echo "installing package: biglybt"
+
+    if [ ! -d "$dev/biglybt" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
         git clone --recurse-submodules https://github.com/BiglySoftware/BiglyBT "$dev/biglybt"
 
         mkdir "$dev/biglybt/download"
@@ -195,20 +327,28 @@ if [ "$2" = "all" ] || [ "$2" = "biglybt" ]; then
 
     cd "$dev/biglybt" || return 1
 
-    if [ "$1" = "update" ]; then
+    if [ "$action" = "install" ]; then
+        mkdir "download"
+        mkdir "home"
+        mkdir "install"
+    fi
+
+    if [ "$action" = "update" ]; then
         git pull --recurse-submodules
     fi
 
-    version=$(curl -s https://api.github.com/repos/BiglySoftware/BiglyBT/releases | grep html_url | head -n 1 | awk '{ print $2 }' | sed 's/^.*"https:\/\/github.com\/BiglySoftware\/BiglyBT\/releases\/tag\///' | sed 's/".*$//')
+    cd "download" || return 1
+
+    version=$(curl -s https://api.github.com/repos/BiglySoftware/BiglyBT/releases | grep html_url | head -n 1 | awk '{ print $1 }' | sed 's/^.*"https:\/\/github.com\/BiglySoftware\/BiglyBT\/releases\/tag\///' | sed 's/".*$//')
 
     script_name="biglybt-$version"
 
-    if [ ! -f "$dev/biglybt/download/$script_name" ]; then
-        biglybt_location=$(curl -s https://api.github.com/repos/BiglySoftware/BiglyBT/releases | grep GitHub_BiglyBT_Installer.sh | grep browser_download_url | head -n 1 | awk '{ print $2 }' | sed 's/,$//' | sed 's/"//g')
+    if [ ! -f "$script_name" ]; then
+        biglybt_location=$(curl -s https://api.github.com/repos/BiglySoftware/BiglyBT/releases | grep GitHub_BiglyBT_Installer.sh | grep browser_download_url | head -n 1 | awk '{ print $1 }' | sed 's/,$//' | sed 's/"//g')
 
-        curl -L "$biglybt_location" -o "$dev/biglybt/download/$script_name"
+        curl -L -o "$script_name" "$biglybt_location"
 
-        chmod a+x "$dev/biglybt/download/$script_name"
+        chmod a+x "$script_name"
 
         # java_home_subpath=$(readlink /usr/bin/java | sed 's/^.*\.\.\///' | sed 's/\/bin\/java.*$//')
 
@@ -220,54 +360,73 @@ if [ "$2" = "all" ] || [ "$2" = "biglybt" ]; then
 
         install_dir="$dev/biglybt/install/$version"
 
-        doas sh "$dev/biglybt/download/$script_name" -dir "$install_dir"
+        doas sh "$script_name" -dir "$install_dir"
 
         # error when running
         # SWT check failed with: org.eclipse.swt.SWTError: No more handles [gtk_init_check() failed]
     else
         echo "no updates available"
     fi
-fi
+}
 
-### jna
-# https://github.com/java-native-access/jna
-if [ "$2" = "all" ] || [ "$2" = "jna" ]; then
-    if [ "$1" = "install" ]; then
-        git clone --recurse-submodules https://github.com/java-native-access/jna.git "$dev/jna"
+### wxwidgets
+# https://github.com/wxWidgets/wxWidgets/blob/master/docs/gtk/install.md
+wxwidgets_install() {
+    echo "installing package: wxwidgets"
 
-        mkdir "$dev/jna/download"
+    if [ ! -d "$dev/wxwidgets" ]; then
+        action="install"
+    else
+        action="update"
     fi
 
-    cd "$dev/jna" || return 1
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://github.com/wxWidgets/wxWidgets.git "$dev/wxwidgets"
+    fi
 
-    if [ "$1" = "update" ]; then
+    cd "$dev/wxwidgets" || return 1
+
+    if [ "$action" = "update" ]; then
         git pull --recurse-submodules
     fi
 
-    version=$(curl -s https://github.com/java-native-access/jna/tags | grep jna/releases/tag | head -n 1 | sed 's/^.*jna\/releases\/tag\///' | sed 's/".*$//')
-    
-    jna_name="jna-$version.jar"
+    # requires autopoint (gettext-devel)
+    ./autogen.sh
 
-    if [ ! -f "$dev/jna/download/$jna_name" ]; then
-        curl -L "https://repo1.maven.org/maven2/net/java/dev/jna/jna/$version/jna-$version.jar" -o "$dev/jna/download/$jna_name"
+    # no gui
+    # ./configure --enable-unicode --enable-optimise --disable-gui
 
-        doas install -Dm775 "$dev/jna/download/$jna_name" "/usr/share/java/jna.jar"
-    else
-        echo "no updates available"
-    fi
-fi
+    # gui
+    ./configure --enable-unicode --enable-optimise
+
+    doas make -j8 install
+
+    doas ldconfig
+}
 
 ### amule
 # https://wiki.amule.org/wiki/Compilation_Installation
 # https://wiki.amule.org/t/index.php?title=Requirements
-if [ "$2" = "all" ] || [ "$2" = "amule" ]; then
-    if [ "$1" = "install" ]; then
+amule_install() {
+    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+        wxwidgets_install
+    fi
+
+    echo "installing package: amule"
+
+    if [ ! -d "$dev/amule" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
         git clone --recurse-submodules https://github.com/amule-project/amule.git "$dev/amule"
     fi
 
     cd "$dev/amule" || return 1
 
-    if [ "$1" = "update" ]; then
+    if [ "$action" = "update" ]; then
         git pull --recurse-submodules
     fi
 
@@ -293,77 +452,74 @@ if [ "$2" = "all" ] || [ "$2" = "amule" ]; then
     #   comment: wxCHECK_RET
     # doas make -j8 install
     # doas ldconfig
-fi
-
-### wxwidgets
-# https://github.com/wxWidgets/wxWidgets/blob/master/docs/gtk/install.md
-if [ "$2" = "all" ] || [ "$2" = "wxwidgets" ]; then
-    if [ "$1" = "install" ]; then
-        git clone --recurse-submodules https://github.com/wxWidgets/wxWidgets.git "$dev/wxwidgets"
-    fi
-
-    cd "$dev/wxwidgets" || return 1
-
-    if [ "$1" = "update" ]; then
-        git pull --recurse-submodules
-    fi
-
-    # requires autopoint (gettext-devel)
-    ./autogen.sh
-
-    # no gui
-    # ./configure --enable-unicode --enable-optimise --disable-gui
-
-    # gui
-    ./configure --enable-unicode --enable-optimise
-
-    doas make -j8 install
-
-    doas ldconfig
-fi
+}
 
 ### fontpreview
 # https://github.com/sdushantha/fontpreview
-if [ "$2" = "all" ] || [ "$2" = "fontpreview" ]; then
-    if [ "$1" = "install" ]; then
+fontpreview_install() {
+    echo "installing package: fontpreview"
+
+    if [ ! -d "$dev/fontpreview" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
         git clone --recurse-submodules https://github.com/sdushantha/fontpreview.git "$dev/fontpreview"
     fi
 
     cd "$dev/fontpreview" || return 1
 
-    if [ "$1" = "update" ]; then
+    if [ "$action" = "update" ]; then
         git pull --recurse-submodules
     fi
 
     doas make -j8 install
-fi
+}
 
 ### lsix
 # https://github.com/hackerb9/lsix
-if [ "$2" = "all" ] || [ "$2" = "lsix" ]; then
-    if [ "$1" = "install" ]; then
+lsix_install() {
+    echo "installing package: lsix"
+
+    if [ ! -d "$dev/lsix" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
         git clone --recurse-submodules https://github.com/hackerb9/lsix.git "$dev/lsix"
     fi
 
     cd "$dev/lsix" || return 1
 
-    if [ "$1" = "update" ]; then
+    if [ "$action" = "update" ]; then
         git pull --recurse-submodules
     fi
 
     doas install -Dm775 "$dev/lsix/lsix" /usr/local/bin/
-fi
+}
 
 ### gn
 # https://gn.googlesource.com/gn
-if [ "$2" = "all" ] || [ "$2" = "gn" ]; then
-    if [ "$1" = "install" ]; then
-        git clone --recurse-submodules https://gn.googlesource.com/gn "$dev/gn-google"
+gn_install() {
+    echo "installing package: gn"
+
+    if [ ! -d "$dev/gn" ]; then
+        action="install"
+    else
+        action="update"
     fi
 
-    cd "$dev"/gn-google || return 1
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://gn.googlesource.com/gn "$dev/gn"
+    fi
 
-    if [ "$1" = "update" ]; then
+    cd "$dev/gn" || return 1
+
+    if [ "$action" = "update" ]; then
         git pull --recurse-submodules
     fi
 
@@ -374,32 +530,40 @@ if [ "$2" = "all" ] || [ "$2" = "gn" ]; then
     # to run tests
     # out/gn_unittests
 
-    if [ "$1" = "install" ]; then
-        doas ln -s "$dev"/gn-google/out/gn /usr/local/bin/
+    if [ "$action" = "install" ]; then
+        doas ln -s "$dev/gn/out/gn" /usr/local/bin/
     fi
-fi
+}
 
 ### lua-language-server
 # https://github.com/sumneko/lua-language-server/wiki/Build-and-Run
-if [ "$2" = "all" ] || [ "$2" = "lua-language-server" ]; then
-    if [ "$1" = "install" ]; then
+lua_language_server_install() {
+    echo "installing package: lua-language-server"
+
+    if [ ! -d "$dev/lua-language-server" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
         git clone --recurse-submodules https://github.com/sumneko/lua-language-server.git "$dev/lua-language-server"
     fi
 
-    cd "$dev"/lua-language-server || return 1
+    cd "$dev/lua-language-server" || return 1
 
-    if [ "$1" = "update" ]; then
+    if [ "$action" = "update" ]; then
         git pull --recurse-submodules
     fi
 
     # prevent lua-language-server from writing .bashrc
     chmod u-w "$HOME"/.bashrc
 
-    cd "$dev"/lua-language-server/3rd/luamake || return 1
+    cd "3rd/luamake" || return 1
 
     ./compile/install.sh
 
-    cd "$dev"/lua-language-server || return 1
+    cd "$dev/lua-language-server" || return 1
 
     ./3rd/luamake/luamake rebuild
 
@@ -407,37 +571,57 @@ if [ "$2" = "all" ] || [ "$2" = "lua-language-server" ]; then
     chmod u+w "$HOME"/.bashrc
 
     # directory used in kak-lsp/kak-lsp.toml
-    if [ "$1" = "install" ]; then
-        doas ln -s "$dev"/lua-language-server/bin/Linux /usr/local/lib/lua-language-server
+    if [ "$action" = "install" ]; then
+        doas ln -s "$dev/lua-language-server/bin/Linux" /usr/local/lib/lua-language-server
     fi
-fi
+}
 
 ### ziget
-if [ "$2" = "all" ] || [ "$2" = "ziget" ]; then
-    if [ "$1" = "install" ]; then
+ziget_install() {
+    echo "installing package: ziget"
+
+    if [ ! -d "$dev/ziget" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
     	git clone --recurse-submodules https://github.com/marler8997/ziget.git "$dev/ziget"
     fi
 
-    cd "$dev"/ziget || return 1
+    cd "$dev/ziget" || return 1
 
-    if [ "$1" = "update" ]; then
+    if [ "$action" = "update" ]; then
         git pull --recurse-submodules
     fi
 
     rm -rf zig-cache
 
     zig-master build -Drelease-safe -Dfetch --prefix "$prefix_dir" install
-fi
+}
 
 ### zigup
-if [ "$2" = "all" ] || [ "$2" = "zigup" ]; then
-    if [ "$1" = "install" ]; then
+zigup_install() {
+    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+        ziget_install
+    fi
+
+    echo "installing package: zigup"
+
+    if [ ! -d "$dev/zigup" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
     	git clone --recurse-submodules https://github.com/marler8997/zigup.git "$dev/zigup"
     fi
 
-    cd "$dev"/zigup || return 1
+    cd "$dev/zigup" || return 1
 
-    if [ "$1" = "update" ]; then
+    if [ "$action" = "update" ]; then
         git pull --recurse-submodules
     fi
 
@@ -455,37 +639,83 @@ if [ "$2" = "all" ] || [ "$2" = "zigup" ]; then
     # zigup --install-dir "$XDG_LIB_HOME/zig" --path-link "$XDG_BIN_HOME" master
     # then manually link zig if it fails
     # ln -s "$XDG_LIB_HOME/zig/{version}/files/zig" "$XDG_BIN_HOME/zig"
-fi
+}
 
 ### zls
-if [ "$2" = "all" ] || [ "$2" = "zls" ]; then
-    if [ "$1" = "install" ]; then
+zls_install() {
+    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+        zigup_install "dep"
+    fi
+
+    echo "installing package: zls"
+
+    if [ ! -d "$dev/zls" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
     	git clone --recurse-submodules https://github.com/zigtools/zls.git "$dev/zls"
     fi
 
-    cd "$dev"/zls || return 1
+    cd "$dev/zls" || return 1
 
-    if [ "$1" = "update" ]; then
+    if [ "$action" = "update" ]; then
         git pull --recurse-submodules
     fi
 
     rm -rf zig-cache
 
-    # zig_version="$(xbps-query zig | grep pkgver | awk '{ print $2 }' | sed 's/zig-//g' | sed 's/_.//g')"
+    # zig_version="$(xbps-query zig | grep pkgver | awk '{ print $1 }' | sed 's/zig-//g' | sed 's/_.//g')"
 
     # zig-master build -Drelease-safe -Ddata_version="$zig_version" --prefix "$prefix_dir" install
     zig-master build -Drelease-safe --prefix "$prefix_dir" install
-fi
+}
+
+### waybar
+waybar_install() {
+    echo "installing package: waybar"
+
+    if [ ! -d "$dev/waybar" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+    	git clone --recurse-submodules https://github.com/Alexays/Waybar.git "$dev/waybar"
+    fi
+
+    cd "$dev/waybar" || return 1
+
+    if [ "$action" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    # build options enabled/disabled
+    meson --reconfigure -Dprefix="$prefix_dir" -Dlibnl=enabled -Dlibudev=enabled -Dlibevdev=enabled -Dpulseaudio=enabled -Dsystemd=disabled -Ddbusmenu-gtk=disabled -Dman-pages=enabled -Dmpd=disabled -Dgtk-layer-shell=disabled -Drfkill=enabled -Dsndio=disabled -Dtests=disabled build
+
+    ninja -C build install
+}
 
 ### river
-if [ "$2" = "all" ] || [ "$2" = "river" ]; then
-    if [ "$1" = "install" ]; then
+river_install() {
+    echo "installing package: river"
+
+    if [ ! -d "$dev/river" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
     	git clone --recurse-submodules https://github.com/ifreund/river.git "$dev/river"
     fi
 
-    cd "$dev"/river || return 1
+    cd "$dev/river" || return 1
 
-    if [ "$1" = "update" ]; then
+    if [ "$action" = "update" ]; then
         git pull --recurse-submodules
     fi
 
@@ -494,33 +724,78 @@ if [ "$2" = "all" ] || [ "$2" = "river" ]; then
     # -Dxwayland for xwayland support
     zig build -Drelease-safe -Dman-pages --prefix "$prefix_dir" install
     # zig build -Drelease-safe -Dman-pages -Dxwayland --prefix $prefix_dir install
+}
+
+#### install packages
+
+if [ "$1" = "all" ] || [ "$1" = "qrupdate" ]; then
+    qrupdate_install
 fi
-
-### waybar
-if [ "$2" = "all" ] || [ "$2" = "waybar" ]; then
-    if [ "$1" = "install" ]; then
-    	git clone --recurse-submodules https://github.com/Alexays/Waybar.git "$dev/waybar"
-    fi
-
-    cd "$dev"/waybar || return 1
-
-    if [ "$1" = "update" ]; then
-        git pull --recurse-submodules
-    fi
-
-    # build options enabled/disabled
-    meson --reconfigure -Dprefix="$prefix_dir" -Dlibnl=enabled -Dlibudev=enabled -Dlibevdev=enabled -Dpulseaudio=enabled -Dsystemd=disabled -Ddbusmenu-gtk=disabled -Dman-pages=enabled -Dmpd=disabled -Dgtk-layer-shell=disabled -Drfkill=enabled -Dsndio=disabled -Dtests=disabled build
-
-    ninja -C build install
+if [ "$1" = "all" ] || [ "$1" = "epstool" ]; then
+    epstool_install
 fi
-
-### qrupdate
-
-# https://sourceforge.net/projects/qrupdate
-# FFLAGS add -fallow-argument-mismatch
-# BLAS=-lopenblas
-# if ldconfig works and ld -lqrupdate return something
-# LIBDIR=lib/qrupdate
-
-# useless: cd in scripts does not change acutal directory
-# cd "$current_dir" || return 1
+if [ "$1" = "all" ] || [ "$1" = "sundials" ]; then
+    sundials_install
+fi
+if [ "$1" = "all" ] || [ "$1" = "octave" ]; then
+    if  [ "$1" = "all" ]; then
+        octave_install
+    else
+        octave_install "dep"
+    fi
+fi
+if [ "$1" = "all" ] || [ "$1" = "jna" ]; then
+    jna_install
+fi
+if [ "$1" = "all" ] || [ "$1" = "biglybt" ]; then
+    if  [ "$1" = "all" ]; then
+        biglybt_install
+    else
+        biglybt_install "dep"
+    fi
+fi
+if [ "$1" = "all" ] || [ "$1" = "wxwidgets" ]; then
+    wxwidgets_install
+fi
+if [ "$1" = "all" ] || [ "$1" = "amule" ]; then
+    if  [ "$1" = "all" ]; then
+        amule
+    else
+        amule "dep"
+    fi
+fi
+if [ "$1" = "all" ] || [ "$1" = "fontpreview" ]; then
+    fontpreview_install
+fi
+if [ "$1" = "all" ] || [ "$1" = "lsix" ]; then
+    lsix_install
+fi
+if [ "$1" = "all" ] || [ "$1" = "gn" ]; then
+    gn_install
+fi
+if [ "$1" = "all" ] || [ "$1" = "lua-language-server" ]; then
+    lua_language_server_install
+fi
+if [ "$1" = "all" ] || [ "$1" = "ziget" ]; then
+    ziget_install
+fi
+if [ "$1" = "all" ] || [ "$1" = "zigup" ]; then
+    if  [ "$1" = "all" ]; then
+        zigup_install
+    else
+        zigup_install "dep"
+    fi
+fi
+if [ "$1" = "all" ] || [ "$1" = "zls" ]; then
+    if  [ "$1" = "all" ]; then
+        zls_install
+    else
+        zls_install "dep"
+    fi
+fi
+if [ "$1" = "all" ] || [ "$1" = "waybar" ]; then
+    waybar_install
+fi
+if [ "$1" = "all" ] || [ "$1" = "river" ]; then
+    river_install
+fi

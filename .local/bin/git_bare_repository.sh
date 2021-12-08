@@ -179,7 +179,7 @@ doas rustup component add rls rust-analysis rust-src
 # zls_dir="$HOME/dev/zig/zls"
 # mkdir -p "$zls_dir"
 # zls_location=$(curl -s https://api.github.com/repos/zigtools/zls/releases/latest | grep browser_download_url | grep x86_64-linux.tar.xz | awk '{ print $2 }' | sed 's/,$//' | sed 's/"//g')
-# curl -L "$zls_location" | tar -x --xz --strip-components=1 -C "$zls_dir"
+# curl -L "$zls_location" | tar -x --strip-components=1 -C "$zls_dir"
 # doas ln -s "$zls_dir/zls" /usr/local/bin/
 
 ## go

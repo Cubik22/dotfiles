@@ -49,7 +49,7 @@ if [ "$end" = "true" ]; then
 	return 1
 fi
 
-echo "updating package: $1"
+echo "installing package: $1"
 
 ## rustup
 # stable toolchain
