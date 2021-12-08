@@ -78,7 +78,7 @@ alias xs="xbps-query -s"
 alias imv="imv-wayland"
 
 # wifi
-alias iwdscan="iwctl station wlan0 scan;"
+alias iwscan="iwctl station wlan0 scan;"
 
 # bluetooth
 alias bluescan="bluetoothctl scan on;"

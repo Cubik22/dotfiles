@@ -4,7 +4,7 @@
 phel() {
     cat << EOF
 # wifi
-iwdscan
+iwscan
 iwctl station wlan0 show/scan/get-networks/(dis)connect
 
 # bluez
