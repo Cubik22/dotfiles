@@ -45,9 +45,9 @@ hook global ModeChange pop:insert:.* %{
 }
 
 # run the formatcmd for the current filetype on write
-hook global BufWritePre .* %{
-    try %{ format-buffer }
-}
+# hook global BufWritePre .* %{
+#     try %{ format-buffer }
+# }
 
 # load editorconfig for all buffers except special ones like *debug*
 # hook global WinCreate ^[^*]+$ %{editorconfig-load}
