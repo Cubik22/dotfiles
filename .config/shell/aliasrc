@@ -129,10 +129,10 @@ alias rcm="rcon commit"
 alias rcp="rcon push"
 
 # void mirrors in order to quickly change when one is slow (-R flag)
-export mirror1="https://alpha.de.repo.voidlinux.org/current/musl"
-export mirror2="https://repo-fi.voidlinux.org/current/musl"
-export mirror3="https://mirrors.servercentral.com/voidlinux/current/musl"
-export mirror4="https://repo-us.voidlinux.org/current/musl"
+export mirror1="https://alpha.de.repo.voidlinux.org/current"
+export mirror2="https://repo-fi.voidlinux.org/current"
+export mirror3="https://mirrors.servercentral.com/voidlinux/current"
+export mirror4="https://repo-us.voidlinux.org/current"
 
 # so the root user can link and use bash/zsh config
 if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
