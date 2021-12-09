@@ -41,8 +41,18 @@ doas mkdir -p "$runtime_dir"
 doas chown "$USER:$USER" "$runtime_dir"
 doas chmod 700 "$runtime_dir"
 
+# directories
+mkdir -p "$HOME/.local"
+mkdir -p "$HOME/.local/share"
+mkdir -p "$HOME/.local/lib"
+# kak nvim
+mkdir -p "$HOME"/.local/share/kak
+mkdir -p "$HOME"/.local/share/nvim
+# zig
+mkdir -p "$HOME/.local/lib/zig"
+
 # symlink stuff to root
-doas rm -r /root/.bash_profile
+doas rm -f /root/.bash_profile
 doas rm -f /root/.bashrc
 doas rm -f /root/.inputrc
 doas rm -f /root/.dir_colors
@@ -61,12 +71,12 @@ doas ln -s "$HOME"/.bashrc /root/.bashrc
 doas ln -s "$HOME"/.inputrc /root/.inputrc
 doas ln -s "$HOME"/.dir_colors /root/.dir_colors
 
+doas mkdir -p "/root/.config"
 doas mkdir -p "/root/.config/git"
 # doas mkdir -p "/root/.config/rbw"
 doas mkdir -p "/root/.config/waylock"
-# doas mkdir -p "/root/.config/shell"
-# doas mkdir -p "/root/.config/nvim"
-# doas mkdir -p "/root/.local/share/nvim"
+
+doas mkdir -p "/root/.local/share"
 
 doas ln -s "$HOME"/.config/git/config /root/.config/git/
 # doas ln -s "$HOME"/.config/rbw/config.json /root/.config/rbw/
@@ -77,9 +87,6 @@ doas ln -s "$HOME"/.local/share/nvim /root/.local/share/
 doas ln -s "$HOME"/.config/kak /root/.config/
 doas ln -s "$HOME"/.config/kak-lsp /root/.config/
 doas ln -s "$HOME"/.local/share/kak /root/.local/share/
-
-# zig
-mkdir "$HOME/.local/lib/zig"
 
 # wob
 mkdir -p "$HOME/.local/share/state"
@@ -113,43 +120,43 @@ doas ln -s /usr/local/lib/cargo/bin/rbw /usr/local/bin/
 doas ln -s /usr/local/lib/cargo/bin/rbw-agent /usr/local/bin/
 
 # set bitwarden mail for normal user
-rbw config set email $email
+rbw config set email "$email"
 # set bitwarden mail for root user
-rbw config set email $email
+doas rbw config set email "$email"
 
-# rbw may ask api key
+# set rbw api key user
+rbw register
 
 rbw unlock
 
 # set to track upstram 
 config push --set-upstream origin main
 
-# set also root config to track upstream
-doas /usr/bin/git --git-dir=/root/config/ --work-tree=/ push --set-upstream https://github.com/"$username"/config main
-
 # remove README from HOME and set git to not track in locale
 rm -f "$HOME"/README.md
 config update-index --assume-unchanged "$HOME"/README.md
 
-# also untrack data files
-config update-index --assume-unchanged "$HOME/.local/share/state/brightness_level"
-
 # set git to remeber credentials (danger but with github token you can give small permission)
 # git config --global credential.helper store
 
+# set rbw api key root
+# doas rbw register
+
+# doas rbw unlock
+
+# set also root config to track upstream
+# doas /usr/bin/git --git-dir=/root/config/ --work-tree=/ push --set-upstream https://github.com/"$username"/config main
+
 # import gpg key
-echo "------------------------ type the number of your identity -------------------------"
-gpg --search-keys $email
+# echo "------------------------ type the number of your identity -------------------------"
+# gpg --search-keys $email
 
 # trust key
-echo "-------------------- type 'trust', '5', 'y', 'primary', 'save' --------------------"
-gpg --edit-key $email
+# echo "-------------------- type 'trust', '5', 'y', 'primary', 'save' --------------------"
+# gpg --edit-key $email
 
 # clone packer for neovim
 # git clone --depth 1 https://github.com/wbthomason/packer.nvim "$HOME"/.local/share/nvim/site/pack/packer/start/packer.nvim
-
-# clone, build and install packages
-build-packages install
 
 # java (for octave)
 # doas ln -s /usr/lib/jvm/openjdk11/lib/server/libjvm.so /usr/lib/jvm/openjdk11/lib/
@@ -216,3 +223,7 @@ doas npm install -g vscode-json-languageserver-bin
 doas npm install -g typescript
 doas npm install -g typescript-language-server
 # doas npm install -g javascript-typescript-langserver
+
+# clone, build and install packages
+build-packages river
+build-packages waybar
