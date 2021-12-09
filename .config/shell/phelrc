@@ -22,6 +22,8 @@ touch /etc/sv/<service>/down
 servstat (info services)
 
 # removable drive
+dd if=/dev/{zero,urandom} of=/dev/sda bs=4M status=progress
+cat {...}.iso | pv > /dev/sda
 udisksctl (un)mount -b <drive (from lsblk)>
 
 # decompression
