@@ -213,5 +213,6 @@ doas npm install -g vscode-css-languageserver-bin
 doas npm install -g vscode-json-languageserver-bin
 
 ## javascript typescript
+doas npm install -g typescript
 doas npm install -g typescript-language-server
 # doas npm install -g javascript-typescript-langserver
