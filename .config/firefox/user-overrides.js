@@ -31,12 +31,6 @@ user_pref("network.dns.disableIPv6", false);
  * engine that respects privacy, then you probably don't need this ***/
 user_pref("keyword.enabled", true);
 
-/* 0901: set when Firefox should prompt for the primary password
- * 0=once per session (default), 1=every time it's needed, 2=after n minutes (0902) ***/
-user_pref("security.ask_for_password", 0);
-/* 0902: set how long in minutes Firefox should remember the primary password (0901) ***/
-user_pref("security.password_lifetime", 30); // [DEFAULT: 30]
-
 /* 1602: control the amount of cross-origin information to send [FF52+]
  * 0=send full URI (default), 1=scheme+host+port+path, 2=scheme+host+port ***/
 user_pref("network.http.referer.XOriginTrimmingPolicy", 1);
@@ -148,7 +142,7 @@ user_pref("browser.warnOnQuitShortcut", false); // [FF94+]
 user_pref("full-screen-api.warning.delay", 0);
 user_pref("full-screen-api.warning.timeout", 0);
 
-// user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true); // [FF68+] allow userChrome/userContent
+user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true); // [FF68+] allow userChrome/userContent
 
 // 0=no-preference, 1=reduce: with RFP this only affects chrome
 user_pref("ui.prefersReducedMotion", 1); // disable chrome animations [FF77+] [RESTART] [HIDDEN PREF]
@@ -181,7 +175,11 @@ user_pref("mousewheel.default.delta_multiplier_z", 20);
 user_pref("media.videocontrols.picture-in-picture.video-toggle.enabled", false);
 
 /* remove title bar */
-user_pref("browser.tabs.drawInTitlebar", true);
+user_pref("browser.tabs.inTitlebar", 1);
+
+/* dark theme */
+user_pref("browser.theme.content-theme", 0);
+user_pref("browser.theme.toolbar-theme", 0);
 
 /* always show bookmarks */
 user_pref("browser.toolbars.bookmarks.visibility", "always");
@@ -205,6 +203,16 @@ user_pref("browser.urlbar.showSearchSuggestionsFirst", false);
 
 /* disable sidebar in pdf by default */
 user_pref("pdfjs.sidebarViewOnLoad", 0);
+
+/* sync */
+user_pref("services.sync.engine.prefs", false);
+user_pref("services.sync.engine.prefs.modified", false);
+user_pref("services.sync.engine.creditcards", false);
+user_pref("services.sync.engine.creditcards.available", false);
+user_pref("services.sync.engine.addresses", false);
+user_pref("services.sync.engine.addresses.available", false);
+user_pref("services.sync.engine.addons", false);
+user_pref("services.sync.engine.passwords", false);
 
 /** extra **/
 

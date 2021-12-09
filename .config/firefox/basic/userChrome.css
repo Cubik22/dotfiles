@@ -5,23 +5,29 @@
 /* drag space */
 .titlebar-placeholder[type="pre-tabs"],
 .titlebar-placeholder[type="post-tabs"] {
-	width: 0px !important;
+    width: 0px !important;
+}
+
+.titlebar-spacer[type="pre-tabs"],
+.titlebar-spacer[type="post-tabs"] {
+    /* border: 0 !important; */
+    display: none;
 }
 
 #TabsToolbar {
-  	/*display: inline !important;*/
-	/*all: initial !important;*/
-	margin: 0px 0px 0px 0px !important;
+    /*display: inline !important;*/
+    /*all: initial !important;*/
+    margin: 0px 0px 0px 0px !important;
     padding: 0px 0px 0px 0px !important;
-	/*position: absolute !important;*/
-  	/*bottom: 0 !important;*/
- 	/*width: 100vw !important;*/
+    /*position: absolute !important;*/
+    /*bottom: 0 !important;*/
+    /*width: 100vw !important;*/
 }
 
 #TabsToolbar #window-controls {
-	display: none !important;
+    display: none !important;
 }
 
 #TabsToolbar .tabbrowser-tab[selected] .tab-line {
-	display: none !important;
+    display: none !important;
 }

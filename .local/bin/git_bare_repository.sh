@@ -99,25 +99,14 @@ mkdir -p "$HOME/.local/share/R"
 mkdir -p "$HOME/.local/lib/R"
 
 # rustup cargo env
-RUSTUP_HOME="/usr/local/lib/rustup"
-CARGO_HOME="/usr/local/lib/cargo"
+export RUSTUP_HOME="/usr/local/lib/rustup"
+export CARGO_HOME="/usr/local/lib/cargo"
 
 # go path
-GOPATH="/usr/local/lib/go"
+export GOPATH="/usr/local/lib/go"
 
 # add npm go and cargo to path in order to install packages in the right places
-PATH="/usr/local/lib/npm/bin:${GOPATH}/bin:${CARGO_HOME}/bin:${PATH}"
-
-# cargo packages already installed globally
-# --all-features activate all available features
-# --locked require Cargo.lock is up to date
-# --frozen require Cargo.lock and cache are up to date
-# doas cargo install --all-features --locked --frozen
-doas cargo install cargo-update rbw
-
-# link rbw rbw-agent for doas
-doas ln -s /usr/local/lib/cargo/bin/rbw /usr/local/bin/
-doas ln -s /usr/local/lib/cargo/bin/rbw-agent /usr/local/bin/
+export PATH="/usr/local/lib/npm/bin:${GOPATH}/bin:${CARGO_HOME}/bin:${PATH}"
 
 # set bitwarden mail for normal user
 rbw config set email "$email"
@@ -139,28 +128,11 @@ config update-index --assume-unchanged "$HOME"/README.md
 # set git to remeber credentials (danger but with github token you can give small permission)
 # git config --global credential.helper store
 
-# set rbw api key root
-# doas rbw register
-
-# doas rbw unlock
-
-# set also root config to track upstream
-# doas /usr/bin/git --git-dir=/root/config/ --work-tree=/ push --set-upstream https://github.com/"$username"/config main
-
-# import gpg key
-# echo "------------------------ type the number of your identity -------------------------"
-# gpg --search-keys $email
-
-# trust key
-# echo "-------------------- type 'trust', '5', 'y', 'primary', 'save' --------------------"
-# gpg --edit-key $email
-
 # clone packer for neovim
 # git clone --depth 1 https://github.com/wbthomason/packer.nvim "$HOME"/.local/share/nvim/site/pack/packer/start/packer.nvim
 
-# java (for octave)
-# doas ln -s /usr/lib/jvm/openjdk11/lib/server/libjvm.so /usr/lib/jvm/openjdk11/lib/
-# doas ln -s /usr/lib/jvm/java-1.8-openjdk/jre/lib/amd64/server/libjvm.so /usr/lib/jvm/java-1.8-openjdk/jre/lib
+# firefox
+# ln -s "$HOME/.config/firefox/user-overrides.js" "$HOME/.mozilla/firefox/{profile}/"
 
 ### languge servers
 
