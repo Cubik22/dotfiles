@@ -21,7 +21,8 @@ ln -s /etc/sv/<service> /etc/runit/runsvdir/default/
 touch /etc/sv/<service>/down
 servstat (info services)
 
-# removable drive
+# drives and devices
+mount (list mounted drives and devices)
 dd if=/dev/{zero,urandom} of=/dev/sda bs=4M status=progress
 cat {...}.iso | pv > /dev/sda
 udisksctl (un)mount -b <drive (from lsblk)>
