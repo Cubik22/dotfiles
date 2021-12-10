@@ -100,7 +100,7 @@ qrupdate_install() {
         mkdir "$qrupdate_version"
 
         curl -L -o "download.tar.gz" https://sourceforge.net/projects/qrupdate/files/latest/download
-        tar -x --strip-components=1 -f "download.tar.gz" -C "$qrupdate_version"
+        tar -x -z --strip-components=1 -f "download.tar.gz" -C "$qrupdate_version"
         rm "download.tar.gz"
 
         cd "$qrupdate_version" || return 1
@@ -117,7 +117,13 @@ cat << EOF > makeconf.patch
 < BLAS=-lblas
 ---
 > BLAS=-lopenblas
+18c18
+< LIBDIR=lib
+---
+> LIBDIR=lib/qrupdate
 EOF
+
+        cp Makeconf Makeconf-saved
 
         patch Makeconf makeconf.patch
 
@@ -125,7 +131,9 @@ EOF
         make -j8 solib
         make -j8 test
 
-        doas make install
+        doas make -j8 install
+
+        doas ln -sf /usr/local/lib/qrupdate/* /usr/lib
     else
         echo "no updates available"
     fi
@@ -152,7 +160,7 @@ epstool_install() {
 
     if [ ! -d "$epstool_version" ]; then
         mkdir "$epstool_version"
-        curl -L "http://www.ghostgum.com.au/download/epstool-$epstool_version.tar.gz" | tar -x --strip-components=1 -C "$epstool_version"
+        curl -L "http://www.ghostgum.com.au/download/epstool-$epstool_version.tar.gz" | tar -x -z --strip-components=1 -C "$epstool_version"
 
         cd "$epstool_version" || return 1
 
@@ -242,8 +250,8 @@ octave_install() {
         mkdir .build
     fi
 
-    # octave_version=$(curl -L https://ftpmirror.gnu.org/octave | grep href=\"octave- | \
-    #     tail -n 2 | head -n 1 | sed 's/^.*<a href="octave-//' | sed 's/">octave-.*$//')
+    # octave_version=$(curl -L https://ftp.gnu.org/gnu/octave | grep href=\"octave- | tail -n 1 | sed 's/^.*href=\"octave-//' | sed 's/\.tar\.xz\.sig.*$//')
+    # octave_version=$(curl -L https://ftpmirror.gnu.org/octave | grep href=\"octave- | tail -n 2 | head -n 1 | sed 's/^.*<a href="octave-//' | sed 's/">octave-.*$//')
 
     if [ "$action" = "update" ]; then
         hg pull
@@ -256,10 +264,10 @@ octave_install() {
     make -j8
 
     if [ "$action" = "install" ]; then
-        make check
+        make -j8 check
     fi
 
-    make install
+    make -j8 install
 }
 
 ### jna
@@ -443,6 +451,7 @@ amule_install() {
     # /usr/local/include/wx-3.1/wx/tbarbase.h
     #   line 547 change: const wxBitmap& to: const auto&
     doas make -j8 install
+    doas ldconfig
 
     ## if errors when running
     # cd "$dev"/wxwidgets

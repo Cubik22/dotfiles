@@ -27,9 +27,10 @@ dd if=/dev/{zero,urandom} of=/dev/sda bs=4M status=progress
 cat {...}.iso | pv > /dev/sda
 udisksctl (un)mount -b <drive (from lsblk)>
 
-# decompression
+# (de)compression
 aunpack (atool)
-tar -x --<compression options> --strip-components=1 -C "<output dir>"
+tar -x -<compression options (-z)> (--strip-components=1) -C "<output dir>"
+tar -c -<compression options (-z)> -f "<archived.tar.gz>" "<to-archive>"
 
 # update
 xi -Su

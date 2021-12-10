@@ -134,6 +134,12 @@ config update-index --assume-unchanged "$HOME"/README.md
 # firefox
 # ln -s "$HOME/.config/firefox/user-overrides.js" "$HOME/.mozilla/firefox/{profile}/"
 
+# octave packages
+# pkg install -forge io
+# pkg install -forge statistics
+# pkg install -forge struct
+# pkg install -forge optim
+
 ### languge servers
 
 # check for outdated, incorrect, and unused dependencies
