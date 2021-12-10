@@ -31,4 +31,4 @@ hook global WinCreate .* %{
 # modeline
 # set global modelinefmt '%val{bufname} (%val{cursor_line}:%val{cursor_char_column}) - {{context_info}}[{{mode_info}}/%val{client}@%val{session}]'
 # set global modelinefmt '%val{bufname} [%val{cursor_line}:%val{cursor_char_column}]{{context_info}}[{{mode_info}}][%val{client}][%val{session}]'
-set global modelinefmt '%val{bufname} {{context_info}}[{{mode_info}}][%val{cursor_line}:%val{cursor_char_column} %opt{modeline_pos_percent}%%]'
+set global modelinefmt '%val{bufname} [%val{client}][%val{session}]{{context_info}}[{{mode_info}}][%val{cursor_line}:%val{cursor_char_column} %opt{modeline_pos_percent}%%]'
