@@ -208,5 +208,7 @@ doas npm install -g typescript-language-server
 # doas npm install -g javascript-typescript-langserver
 
 # clone, build and install packages
+build-packages foot
 build-packages river
 build-packages waybar
+build-packages fuzzel
