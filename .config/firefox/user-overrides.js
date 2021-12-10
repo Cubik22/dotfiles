@@ -214,6 +214,8 @@ user_pref("services.sync.engine.addresses.available", false);
 user_pref("services.sync.engine.addons", false);
 user_pref("services.sync.engine.passwords", false);
 
+user_pref("services.sync.declinedEngines", "prefs,creditcards,passwords,addons");
+
 /** extra **/
 
 /* enable hardware acceleration */
