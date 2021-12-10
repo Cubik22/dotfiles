@@ -247,7 +247,7 @@ riverctl set-repeat 60 300
 # remember to change also .config/shell/envrc
 # remember to change also .config/gtk-{2, 3}.0/{config, settings.ini}
 # remember to change also .icons/default/index.theme
-riverctl xcursor-theme Adwaita 20
+riverctl xcursor-theme Adwaita 16
 # riverctl xcursor-theme OpenZone_White 32
 # riverctl xcursor-theme Human 32
 

@@ -1,11 +1,15 @@
 # gtk-theme-name="Adwaita"
 # gtk-theme-name="Adwaita:dark"
+
 # gtk-cursor-theme-name="OpenZone_White"
 # gtk-cursor-theme-name="Human"
 gtk-cursor-theme-name="Adwaita"
-gtk-cursor-theme-size=20
+
+gtk-cursor-theme-size=16
+
 # gtk-decoration-layout=""
 gtk-decoration-layout="menu:"
+
 gtk-xft-antialias=1
 gtk-xft-hinting=1
 gtk-xft-hintstyle="hintslight"

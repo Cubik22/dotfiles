@@ -845,6 +845,7 @@ foot_install() {
     fi
 
     mkdir -p bld/release
+
     cd bld/release || return 1
 
     # change also below and in .config/kak/foot.kak
@@ -853,8 +854,8 @@ foot_install() {
     # -Ddefault-terminfo=alacritty
 
     export CFLAGS="$CFLAGS -O3"
-	meson --buildtype=release -Dthemes=false --prefix="$prefix_dir_global" -Dterminfo=enabled -Db_lto=true ../..
-	# meson --buildtype=release -Dthemes=false --prefix="$prefix_dir_global" -Dterminfo=enabled -Ddefault-terminfo=xterm-256color -Db_lto=true ../..
+	meson --buildtype=release -Dthemes=true --prefix="$prefix_dir_global" -Dterminfo=enabled -Db_lto=true ../..
+	# meson --buildtype=release -Dthemes=true --prefix="$prefix_dir_global" -Dterminfo=enabled -Ddefault-terminfo=xterm-256color -Db_lto=true ../..
 	meson configure -Db_pgo=generate
 	ninja
 	ninja test
@@ -862,8 +863,6 @@ foot_install() {
 	# --term=xterm
 	# --term=xterm-256color
 	# --term=alacritty
-
-    # --override tweak.grapheme-shaping=no
 
 	./footclient --version
 	foot_tmp_file=$(mktemp)
