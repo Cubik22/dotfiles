@@ -135,21 +135,22 @@ export mirror3="https://mirrors.servercentral.com/voidlinux/current"
 export mirror4="https://repo-us.voidlinux.org/current"
 
 # so the root user can link and use bash/zsh config
+# remember to add package to /etc/config/xbps-packages
 if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
-    alias xbps-install="echo 'remember to add package to /etc/config/xbps-packages'; xbps-install"
-    alias xbps-remove="echo 'remember to remove package from /etc/config/xbps-packages'; xbps-remove"
-   	alias xi="echo 'remember to add package to /etc/config/xbps-packages'; xbps-install"
-    alias xr="echo 'remember to remove package from /etc/config/xbps-packages'; xbps-remove"
+    alias xi="xbps-install"
+    alias xr="xbps-remove"
 	
 	alias blueon="sv up bluetoothd; bluetoothctl power on;"
 	alias blueoff="bluetoothctl power off; sv down bluetoothd;"
 
 	alias servstat="sv status /var/service/*"
+
+	alias dka="kak-smart no"
 else
-    alias xbps-install="echo 'remember to add package to /etc/config/xbps-packages'; doas xbps-install"
-    alias xbps-remove="echo 'remember to remove package from /etc/config/xbps-packages'; doas xbps-remove"
-    alias xi="echo 'remember to add package to /etc/config/xbps-packages'; doas xbps-install"
-    alias xr="echo 'remember to remove package from /etc/config/xbps-packages'; doas xbps-remove"
+    alias xbps-install="doas xbps-install"
+    alias xbps-remove="doas xbps-remove"
+    alias xi="doas xbps-install"
+    alias xr="doas xbps-remove"
 	
 	alias blueon="doas sv up bluetoothd; bluetoothctl power on;"
 	alias blueoff="bluetoothctl power off; doas sv down bluetoothd;"

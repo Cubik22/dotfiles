@@ -17,8 +17,11 @@ lua-language-server
 ziget
 zigup
 zls
+fuzzel
 waybar
 river
+epoll-shim
+foot
 EOF
 )
 
@@ -70,6 +73,8 @@ if [ "$end" = "true" ]; then
 	echo "$print_info"
 	return 1
 fi
+
+prefix_dir_global="/usr/local"
 
 prefix_dir="$HOME/.local"
 
@@ -682,6 +687,43 @@ zls_install() {
     zig-master build -Drelease-safe --prefix "$prefix_dir" install
 }
 
+### fuzzel
+# https://codeberg.org/dnkl/fuzzel
+fuzzel_install() {
+    echo "installing package: fuzzel"
+
+    if [ ! -d "$dev/fuzzel" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+    	git clone --recurse-submodules https://codeberg.org/dnkl/fuzzel.git "$dev/fuzzel"
+    fi
+
+    cd "$dev/fuzzel" || return 1
+
+    if [ "$action" = "update" ]; then
+        rm -rf bld/release
+        git pull --recurse-submodules
+    fi
+
+    mkdir -p bld/release
+
+    cd bld/release || return 1
+
+    meson --prefix="$prefix_dir" --buildtype=release \
+        -Denable-cairo=enabled \
+        -Dpng-backend=libpng \
+        -Dsvg-backend=librsvg \
+        ../..
+
+    ninja
+
+    ninja install
+}
+
 ### waybar
 waybar_install() {
     echo "installing package: waybar"
@@ -738,6 +780,109 @@ river_install() {
     # -Dxwayland for xwayland support
     zig build -Drelease-safe -Dman-pages --prefix "$prefix_dir" install
     # zig build -Drelease-safe -Dman-pages -Dxwayland --prefix $prefix_dir install
+}
+
+### epoll-shim
+# https://github.com/jiixyj/epoll-shim
+# just when on bsd
+epoll_shim_install() {
+    echo "installing package: epoll-shim"
+
+    if [ ! -d "$dev/epoll-shim" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+    	git clone --recurse-submodules https://github.com/jiixyj/epoll-shim.git "$dev/epoll-shim"
+    fi
+
+    cd "$dev/epoll-shim" || return 1
+
+    if [ "$action" = "update" ]; then
+        rm -rf build
+        git pull --recurse-submodules
+    fi
+
+    mkdir build
+
+    cd build || return 1
+
+    cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
+
+    cmake --build .
+
+    ctest --output-on-failure
+
+    doas cmake --build . --target install
+}
+
+### foot
+# https://codeberg.org/dnkl/foot/src/branch/master/INSTALL.md
+foot_install() {
+    # if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+    #     epoll_shim_install
+    # fi
+
+    echo "installing package: foot"
+
+    if [ ! -d "$dev/foot" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+    	git clone --recurse-submodules https://codeberg.org/dnkl/foot.git "$dev/foot"
+    fi
+
+    cd "$dev/foot" || return 1
+
+    if [ "$action" = "update" ]; then
+        rm -rf bld/release
+        git pull --recurse-submodules
+    fi
+
+    mkdir -p bld/release
+    cd bld/release || return 1
+
+    # change also below and in .config/kak/foot.kak
+    # -Ddefault-terminfo=xterm
+    # -Ddefault-terminfo=xterm-256color
+    # -Ddefault-terminfo=alacritty
+
+    export CFLAGS="$CFLAGS -O3"
+	meson --buildtype=release -Dthemes=false --prefix="$prefix_dir_global" -Dterminfo=enabled -Db_lto=true ../..
+	# meson --buildtype=release -Dthemes=false --prefix="$prefix_dir_global" -Dterminfo=enabled -Ddefault-terminfo=xterm-256color -Db_lto=true ../..
+	meson configure -Db_pgo=generate
+	ninja
+	ninja test
+
+	# --term=xterm
+	# --term=xterm-256color
+	# --term=alacritty
+
+    # --override tweak.grapheme-shaping=no
+
+	./footclient --version
+	foot_tmp_file=$(mktemp)
+	./foot \
+		--config=/dev/null \
+		--override tweak.grapheme-shaping=no \
+		--term=xterm \
+		sh -c "$dev/foot/scripts/generate-alt-random-writes.py --scroll --scroll-region --colors-regular --colors-bright --colors-256 --colors-rgb --attr-bold --attr-italic --attr-underline --sixel ${foot_tmp_file} && cat ${foot_tmp_file}"
+	rm "${foot_tmp_file}"
+
+	meson configure -Db_pgo=use
+	ninja
+	ninja test
+	doas ninja install
+
+    cd "$dev/foot" || return 1
+
+	# terminfo
+	doas sed 's/@default_terminfo@/foot/g' foot.info | doas tic -x -e foot,foot-direct -
 }
 
 #### install packages
@@ -807,9 +952,22 @@ if [ "$1" = "all" ] || [ "$1" = "zls" ]; then
         zls_install "dep"
     fi
 fi
+if [ "$1" = "all" ] || [ "$1" = "fuzzel" ]; then
+    fuzzel_install
+fi
 if [ "$1" = "all" ] || [ "$1" = "waybar" ]; then
     waybar_install
 fi
 if [ "$1" = "all" ] || [ "$1" = "river" ]; then
     river_install
+fi
+if [ "$1" = "epoll-shim" ]; then
+    epoll_shim_install
+fi
+if [ "$1" = "all" ] || [ "$1" = "foot" ]; then
+    if  [ "$1" = "all" ]; then
+        foot_install
+    else
+        foot_install "dep"
+    fi
 fi

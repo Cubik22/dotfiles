@@ -9,7 +9,7 @@ map global normal <a-backspace> <a-space> -docstring 'remove main sel'
 
 # comments
 map global normal '#' :comment-line<ret> -docstring 'comment line'
-map global normal '<c-3>' :comment-block<ret> -docstring 'comment block'
+map global normal '<a-#>' :comment-block<ret> -docstring 'comment block'
 
 # map control i to jump forward
 map global normal <c-i> <tab> -docstring 'jump forward'

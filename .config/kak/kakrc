@@ -14,6 +14,7 @@ evaluate-commands %sh{
     	doas-write.kak
     	palette.kak
     	languages.kak
+    	foot.kak
 	"
 
     for file in $config_files; do

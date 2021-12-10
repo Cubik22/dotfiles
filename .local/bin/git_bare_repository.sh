@@ -134,6 +134,11 @@ config update-index --assume-unchanged "$HOME"/README.md
 # firefox
 # ln -s "$HOME/.config/firefox/user-overrides.js" "$HOME/.mozilla/firefox/{profile}/"
 
+# wireguard
+# cp {...}.conf /etc/wireguard/
+# rm /etc/sv/wireguard/down
+# reboot
+
 # octave packages
 # pkg install -forge io
 # pkg install -forge statistics
