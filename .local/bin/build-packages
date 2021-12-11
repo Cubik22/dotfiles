@@ -139,6 +139,8 @@ EOF
         doas make -j8 install
 
         doas ln -sf /usr/local/lib/qrupdate/* /usr/lib
+
+        doas ldconfig
     else
         echo "no updates available"
     fi
@@ -460,9 +462,9 @@ amule_install() {
 
     ## if errors when running
     # cd "$dev"/wxwidgets
-    # src/common/sizer.cpp
+    # src/common/sizer.cpp line 251
     #   comment: define ASSERT_NO_IGNORED_FLAGS
-    # src/common/socketiohandler.cpp
+    # src/common/socketiohandler.cpp line 50
     #   comment: wxCHECK_RET
     # doas make -j8 install
     # doas ldconfig
@@ -917,9 +919,9 @@ if [ "$1" = "all" ] || [ "$1" = "wxwidgets" ]; then
 fi
 if [ "$1" = "all" ] || [ "$1" = "amule" ]; then
     if  [ "$1" = "all" ]; then
-        amule
+        amule_install
     else
-        amule "dep"
+        amule_install "dep"
     fi
 fi
 if [ "$1" = "all" ] || [ "$1" = "fontpreview" ]; then
@@ -970,3 +972,4 @@ if [ "$1" = "all" ] || [ "$1" = "foot" ]; then
         foot_install "dep"
     fi
 fi
+

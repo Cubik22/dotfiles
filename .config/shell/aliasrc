@@ -82,7 +82,7 @@ alias iwscan="iwctl station wlan0 scan;"
 
 # bluetooth
 alias bluescan="bluetoothctl scan on;"
-alias bluectl="echo \"scan on\"; echo \"connect\"; bluetoothctl"
+alias bluectl="echo \"scan on\"; echo \"trust\"; echo \"connect\"; bluetoothctl"
 
 # lists the installed system libraries
 alias listlib="scanelf --ldpath -BF '%f'"
