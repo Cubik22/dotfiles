@@ -38,21 +38,6 @@ user_pref("network.http.referer.XOriginTrimmingPolicy", 1);
 /* 2652: disable downloads panel opening on every download [FF96+] ***/
 user_pref("browser.download.alwaysOpenPanel", true);
 
-/* 2701: disable or isolate 3rd-party cookies and site-data [SETUP-WEB]
- * 0 = Accept cookies and site data
- * 1 = (Block) All third-party cookies
- * 2 = (Block) All cookies
- * 3 = (Block) Cookies from unvisited websites
- * 4 = (Block) Cross-site tracking cookies (default)
- * 5 = (Isolate All) Cross-site cookies (TCP: Total Cookie Protection / dFPI: dynamic FPI) [1] (FF86+)
- * Option 5 with FPI enabled (4001) is ignored and not shown, and option 4 used instead
- * [NOTE] You can set cookie exceptions under site permissions or use an extension
- * [NOTE] Enforcing category to custom ensures ETP related prefs are always honored
- * [SETTING] Privacy & Security>Enhanced Tracking Protection>Custom>Cookies
- * [1] https://blog.mozilla.org/security/2021/02/23/total-cookie-protection/ ***/
-user_pref("network.cookie.cookieBehavior", 5);
-user_pref("browser.contentblocking.category", "strict");
-
 /* 2811: set/enforce what items to clear on shutdown (if 2810 is true) [SETUP-CHROME]
  * These items do not use exceptions, it is all or nothing (1681701)
  * [NOTE] If "history" is true, downloads will also be cleared
@@ -68,11 +53,6 @@ user_pref("privacy.clearOnShutdown.sessions", false);  // [DEFAULT: true]
 user_pref("privacy.clearOnShutdown.offlineApps", false); // [DEFAULT: false]
 user_pref("privacy.clearOnShutdown.cookies", false);
    // user_pref("privacy.clearOnShutdown.siteSettings", false); // [DEFAULT: false]
-
-/* 4001: enable First Party Isolation [FF51+]
- * [SETUP-WEB] Breaks some cross-origin logins
- * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1260931,1299996 ***/
-user_pref("privacy.firstparty.isolate", false);
 
 /* 4504: enable RFP letterboxing [FF67+]
  * Dynamically resizes the inner window by applying margins in stepped ranges [2]
