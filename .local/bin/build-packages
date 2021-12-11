@@ -333,7 +333,7 @@ biglybt_install() {
     fi
 
     if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/BiglySoftware/BiglyBT "$dev/biglybt"
+        git clone --recurse-submodules https://github.com/BiglySoftware/BiglyBT.git "$dev/biglybt"
 
         mkdir "$dev/biglybt/download"
         mkdir "$dev/biglybt/home"
@@ -768,7 +768,7 @@ river_install() {
     fi
 
     if [ "$action" = "install" ]; then
-    	git clone --recurse-submodules https://github.com/ifreund/river.git "$dev/river"
+    	git clone --recurse-submodules https://github.com/riverwm/river.git "$dev/river"
     fi
 
     cd "$dev/river" || return 1
