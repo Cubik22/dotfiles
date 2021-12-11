@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# clone kak plugins if not already installed
+# update them if already cloned
+
+# add also plugins in kak/kakrc
+
+plugins_url=$(cat << EOF
+https://github.com/Delapouite/kakoune-palette.git
+https://github.com/kkga/foot.kak.git
+https://github.com/eraserhd/kak-ansi.git
+https://gitlab.com/Screwtapello/kakoune-state-save.git
+https://github.com/alexherbo2/tiny.kak.git
+https://github.com/alexherbo2/auto-pairs.kak.git
+EOF
+)
+
+plugins_dir="$XDG_CONFIG_HOME/kak/plugins"
+
+if [ ! -d "$plugins_dir" ]; then
+    mkdir -p "$plugins_dir"
+fi
+
+while read -r plugin_url; do
+    plugin=$(echo "$plugin_url" | rev | cut -d "/" -f 1 | cut -d "." -f 2- | rev)
+    if [ ! -d "$plugins_dir/$plugin" ]; then
+        git clone --recurse-submodules "$plugin_url" "$plugins_dir/$plugin"
+    else
+        git -C "$plugins_dir/$plugin" pull
+    fi
+done <<EOT
+$plugins_url
+EOT
+

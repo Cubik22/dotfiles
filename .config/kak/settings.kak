@@ -60,18 +60,6 @@ hook global BufNewFile  .* %{ editorconfig-load }
 hook global BufWritePost .* %{ git show-diff }
 hook global BufReload    .* %{ git show-diff }
 
-# state save
-hook global KakBegin .* %{
-    state-save-reg-load colon
-    state-save-reg-load pipe
-    state-save-reg-load slash
-}
-hook global KakEnd .* %{
-    state-save-reg-save colon
-    state-save-reg-save pipe
-    state-save-reg-save slash
-}
-
 # completion
 # <c-n> <c-p> <c-o>
 # hook global InsertCompletionShow .* %{ try %{
@@ -87,10 +75,19 @@ hook global KakEnd .* %{
 #     unmap window insert <c-g> <c-o>
 # }
 
-## tiny.kak
+## state save
+hook global KakBegin .* %{
+    state-save-reg-load colon
+    state-save-reg-load pipe
+    state-save-reg-load slash
+}
+hook global KakEnd .* %{
+    state-save-reg-save colon
+    state-save-reg-save pipe
+    state-save-reg-save slash
+}
 
-# remove error scratch message
-# remove-scratch-message
+## auto-pairs
 
 # auto-pairing of characters with quotes
 # set-option global auto_pairs ( ) { } [ ] '"' '"' "'" "'" ` ` “ ” ‘ ’ « » ‹ ›
@@ -108,9 +105,14 @@ hook global KakEnd .* %{
 set-option global auto_pairs ( ) { } [ ]
 enable-auto-pairs
 
+## tiny.kak
+
 # integration
 synchronize-terminal-clipboard
 make-directory-on-save
+
+# remove error scratch message
+# remove-scratch-message
 
 ### ui settings
 

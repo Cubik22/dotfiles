@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# ansi
+kak -e 'set buffer filetype man; remove-hooks window man-hooks; map buffer normal q :q<ret>' < "$1"
+
+# no ansi
+# col -b -x < "$1" | kak -e 'set buffer filetype man; remove-hooks window man-hooks; map buffer normal q :q<ret>'
+

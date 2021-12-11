@@ -1,21 +1,31 @@
+## kakrc
+
+# to install and update plugins .local/bin/kak-plugins-update
+
+# source config files
 evaluate-commands %sh{
+	plugins="plugins"
+    
     config_files="
     	filetype/octave.kak
-    	tiny.kak
-    	auto-pairs.kak
+    	$plugins/auto-pairs.kak/rc/auto-pairs.kak
+    	$plugins/foot.kak/rc/foot.kak
+    	$plugins/kakoune-palette/palette.kak
+    	$plugins/kakoune-state-save/state-save.kak
+    	$plugins/tiny.kak/rc/tiny.kak
+    	$plugins/kak-ansi/rc/ansi.kak
     	indentation.kak
     	wayland.kak
     	git-commit-overflow.kak
-    	state-save.kak
     	settings.kak
     	key-bindings.kak
     	functionality.kak
     	modeline.kak
     	doas-write.kak
-    	palette.kak
     	languages.kak
-    	foot.kak
 	"
+    	# settings.kak
+    	# plugins.kak
 
     for file in $config_files; do
          printf "%s" "
@@ -27,3 +37,4 @@ evaluate-commands %sh{
          "
     done
 }
+
