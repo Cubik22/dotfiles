@@ -52,6 +52,10 @@ default file: 644
 executable user: 744
 executable all: 755
 
+# man
+mandb
+makewhatis
+
 # latex
 lualatex {...}.tex
 

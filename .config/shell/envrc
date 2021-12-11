@@ -64,9 +64,14 @@ export R_ENVIRON_USER="${XDG_CONFIG_HOME}/R/renviron"
 export R_PROFILE_USER="${XDG_CONFIG_HOME}/R/rprofile"
 export R_HISTFILE="${R_HOME_USER}/rhistory"
 
-# paths
-export MANPATH="${XDG_DATA_HOME}/man:/usr/local/share/man:/usr/share/man"
+# path
 export PATH="${XDG_BIN_HOME}:${PATH}"
+
+# manpath
+# if $MANPATH is set, manpath displays its value rather than determining it on the fly
+# if $MANPATH is prefixed by a colon, then the value of the variable is
+# appended to the list determined from the content of the configuration files
+export MANPATH=":${XDG_DATA_HOME}/man"
 
 # less history
 export LESSHISTFILE="$XDG_DATA_HOME/less/lesshst"
