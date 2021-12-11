@@ -161,10 +161,6 @@ user_pref("browser.tabs.inTitlebar", 1);
 user_pref("browser.theme.content-theme", 0);
 user_pref("browser.theme.toolbar-theme", 0);
 
-/* dark UI (not really working with resistFingerprinting) */
-user_pref("widget.content.allow-gtk-dark-theme", true);
-user_pref("widget.gtk.alt-theme.dark", true);
-
 /* always show bookmarks */
 user_pref("browser.toolbars.bookmarks.visibility", "always");
 
@@ -209,6 +205,11 @@ user_pref("services.sync.declinedEngines", "prefs,creditcards,passwords,addons")
 /* enable hardware acceleration */
 /* may give video problems */
 // user_pref("media.ffmpeg.vaapi.enabled", true);
+
+/* dark UI (not really working with resistFingerprinting) */
+/* it breaks startpage */
+// user_pref("widget.content.allow-gtk-dark-theme", true);
+// user_pref("widget.gtk.alt-theme.dark", true);
 
 /* increase to 127 (maximum) the replacements allowed via fontconfig */
 // user_pref("gfx.font_rendering.fontconfig.max_generic_substitutions", 127);

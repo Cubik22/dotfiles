@@ -1,0 +1,53 @@
+#!/bin/sh
+
+# clean firefox prefs.js except some
+
+info=$(cat << EOF
+first parameter: path of prefs file
+second parameter (optional): path of new file cleaned
+default is new-{oldpath}
+EOF
+)
+
+if [ "$#" -lt 1 ]; then
+    echo "ERROR: please insert at least one parameter"
+    echo "$info"
+    return 1
+fi
+
+prefs="$1"
+
+if [ ! -f "$prefs" ]; then
+    echo "ERROR: the first parameter is not a file"
+    echo "$info"
+    return 1
+fi
+
+if [ "$#" -gt 1 ]; then
+    if [ ! -e "$2" ]; then
+        new_prefs="$2"
+    else
+        echo "ERROR: the new file already exists"
+        echo "$info"
+        return 1
+    fi
+else
+    new_prefs="new-$prefs"
+fi
+
+sync="services.sync"
+
+fxaccount="identity.fxaccounts"
+
+extuuid="extensions.webextensions.uuids"
+
+uicust="browser.uiCustomization.state"
+
+while read -r line; do
+    if test "${line#*$sync}" != "$line" || \
+       test "${line#*$fxaccount}" != "$line" || \
+       test "${line#*$extuuid}" != "$line" || \
+       test "${line#*$uicust}" != "$line"; then
+        echo "$line" >> "$new_prefs"
+    fi
+done < "$prefs"
