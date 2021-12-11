@@ -207,6 +207,11 @@ doas npm install -g typescript
 doas npm install -g typescript-language-server
 # doas npm install -g javascript-typescript-langserver
 
+## building
+
+# clone kak plugins
+kak-plugins-update
+
 # clone, build and install packages
 build-packages foot
 build-packages river
