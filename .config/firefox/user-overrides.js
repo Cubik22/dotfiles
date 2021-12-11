@@ -168,6 +168,9 @@ user_pref("widget.gtk.alt-theme.dark", true);
 /* always show bookmarks */
 user_pref("browser.toolbars.bookmarks.visibility", "always");
 
+/* show mobile bookmarks */
+user_pref("browser.bookmarks.showMobileBookmarks", true);
+
 /* clear new tab and home */
 user_pref("browser.newtabpage.activity-stream.feeds.topsites", false);
 user_pref("browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts.havePinned", "");
@@ -181,6 +184,7 @@ user_pref("browser.newtabpage.pinned", "[]");
 
 /* try to change default search engine, usually requires manually setting it */
 user_pref("browser.urlbar.placeholderName", "DuckDuckGo");
+user_pref("browser.urlbar.placeholderName.private", "DuckDuckGo");
 
 /* do not show search suggestions ahead of browsing history in address bar results */
 user_pref("browser.urlbar.showSearchSuggestionsFirst", false);
