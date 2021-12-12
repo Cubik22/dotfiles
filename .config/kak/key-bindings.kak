@@ -7,18 +7,19 @@ map global normal <space> , -docstring 'leader'
 map global normal <backspace> <space> -docstring 'remove all sels except main'
 map global normal <a-backspace> <a-space> -docstring 'remove main sel'
 
-# comments
-map global normal '#' :comment-line<ret> -docstring 'comment line'
-map global normal '<a-#>' :comment-block<ret> -docstring 'comment block'
+# remap 'i' and 'a' to enter insert mode without keeping selection
+map global normal i hli -docstring 'enter insert mode before cursor'
+map global normal a li -docstring 'enter insert mode after cursor'
 
 # map control i to jump forward
 map global normal <c-i> <tab> -docstring 'jump forward'
 
-map global normal = '|fmt -w $kak_opt_autowrap_column<ret>' -docstring 'wrap lines'
+# comments
+map global normal '#' :comment-line<ret> -docstring 'comment line'
+map global normal '<a-#>' :comment-block<ret> -docstring 'comment block'
 
-# remap 'i' and 'a' to enter insert mode without keeping selection
-map global normal i hli -docstring 'enter insert mode before cursor'
-map global normal a li -docstring 'enter insert mode after cursor'
+# wrap
+map global normal = '|fmt -w $kak_opt_autowrap_column<ret>' -docstring 'wrap lines'
 
 # wrap to 80 characters
 # map global user f '|fmt -w 80<ret>' -docstring 'wrap to 80'
@@ -110,9 +111,9 @@ map global user z ': wq<ret>' 	-docstring 'write and quit'
 hook global RegisterModified '"' %{ nop %sh{
 	printf %s "$kak_main_reg_dquote" | wl-copy-env > /dev/null 2>&1 &
 } }
-map global user P '!wl-paste-env -n<ret>'     -docstring 'paste system (before)'
-map global user p '<a-!>wl-paste-env -n<ret>' -docstring 'paste system (after)'
 map global user y '<a-|>wl-copy-env<ret>'     -docstring 'copy system'
+map global user p '<a-!>wl-paste-env -n<ret>' -docstring 'paste system (after)'
+map global user P '!wl-paste-env -n<ret>'     -docstring 'paste system (before)'
 
 # system clipboard
 # map global user c '<a-|>wl-copy<ret>' -docstring 'wl-copy'
