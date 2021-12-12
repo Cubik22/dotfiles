@@ -12,7 +12,7 @@ define-command -docstring 'open files with fzf' fuzzy-files %{
 		footclient --app-id 'float' sh -c "kak-fuzzy-files $kak_session $kak_client"
 	}
 }
-map global user o ': fuzzy-files<ret>' -docstring 'fzf: open files'
+map global user f ': fuzzy-files<ret>' -docstring 'fzf: open files'
 
 # nnn
 define-command -docstring 'open file with nnn' nnn %{

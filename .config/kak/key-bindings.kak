@@ -45,11 +45,21 @@ map global insert <a-e> <end><esc>
 # custom text objects
 # map global user W 'c\s,\s<ret>' -docstring "select between whitespace"
 
+# selectors
+map global normal s ': enter-user-mode selectors<ret>'			-docstring 'selectors mode'
+map global selectors s s										-docstring 'sub-selection'
+map global selectors v ': vertical-selection-down<ret>'			-docstring 'vertical selection down'
+map global selectors <a-v> ': vertical-selection-up<ret>'		-docstring 'vertical selection up'
+map global selectors V ': vertical-selection-up-and-down<ret>'	-docstring 'vertical selection up and down'
+
 # lsp mode
 map global user l ': enter-user-mode lsp<ret>' -docstring 'lsp mode'
 
 # man (defined in tools/man.kak)
 map global user m ': enter-user-mode man<ret>' -docstring 'man mode'
+
+# surround
+map global user s ': enter-user-mode surround<ret>' -docstring 'surround mode'
 
 # utility
 declare-user-mode util
@@ -72,7 +82,7 @@ map global git n ': git next-hunk<ret>'       	-docstring 'next hunk'
 
 # spell checking
 declare-user-mode spell
-map global user s ': enter-user-mode spell<ret>' 	-docstring 'spell checking mode'
+map global user c ': enter-user-mode spell<ret>' 	-docstring 'spell checking mode'
 map global spell s ': spell<ret>' 					-docstring 'spell'
 map global spell c ': spell-clear<ret>' 			-docstring 'clear'
 map global spell n ': spell-next<ret>' 				-docstring 'next'
