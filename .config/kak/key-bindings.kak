@@ -47,10 +47,10 @@ map global insert <a-e> <end><esc>
 
 # selectors
 map global normal s ': enter-user-mode selectors<ret>'			-docstring 'selectors mode'
-map global selectors s s										-docstring 'sub-selection'
 map global selectors v ': vertical-selection-down<ret>'			-docstring 'vertical selection down'
 map global selectors <a-v> ': vertical-selection-up<ret>'		-docstring 'vertical selection up'
 map global selectors V ': vertical-selection-up-and-down<ret>'	-docstring 'vertical selection up and down'
+map global selectors s s										-docstring 'sub-selection'
 
 # lsp mode
 map global user l ': enter-user-mode lsp<ret>' -docstring 'lsp mode'
