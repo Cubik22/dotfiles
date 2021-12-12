@@ -5,7 +5,13 @@
 
 # add also plugins in kak/kakrc
 
+# https://github.com/andreyorst/fzf.kak.git
 # https://github.com/ul/kak-tree.git
+# https://github.com/Delapouite/kakoune-buffers.git
+# https://github.com/andreyorst/smarttab.kak.git
+# https://github.com/danr/kakoune-easymotion.git
+# https://github.com/occivink/kakoune-phantom-selection.git
+# https://github.com/occivink/kakoune-find.git
 
 plugins_url=$(cat << EOF
 https://github.com/kkga/foot.kak.git
