@@ -17,7 +17,7 @@ map global normal <c-i> <tab> -docstring 'jump forward'
 map global normal = '|fmt -w $kak_opt_autowrap_column<ret>' -docstring 'wrap lines'
 
 # remap 'i' and 'a' to enter insert mode without keeping selection
-map global normal i lhi -docstring 'enter insert mode before cursor'
+map global normal i hli -docstring 'enter insert mode before cursor'
 map global normal a li -docstring 'enter insert mode after cursor'
 
 # wrap to 80 characters
