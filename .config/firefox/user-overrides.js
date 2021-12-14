@@ -107,6 +107,7 @@ user_pref("javascript.options.wasm", false);
 user_pref("javascript.options.wasm_baselinejit", false);
 user_pref("javascript.options.wasm_optimizingjit", false);
 user_pref("javascript.options.wasm_simd", false);
+user_pref("javascript.options.wasm_caching", false);
 user_pref("javascript.options.wasm_trustedprincipals", true);
 
 /** suggested **/
