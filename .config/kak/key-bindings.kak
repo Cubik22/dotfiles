@@ -1,6 +1,6 @@
 # key bindings
 
-# space is the best leader
+# use space as leader
 map global normal <space> , -docstring 'leader'
 
 # use backspace to do what space used to do
@@ -47,11 +47,12 @@ map global insert <a-e> <end><esc>
 # map global user W 'c\s,\s<ret>' -docstring "select between whitespace"
 
 # selectors
-map global normal s ': enter-user-mode selectors<ret>'			-docstring 'selectors mode'
+# , is no longer leader key
+map global normal , ': enter-user-mode selectors<ret>'			-docstring 'selectors mode'
 map global selectors v ': vertical-selection-down<ret>'			-docstring 'vertical selection down'
 map global selectors <a-v> ': vertical-selection-up<ret>'		-docstring 'vertical selection up'
 map global selectors V ': vertical-selection-up-and-down<ret>'	-docstring 'vertical selection up and down'
-map global selectors s s										-docstring 'sub-selection'
+# map global selectors s s										-docstring 'sub-selection'
 
 # lsp mode
 map global user l ': enter-user-mode lsp<ret>' -docstring 'lsp mode'
