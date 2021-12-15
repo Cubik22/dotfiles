@@ -61,6 +61,10 @@ lualatex {...}.tex
 
 # pdf
 pdfunite inputs.pdf output.pdf
+
+# terminal
+terminfo
+stty
 EOF
     # TODO: expand print help
 }

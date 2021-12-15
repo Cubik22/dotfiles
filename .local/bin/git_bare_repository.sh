@@ -145,6 +145,12 @@ config update-index --assume-unchanged "$HOME"/README.md
 # pkg install -forge struct
 # pkg install -forge optim
 
+# rtorrent
+curl -Ls "https://raw.githubusercontent.com/wiki/rakshasa/rtorrent/CONFIG-Template.md" \
+    | sed -ne "/^######/,/^### END/p" \
+    | sed -re "s:/home/USERNAME:$HOME:" > "$HOME/.rtorrent.rc"
+mkdir -p "$HOME/rtorrent/"
+
 ### languge servers
 
 # check for outdated, incorrect, and unused dependencies
