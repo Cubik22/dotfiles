@@ -1,11 +1,17 @@
-# Open document in fit-width mode by default
+# open document in fit-width mode by default
 set adjust-open "best-fit"
 
-# One page per row by default
+# one page per row by default
 set pages-per-row 1
 
-# Zoom settings
+# zoom settings
 set zoom-step 5
+
+# tilde in the status bar
+set statusbar-home-tilde
+
+# <c-n> toggle guioptions
+# set guioptions ""
 
 # scrolling options
 # set scroll-full-overlap 0.01

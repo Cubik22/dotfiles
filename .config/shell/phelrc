@@ -65,6 +65,9 @@ pdfunite inputs.pdf output.pdf
 # terminal
 terminfo
 stty
+
+# kernel
+vkpurge
 EOF
     # TODO: expand print help
 }
