@@ -24,7 +24,8 @@ network.port_random.set = yes
 
 # Tracker-less torrent and UDP tracker support
 # (conservative settings for 'private' trackers, change for 'public')
-dht.mode.set = yes
+dht.mode.set = auto
+dht.port.set = 6881
 protocol.pex.set = yes
 trackers.use_udp.set = yes
 
@@ -49,7 +50,7 @@ network.max_open_sockets.set = 300
 
 # Memory resource usage (increase if you have a large number of items loaded,
 # and/or the available resources to spend)
-pieces.memory.max.set = 1800M
+pieces.memory.max.set = 3000M
 network.xmlrpc.size_limit.set = 4M
 
 # Basic operational settings (no need to change these)
