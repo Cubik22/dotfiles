@@ -1,0 +1,88 @@
+## options
+
+# automatically reload all feeds on startup
+auto-reload yes
+
+# number of parallel reload threads
+reload-threads 8
+
+# default browser
+browser lynx
+# browser w3m
+
+## key-bindings
+
+bind-key j down
+bind-key k up
+bind-key j next articlelist
+bind-key k prev articlelist
+bind-key J next-feed articlelist
+bind-key K prev-feed articlelist
+bind-key l open
+bind-key h quit
+bind-key G end
+bind-key g home
+
+bind-key ^D pagedown
+bind-key ^U pageup
+
+bind-key u show-urls
+
+bind-key ^G goto-title
+
+bind-key ^V view-dialogs
+
+bind-key ^J next-dialog
+bind-key ^K prev-dialog
+
+bind-key ^N random-unread
+bind-key ^P random-unread
+
+bind-key t select-tag
+bind-key T set-tag
+
+bind-key o open-in-browser
+bind-key O open-in-browser-noninteractively
+
+bind-key i open-all-unread-in-browser
+bind-key I open-all-unread-in-browser-and-mark-read
+
+bind-key a mark-feed-read
+bind-key A mark-all-feeds-read
+
+bind-key c toggle-article-read
+bind-key C toggle-show-read-feeds
+
+bind-key s sort
+bind-key S rev-sort
+
+bind-key d pb-download
+bind-key D pb-delete
+
+## colors
+
+# simple black and white colors
+include /usr/share/doc/newsboat/contrib/colorschemes/plain
+
+# color listnormal            cyan default
+# color listnormal_unread     blue default
+# color listfocus             black yellow standout bold
+# color listfocus_unread      yellow default bold
+# color info                  red black bold
+# color article               white default bold
+# # color background            black default
+
+# ## highlights
+
+# highlight all "---.*---" yellow
+# highlight feedlist ".*(0/0))" black
+# highlight article "(^Feed:.*|^Title:.*|^Author:.*)" cyan default bold
+# highlight article "(^Link:.*|^Date:.*)" default default
+# highlight article "https?://[^ ]+" green default
+# highlight article "^(Title):.*$" blue default
+# highlight article "\\[[0-9][0-9]*\\]" magenta default bold
+# highlight article "\\[image\\ [0-9]+\\]" green default bold
+# highlight article "\\[embedded flash: [0-9][0-9]*\\]" green default bold
+# highlight article ":.*\\(link\\)$" cyan default
+# highlight article ":.*\\(image\\)$" blue default
+# highlight article ":.*\\(embedded flash\\)$" magenta default
