@@ -2,7 +2,8 @@
 set selection-clipboard clipboard
 
 # remove sandbox
-set sandbox none
+# set sandbox none
+# set sandbox strict
 
 # open document in fit-width mode by default
 # set adjust-open "best-fit"

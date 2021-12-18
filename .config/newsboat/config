@@ -7,15 +7,15 @@ auto-reload yes
 reload-threads 8
 
 # default browser
-browser lynx
+# browser lynx
 # browser w3m
 
 ## key-bindings
 
 bind-key j down
 bind-key k up
-bind-key j next articlelist
-bind-key k prev articlelist
+# bind-key j next articlelist
+# bind-key k prev articlelist
 bind-key J next-feed articlelist
 bind-key K prev-feed articlelist
 bind-key l open
@@ -61,16 +61,23 @@ bind-key D pb-delete
 
 ## colors
 
-# simple black and white colors
-include /usr/share/doc/newsboat/contrib/colorschemes/plain
+# plain
+color listnormal        default default
+color listnormal_unread default default bold
+color listfocus         default default reverse
+color listfocus_unread  default default reverse bold
+color info              default default reverse
+color article           default default
+color background        default default
 
-# color listnormal            cyan default
-# color listnormal_unread     blue default
-# color listfocus             black yellow standout bold
-# color listfocus_unread      yellow default bold
-# color info                  red black bold
-# color article               white default bold
-# # color background            black default
+# colorful
+# color listnormal        cyan default
+# color listnormal_unread blue default
+# color listfocus         black yellow standout bold
+# color listfocus_unread  yellow default bold
+# color info              red black bold
+# color article           white default bold
+# # color background        black default
 
 # ## highlights
 
