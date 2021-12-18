@@ -168,6 +168,7 @@ user_pref("browser.tabs.inTitlebar", 1);
 /* dark theme */
 user_pref("browser.theme.content-theme", 0);
 user_pref("browser.theme.toolbar-theme", 0);
+user_pref("extensions.activeThemeID", "firefox-compact-dark@mozilla.org");
 
 /* always show bookmarks */
 user_pref("browser.toolbars.bookmarks.visibility", "always");

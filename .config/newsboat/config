@@ -22,9 +22,10 @@ bind-key l open
 bind-key h quit
 bind-key G end
 bind-key g home
-
 bind-key ^D pagedown
 bind-key ^U pageup
+
+bind-key BACKSPACE quit
 
 bind-key u show-urls
 
