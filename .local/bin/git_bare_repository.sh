@@ -13,6 +13,7 @@ email="lorenzo.bianco22@protonmail.com"
 # when changing user name change
 # HOME/.config/mpv/mvp.conf (screenshot)
 # HOME/.config/mpv/script-opts/mpv_crop_script.conf (crop screenshot)
+# HOME/.rtorrent.rc
 
 # clone repository
 git clone --bare https://github.com/"$username"/dotfiles.git "$git_dir"
