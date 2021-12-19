@@ -169,6 +169,10 @@ user_pref("browser.tabs.inTitlebar", 1);
 user_pref("browser.theme.content-theme", 0);
 user_pref("browser.theme.toolbar-theme", 0);
 user_pref("extensions.activeThemeID", "firefox-compact-dark@mozilla.org");
+user_pref("pdfjs.viewerCssTheme", 2);
+
+/* disable sidebar in pdf by default */
+user_pref("pdfjs.sidebarViewOnLoad", 0);
 
 /* always show bookmarks */
 user_pref("browser.toolbars.bookmarks.visibility", "always");
@@ -193,9 +197,6 @@ user_pref("browser.urlbar.placeholderName.private", "DuckDuckGo");
 
 /* do not show search suggestions ahead of browsing history in address bar results */
 user_pref("browser.urlbar.showSearchSuggestionsFirst", false);
-
-/* disable sidebar in pdf by default */
-user_pref("pdfjs.sidebarViewOnLoad", 0);
 
 /* sync */
 user_pref("services.sync.engine.prefs", false);
