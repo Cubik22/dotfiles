@@ -74,6 +74,11 @@ alias xs="xbps-query -s"
 # ungoogled chromium
 # alias chromium="ungoogled_chromium.sh"
 
+# weather
+# https://github.com/chubin/wttr.in
+export weather="wttr.in"
+# curl wttr.in/:help
+
 # imv
 alias imv="imv-wayland"
 
