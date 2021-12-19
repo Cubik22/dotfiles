@@ -25,7 +25,7 @@ if [ "$program" = "zathura" ] || [ "$program" = "zat" ]; then
     done
     file="$1"
     shift
-    riverctl spawn "export GTK_THEME=Adwaita:dark; /bin/zathura $* $current_dir/$file"
+    riverctl spawn "export GTK_THEME=Adwaita:dark; /bin/zathura $@ $current_dir/$file"
 else
-    riverctl spawn "$program $*"
+    riverctl spawn "$program $@"
 fi
