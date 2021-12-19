@@ -77,6 +77,16 @@ user_pref("browser.urlbar.suggest.history", false);
 // user_pref("browser.urlbar.suggest.openpage", false);
 user_pref("browser.urlbar.suggest.topsites", false); // [FF78+]
 
+/* 5013: disable browsing and download history
+ * [NOTE] We also clear history and downloads on exit (2811)
+ * [SETTING] Privacy & Security>History>Custom Settings>Remember browsing and download history ***/
+   // user_pref("places.history.enabled", false);
+
+/* 5016: discourage downloading to desktop
+ * 0=desktop, 1=downloads (default), 2=last used
+ * [SETTING] To set your default "downloads": General>Downloads>Save files to ***/
+user_pref("browser.download.folderList", 2);
+
 /** set **/
 
 /* 5501: disable MathML (Mathematical Markup Language) [FF51+]
@@ -230,7 +240,5 @@ user_pref("services.sync.declinedEngines", "prefs,creditcards,passwords,addons")
 /* enable math css */
 // user_pref("layout.css.math-style.enabled", true);
 // user_pref("layout.css.math-depth.enabled", true);
-
-// user_pref("places.history.enabled", false);
 
 user_pref("_user.js.parrot", "overrides section successful");
