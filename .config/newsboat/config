@@ -6,6 +6,18 @@ auto-reload yes
 # number of parallel reload threads
 reload-threads 8
 
+# number of minutes between reloads
+reload-time 120
+
+# number of tries of downloading a feed
+download-retries 4
+
+# do not show lower bar
+show-keymap-hint no
+
+# number of lines above and below the selected item
+scrolloff 3
+
 # default browser
 # browser lynx
 # browser w3m

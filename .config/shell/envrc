@@ -127,6 +127,10 @@ _fzf_compgen_dir() {
   fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
+# set client and graphical browser, when running wayland browser is changed
+export BROWSER=lynx
+export BROWSERCLI=lynx
+
 # set wayland environment variables and start river
 if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty1" ]; then
 	# session and desktop
@@ -189,6 +193,4 @@ if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty
 
 	# finally start river with a dbus-session
 	exec dbus-run-session river
-else
-	export BROWSER=lynx
 fi

@@ -153,6 +153,9 @@ config update-index --assume-unchanged "$HOME"/README.md
 #     | sed -re "s:/home/USERNAME:$HOME:" > "$HOME/.rtorrent.rc"
 # mkdir -p "$HOME/rtorrent/"
 
+# surfraw
+# doas cp surfraw-bash-completion.IN /usr/share/bash-completion/completions/surfraw
+
 ### languge servers
 
 # check for outdated, incorrect, and unused dependencies
