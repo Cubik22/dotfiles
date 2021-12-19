@@ -112,10 +112,10 @@ map global user z ': wq<ret>' 	-docstring 'write and quit'
 hook global RegisterModified '"' %{ nop %sh{
 	printf %s "$kak_main_reg_dquote" | wl-copy-env > /dev/null 2>&1 &
 } }
-map global user y '<a-|>wl-copy-env<ret>'     -docstring 'copy system'
-map global user p '<a-!>wl-paste-env -n<ret>' -docstring 'paste system (after)'
-map global user P '!wl-paste-env -n<ret>'     -docstring 'paste system (before)'
-map global user R '!wl-paste-env -n<ret>d'    -docstring 'replace system'
+map global user y '<a-|>wl-copy-env<ret>'     -docstring 'copy to system'
+map global user p '<a-!>wl-paste-env -n<ret>' -docstring 'paste from system (after)'
+map global user P '!wl-paste-env -n<ret>'     -docstring 'paste from system (before)'
+map global user R '!wl-paste-env -n<ret>d'    -docstring 'replace from system'
 
 # system clipboard
 # map global user c '<a-|>wl-copy<ret>' -docstring 'wl-copy'
