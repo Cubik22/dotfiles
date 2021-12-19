@@ -5,5 +5,5 @@
 envrc="${HOME}/.config/shell/envrc"
 [ -f "$envrc" ] && . "$envrc"
 
-bashrc="${HOME}/.bashrc"
-[ -f "$bashrc" ] && . "$bashrc"
+# bashrc="${HOME}/.bashrc"
+# [ -f "$bashrc" ] && . "$bashrc"

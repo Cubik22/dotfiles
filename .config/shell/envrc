@@ -79,7 +79,8 @@ export LESSHISTFILE="$XDG_DATA_HOME/less/lesshst"
 # runit
 # export SVDIR="$XDG_CONFIG_HOME"/service
 
-# NNN
+## nnn
+
 export NNN_OPTS="eEHr"
 export NNN_COLORS="3415"
 export NNN_FCOLORS="070704030f05060808010301"
@@ -107,25 +108,18 @@ NNN_PLUG_OPEN="u:doasedit;o:open-editor;i:imgview;d:dragdrop;m:nmount"
 NNN_PLUG_GIT="l:!git log;s:!git status"
 export NNN_PLUG="$NNN_PLUG_EDIT;$NNN_PLUG_FUZZY;$NNN_PLUG_OPEN;$NNN_PLUG_GIT"
 
-# fzf
+## fzf
+
 # gruvbox hard dark color and other default options
-export FZF_DEFAULT_OPTS='--color=bg+:#1d2021,bg:#1d2021,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934 --reverse --margin 2% --cycle --multi --ansi --no-height --preview "bat --style=numbers --color=always --line-range :500 {}"'
-export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden -E .git --color=always'
+# --multi --cycle
+export FZF_DEFAULT_OPTS='--no-mouse --layout=reverse --prompt="  " --ansi --tabstop=4 --color=bg+:#1d2021,bg:#1d2021,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934'
+# when changing FZF_DEFAULT_COMMAND change also _fzf_compgen_path and _fzf_compgen_dir in .bashrc
+export FZF_DEFAULT_COMMAND='fd --type file --hidden --follow --exclude .git --color=always'
 # uses tree command to show the entries of the directory
 export FZF_ALT_C_OPTS='--preview "tree -C {} | head -200"'
 
-# use fd (https://github.com/sharkdp/fd) instead of the default find
-# command for listing path candidates.
-# - The first argument to the function ($1) is the base path to start traversal
-# - See the source code (completion.{bash,zsh}) for the details.
-_fzf_compgen_path() {
-  fd --hidden --follow --exclude ".git" . "$1"
-}
-
-# use fd to generate the list for directory completion
-_fzf_compgen_dir() {
-  fd --type d --hidden --follow --exclude ".git" . "$1"
-}
+# options to fzf command completion
+export FZF_COMPLETION_OPTS='--info=inline'
 
 # set client and graphical browser, when running wayland browser is changed
 export BROWSER=lynx

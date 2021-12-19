@@ -79,6 +79,9 @@ alias xs="xbps-query -s"
 export weather="wttr.in"
 # curl wttr.in/:help
 
+# fzf with preview
+alias fzfp='fzf --preview "bat --color=always --paging=never --theme=gruvbox-dark --style="numbers,changes" --line-range :500 {}"'
+
 # imv
 alias imv="imv-wayland"
 

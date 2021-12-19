@@ -15,16 +15,18 @@
 # REQUIREMENTS: bat - fzf - ripgrep - kakoune
 # OPTIONALS:
 
+# see https://github.com/junegunn/fzf#3-interactive-ripgrep-integration
+
 rg_prefix="rg --column --line-number --no-heading --color=always --smart-case "
 initial_query=""
 
 IFS=: read -ra selected < <(
 	FZF_DEFAULT_COMMAND="${rg_prefix} $(printf %q "${initial_query}")" \
-		fzf --ansi \
-		--disabled --query "${initial_query}" \
+		fzf --layout=reverse --delimiter : \
 		--bind "change:reload:sleep 0.1; ${rg_prefix} {q} || true" \
-		--delimiter : \
-		--preview 'bat --color=always {1} --highlight-line {2}' \
+		--ansi --disabled --query "${initial_query}" \
+		--preview 'bat --color=always --paging=never --theme=gruvbox-dark --style="numbers,changes" {1} --highlight-line {2}'
+		# \
 		# --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'
 )
 

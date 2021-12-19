@@ -20,6 +20,19 @@
 [ -f "/usr/share/fzf/completion.bash" ] && source "/usr/share/fzf/completion.bash"
 [ -f "/usr/share/fzf/key-bindings.bash" ] && source "/usr/share/fzf/key-bindings.bash"
 
+# use fd (https://github.com/sharkdp/fd) instead of the default find
+# command for listing path candidates.
+# - the first argument to the function ($1) is the base path to start traversal
+# - see the source code (completion.{bash,zsh}) for the details.
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" --color=always . "$1"
+}
+
+# use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  fd --type directory --hidden --follow --exclude ".git" --color=always . "$1"
+}
+
 ### <https://wiki.bash-hackers.org/internals/shell_options>
 
 # prepend cd to directory names automatically
