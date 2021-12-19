@@ -115,6 +115,7 @@ hook global RegisterModified '"' %{ nop %sh{
 map global user y '<a-|>wl-copy-env<ret>'     -docstring 'copy system'
 map global user p '<a-!>wl-paste-env -n<ret>' -docstring 'paste system (after)'
 map global user P '!wl-paste-env -n<ret>'     -docstring 'paste system (before)'
+map global user R '!wl-paste-env -n<ret>d'    -docstring 'replace system'
 
 # system clipboard
 # map global user c '<a-|>wl-copy<ret>' -docstring 'wl-copy'
