@@ -42,6 +42,9 @@ doas mkdir -p "$runtime_dir"
 doas chown "$USER:$USER" "$runtime_dir"
 doas chmod 700 "$runtime_dir"
 
+# make gnupg directory secure
+chmod 700 .config/gnupg
+
 # directories
 mkdir -p "$HOME/.local"
 mkdir -p "$HOME/.local/share"
