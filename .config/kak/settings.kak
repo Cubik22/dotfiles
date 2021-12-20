@@ -40,9 +40,9 @@ set-option global disabled_hooks '.*-insert.*'
 # }
 
 # trim trailing whitespace on the current line when leaving insert mode
-hook global ModeChange pop:insert:.* %{
-    try %{ execute-keys -draft '<a-x>s\h+$<ret>d' }
-}
+# hook global ModeChange pop:insert:.* %{
+#     try %{ execute-keys -draft '<a-x>s\h+$<ret>d' }
+# }
 
 # run the formatcmd for the current filetype on write
 # hook global BufWritePre .* %{
@@ -154,26 +154,26 @@ add-highlighter global/ show-matching
 add-highlighter global/ wrap -word -indent -marker '↪'
 # add-highlighter global/ wrap -word -indent -marker ''
 
+# highlight trailing whitespace as errors
+add-highlighter global/ regex \h+$ 0:Error
+
 # highlight TODO/FIXME/...
 add-highlighter global/ regex \b(TODO|FIXME|XXX|NOTE|REF|USAGE|REQUIREMENTS|OPTIONALS)\b 0:default+r
-
-# highlight trailing whitespace
-# add-highlighter global/ regex \h+$ 0:Error
 
 # require-module kak
 # add-highlighter shared/kakrc/code/if_else regex \b(if|when|unless)\b 0:keyword
 
-# highlighters
+# global highlighters
 # moved to colors
-# delimiter red
+# # delimiter red
 # set-face global delimiter rgb:af3a03,default
-# operator blue
+# # operator blue
 # set-face global operator rgb:5a947f,default
-# function yellow
+# # function yellow
 # set-face global function rgb:ffba19,default
 # # set-face global function rgb:d79921,default
 # # set-face global function rgb:fabd2f,default
-# builtin orange
+# # builtin orange
 # set-face global builtin rgb:f49008,default
 
 # move to languge-server.kak in order to just highlight lsp files

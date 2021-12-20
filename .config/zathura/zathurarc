@@ -1,7 +1,7 @@
 # use standard clipboard
 set selection-clipboard clipboard
 
-# remove sandbox
+# sandbox
 # set sandbox none
 # set sandbox strict
 
