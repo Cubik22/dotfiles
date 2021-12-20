@@ -53,8 +53,8 @@ set-option global disabled_hooks '.*-insert.*'
 # hook global WinCreate ^[^*]+$ %{editorconfig-load}
 
 # enable editor config
-hook global BufOpenFile .* %{ editorconfig-load }
-hook global BufNewFile  .* %{ editorconfig-load }
+# hook global BufOpenFile .* %{ editorconfig-load }
+# hook global BufNewFile  .* %{ editorconfig-load }
 
 # show git diff
 hook global BufWritePost .* %{ git show-diff }
@@ -154,11 +154,16 @@ add-highlighter global/ show-matching
 add-highlighter global/ wrap -word -indent -marker '↪'
 # add-highlighter global/ wrap -word -indent -marker ''
 
-# highlight trailing whitespace as errors
-add-highlighter global/ regex \h+$ 0:Error
-
 # highlight TODO/FIXME/...
 add-highlighter global/ regex \b(TODO|FIXME|XXX|NOTE|REF|USAGE|REQUIREMENTS|OPTIONALS)\b 0:default+r
+
+# highlight trailing whitespace as errors
+add-highlighter global/trailing-whitespace regex \h+$ 0:Error
+
+# allow one trailing space only in diff output
+hook global WinSetOption filetype=(diff) %{
+    add-highlighter buffer/diff-allow-one-trailing-space regex '^ ' 0:Default
+}
 
 # require-module kak
 # add-highlighter shared/kakrc/code/if_else regex \b(if|when|unless)\b 0:keyword
