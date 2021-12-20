@@ -7,7 +7,7 @@
 
 # doas
 alias d="doas"
-alias sudo="doas"
+# alias sudo="doas"
 # space after alias make bash try to interpret also next word as alias
 # some problems with aliases that use doas not at the start of the alias
 # alias doas="doas "
@@ -16,6 +16,13 @@ alias sudo="doas"
 
 # do not keep environment variables when su
 alias su="su --login --whitelist-environment=WAYLAND_DISPLAY"
+
+# change directory
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias cd..="cd .."
 
 # ls
 lsplus="ls --color=auto --group-directories-first --format=horizontal --human-readable"
@@ -28,7 +35,7 @@ cdl () {
     cd "$@" || return
     $lsplus
 }
-alias trexa="exa --long --header --modified --git --tree --color=auto --icons --all --group-directories-first"
+# alias trexa="exa --long --header --modified --git --tree --color=auto --icons --all --group-directories-first"
 
 # color stuff
 alias dir="dir --color=auto"
@@ -43,6 +50,7 @@ alias grep="grep --color=auto"
 
 # hidden
 # alias fdh="fd --hidden"
+# alias rgh="rg --hidden"
 
 # verbose and recursive
 # alias mkdir="mkdir -pv"
@@ -51,16 +59,25 @@ alias grep="grep --color=auto"
 # alias rm='echo "in order to move the file/directory in the trash use trash-put"; rm'
 # alias rmr="rm -r"
 
-# change directory
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-alias cd..="cd .."
-
 # space on disk
-alias space="du -sh"
-alias space-sub="du -h -d 1"
+# alias space="du -sh"
+# alias space-sub="du -h -d 1"
+
+# human-readable sizes
+# alias df='df -h'
+# show sizes in MB
+# alias free='free -m'
+
+# ps (current processes)
+# alias psa="ps auxf"
+# alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
+# alias psmem='ps auxf | sort -nr -k 4'
+# alias pscpu='ps auxf | sort -nr -k 3'
+
+# verify signature
+alias gpg-check="gpg --keyserver-options auto-key-retrieve --verify"
+# receive signature
+alias gpg-retrieve="gpg --keyserver-options auto-key-retrieve --receive-keys"
 
 # programs
 alias n3="nnn"
@@ -70,20 +87,10 @@ alias kak="kak-smart no"
 alias ka="kak-smart no"
 alias xq="xbps-query"
 alias xs="xbps-query -s"
-
-# ungoogled chromium
-# alias chromium="ungoogled_chromium.sh"
-
-# weather
-# https://github.com/chubin/wttr.in
-export weather="wttr.in"
-# curl wttr.in/:help
+alias imv="imv-wayland"
 
 # fzf with preview
 alias fzfp='fzf --preview "bat --color=always --paging=never --theme=gruvbox-dark --style="numbers,changes" --line-range :500 {}"'
-
-# imv
-alias imv="imv-wayland"
 
 # wifi
 alias iwscan="iwctl station wlan0 scan;"
@@ -95,22 +102,10 @@ alias bluectl="echo \"scan on\"; echo \"trust\"; echo \"connect\"; bluetoothctl"
 # lists the installed system libraries
 alias listlib="scanelf --ldpath -BF '%f'"
 
-# human-readable sizes
-# alias df='df -h'
-# show sizes in MB
-# alias free='free -m'
-
-# ps (current processes)
-alias psa="ps auxf"
-alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
-alias psmem='ps auxf | sort -nr -k 4'
-alias pscpu='ps auxf | sort -nr -k 3'
-
-# verify signature for isos
-# alias gpg="gpg2"
-alias gpg-check="gpg --keyserver-options auto-key-retrieve --verify"
-# receive the key of a developer
-alias gpg-retrieve="gpg --keyserver-options auto-key-retrieve --receive-keys"
+# weather
+# https://github.com/chubin/wttr.in
+export weather="wttr.in"
+# curl wttr.in/:help
 
 # git related
 alias gst="git status"
@@ -151,7 +146,7 @@ if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
 	alias blueon="sv up bluetoothd; bluetoothctl power on;"
 	alias blueoff="bluetoothctl power off; sv down bluetoothd;"
 
-	alias servstat="sv status /var/service/*"
+	# alias servstat="sv status /var/service/*"
 
 	alias dka="kak-smart no"
 else
@@ -163,7 +158,7 @@ else
 	alias blueon="doas sv up bluetoothd; bluetoothctl power on;"
 	alias blueoff="bluetoothctl power off; doas sv down bluetoothd;"
 
-	alias servstat="doas sv status /var/service/*"
+	# alias servstat="doas sv status /var/service/*"
 
 	alias poweroff="doas poweroff"
 	alias reboot="doas reboot"

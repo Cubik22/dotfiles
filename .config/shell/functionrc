@@ -31,16 +31,24 @@ zat() {
     	shift 1
         riverctl set-focused-tags "$((1 << ("$tag" - 1)))"
     fi
-    # append pwd to the file (last parameter)
     current_dir="$(pwd)"
-    i=0
-    while [ $((i+=1)) -lt "$#" ]; do
-        set -- "$@" "$1"
+
+    # append pwd to every parameter
+    for i do
+        set -- "$@" "${current_dir}/${i}"
         shift
     done
-    file="$1"
-    shift
-    riverctl spawn "export GTK_THEME=Adwaita:dark; /bin/zathura $* $current_dir/$file"
+    riverctl spawn "export GTK_THEME=Adwaita:dark; /bin/zathura $*"
+
+    # append pwd to the file (last parameter)
+    # i=0
+    # while [ $((i+=1)) -lt "$#" ]; do
+    #     set -- "$@" "$1"
+    #     shift
+    # done
+    # file="$1"
+    # shift
+    # riverctl spawn "export GTK_THEME=Adwaita:dark; /bin/zathura $* $current_dir/$file"
 }
 
 # wrapper around git that before push, unlock bitwarden
