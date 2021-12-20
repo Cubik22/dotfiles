@@ -68,6 +68,15 @@ stty
 
 # kernel
 vkpurge
+
+# util
+date cal
+uname
+df -h du -h
+ps -e
+pidof
+pgrep, pkill, pwait
+ip
 EOF
     # TODO: expand print help
 }
