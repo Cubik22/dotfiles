@@ -38,6 +38,7 @@ while read -r plugin_url; do
     if [ ! -d "$plugins_dir/$plugin" ]; then
         git clone --recurse-submodules "$plugin_url" "$plugins_dir/$plugin"
     else
+        echo "updating: $plugin"
         git -C "$plugins_dir/$plugin" pull
     fi
 done <<EOT
