@@ -89,6 +89,8 @@ alias xq="xbps-query"
 alias xs="xbps-query -s"
 alias imv="imv-wayland"
 
+# alias youtube-dl="youtube-dl --add-metadata"
+
 # fzf with preview
 alias fzfp='fzf --preview "bat --color=always --paging=never --theme=gruvbox-dark --style="numbers,changes" --line-range :500 {}"'
 
@@ -142,7 +144,7 @@ export mirror4="https://repo-us.voidlinux.org/current"
 if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
     alias xi="xbps-install"
     alias xr="xbps-remove"
-	
+
 	alias blueon="sv up bluetoothd; bluetoothctl power on;"
 	alias blueoff="bluetoothctl power off; sv down bluetoothd;"
 
@@ -154,7 +156,7 @@ else
     alias xbps-remove="doas xbps-remove"
     alias xi="doas xbps-install"
     alias xr="doas xbps-remove"
-	
+
 	alias blueon="doas sv up bluetoothd; bluetoothctl power on;"
 	alias blueoff="bluetoothctl power off; doas sv down bluetoothd;"
 
