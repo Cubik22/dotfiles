@@ -7,12 +7,10 @@
 
 # doas
 alias d="doas"
-# alias sudo="doas"
 # space after alias make bash try to interpret also next word as alias
 # some problems with aliases that use doas not at the start of the alias
 # alias doas="doas "
 # alias d="doas "
-# alias sudo="doas "
 
 # do not keep environment variables when su
 alias su="su --login --whitelist-environment=WAYLAND_DISPLAY"
@@ -117,7 +115,7 @@ alias gdf="git diff"
 alias gfe="git fetch"
 alias glg="git log"
 alias gco="git checkout"
-alias gps="rbw unlock; git push"
+alias gps="git push"
 alias grb="git rebase"
 alias gsa="git stash"
 alias gpl="git pull"

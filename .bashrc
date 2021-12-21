@@ -127,7 +127,6 @@ complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rcon
 complete -F _complete_alias xi
 complete -F _complete_alias xr
 complete -F _complete_alias xq
-complete -F _complete_alias xs
 
 # fzf complete for kak
 _fzf_setup_completion path kak
