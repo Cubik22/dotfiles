@@ -272,7 +272,7 @@ define-command -hidden octave-indent-on-new-line %<
 
         # else: and elseif copy the indentation of the matching if, and then re-indent afterwards
         try %{ execute-keys -draft <space> k <a-x> <a-k> \belse$ <ret> gh [c\bif\b,\bendif\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> j <a-gt> }
-        try %{ execute-keys -draft <space> k <a-x> <a-k> \belesif\b <ret> gh [c\bif\b,\bendif\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> j <a-gt> }
+        try %{ execute-keys -draft <space> k <a-x> <a-k> \belseif\b <ret> gh [c\bif\b,\bendif\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> j <a-gt> }
 
         # case and otherwise: copy the indentation of the matching switch, and then re-indent afterwards
         try %{ execute-keys -draft <space> k <a-x> <a-k> \bcase\b <ret> gh [c\bswitch\b,\bendswitch\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> j <a-gt> }
