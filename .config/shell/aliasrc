@@ -86,7 +86,6 @@ alias nv="nvim"
 alias kak="kak-smart no"
 alias ka="kak-smart no"
 alias xq="xbps-query"
-alias xs="xbps-query -s"
 alias imv="imv-wayland"
 
 # alias youtube-dl="youtube-dl --add-metadata"
