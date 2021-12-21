@@ -18,7 +18,18 @@ Brightness_Path="/sys/class/backlight/intel_backlight/brightness"
 
 Max_Brightness_Path="/sys/class/backlight/intel_backlight/max_brightness"
 
-Level_Path="$XDG_DATA_HOME/state/brightness_level"
+number_steps=20
+
+State_Dir="$XDG_DATA_HOME/state"
+Level_Path="$State_Dir/brightness_level"
+
+if [ ! -e "$Level_Path" ]; then
+    mkdir -p "$State_Dir"
+    echo "$(( number_steps / 2 ))" > "$Level_Path"
+elif [ ! -f "$Level_Path" ]; then
+    echo "error: Level_Path is not a file"
+    return 1
+fi
 
 # current_brightness="$(cat $Brightness_Path)"
 
@@ -26,15 +37,13 @@ max_brightness="$(cat $Max_Brightness_Path)"
 
 current_level="$(cat "$Level_Path")"
 
-number_steps=10
-
 step="$(( max_brightness / number_steps ))"
 
 min_brightness="$(( max_brightness - (number_steps - 1) * step ))"
 
 if [ "$mode" = "up" ]; then
 	# new_brightness="$(( current_brightness + step ))"
-	if [ "$current_level" -lt 10 ]; then
+	if [ "$current_level" -lt "$number_steps" ]; then
     	new_level="$(( current_level + 1 ))"
 	else
     	new_level="$current_level"
@@ -62,4 +71,4 @@ else
 fi
 
 echo "$new_level" > "$Level_Path"
-echo "$(( new_level * 10 ))"
+echo "$(( new_level * 100 / number_steps ))"

@@ -14,7 +14,16 @@ if [ "$mode" != "on" ] && [ "$mode" != "off" ] && [ "$mode" != "toggle" ] && [ "
 	return 1
 fi
 
-Status_Path="$XDG_DATA_HOME/state/audio_status"
+State_Dir="$XDG_DATA_HOME/state"
+Status_Path="$State_Dir/audio_status"
+
+if [ ! -e "$Status_Path" ]; then
+    mkdir -p "$State_Dir"
+    echo "off" > "$Status_Path"
+elif [ ! -f "$Status_Path" ]; then
+    echo "error: Status_Path is not a file"
+    return 1
+fi
 
 current_status="$(cat "$Status_Path")"
 
