@@ -87,8 +87,8 @@ alias xq="xbps-query"
 alias imv="imv-wayland"
 
 # youtube-dl
-alias ydlv="youtube-dl --ignore-errors --retries=infinite --recode-video=ogg --add-metadata --xattrs"
-alias ydla="youtube-dl --ignore-errors --retries=infinite --extract-audio --audio-format=opus --add-metadata --xattrs"
+alias ydlv="youtube-dl --ignore-errors --retries=infinite --recode-video=ogg --embed-thumbnail --add-metadata --xattrs"
+alias ydla="youtube-dl --ignore-errors --retries=infinite --extract-audio --audio-format=opus --embed-thumbnail --add-metadata --xattrs"
 
 # fzf with preview
 alias fzfp='fzf --preview "bat --color=always --paging=never --theme=gruvbox-dark --style="numbers,changes" --line-range :500 {}"'
