@@ -14,6 +14,9 @@ bluetoothctl default-agent/power on/scan on/trust <device>/connect <device>
 # audio
 amixer/alsamixer (alsa)
 pactl (pipewire)
+youtube-dl --add-metadata --xattrs {--recode-video=ogg, --extract-audio --audio-format=opus}
+ydlv
+ydla
 
 # runit
 ln -s /etc/sv/<service> /var/service/
@@ -37,7 +40,7 @@ xi -Su
 update-extra all
 build-packages all
 kak-plugins-update
-    
+
 # git
 git clone --recurse-submodules
 git pull --recurse-submodules
@@ -78,5 +81,4 @@ pidof
 pgrep, pkill, pwait
 ip
 EOF
-    # TODO: expand print help
 }

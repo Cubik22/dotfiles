@@ -86,7 +86,9 @@ alias ka="kak-smart no"
 alias xq="xbps-query"
 alias imv="imv-wayland"
 
-# alias youtube-dl="youtube-dl --add-metadata"
+# youtube-dl
+alias ydlv="youtube-dl --add-metadata --xattrs --recode-video=ogg"
+alias ydla="youtube-dl --add-metadata --xattrs --extract-audio --audio-format=opus"
 
 # fzf with preview
 alias fzfp='fzf --preview "bat --color=always --paging=never --theme=gruvbox-dark --style="numbers,changes" --line-range :500 {}"'
