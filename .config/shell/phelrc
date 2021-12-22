@@ -14,6 +14,7 @@ bluetoothctl default-agent/power on/scan on/trust <device>/connect <device>
 # audio
 amixer/alsamixer (alsa)
 pactl (pipewire)
+ffmpeg -i {file.ext} -o {file.ogg}
 youtube-dl --add-metadata --xattrs {--recode-video=ogg, --extract-audio --audio-format=opus}
 ydlv
 ydla
