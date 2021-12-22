@@ -17,8 +17,8 @@
 
 # source fzf completion and key-bindings
 # export FZF_COMPLETION_TRIGGER='**'
-[ -f "/usr/share/fzf/completion.bash" ] && source "/usr/share/fzf/completion.bash"
-[ -f "/usr/share/fzf/key-bindings.bash" ] && source "/usr/share/fzf/key-bindings.bash"
+[ -f "/usr/share/fzf/completion.bash" ] && . "/usr/share/fzf/completion.bash"
+[ -f "/usr/share/fzf/key-bindings.bash" ] && . "/usr/share/fzf/key-bindings.bash"
 
 # use fd (https://github.com/sharkdp/fd) instead of the default find
 # command for listing path candidates.
@@ -32,6 +32,14 @@ _fzf_compgen_path() {
 _fzf_compgen_dir() {
   fd --type directory --hidden --follow --exclude ".git" --color=always . "$1"
 }
+
+# remap fzf <a-c> to <c-f>
+bind -m emacs-standard '"\ec":'
+bind -m vi-command '"\ec":'
+bind -m vi-insert '"\ec":'
+bind -m emacs-standard -x '"\C-f": __fzf_cd__'
+bind -m vi-command -x '"\C-f": __fzf_cd__'
+bind -m vi-insert -x '"\C-f": __fzf_cd__'
 
 ### <https://wiki.bash-hackers.org/internals/shell_options>
 

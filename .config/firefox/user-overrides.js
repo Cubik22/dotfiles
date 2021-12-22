@@ -158,6 +158,8 @@ user_pref("ui.key.menuAccessKey", 0); // disable alt key toggling the menu bar [
 
 user_pref("view_source.tab", false); // view "page/selection source" in a new window [FF68+, FF59 and under]
 
+user_pref("extensions.pocket.enabled", false); // Pocket Account [FF46+]
+
 /** personal **/
 
 /* disable password settings */

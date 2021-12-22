@@ -48,7 +48,7 @@ TAB: menu-complete
 
 "\C-a": beginning-of-line
 "\C-b": beginning-of-line
-"\C-e": end-of-line
+# "\C-e": end-of-line
 
 # when command is half complete search command that complete it
 "\e[A": history-search-backward
