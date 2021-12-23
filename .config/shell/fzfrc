@@ -63,6 +63,8 @@ _fzf_cd_widget() {
     READLINE_POINT=$(( ${#cd_selected} ))
 }
 
+# https://github.com/junegunn/fzf/pull/2674
+# https://unix.stackexchange.com/questions/573269/bash-is-there-a-way-to-invoke-bind-commands-e-g-redraw-current-line-programm
 # _fzf_cd_widget() {
 #     local cd_selected="$(__fzf_cd__)"
 #     local selected="$(echo "$cd_selected" | sed 's/^.*cd //g')"
