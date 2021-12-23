@@ -142,6 +142,9 @@ export FZF_ALT_C_OPTS='--info=inline'
 # options to fzf command completion
 export FZF_COMPLETION_OPTS='--info=inline'
 
+# string that triggers fzf completion
+# export FZF_COMPLETION_TRIGGER='**'
+
 # set client and graphical browser, when running wayland browser is changed
 export BROWSER=lynx
 export BROWSERCLI=lynx

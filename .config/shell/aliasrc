@@ -174,5 +174,6 @@ else
 	alias dn3="doas nnn"
 	alias dn3p="doas nnn-pre"
 	alias dnv="doas nvim"
+	alias dkak="kak-smart yes"
 	alias dka="kak-smart yes"
 fi

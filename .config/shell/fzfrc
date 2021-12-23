@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# fzfrc
+
+# source fzf completion and key-bindings
+[ -f "/usr/share/fzf/completion.bash" ] && . "/usr/share/fzf/completion.bash"
+[ -f "/usr/share/fzf/key-bindings.bash" ] && . "/usr/share/fzf/key-bindings.bash"
+
+# use fd (https://github.com/sharkdp/fd) instead of the default find
+# command for listing path candidates.
+# - the first argument to the function ($1) is the base path to start traversal
+# - see the source code (completion.{bash,zsh}) for the details.
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" --color=always . "$1"
+}
+
+# use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  fd --type directory --hidden --follow --exclude ".git" --color=always . "$1"
+}
+
+# use fd to generate the list for file completion
+_fzf_compgen_file() {
+  fd --type file --hidden --follow --exclude ".git" --color=always . "$1"
+}
+
+# see /usr/share/fzf/completion.bash adapting from _fzf_path_completion
+_fzf_file_completion() {
+  __fzf_generic_path_completion _fzf_compgen_file "-m" "" "$@"
+}
+
+# programs to be completed by file always
+file_cmds_always="kak ka"
+
+for cmd in $file_cmds_always; do
+    __fzf_defc "$cmd" _fzf_file_completion "-o default -o bashdefault"
+done
+
+# fzf complete for kak
+# _fzf_setup_completion path kak
+# _fzf_setup_completion path ka
+
+# programs to be completed by file when non root
+file_cmds_non_root="dkak dka"
+if [ ! "$LOGNAME" = "root" ] && [ "$(id -u)" -ne 0 ]; then
+    for cmd in $file_cmds_non_root; do
+        __fzf_defc "$cmd" _fzf_file_completion "-o default -o bashdefault"
+    done
+    # fzf complete for kak as root
+    # _fzf_setup_completion path dka
+fi
+
+# remap fzf <a-c> to <c-f>
+bind -m emacs-standard '"\ec":'
+bind -m vi-command '"\ec":'
+bind -m vi-insert '"\ec":'
+bind -m emacs-standard -x '"\C-f": __fzf_cd__'
+bind -m vi-command -x '"\C-f": __fzf_cd__'
+bind -m vi-insert -x '"\C-f": __fzf_cd__'

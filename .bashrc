@@ -8,38 +8,13 @@
 ### sourcing
 
 # source functions
-# it is also sourced by zsh
 [ -f "$HOME/.config/shell/functionrc" ] && . "$HOME/.config/shell/functionrc"
 
 # source aliases and some small functions which work like aliases
-# it is also sourced by zsh
 [ -f "$HOME/.config/shell/aliasrc" ] && . "$HOME/.config/shell/aliasrc"
 
-# source fzf completion and key-bindings
-# export FZF_COMPLETION_TRIGGER='**'
-[ -f "/usr/share/fzf/completion.bash" ] && . "/usr/share/fzf/completion.bash"
-[ -f "/usr/share/fzf/key-bindings.bash" ] && . "/usr/share/fzf/key-bindings.bash"
-
-# use fd (https://github.com/sharkdp/fd) instead of the default find
-# command for listing path candidates.
-# - the first argument to the function ($1) is the base path to start traversal
-# - see the source code (completion.{bash,zsh}) for the details.
-_fzf_compgen_path() {
-  fd --hidden --follow --exclude ".git" --color=always . "$1"
-}
-
-# use fd to generate the list for directory completion
-_fzf_compgen_dir() {
-  fd --type directory --hidden --follow --exclude ".git" --color=always . "$1"
-}
-
-# remap fzf <a-c> to <c-f>
-bind -m emacs-standard '"\ec":'
-bind -m vi-command '"\ec":'
-bind -m vi-insert '"\ec":'
-bind -m emacs-standard -x '"\C-f": __fzf_cd__'
-bind -m vi-command -x '"\C-f": __fzf_cd__'
-bind -m vi-insert -x '"\C-f": __fzf_cd__'
+# source fzf completions bindings and settings
+[ -f "$HOME/.config/shell/fzfrc" ] && . "$HOME/.config/shell/fzfrc"
 
 ### <https://wiki.bash-hackers.org/internals/shell_options>
 
@@ -136,10 +111,6 @@ complete -F _complete_alias xi
 complete -F _complete_alias xr
 complete -F _complete_alias xq
 
-# fzf complete for kak
-_fzf_setup_completion path kak
-_fzf_setup_completion path ka
-
 # root privileges
 # so the root can link and use this bashrc
 # black: 30 red: 31 green: 32 yellow: 33 blue: 34 purple: 35 cyan: 36 white: 37
@@ -157,9 +128,6 @@ else
 	# PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[m\] '
 
 	# PS2=""
-
-    # fzf complete for kak as root
-    _fzf_setup_completion path dka
 fi
 
 ### initalize zoxide
