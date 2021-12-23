@@ -134,7 +134,7 @@ export FZF_DEFAULT_PREVIEW='bat --color=always --paging=never --theme=gruvbox-da
 # select multiple files/directories, inline and preview
 export FZF_CTRL_T_OPTS="--multi --info=inline --preview \"$FZF_DEFAULT_PREVIEW\""
 
-# command when running <a-c> (remapped to <c-f> in bashrc)
+# command when running <a-c> (remapped to <c-f> in .config/shell/fzfrc)
 export FZF_ALT_C_COMMAND='fd --type directory --hidden --follow --exclude ".git" --exclude ".hg" --exclude ".svn" --color=always --strip-cwd-prefix'
 # inline
 export FZF_ALT_C_OPTS='--info=inline'
@@ -173,7 +173,7 @@ if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty
 	export SDL_VIDEODRIVER=wayland
 	# when no sound in SDL applications
 	# export SDL_AUDIODRIVER=alsa
-	
+
 	# clutter
 	# export CLUTTER_BACKEND=wayland
 
@@ -190,7 +190,7 @@ if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty
 
 	# needed for some Java applications
 	# export _JAVA_AWT_WM_NONREPARENTING=1
-	
+
 	export BROWSER=firefox
 	# export BROWSER="${XDG_BIN_HOME}/ungoogled_chromium.sh"
 
@@ -204,7 +204,7 @@ if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty
 	# remember to change also .icons/default/index.theme
 	export XCURSOR_THEME=Adwaita
 	export XCURSOR_SIZE=16
-	
+
 	# wob pipe directory
 	export WOB_PIPE="/tmp/wobpipe"
 	export WOB_PIPE_CENTER="/tmp/wobpipe-center"
