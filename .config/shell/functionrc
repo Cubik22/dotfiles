@@ -78,11 +78,20 @@ kak-smart() {
             fi
         fi
     else
-    	if [ "$root" = "no" ]; then
-    		/bin/kak "$(fzf)"
-    	elif [ "$root" = "yes" ]; then
-    	    doas /bin/kak "$(fzf)"
-    	fi
+        cmd="$FZF_DEFAULT_COMMAND"
+        opts="$FZF_DEFAULT_OPTS"
+        FZF_DEFAULT_COMMAND="$FZF_CTRL_T_COMMAND"
+        FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS --no-multi"
+        file="$(fzf)"
+        FZF_DEFAULT_COMMAND="$cmd"
+        FZF_DEFAULT_OPTS="$opts"
+        if [ -e "$file" ]; then
+        	if [ "$root" = "no" ]; then
+        		/bin/kak "$file"
+        	elif [ "$root" = "yes" ]; then
+        	    doas /bin/kak "$file"
+        	fi
+        fi
     fi
 }
 
