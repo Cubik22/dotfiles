@@ -78,6 +78,7 @@ kak-smart() {
             fi
         fi
     else
+        # since it is sourced by bashrc it will change environment variables
         cmd="$FZF_DEFAULT_COMMAND"
         opts="$FZF_DEFAULT_OPTS"
         FZF_DEFAULT_COMMAND="$FZF_DEFAULT_COMMAND --type file"
@@ -85,11 +86,16 @@ kak-smart() {
         file="$(fzf)"
         FZF_DEFAULT_COMMAND="$cmd"
         FZF_DEFAULT_OPTS="$opts"
+        # clear last command (kak)
+        # below it is substituted by the real command (kak file)
+        history -d -1
         if [ -e "$file" ]; then
         	if [ "$root" = "no" ]; then
         		/bin/kak "$file"
+            	history -ps "kak $file"
         	elif [ "$root" = "yes" ]; then
         	    doas /bin/kak "$file"
+            	history -ps "doas kak $file"
         	fi
         fi
     fi
