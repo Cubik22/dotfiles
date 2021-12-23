@@ -132,7 +132,7 @@ export FZF_DEFAULT_PREVIEW='bat --color=always --paging=never --theme=gruvbox-da
 # uses tree command to show the entries of the directory
 # export FZF_DEFAULT_PREVIEW='tree -C {} | head -200'
 # select multiple files/directories, inline and preview
-export FZF_CTRL_T_OPTS="--multi --info=inline --preview \"$FZF_DEFAULT_PREVIEW\""
+export FZF_CTRL_T_OPTS="--multi --info=inline --preview=\"$FZF_DEFAULT_PREVIEW\""
 
 # command when running <a-c> (remapped to <c-f> in .config/shell/fzfrc)
 export FZF_ALT_C_COMMAND='fd --type directory --hidden --follow --exclude ".git" --exclude ".hg" --exclude ".svn" --color=always --strip-cwd-prefix'

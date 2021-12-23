@@ -1,7 +1,7 @@
 #!/bin/sh
-#
+
 # Open a file with fzf in kakoune
-#
+
 # USAGE: e.g. in kakrc:
 # define-command -docstring 'Open files with fzf' fuzzy-files %{
 # 	try %sh{
@@ -9,13 +9,13 @@
 # 	}
 # }
 # map global user o ': fuzzy-files<ret>' -docstring '[FZF] Open Files'
-#
+
 # REQUIREMENTS: fzf - kakoune
 # OPTIONALS:
 
-session_id=$1
-client_id=$2
-target=$(fd --type file --follow --hidden --exclude ".git" --exclude ".hg" --exclude ".svn" --color=always --strip-cwd-prefix | fzf --ansi)
+session_id="$1"
+client_id="$2"
+target="$($FZF_DEFAULT_COMMAND --type file | fzf)"
 
 printf -- '%s\n' "eval -client $client_id edit -existing $target" |
 	kak -p "$session_id"

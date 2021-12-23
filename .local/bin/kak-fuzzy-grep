@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-#
+
 # Search for text in files using ripgrep
 # Interactively restart ripgrep with reload action
 # Open the file in kakoune
-#
+
 # USAGE: e.g. in kakrc:
 # define-command -docstring 'Search with ripgrep and fzf' fuzzy-grep %{
 # 	try %sh{
@@ -11,7 +11,7 @@
 # 	}
 # }
 # map global user r ': fuzzy-grep<ret>' -docstring '[FZF] Live grep'
-#
+
 # REQUIREMENTS: bat - fzf - ripgrep - kakoune
 # OPTIONALS:
 
@@ -30,8 +30,8 @@ IFS=: read -ra selected < <(
 		# --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'
 )
 
-session_id=$1
-client_id=$2
+session_id="$1"
+client_id="$2"
 
 printf -- '%s\n' "eval -client ${client_id} edit -existing ${selected[0]} ${selected[1]}" |
 	kak -p "${session_id}"
