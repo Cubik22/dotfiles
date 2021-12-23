@@ -120,13 +120,13 @@ export NNN_PLUG="$NNN_PLUG_EDIT;$NNN_PLUG_FUZZY;$NNN_PLUG_OPEN;$NNN_PLUG_GIT"
 ## fzf
 
 # when changing FZF_DEFAULT_COMMAND change also _fzf_compgen_path and _fzf_compgen_dir in .bashrc
-export FZF_DEFAULT_COMMAND='fd --hidden --follow --exclude .git --color=always'
+export FZF_DEFAULT_COMMAND='fd --hidden --follow --exclude ".git" --exclude ".hg" --exclude ".svn" --color=always'
 # gruvbox hard dark color and other default options
 # --multi --cycle
 export FZF_DEFAULT_OPTS='--no-mouse --bind="ctrl-i:accept-non-empty" --bind="ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline)+accept" --layout=reverse --prompt="  " --ansi --tabstop=4 --color=bg+:#1d2021,bg:#1d2021,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934'
 
 # command when running <c-t>
-export FZF_CTRL_T_COMMAND='fd --type file --hidden --follow --exclude .git --color=always'
+export FZF_CTRL_T_COMMAND='fd --type file --hidden --follow --exclude ".git" --exclude ".hg" --exclude ".svn" --color=always'
 # uses bat command to show the entries of the directory
 export FZF_DEFAULT_PREVIEW='bat --color=always --paging=never --theme=gruvbox-dark --style="numbers,changes" --line-range :500 {}'
 # uses tree command to show the entries of the directory
@@ -135,7 +135,7 @@ export FZF_DEFAULT_PREVIEW='bat --color=always --paging=never --theme=gruvbox-da
 export FZF_CTRL_T_OPTS="--multi --info=inline --preview \"$FZF_DEFAULT_PREVIEW\""
 
 # command when running <a-c> (remapped to <c-f> in bashrc)
-export FZF_ALT_C_COMMAND='fd --type directory --hidden --follow --exclude .git --color=always'
+export FZF_ALT_C_COMMAND='fd --type directory --hidden --follow --exclude ".git" --exclude ".hg" --exclude ".svn" --color=always'
 # inline
 export FZF_ALT_C_OPTS='--info=inline'
 
