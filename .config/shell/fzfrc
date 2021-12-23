@@ -9,19 +9,20 @@
 # use fd (https://github.com/sharkdp/fd) instead of the default find
 # command for listing path candidates.
 # - the first argument to the function ($1) is the base path to start traversal
-# - see the source code (completion.{bash,zsh}) for the details.
+# - see the source code (/usr/share/fzf/completion.bash) for the details.
+# FZF_DEFAULT_COMMAND defined in .config/shell/envrc
 _fzf_compgen_path() {
-    fd --hidden --follow --exclude ".git" --exclude ".hg" --exclude ".svn" --color=always --strip-cwd-prefix "$1"
+    $FZF_DEFAULT_COMMAND "$1"
 }
 
 # use fd to generate the list for directory completion
 _fzf_compgen_dir() {
-    fd --type directory --hidden --follow --exclude ".git" --exclude ".hg" --exclude ".svn" --color=always --strip-cwd-prefix "$1"
+    $FZF_DEFAULT_COMMAND --type directory "$1"
 }
 
 # use fd to generate the list for file completion
 _fzf_compgen_file() {
-    fd --type file --hidden --follow --exclude ".git" --exclude ".hg" --exclude ".svn" --color=always --strip-cwd-prefix "$1"
+    $FZF_DEFAULT_COMMAND --type file "$1"
 }
 
 # see /usr/share/fzf/completion.bash adapting from _fzf_path_completion
@@ -51,9 +52,50 @@ if [ ! "$LOGNAME" = "root" ] && [ "$(id -u)" -ne 0 ]; then
 fi
 
 # remap fzf <a-c> to <c-f>
+# not really working with bash version > 4
+# writes to prompt cd {directory}, user has to press ender
+# at least it is saved in bash history, with standard no
+
+# see /usr/share/fzf/key-bindings.bash
+_fzf_cd_widget() {
+    local cd_selected="$(__fzf_cd__)"
+    READLINE_LINE="${cd_selected}"
+    READLINE_POINT=$(( ${#cd_selected} ))
+}
+
+# _fzf_cd_widget() {
+#     local cd_selected="$(__fzf_cd__)"
+#     local selected="$(echo "$cd_selected" | sed 's/^.*cd //g')"
+#     cd "$selected"
+#     # eval "$cd_selected"
+#     # pwd
+#     # kill -WINCH "$$"
+#     # killall bash
+#     # echo "${PS1@P}"
+#     # READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selected${READLINE_LINE:$READLINE_POINT}"
+#     # READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
+# }
+
 bind -m emacs-standard '"\ec":'
 bind -m vi-command '"\ec":'
 bind -m vi-insert '"\ec":'
-bind -m emacs-standard -x '"\C-f": __fzf_cd__'
-bind -m vi-command -x '"\C-f": __fzf_cd__'
-bind -m vi-insert -x '"\C-f": __fzf_cd__'
+
+# bind -m emacs-standard '"\er": redraw-current-line'
+# bind -m vi-command '"\er": redraw-current-line'
+# bind -m vi-insert '"\er": redraw-current-line'
+
+# bind -m emacs-standard '"\C-f": " \C-b\C-k \C-u`__fzf_cd__`\e\C-e\er\C-m\C-y\C-h\e \C-y\ey\C-x\C-x\C-d"'
+# bind -m vi-command '"\C-f": "\C-z\C-f\C-z"'
+# bind -m vi-insert '"\C-f": "\C-z\C-f\C-z"'
+
+# bind -m emacs-standard '"\C-f": " \C-k \C-u$(__fzf_cd__)\er\C-m \C-y\C-x\C-x"'
+# bind -m vi-command '"\C-f": "\C-z\C-f\C-z"'
+# bind -m vi-insert '"\C-f": "\C-z\C-f\C-z"'
+
+# bind -m emacs-standard -x '"\C-f": $(__fzf_cd__)'
+# bind -m vi-command -x '"\C-f": $(__fzf_cd__)'
+# bind -m vi-insert -x '"\C-f": $(__fzf_cd__)'
+
+bind -m emacs-standard -x '"\C-f": _fzf_cd_widget'
+bind -m vi-command -x '"\C-f": _fzf_cd_widget'
+bind -m vi-insert -x '"\C-f": _fzf_cd_widget'
