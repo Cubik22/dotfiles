@@ -123,7 +123,7 @@ export NNN_PLUG="$NNN_PLUG_EDIT;$NNN_PLUG_FUZZY;$NNN_PLUG_OPEN;$NNN_PLUG_GIT"
 export FZF_DEFAULT_COMMAND='fd --hidden --follow --exclude .git --color=always'
 # gruvbox hard dark color and other default options
 # --multi --cycle
-export FZF_DEFAULT_OPTS='--no-mouse --bind="ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline)+accept" --layout=reverse --prompt="  " --ansi --tabstop=4 --color=bg+:#1d2021,bg:#1d2021,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934'
+export FZF_DEFAULT_OPTS='--no-mouse --bind="ctrl-i:accept-non-empty" --bind="ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline)+accept" --layout=reverse --prompt="  " --ansi --tabstop=4 --color=bg+:#1d2021,bg:#1d2021,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934'
 
 # command when running <c-t>
 export FZF_CTRL_T_COMMAND='fd --type file --hidden --follow --exclude .git --color=always'

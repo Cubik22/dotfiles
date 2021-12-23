@@ -93,7 +93,7 @@ alias ydlvm="youtube-dl --ignore-errors --retries=infinite --recode-video=ogg --
 alias ydlam="youtube-dl --ignore-errors --retries=infinite --extract-audio --audio-format=opus --embed-thumbnail --add-metadata --xattrs"
 
 # fzf with preview
-alias fzfp='fzf --preview "bat --color=always --paging=never --theme=gruvbox-dark --style="numbers,changes" --line-range :500 {}"'
+alias fzfp="fzf --preview \"$FZF_DEFAULT_PREVIEW\""
 
 # wifi
 alias iwscan="iwctl station wlan0 scan;"
