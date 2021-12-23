@@ -127,9 +127,12 @@ export FZF_DEFAULT_OPTS='--no-mouse --bind="ctrl-y:execute-silent(printf {} | cu
 
 # command when running <c-t>
 export FZF_CTRL_T_COMMAND='fd --type file --hidden --follow --exclude .git --color=always'
-# select multiple files/directories, inline, and uses tree command to show the entries of the directory
-export FZF_CTRL_T_OPTS='--multi --info=inline --preview "bat --color=always --paging=never --theme=gruvbox-dark --style="numbers,changes" --line-range :500 {}"'
-# export FZF_CTRL_T_OPTS='--multi --info=inline --preview "tree -C {} | head -200"'
+# uses bat command to show the entries of the directory
+export FZF_DEFAULT_PREVIEW='bat --color=always --paging=never --theme=gruvbox-dark --style="numbers,changes" --line-range :500 {}'
+# uses tree command to show the entries of the directory
+# export FZF_DEFAULT_PREVIEW='tree -C {} | head -200'
+# select multiple files/directories, inline and preview
+export FZF_CTRL_T_OPTS="--multi --info=inline --preview \"$FZF_DEFAULT_PREVIEW\""
 
 # command when running <a-c> (remapped to <c-f> in bashrc)
 export FZF_ALT_C_COMMAND='fd --type directory --hidden --follow --exclude .git --color=always'
