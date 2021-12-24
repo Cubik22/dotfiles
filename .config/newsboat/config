@@ -19,7 +19,7 @@ show-keymap-hint no
 scrolloff 3
 
 # default browser
-# browser lynx
+browser lynx
 # browser w3m
 
 ## key-bindings
@@ -83,10 +83,10 @@ color info              default default reverse
 color article           default default
 color background        default default
 
-# colorful
+# # colorful
 # color listnormal        cyan default
 # color listnormal_unread blue default
-# color listfocus         black yellow standout bold
+# color listfocus         black green standout bold
 # color listfocus_unread  yellow default bold
 # color info              red black bold
 # color article           white default bold
