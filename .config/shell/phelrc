@@ -17,7 +17,7 @@ pactl (pipewire)
 ffmpeg -i {file.ext} -o {file.ogg}
 youtube-dl --ignore-errors --retries=infinite
     {--recode-video=ogg, --extract-audio --audio-format=opus}
-    {--embed-thumbnail --add-metadata --xattrs}
+    {{--embed-thumbnail} --add-metadata --xattrs}
     "<url>" -o "<name>.%(ext)s"
 ydlv
 ydla
@@ -33,12 +33,12 @@ servstat (info services)
 ## drives and devices
 mount (list mounted drives and devices)
 dd if=/dev/{zero,urandom} of=/dev/sda bs=4M status=progress
-cat {...}.iso | pv > /dev/sda
-udisksctl (un)mount -b <drive (from lsblk)>
+cat <...>.iso | pv > /dev/sda
+udisksctl {un}mount -b <drive (from lsblk)>
 
 ## (de)compression
 aunpack (atool)
-tar -x -<compression options (-z)> (--strip-components=1) -C "<output dir>"
+tar -x -<compression options (-z)> {--strip-components=1} -C "<output dir>"
 tar -c -<compression options (-z)> -f "<archived.tar.gz>" "<to-archive>"
 
 ## update
@@ -70,7 +70,7 @@ mandb
 makewhatis
 
 ## latex
-lualatex {...}.tex
+lualatex <...>.tex
 
 ## pdf
 pdfunite inputs.pdf output.pdf
