@@ -120,10 +120,10 @@ riverctl map normal $mod+Mod1+Shift J resize vertical 100
 riverctl map normal $mod+Mod1+Shift K resize vertical -100
 riverctl map normal $mod+Mod1+Shift L resize horizontal 100
 
-# Mod + Left Mouse Button to move views
+# Mod+Left Mouse Button to move views
 riverctl map-pointer normal $mod BTN_LEFT move-view
 
-# Mod + Right Mouse Button to resize views
+# Mod+Right Mouse Button to resize views
 riverctl map-pointer normal $mod BTN_RIGHT resize-view
 
 for i in $(seq 1 9); do
@@ -152,13 +152,13 @@ riverctl map normal $mod+Shift 0 set-view-tags $all_tags
 # https://github.com/ifreund/river/wiki/Scratchpad
 scratch_tag="$((1 << 20 ))"
 
-# Toggle the scratchpad with Super+P
+# toggle the scratchpad with Super+P
 riverctl map normal $mod P toggle-focused-tags ${scratch_tag}
 
-# Send windows to the scratchpad with Super+Shift+P
+# send windows to the scratchpad with Super+Shift+P
 riverctl map normal $mod+Shift P set-view-tags ${scratch_tag}
 
-# Set spawn tagmask to ensure new windows does not have the scratchpad tag unless explicitly set
+# set spawn tagmask to ensure new windows does not have the scratchpad tag unless explicitly set
 all_but_scratch_tag="$(( ((1 << 32) - 1) ^ $scratch_tag ))"
 riverctl spawn-tagmask ${all_but_scratch_tag}
 
@@ -184,7 +184,7 @@ riverctl map normal $mod F11 enter-mode passthrough
 # Mod+F11 to return to normal mode
 riverctl map passthrough $mod F11 enter-mode normal
 
-# Various media key mapping
+# various media key mapping
 for mode in normal locked; do
     # eject the optical drive
     riverctl map $mode None XF86Eject spawn 'eject -T'
@@ -221,28 +221,28 @@ for mode in normal locked; do
 	# riverctl map $mode None XF86PowerOff spawn "waylock"
 done
 
-# Spawn new window in less important part
+# spawn new window in less important part
 riverctl attach-mode bottom
 
-# Set background and border color
+# set background and border color
 riverctl background-color 0x1d2021
 # default
 # riverctl border-color-focused 0x93a1a1
 # riverctl border-color-unfocused 0x586e75
 # new
 riverctl border-color-focused 0x6e6e6e
-riverctl border-color-unfocused 0x525252 
+riverctl border-color-unfocused 0x525252
 
-# Set border width
+# set border width
 riverctl border-width 3
 
-# Moving the cursor on another window change focus
+# moving the cursor on another window change focus
 riverctl focus-follows-cursor normal
 
-# Set repeat rate
+# set repeat rate
 riverctl set-repeat 60 300
 
-# Cursor theme
+# cursor theme
 # remember to change also .config/shell/envrc
 # remember to change also .config/gtk-{2, 3}.0/{config, settings.ini}
 # remember to change also .icons/default/index.theme
@@ -250,31 +250,45 @@ riverctl xcursor-theme Adwaita 16
 # riverctl xcursor-theme OpenZone_White 32
 # riverctl xcursor-theme Human 32
 
-# Make certain views start floating
-# Set app-ids of views which should float
+# make certain views start floating
+# set app-ids of views which should float
 # <https://git.sr.ht/~leon_plickat/lswt>
 riverctl float-filter-add app-id "float"
 riverctl float-filter-add app-id "popup"
 riverctl float-filter-add app-id "mpv"
 riverctl float-filter-add app-id "imv"
 
-# Set app-ids and titles of views which should use client side decorations
+# set app-ids and titles of views which should use client side decorations
 # riverctl csd-filter-add app-id "gedit"
 
-# Input set all touchpads (so it works on multiple machines)
-touchpads="$(riverctl list-inputs | grep -i touchpad)"
+# input set touchpad
+# make so it works on multiple machines
+touchpad="$(riverctl list-inputs | grep -i touchpad | tail -n 1)"
 
-while read -r touchpad; do
-	riverctl input "$touchpad" events enabled
-	riverctl input "$touchpad" accel-profile none
-	riverctl input "$touchpad" disable-while-typing enabled
-	riverctl input "$touchpad" middle-emulation enabled
-	riverctl input "$touchpad" natural-scroll enabled
-	riverctl input "$touchpad" left-handed disabled
-	riverctl input "$touchpad" scroll-method two-finger
-done <<EOT
-$(echo "$touchpads")
-EOT
+if [ -n "$touchpad" ]; then
+    riverctl input "$touchpad" events enabled
+    riverctl input "$touchpad" accel-profile none
+    riverctl input "$touchpad" disable-while-typing enabled
+    riverctl input "$touchpad" middle-emulation enabled
+    riverctl input "$touchpad" natural-scroll enabled
+    riverctl input "$touchpad" left-handed disabled
+    riverctl input "$touchpad" scroll-method two-finger
+fi
+
+# input set mouse
+# make so it works on multiple machines
+mouse="$(riverctl list-inputs | grep -i mouse | tail -n 1)"
+
+if [ -n "$mouse" ]; then
+    riverctl input "$mouse" events enabled
+    # riverctl input "$mouse" accel-profile none
+    riverctl input "$mouse" accel-profile flat
+    riverctl input "$mouse" pointer-accel -0.2
+    riverctl input "$mouse" disable-while-typing enabled
+    riverctl input "$mouse" middle-emulation enabled
+    riverctl input "$mouse" natural-scroll enabled
+    riverctl input "$mouse" left-handed disabled
+fi
 
 # start with an instance of foot
 # riverctl spawn footclient
@@ -282,8 +296,8 @@ EOT
 # init-river-session
 init-river-session &
 
-# Set and exec into the default layout generator, rivertile.
-# River will send the process group of the init executable SIGTERM on exit
+# set and exec into the default layout generator, rivertile
+# river will send the process group of the init executable SIGTERM on exit
 riverctl default-layout rivertile
 
 # start rivertile without padding
