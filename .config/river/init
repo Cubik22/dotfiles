@@ -261,34 +261,8 @@ riverctl float-filter-add app-id "imv"
 # set app-ids and titles of views which should use client side decorations
 # riverctl csd-filter-add app-id "gedit"
 
-# input set touchpad
-# make so it works on multiple machines
-touchpad="$(riverctl list-inputs | grep -i touchpad | tail -n 1)"
-
-if [ -n "$touchpad" ]; then
-    riverctl input "$touchpad" events enabled
-    riverctl input "$touchpad" accel-profile none
-    riverctl input "$touchpad" disable-while-typing enabled
-    riverctl input "$touchpad" middle-emulation enabled
-    riverctl input "$touchpad" natural-scroll enabled
-    riverctl input "$touchpad" left-handed disabled
-    riverctl input "$touchpad" scroll-method two-finger
-fi
-
-# input set mouse
-# make so it works on multiple machines
-mouse="$(riverctl list-inputs | grep -i mouse | tail -n 1)"
-
-if [ -n "$mouse" ]; then
-    riverctl input "$mouse" events enabled
-    # riverctl input "$mouse" accel-profile none
-    riverctl input "$mouse" accel-profile flat
-    riverctl input "$mouse" pointer-accel -0.2
-    riverctl input "$mouse" disable-while-typing enabled
-    riverctl input "$mouse" middle-emulation enabled
-    riverctl input "$mouse" natural-scroll enabled
-    riverctl input "$mouse" left-handed disabled
-fi
+# set up touchpad with riverctl
+riverctl-set-input touchpad
 
 # start with an instance of foot
 # riverctl spawn footclient

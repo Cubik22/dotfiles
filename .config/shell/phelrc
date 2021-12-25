@@ -10,6 +10,7 @@ iwctl station wlan0 show/scan/get-networks/(dis)connect
 ## bluez
 blueon blueoff bluescan
 bluetoothctl default-agent/power on/scan on/trust <device>/connect <device>
+when connecting mouse: riverctl-set-input mouse
 
 ## audio
 amixer/alsamixer (alsa)
@@ -80,7 +81,8 @@ terminfo
 stty
 
 ## kernel
-vkpurge
+vkpurge list
+vkpurge rm <kernel>
 
 ## util
 date cal

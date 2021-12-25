@@ -1,0 +1,64 @@
+#!/bin/sh
+
+# just last mouse/touchpad is set
+# most of the times is the right one
+
+# input set mouse
+# make so it works on multiple machines
+set_mouse() {
+    mouse="$(riverctl list-inputs | grep -i mouse | tail -n 1)"
+
+    if [ -n "$mouse" ]; then
+        riverctl input "$mouse" events enabled
+        # riverctl input "$mouse" accel-profile none
+        riverctl input "$mouse" accel-profile flat
+        riverctl input "$mouse" pointer-accel -0.2
+        riverctl input "$mouse" disable-while-typing enabled
+        riverctl input "$mouse" middle-emulation enabled
+        riverctl input "$mouse" natural-scroll enabled
+        riverctl input "$mouse" left-handed disabled
+    fi
+}
+
+# input set touchpad
+# make so it works on multiple machines
+set_touchpad() {
+    touchpad="$(riverctl list-inputs | grep -i touchpad | tail -n 1)"
+
+    if [ -n "$touchpad" ]; then
+        riverctl input "$touchpad" events enabled
+        riverctl input "$touchpad" accel-profile none
+        riverctl input "$touchpad" disable-while-typing enabled
+        riverctl input "$touchpad" middle-emulation enabled
+        riverctl input "$touchpad" natural-scroll enabled
+        riverctl input "$touchpad" left-handed disabled
+        riverctl input "$touchpad" scroll-method two-finger
+    fi
+}
+
+print_info=$(cat << EOF
+no parameter: set up touchpad and mouse
+mouse or m: set up just mouse
+touchpad or t: set up just touchpad
+--help or -h: print info
+EOF
+)
+
+if [ "$#" -gt 1 ]; then
+    echo "error: too many parameters"
+    echo "$print_info"
+elif [ "$#" -eq 1 ]; then
+    if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+        echo "$print_info"
+    elif [ "$1" = "mouse" ] || [ "$1" = "m" ]; then
+        set_mouse
+    elif [ "$1" = "touchpad" ] || [ "$1" = "t" ]; then
+        set_touchpad
+    else
+        echo "error: first parameter not reconized"
+        echo "$print_info"
+    fi
+else
+    set_mouse
+    set_touchpad
+fi
