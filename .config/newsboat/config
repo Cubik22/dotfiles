@@ -86,9 +86,9 @@ bind-key D pb-delete
 # colorful
 color listnormal        cyan default
 color listnormal_unread blue default bold
-color listfocus         black yellow standout
+color listfocus         yellow default
 color listfocus_unread  yellow default bold
-color info              red black
+color info              red default
 color article           default default
 color background        default default
 

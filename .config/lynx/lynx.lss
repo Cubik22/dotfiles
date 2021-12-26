@@ -8,9 +8,6 @@
 # normal:		normal:			lightgray:black
 # default:	normal:			white:black
 
-# set normal paragraph to white instead of gray
-p:              normal:                 white
-
 # Normal type styles correspond to HTML tags.
 #
 # The next line (beginning with "em") means:  use bold if mono, otherwise
@@ -21,7 +18,7 @@ b:		bold:			red
 i:		bold:			brightblue
 a:		bold:			green
 img:		dim:			brown
-fig:		normal:			white
+fig:		normal:			gray
 caption:	reverse:		brown
 hr:		normal:			yellow
 blockquote:	normal:			brightblue
@@ -32,18 +29,18 @@ tt:		dim:			brightmagenta:	black
 h1:		bold:			yellow:		blue
 label:		normal:			magenta
 q:		normal:			yellow:		magenta
-small:		dim:			white
+small:		dim:			default
 big:		bold:			yellow
 sup:		bold:			yellow
-sub:		dim:			white
+sub:		dim:			gray
 li:		normal:			magenta
 code:		normal:			cyan
 cite:		normal:			cyan
 
 table:		normal:			brightcyan
 tr:		bold:			brown
-td:		normal:			white
-br:		normal:			white
+td:		normal:			default
+br:		normal:			default
 
 # Special styles - not corresponding directly to HTML tags
 #	alert	- status bar, when message begins "Alert".
@@ -63,12 +60,12 @@ whereis:	reverse+underline:	magenta:	cyan
 menu.bg:	normal:			black:		lightgray
 menu.frame:	normal:			black:		lightgray
 menu.entry:	normal:			lightgray:	black
-menu.n:		normal:			red:		white
+menu.n:		normal:			red:		gray
 menu.active:	normal:			yellow:		black
 menu.sb:	normal:			brightred:	lightgray
 
 forwbackw.arrow:reverse
-hot.paste:	normal:			brightred:	white
+hot.paste:	normal:			brightred:	gray
 
 # Styles with classes - <ul class=red> etc.
 ul.red:		underline:		brightred
