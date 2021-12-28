@@ -84,7 +84,10 @@ alias nv="nvim"
 alias kak="kak-smart no"
 alias ka="kak-smart no"
 alias xq="xbps-query"
+
+# wayland
 alias imv="imv-wayland"
+alias firefox="firefox-wayland"
 
 # youtube-dl
 alias ydlv="youtube-dl --ignore-errors --retries=infinite --recode-video=ogg"
