@@ -21,7 +21,7 @@ evaluate-commands %sh{
 
     bg="rgb:1d2021"
     bg_alpha="rgba:1d2021a0"
-    bg0="rgb:928374"
+    bg0="rgb:282828"
     bg1="rgb:3c3836"
     bg2="rgb:504945"
     bg3="rgb:665c54"

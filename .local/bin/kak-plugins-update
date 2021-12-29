@@ -17,6 +17,7 @@ plugins_url=$(cat << EOF
 https://github.com/kkga/foot.kak.git
 https://github.com/eraserhd/kak-ansi.git
 https://github.com/occivink/kakoune-vertical-selection.git
+https://github.com/insipx/kak-crosshairs.git
 https://github.com/Delapouite/kakoune-text-objects.git
 https://github.com/Delapouite/kakoune-palette.git
 https://gitlab.com/Screwtapello/kakoune-state-save.git
@@ -44,4 +45,3 @@ while read -r plugin_url; do
 done <<EOT
 $plugins_url
 EOT
-

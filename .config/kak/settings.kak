@@ -114,6 +114,12 @@ make-directory-on-save
 # remove error scratch message
 # remove-scratch-message
 
+## crosshairs.kak
+set-face global crosshairs_line default,rgb:282828
+set-face global crosshairs_column default,rgb:282828
+cursorline
+# crosshairs
+
 ### ui settings
 
 ## change cursor color between normal mode and insert mode

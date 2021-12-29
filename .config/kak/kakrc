@@ -5,28 +5,29 @@
 # source config files
 evaluate-commands %sh{
 	plugins="plugins"
-    
+
     config_files="
-    	filetype/octave.kak
-    	$plugins/foot.kak/rc/foot.kak
-    	$plugins/kak-ansi/rc/ansi.kak
-    	$plugins/kakoune-vertical-selection/vertical-selection.kak
-    	$plugins/kakoune-text-objects/text-objects.kak
-    	$plugins/kakoune-palette/palette.kak
-    	$plugins/kakoune-state-save/state-save.kak
-    	$plugins/kakoune-shellcheck/shellcheck.kak
-    	$plugins/tiny.kak/rc/tiny.kak
-    	$plugins/auto-pairs.kak/rc/auto-pairs.kak
-    	$plugins/surround.kak/rc/surround.kak
-    	indentation.kak
-    	wayland.kak
-    	git-commit-overflow.kak
-    	settings.kak
-    	key-bindings.kak
-    	functionality.kak
-    	modeline.kak
-    	doas-write.kak
-    	languages.kak
+        filetype/octave.kak
+        $plugins/foot.kak/rc/foot.kak
+        $plugins/kak-ansi/rc/ansi.kak
+        $plugins/kakoune-vertical-selection/vertical-selection.kak
+        $plugins/kak-crosshairs/crosshairs.kak
+        $plugins/kakoune-text-objects/text-objects.kak
+        $plugins/kakoune-palette/palette.kak
+        $plugins/kakoune-state-save/state-save.kak
+        $plugins/kakoune-shellcheck/shellcheck.kak
+        $plugins/tiny.kak/rc/tiny.kak
+        $plugins/auto-pairs.kak/rc/auto-pairs.kak
+        $plugins/surround.kak/rc/surround.kak
+        indentation.kak
+        wayland.kak
+        git-commit-overflow.kak
+        settings.kak
+        key-bindings.kak
+        functionality.kak
+        modeline.kak
+        doas-write.kak
+        languages.kak
 	"
 
     for file in $config_files; do
