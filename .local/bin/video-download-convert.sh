@@ -1,4 +1,4 @@
-#/bin/sh
+#!/bin/sh
 
 if [ "$#" -ne 1 ]; then
     echo "error: please insert just one parameter"
@@ -8,7 +8,7 @@ fi
 url="$1"
 
 mkdir tmp
-cd tmp
+cd tmp || return 1
 
 youtube-dl \
 --ignore-errors \

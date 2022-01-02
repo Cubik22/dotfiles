@@ -1,4 +1,4 @@
-#/bin/sh
+#!/bin/sh
 
 if [ "$#" -ne 1 ]; then
     echo "error: please insert just one parameter"
@@ -23,7 +23,7 @@ url="$1"
 # ffmpeg -i "$full" "${name}.opus"
 
 mkdir tmp
-cd tmp
+cd tmp || return 1
 
 youtube-dl \
 --ignore-errors \
