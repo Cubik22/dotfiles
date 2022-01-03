@@ -17,6 +17,8 @@ lua-language-server
 ziget
 zigup
 zls
+llvm
+zig
 fuzzel
 waybar
 river
@@ -115,7 +117,7 @@ qrupdate_install() {
 
 cat << EOF > makeconf.patch
 4c4
-< FFLAGS=-fimplicit-none -O3 -funroll-loops 
+< FFLAGS=-fimplicit-none -O3 -funroll-loops
 ---
 > FFLAGS=-fimplicit-none -O3 -funroll-loops -fallow-argument-mismatch
 9c9
@@ -305,7 +307,7 @@ jna_install() {
     cd "download" || return 1
 
     version=$(curl -s https://github.com/java-native-access/jna/tags | grep jna/releases/tag | head -n 1 | sed 's/^.*jna\/releases\/tag\///' | sed 's/".*$//')
-    
+
     jna_name="jna-$version.jar"
 
     if [ ! -f "$jna_name" ]; then
@@ -637,6 +639,16 @@ zigup_install() {
 
     cd "$dev/zigup" || return 1
 
+    # zig_version=$(curl -s https://api.github.com/repos/ziglang/zig/releases | grep -i tag_name | head -n 1 | sed 's/^.*\"tag_name\": \"//' | sed 's/\",.*$//')
+
+    # zig_bootstrap="zig-bootstrap-$zig_version"
+
+    # curl -L -o "$zig_bootstrap.tar.xz" "https://github.com/ziglang/zig/releases/download/$zig_version/$zig_bootstrap.tar.xz"
+
+    # mkdir "$zig_bootstrap"
+
+    # tar -x --xz --strip-components=1 -f "$zig_bootstrap.tar.xz" -C "$zig_bootstrap"
+
     if [ "$action" = "update" ]; then
         git pull --recurse-submodules
     fi
@@ -687,6 +699,106 @@ zls_install() {
 
     # zig-master build -Drelease-safe -Ddata_version="$zig_version" --prefix "$prefix_dir" install
     zig-master build -Drelease-safe --prefix "$prefix_dir" install
+}
+
+### llvm
+llvm_install() {
+    echo "installing package: llvm"
+
+    if [ ! -d "$dev/llvm" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://github.com/llvm/llvm-project "$dev/llvm"
+    fi
+
+    cd "$dev/llvm" || return 1
+
+    if [ "$action" = "update" ]; then
+        rm -rf llvm/build-release
+        rm -rf lld/build-release
+        rm -rf clang/build-release
+        git pull --recurse-submodules
+    fi
+
+    git checkout release/13.x
+
+    llvm_install_prefix="$XDG_LIB_HOME/llvm13-release"
+    llvm_prefix_path="$XDG_LIB_HOME/llvm13-release"
+
+    # LLVM
+    cd llvm || return 1
+    mkdir build-release
+    cd build-release || return 1
+    cmake .. \
+        -DCMAKE_INSTALL_PREFIX="$llvm_install_prefix" \
+        -DCMAKE_PREFIX_PATH="$llvm_prefix_path" \
+        -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_LIBXML2=OFF \
+        -G Ninja -DLLVM_PARALLEL_LINK_JOBS=1
+    ninja install
+    cd ../.. || return 1
+
+    # LLD
+    cd lld || return 1
+    mkdir build-release
+    cd build-release || return 1
+    cmake .. \
+        -DCMAKE_INSTALL_PREFIX="$llvm_install_prefix" \
+        -DCMAKE_PREFIX_PATH="$llvm_prefix_path" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -G Ninja -DLLVM_PARALLEL_LINK_JOBS=1 \
+        -DCMAKE_CXX_STANDARD=17
+    ninja install
+    cd ../.. || return 1
+
+    # clang
+    cd clang || return 1
+    mkdir build-release
+    cd build-release || return 1
+    cmake .. \
+        -DCMAKE_INSTALL_PREFIX="$llvm_install_prefix" \
+        -DCMAKE_PREFIX_PATH="$llvm_prefix_path" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -G Ninja -DLLVM_PARALLEL_LINK_JOBS=1
+    ninja install
+    cd ../.. || return 1
+}
+
+### zig
+zig_install() {
+    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+        llvm_install
+    fi
+
+    echo "installing package: zig"
+
+    if [ ! -d "$dev/zig" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+    	git clone --recurse-submodules https://github.com/ziglang/zig.git "$dev/zig"
+    fi
+
+    cd "$dev/zig" || return 1
+
+    if [ "$action" = "update" ]; then
+        rm -rf build
+        git pull --recurse-submodules
+    fi
+
+    mkdir build
+
+    cd build || return 1
+
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$prefix_dir" ..
+
+    make install
 }
 
 ### fuzzel
@@ -951,6 +1063,16 @@ if [ "$1" = "all" ] || [ "$1" = "zls" ]; then
         zls_install
     else
         zls_install "dep"
+    fi
+fi
+if [ "$1" = "all" ] || [ "$1" = "llvm" ]; then
+    llvm_install
+fi
+if [ "$1" = "all" ] || [ "$1" = "zig" ]; then
+    if  [ "$1" = "all" ]; then
+        zig_install
+    else
+        zig_install "dep"
     fi
 fi
 if [ "$1" = "all" ] || [ "$1" = "fuzzel" ]; then
