@@ -6,8 +6,6 @@
 # set dotfiles folder name
 git_dir="$HOME"/.dotfiles
 
-username="lbia"
-
 email="lorenzo.bianco22@protonmail.com"
 
 # when changing user name change
@@ -16,7 +14,7 @@ email="lorenzo.bianco22@protonmail.com"
 # HOME/.rtorrent.rc
 
 # clone repository
-git clone --bare https://github.com/"$username"/dotfiles.git "$git_dir"
+git clone --bare https://github.com/lbia/dotfiles.git "$git_dir"
 
 # create temporary alias
 config () {
@@ -117,7 +115,7 @@ rbw register
 
 rbw unlock
 
-# set to track upstram 
+# set to track upstram
 config push --set-upstream origin main
 
 # remove README from HOME and set git to not track in locale
