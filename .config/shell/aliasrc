@@ -113,6 +113,9 @@ alias listlib="scanelf --ldpath -BF '%f'"
 export weather="wttr.in"
 # curl wttr.in/:help
 
+# zigup
+alias zigup="zigup --install-dir \"$XDG_LIB_HOME/zigup\""
+
 # git related
 alias gst="git status"
 alias gad="git add"

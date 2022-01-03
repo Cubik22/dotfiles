@@ -2,9 +2,20 @@
 
 # envrc
 
-# add npm go cargo to path
+# add programs to path
 # see also .local/bin/git_bare_repository.sh
-export PATH="/usr/local/lib/npm/bin:${GOPATH}/bin:${CARGO_HOME}/bin:${PATH}"
+cargo_bin="${CARGO_HOME}/bin"
+[ -d "$cargo_bin" ] && \
+    export PATH="$cargo_bin:${PATH}"
+go_bin="${GOPATH}/bin"
+[ -d "$go_bin" ] && \
+    export PATH="$go_bin:${PATH}"
+npm_bin="/usr/local/lib/npm/bin"
+[ -d "$npm_bin" ] && \
+    export PATH="$npm_bin:${PATH}"
+# llvm13_bin="/usr/local/lib/llvm13-release/bin"
+# [ -d "$llvm13_bin" ] && \
+#     export PATH="$llvm13_bin:${PATH}"
 
 # less
 # -F automatically exit if the entire file can be displayed on the first screen
@@ -29,6 +40,9 @@ export XDG_DATA_HOME="${XDG_LOCAL_HOME}/share"
 export XDG_STATE_HOME="${XDG_LOCAL_HOME}/state"
 export XDG_LIB_HOME="${XDG_LOCAL_HOME}/lib"
 export XDG_BIN_HOME="${XDG_LOCAL_HOME}/bin"
+
+# path
+export PATH="${XDG_BIN_HOME}:${PATH}"
 
 # runtime dir
 idu="$(id -u)"
@@ -72,9 +86,6 @@ export R_LIBS_USER="${XDG_LIB_HOME}/R"
 export R_ENVIRON_USER="${XDG_CONFIG_HOME}/R/renviron"
 export R_PROFILE_USER="${XDG_CONFIG_HOME}/R/rprofile"
 export R_HISTFILE="${R_HOME_USER}/rhistory"
-
-# path
-export PATH="${XDG_BIN_HOME}:${PATH}"
 
 # manpath
 # if $MANPATH is set, manpath displays its value rather than determining it on the fly

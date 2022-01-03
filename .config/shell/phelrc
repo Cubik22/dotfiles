@@ -80,6 +80,9 @@ pdfunite inputs.pdf output.pdf
 terminfo
 stty
 
+## lib
+ldconfig -v
+
 ## kernel
 vkpurge list
 vkpurge rm <kernel>

@@ -65,7 +65,7 @@ fi
 ## zigup
 # master branch
 if [ "$1" = "all" ] || [ "$1" = "zigup" ]; then
-    zigup --install-dir "$XDG_LIB_HOME/zig" fetch master
+    zigup --install-dir "$XDG_LIB_HOME/zigup" fetch master
 fi
 
 ## go

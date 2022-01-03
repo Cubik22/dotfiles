@@ -616,7 +616,7 @@ ziget_install() {
 
     rm -rf zig-cache
 
-    zig-master build -Drelease-safe -Dfetch --prefix "$prefix_dir" install
+    zig build -Drelease-safe -Dfetch --prefix "$prefix_dir" install
 }
 
 ### zigup
@@ -655,7 +655,7 @@ zigup_install() {
 
     rm -rf zig-cache
 
-    zig-master build -Drelease-safe -Dfetch --prefix "$prefix_dir" install
+    zig build -Drelease-safe -Dfetch --prefix "$prefix_dir" install
 
     ## update with normal zig installed
     # set path-link to a directory that does not exist so it does not automatically link
@@ -697,8 +697,8 @@ zls_install() {
 
     # zig_version="$(xbps-query zig | grep pkgver | awk '{ print $1 }' | sed 's/zig-//g' | sed 's/_.//g')"
 
-    # zig-master build -Drelease-safe -Ddata_version="$zig_version" --prefix "$prefix_dir" install
-    zig-master build -Drelease-safe --prefix "$prefix_dir" install
+    # zig build -Drelease-safe -Ddata_version="$zig_version" --prefix "$prefix_dir" install
+    zig build -Drelease-safe --prefix "$prefix_dir" install
 }
 
 ### llvm
@@ -726,8 +726,12 @@ llvm_install() {
 
     git checkout release/13.x
 
-    llvm_install_prefix="$XDG_LIB_HOME/llvm13-release"
-    llvm_prefix_path="$XDG_LIB_HOME/llvm13-release"
+    llvm_install_prefix="/usr/lib"
+    llvm_install_prefix="/usr/lib"
+    # llvm_prefix_path="/usr/local/lib/llvm13-release"
+    # llvm_prefix_path="/usr/local/lib/llvm13-release"
+    # llvm_install_prefix="$XDG_LIB_HOME/llvm13-release"
+    # llvm_prefix_path="$XDG_LIB_HOME/llvm13-release"
 
     # LLVM
     cd llvm || return 1
@@ -738,7 +742,7 @@ llvm_install() {
         -DCMAKE_PREFIX_PATH="$llvm_prefix_path" \
         -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_LIBXML2=OFF \
         -G Ninja -DLLVM_PARALLEL_LINK_JOBS=1
-    ninja install
+    doas ninja install
     cd ../.. || return 1
 
     # LLD
@@ -751,7 +755,7 @@ llvm_install() {
         -DCMAKE_BUILD_TYPE=Release \
         -G Ninja -DLLVM_PARALLEL_LINK_JOBS=1 \
         -DCMAKE_CXX_STANDARD=17
-    ninja install
+    doas ninja install
     cd ../.. || return 1
 
     # clang
@@ -763,15 +767,15 @@ llvm_install() {
         -DCMAKE_PREFIX_PATH="$llvm_prefix_path" \
         -DCMAKE_BUILD_TYPE=Release \
         -G Ninja -DLLVM_PARALLEL_LINK_JOBS=1
-    ninja install
+    doas ninja install
     cd ../.. || return 1
 }
 
 ### zig
 zig_install() {
-    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
-        llvm_install
-    fi
+    # if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+    #     llvm_install
+    # fi
 
     echo "installing package: zig"
 
@@ -1094,4 +1098,3 @@ if [ "$1" = "all" ] || [ "$1" = "foot" ]; then
         foot_install "dep"
     fi
 fi
-
