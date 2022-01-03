@@ -36,6 +36,7 @@ mount (list mounted drives and devices)
 dd if=/dev/{zero,urandom} of=/dev/sda bs=4M status=progress
 cat <...>.iso | pv > /dev/sda
 udisksctl {un}mount -b <drive (from lsblk)>
+findmnt
 
 ## (de)compression
 aunpack (atool)
