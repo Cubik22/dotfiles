@@ -720,6 +720,7 @@ zls_install() {
 }
 
 ### llvm
+# https://github.com/ziglang/zig/wiki/How-to-build-LLVM,-libclang,-and-liblld-from-source#posix
 llvm_install() {
     echo "installing package: llvm"
 
@@ -790,6 +791,7 @@ llvm_install() {
 }
 
 ### zig
+# https://github.com/ziglang/zig/wiki/Building-Zig-From-Source
 zig_install() {
     if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
         llvm_install "dep"
