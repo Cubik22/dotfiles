@@ -19,62 +19,80 @@ zigup
 zls
 llvm
 zig
-fuzzel
-waybar
+wayland
+wlroots
 river
+waybar
+fuzzel
 epoll-shim
 foot
 EOF
 )
 
 print_info=$(cat << EOF
-just one parameter: package name
+SYNOPSIS
+        build-packages [OPTION]... PACKAGE_NAME
+
+DESCRIPTION
+        build packages from source
+
+        -d, --dependencies
+            build also dependencies (default)
+
+        -c, --no-dependencies
+            do not build dependencies
+            by default it also builds dependencies
+
+        -h, --help
+            print this info and exit
+
+PACKAGES AVAILABLE:
+
 all means all packages
-packages available:
 
 $package_names
 EOF
 )
 
-if [ "$#" -ge 1 ]; then
-    if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-    	echo "$print_info"
-    	return 0
-    fi
-fi
-
-end="false"
-
-if [ "$#" -ne 1 ]; then
-	echo "illegal number of parameters: $#"
-	end="true"
-fi
-
 if [ "$#" -lt 1 ]; then
-    echo "$print_info"
-    return 1
-fi
-
-found="false"
-while read -r param; do
-    if [ "$1" = "$param" ]; then
-        found="true"
-        break
-    fi
-done <<EOT
-$package_names
-EOT
-if [ "$found" = "false" ]; then
-    echo "wrong parameter: $1"
-    echo "package not available"
-	end="true"
-fi
-
-if [ "$end" = "true" ]; then
+    echo "error: no parameters"
     echo
 	echo "$print_info"
 	return 1
 fi
+
+dep=true
+
+for param in "$@"; do
+    if [ "$param" = "-h" ] || [ "$param" = "--help" ]; then
+    	echo "$print_info"
+    	return 0
+    elif [ "$param" = "-d" ] || [ "$param" = "--dependencies" ]; then
+        dep=true
+    elif [ "$param" = "-c" ] || [ "$param" = "--no-dependencies" ]; then
+        dep=false
+    else
+        found="false"
+        while read -r pack; do
+            if [ "$param" = "$pack" ]; then
+                found="true"
+                break
+            fi
+        done <<EOT
+$package_names
+EOT
+        if [ "$found" = "true" ]; then
+            package="$pack"
+            break
+        else
+            echo "wrong parameter: $1"
+            echo "package not available"
+            echo
+        	echo "$print_info"
+        	return 1
+        fi
+    fi
+done
 
 prefix_dir_global="/usr/local"
 
@@ -228,9 +246,9 @@ sundials_install() {
 # https://wiki.octave.org/Building
 octave_install() {
     if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
-        qrupdate_install
-        epstool_install
-        sundials_install
+        qrupdate_install "dep"
+        epstool_install "dep"
+        sundials_install "dep"
     fi
 
     echo "installing package: octave"
@@ -323,7 +341,7 @@ jna_install() {
 # https://github.com/BiglySoftware/BiglyBT
 biglybt_install() {
     if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
-        jna_install
+        jna_install "dep"
     fi
 
     echo "installing package: biglybt"
@@ -426,7 +444,7 @@ wxwidgets_install() {
 # https://wiki.amule.org/t/index.php?title=Requirements
 amule_install() {
     if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
-        wxwidgets_install
+        wxwidgets_install "dep"
     fi
 
     echo "installing package: amule"
@@ -622,7 +640,7 @@ ziget_install() {
 ### zigup
 zigup_install() {
     if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
-        ziget_install
+        ziget_install "dep"
     fi
 
     echo "installing package: zigup"
@@ -727,8 +745,8 @@ llvm_install() {
     git checkout release/13.x
 
     llvm_install_prefix="/usr/lib"
-    llvm_install_prefix="/usr/lib"
-    # llvm_prefix_path="/usr/local/lib/llvm13-release"
+    llvm_prefix_path="/usr/lib"
+    # llvm_install_prefix="/usr/local/lib/llvm13-release"
     # llvm_prefix_path="/usr/local/lib/llvm13-release"
     # llvm_install_prefix="$XDG_LIB_HOME/llvm13-release"
     # llvm_prefix_path="$XDG_LIB_HOME/llvm13-release"
@@ -773,9 +791,9 @@ llvm_install() {
 
 ### zig
 zig_install() {
-    # if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
-    #     llvm_install
-    # fi
+    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+        llvm_install "dep"
+    fi
 
     echo "installing package: zig"
 
@@ -803,6 +821,160 @@ zig_install() {
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$prefix_dir" ..
 
     make install
+}
+
+### wayland
+wayland_install() {
+    echo "installing package: wayland"
+
+    if [ ! -d "$dev/wayland" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+    	git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland.git "$dev/wayland"
+    	git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland-protocols.git "$dev/wayland-protocols"
+        git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland-utils.git "$dev/wayland-utils"
+    fi
+
+    cd "$dev/wayland" || return 1
+
+    if [ "$action" = "update" ]; then
+        rm -rf build
+        git pull --recurse-submodules
+    fi
+
+    meson build/ --prefix="$prefix_dir"
+    ninja -C build/ install
+
+    cd "$dev/wayland-protocols" || return 1
+
+    if [ "$action" = "update" ]; then
+        rm -rf build
+        git pull --recurse-submodules
+    fi
+
+    meson build/ --prefix="$prefix_dir"
+    ninja -C build/ install
+
+    cd "$dev/wayland-utils" || return 1
+
+    if [ "$action" = "update" ]; then
+        rm -rf build
+        git pull --recurse-submodules
+    fi
+
+    meson build/ --prefix="$prefix_dir"
+    ninja -C build/ install
+}
+
+### wlroots
+wlroots_install() {
+    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+        wayland_install "dep"
+    fi
+
+    echo "installing package: wlroots"
+
+    if [ ! -d "$dev/wlroots" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+    	git clone --recurse-submodules https://gitlab.freedesktop.org/wlroots/wlroots.git "$dev/wlroots"
+    fi
+
+    cd "$dev/wlroots" || return 1
+
+    if [ "$action" = "update" ]; then
+        rm -rf build
+        git pull --recurse-submodules
+    fi
+
+    mkdir build
+
+    meson \
+        -Dxcb-errors=disabled -Dxwayland=disabled -Dexamples=false \
+        -Drenderers="['vulkan']" -Dbackends="['drm', 'libinput']" \
+        build/ --prefix="$prefix_dir"
+    # ninja -C build/
+    ninja -C build/ install
+}
+
+### river
+river_install() {
+    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+        wlroots_install "dep"
+    fi
+
+    echo "installing package: river"
+
+    if [ ! -d "$dev/river" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+    	git clone --recurse-submodules https://github.com/riverwm/river.git "$dev/river"
+    fi
+
+    cd "$dev/river" || return 1
+
+    if [ "$action" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    rm -rf zig-cache
+
+    # -Dxwayland for xwayland support
+    zig build -Drelease-safe -Dman-pages --prefix "$prefix_dir" install
+    # zig build -Drelease-safe -Dman-pages -Dxwayland --prefix $prefix_dir install
+}
+
+### waybar
+waybar_install() {
+    echo "installing package: waybar"
+
+    if [ ! -d "$dev/waybar" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+    	git clone --recurse-submodules https://github.com/Alexays/Waybar.git "$dev/waybar"
+    fi
+
+    cd "$dev/waybar" || return 1
+
+    if [ "$action" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    # build options enabled/disabled
+
+    if [ "$action" = "install" ]; then
+        meson -Dprefix="$prefix_dir" \
+            -Dlibnl=enabled -Dlibudev=enabled -Dlibevdev=enabled \
+            -Dpulseaudio=enabled -Dsystemd=disabled -Ddbusmenu-gtk=disabled \
+            -Dman-pages=enabled -Dmpd=disabled -Dgtk-layer-shell=disabled \
+            -Drfkill=enabled -Dsndio=disabled -Dtests=disabled \
+            build
+    else
+        meson --reconfigure -Dprefix="$prefix_dir" \
+            -Dlibnl=enabled -Dlibudev=enabled -Dlibevdev=enabled \
+            -Dpulseaudio=enabled -Dsystemd=disabled -Ddbusmenu-gtk=disabled \
+            -Dman-pages=enabled -Dmpd=disabled -Dgtk-layer-shell=disabled \
+            -Drfkill=enabled -Dsndio=disabled -Dtests=disabled \
+            build
+    fi
+
+    ninja -C build install
 }
 
 ### fuzzel
@@ -840,64 +1012,6 @@ fuzzel_install() {
     ninja
 
     ninja install
-}
-
-### waybar
-waybar_install() {
-    echo "installing package: waybar"
-
-    if [ ! -d "$dev/waybar" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-    	git clone --recurse-submodules https://github.com/Alexays/Waybar.git "$dev/waybar"
-    fi
-
-    cd "$dev/waybar" || return 1
-
-    if [ "$action" = "update" ]; then
-        git pull --recurse-submodules
-    fi
-
-    # build options enabled/disabled
-
-    if [ "$action" = "install" ]; then
-        meson -Dprefix="$prefix_dir" -Dlibnl=enabled -Dlibudev=enabled -Dlibevdev=enabled -Dpulseaudio=enabled -Dsystemd=disabled -Ddbusmenu-gtk=disabled -Dman-pages=enabled -Dmpd=disabled -Dgtk-layer-shell=disabled -Drfkill=enabled -Dsndio=disabled -Dtests=disabled build
-    else
-        meson --reconfigure -Dprefix="$prefix_dir" -Dlibnl=enabled -Dlibudev=enabled -Dlibevdev=enabled -Dpulseaudio=enabled -Dsystemd=disabled -Ddbusmenu-gtk=disabled -Dman-pages=enabled -Dmpd=disabled -Dgtk-layer-shell=disabled -Drfkill=enabled -Dsndio=disabled -Dtests=disabled build
-    fi
-
-    ninja -C build install
-}
-
-### river
-river_install() {
-    echo "installing package: river"
-
-    if [ ! -d "$dev/river" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-    	git clone --recurse-submodules https://github.com/riverwm/river.git "$dev/river"
-    fi
-
-    cd "$dev/river" || return 1
-
-    if [ "$action" = "update" ]; then
-        git pull --recurse-submodules
-    fi
-
-    rm -rf zig-cache
-
-    # -Dxwayland for xwayland support
-    zig build -Drelease-safe -Dman-pages --prefix "$prefix_dir" install
-    # zig build -Drelease-safe -Dman-pages -Dxwayland --prefix $prefix_dir install
 }
 
 ### epoll-shim
@@ -940,7 +1054,7 @@ epoll_shim_install() {
 # https://codeberg.org/dnkl/foot/src/branch/master/INSTALL.md
 foot_install() {
     # if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
-    #     epoll_shim_install
+    #     epoll_shim_install "dep"
     # fi
 
     echo "installing package: foot"
@@ -1004,97 +1118,20 @@ foot_install() {
 
 #### install packages
 
-if [ "$1" = "all" ] || [ "$1" = "qrupdate" ]; then
-    qrupdate_install
-fi
-if [ "$1" = "all" ] || [ "$1" = "epstool" ]; then
-    epstool_install
-fi
-if [ "$1" = "all" ] || [ "$1" = "sundials" ]; then
-    sundials_install
-fi
-if [ "$1" = "all" ] || [ "$1" = "octave" ]; then
-    if  [ "$1" = "all" ]; then
-        octave_install
+# substitute '-' with '_'
+# posix shell does not support '-' inside function names
+package="$(echo "$package" | sed 's/-/_/g')"
+
+if [ "$package" = "all" ]; then
+    while read -r pack; do
+        eval "${pack}_install"
+    done <<EOT
+$package_names
+EOT
+else
+    if [ "$dep" = "false" ]; then
+        eval "${package}_install"
     else
-        octave_install "dep"
-    fi
-fi
-if [ "$1" = "all" ] || [ "$1" = "jna" ]; then
-    jna_install
-fi
-if [ "$1" = "all" ] || [ "$1" = "biglybt" ]; then
-    if  [ "$1" = "all" ]; then
-        biglybt_install
-    else
-        biglybt_install "dep"
-    fi
-fi
-if [ "$1" = "all" ] || [ "$1" = "wxwidgets" ]; then
-    wxwidgets_install
-fi
-if [ "$1" = "all" ] || [ "$1" = "amule" ]; then
-    if  [ "$1" = "all" ]; then
-        amule_install
-    else
-        amule_install "dep"
-    fi
-fi
-if [ "$1" = "all" ] || [ "$1" = "fontpreview" ]; then
-    fontpreview_install
-fi
-if [ "$1" = "all" ] || [ "$1" = "lsix" ]; then
-    lsix_install
-fi
-if [ "$1" = "all" ] || [ "$1" = "gn" ]; then
-    gn_install
-fi
-if [ "$1" = "all" ] || [ "$1" = "lua-language-server" ]; then
-    lua_language_server_install
-fi
-if [ "$1" = "all" ] || [ "$1" = "ziget" ]; then
-    ziget_install
-fi
-if [ "$1" = "all" ] || [ "$1" = "zigup" ]; then
-    if  [ "$1" = "all" ]; then
-        zigup_install
-    else
-        zigup_install "dep"
-    fi
-fi
-if [ "$1" = "all" ] || [ "$1" = "zls" ]; then
-    if  [ "$1" = "all" ]; then
-        zls_install
-    else
-        zls_install "dep"
-    fi
-fi
-if [ "$1" = "all" ] || [ "$1" = "llvm" ]; then
-    llvm_install
-fi
-if [ "$1" = "all" ] || [ "$1" = "zig" ]; then
-    if  [ "$1" = "all" ]; then
-        zig_install
-    else
-        zig_install "dep"
-    fi
-fi
-if [ "$1" = "all" ] || [ "$1" = "fuzzel" ]; then
-    fuzzel_install
-fi
-if [ "$1" = "all" ] || [ "$1" = "waybar" ]; then
-    waybar_install
-fi
-if [ "$1" = "all" ] || [ "$1" = "river" ]; then
-    river_install
-fi
-if [ "$1" = "epoll-shim" ]; then
-    epoll_shim_install
-fi
-if [ "$1" = "all" ] || [ "$1" = "foot" ]; then
-    if  [ "$1" = "all" ]; then
-        foot_install
-    else
-        foot_install "dep"
+        eval "${package}_install dep"
     fi
 fi
