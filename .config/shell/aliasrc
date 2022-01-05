@@ -90,10 +90,10 @@ alias imv="imv-wayland"
 alias firefox="firefox-wayland"
 
 # youtube-dl
-alias ydlv="youtube-dl --ignore-errors --retries=infinite --recode-video=ogg"
-alias ydla="youtube-dl --ignore-errors --retries=infinite --extract-audio --audio-format=opus"
-alias ydlvm="youtube-dl --ignore-errors --retries=infinite --recode-video=ogg --add-metadata --xattrs"
-alias ydlam="youtube-dl --ignore-errors --retries=infinite --extract-audio --audio-format=opus --add-metadata --xattrs"
+alias ydlv="youtube-dl --ignore-errors --retries=infinite"
+alias ydla="youtube-dl --ignore-errors --retries=infinite --extract-audio"
+alias ydlvm="youtube-dl --ignore-errors --retries=infinite --add-metadata --xattrs"
+alias ydlam="youtube-dl --ignore-errors --retries=infinite --extract-audio --add-metadata --xattrs"
 
 # fzf with preview
 alias fzfp="fzf --preview=\"$FZF_DEFAULT_PREVIEW\""
