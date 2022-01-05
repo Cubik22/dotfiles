@@ -22,8 +22,8 @@ url="$1"
 # -o "$full"
 # ffmpeg -i "$full" "${name}.opus"
 
-mkdir tmp
-cd tmp || return 1
+dir="$(mktemp -d audio-XXXXXX)"
+cd "$dir" || return 1
 
 youtube-dl \
 --ignore-errors \
@@ -44,4 +44,4 @@ fi
 
 mv "$name_opus" ../
 cd ..
-rm -r tmp
+rm -r "$dir"

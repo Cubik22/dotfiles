@@ -7,8 +7,8 @@ fi
 
 url="$1"
 
-mkdir tmp
-cd tmp || return 1
+dir="$(mktemp -d video-XXXXXX)"
+cd "$dir" || return 1
 
 youtube-dl \
 --ignore-errors \
@@ -28,4 +28,4 @@ fi
 
 mv "$name_ogg" ../
 cd ..
-rm -r tmp
+rm -r "$dir"
