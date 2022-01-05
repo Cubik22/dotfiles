@@ -870,6 +870,8 @@ wayland_install() {
 
     meson build/ --prefix="$prefix_dir"
     ninja -C build/ install
+
+    ldconfig -n "$XDG_LIB_HOME"
 }
 
 ### wlroots
@@ -899,12 +901,15 @@ wlroots_install() {
 
     mkdir build
 
+        # -Drenderers="['vulkan']" -Dbackends="['drm', 'libinput']" \
     meson \
         -Dxcb-errors=disabled -Dxwayland=disabled -Dexamples=false \
-        -Drenderers="['vulkan']" -Dbackends="['drm', 'libinput']" \
         build/ --prefix="$prefix_dir"
+
     # ninja -C build/
     ninja -C build/ install
+
+    ldconfig -n "$XDG_LIB_HOME"
 }
 
 ### river

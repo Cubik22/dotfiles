@@ -83,6 +83,7 @@ stty
 
 ## lib
 ldconfig -v
+ldconfig -n "$XDG_LIB_HOME"
 
 ## kernel
 vkpurge list
