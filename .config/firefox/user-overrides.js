@@ -140,6 +140,8 @@ user_pref("browser.warnOnQuitShortcut", false); // [FF94+]
 user_pref("full-screen-api.warning.delay", 0);
 user_pref("full-screen-api.warning.timeout", 0);
 
+user_pref("app.update.auto", false); // [NON-WINDOWS] disable auto app updates
+
 user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true); // [FF68+] allow userChrome/userContent
 
 // 0=no-preference, 1=reduce: with RFP this only affects chrome
