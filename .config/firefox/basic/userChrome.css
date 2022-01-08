@@ -11,7 +11,7 @@
 .titlebar-spacer[type="pre-tabs"],
 .titlebar-spacer[type="post-tabs"] {
     /* border: 0 !important; */
-    display: none;
+    display: none !important;
 }
 
 #TabsToolbar {

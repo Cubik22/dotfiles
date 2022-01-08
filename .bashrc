@@ -112,7 +112,7 @@ complete -F _complete_alias xr
 complete -F _complete_alias xq
 
 # root privileges
-# so the root can link and use this bashrc
+# so root user can link and use this bashrc
 # black: 30 red: 31 green: 32 yellow: 33 blue: 34 purple: 35 cyan: 36 white: 37
 if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
 	PS1="\[\e[1;31m\]\w\[\e[m\] "

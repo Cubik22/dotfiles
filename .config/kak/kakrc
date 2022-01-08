@@ -4,7 +4,7 @@
 
 # source config files
 evaluate-commands %sh{
-	plugins="plugins"
+    plugins="plugins"
 
     config_files="
         filetype/octave.kak
