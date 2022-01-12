@@ -92,7 +92,8 @@ vkpurge rm <kernel>
 ## font
 fc-list
 fc-cache -f -v
-ttx
+ttx <font-name>.<ttf,otf>
+ttx <font-name>.<ttx>
 
 ## util
 date cal
