@@ -18,6 +18,10 @@ show-keymap-hint no
 # number of lines above and below the selected item
 scrolloff 3
 
+# if set to a number greater than 0, all HTML will be rendered
+# to this maximum line length or the terminal width
+# text-width 80
+
 # default browser
 browser lynx
 # browser w3m
