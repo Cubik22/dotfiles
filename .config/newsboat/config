@@ -12,8 +12,15 @@ reload-time 120
 # number of tries of downloading a feed
 download-retries 4
 
+# for all feed items with no content but with a link
+# the link is downloaded and the result used as content instead
+download-full-page yes
+
 # do not show lower bar
 show-keymap-hint no
+
+# defines the maximum number of entries of commandline/search history to be saved
+history-limit 65536
 
 # number of lines above and below the selected item
 scrolloff 3
@@ -25,6 +32,9 @@ scrolloff 3
 # default browser
 browser lynx
 # browser w3m
+
+# set pager
+# pager kak-man
 
 ## key-bindings
 
