@@ -89,6 +89,11 @@ ldconfig -n "$XDG_LIB_HOME"
 vkpurge list
 vkpurge rm <kernel>
 
+## font
+fc-list
+fc-cache -f -v
+ttx
+
 ## util
 date cal
 uname

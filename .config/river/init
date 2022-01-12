@@ -45,7 +45,7 @@ mod="Mod4"
 
 ### Programs
 
-# Return footclient 
+# Return footclient
 riverctl map normal $mod+Control Return spawn "footclient"
 # Backspace footclient float
 riverctl map normal $mod+Control Backspace spawn "footclient --app-id=float"
