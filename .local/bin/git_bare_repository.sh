@@ -90,6 +90,10 @@ doas ln -s "$HOME"/.config/kak /root/.config/
 doas ln -s "$HOME"/.config/kak-lsp /root/.config/
 doas ln -s "$HOME"/.local/share/kak /root/.local/share/
 
+# link kak
+doas mkdir -p /root/.local/bin
+doas ln -s "$HOME"/.local/bin/kak* /root/.local/bin
+
 # R
 # make sure directories are created otherwise there may be problems
 mkdir -p "$HOME/.local/share/R"
