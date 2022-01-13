@@ -95,6 +95,10 @@ fc-cache -f -v
 ttx <font-name>.<ttf,otf>
 ttx <font-name>.<ttx>
 
+## log
+dmesg
+svlogd
+
 ## util
 date cal
 uname
