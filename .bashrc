@@ -47,7 +47,7 @@ export HISTFILESIZE=
 export HISTCONTROL="erasedups:ignoreboth"
 export HISTIGNORE="pwd:exit:clear"
 # export HISTIGNORE="cd:pwd:exit:q:c:e:ea:et::fe:clear:nnn:n3:xb*():curl"
-# export HISTFILE="$HOME"/.cache/bash/bash_history
+export HISTFILE="${XDG_DATA_HOME}/bash/bash_history"
 
 ## sync command history across sessions
 
