@@ -31,6 +31,23 @@ user_pref("network.dns.disableIPv6", false);
  * engine that respects privacy, then you probably don't need this ***/
 user_pref("keyword.enabled", true);
 
+/* 1211: enforce OCSP fetching to confirm current validity of certificates
+ * 0=disabled, 1=enabled (default), 2=enabled for EV certificates only
+ * OCSP (non-stapled) leaks information about the sites you visit to the CA (cert authority)
+ * It's a trade-off between security (checking) and privacy (leaking info to the CA)
+ * [NOTE] This pref only controls OCSP fetching and does not affect OCSP stapling
+ * [SETTING] Privacy & Security>Security>Certificates>Query OCSP responder servers...
+ * [1] https://en.wikipedia.org/wiki/Ocsp ***/
+// user_pref("security.OCSP.enabled", 0); // [DEFAULT: 1]
+/* 1212: set OCSP fetch failures (non-stapled, see 1211) to hard-fail [SETUP-WEB]
+ * When a CA cannot be reached to validate a cert, Firefox just continues the connection (=soft-fail)
+ * Setting this pref to true tells Firefox to instead terminate the connection (=hard-fail)
+ * It is pointless to soft-fail when an OCSP fetch fails: you cannot confirm a cert is still valid (it
+ * could have been revoked) and/or you could be under attack (e.g. malicious blocking of OCSP servers)
+ * [1] https://blog.mozilla.org/security/2013/07/29/ocsp-stapling-in-firefox/
+ * [2] https://www.imperialviolet.org/2014/04/19/revchecking.html ***/
+user_pref("security.OCSP.require", false);
+
 /* 1602: control the amount of cross-origin information to send [FF52+]
  * 0=send full URI (default), 1=scheme+host+port+path, 2=scheme+host+port ***/
 user_pref("network.http.referer.XOriginTrimmingPolicy", 1);

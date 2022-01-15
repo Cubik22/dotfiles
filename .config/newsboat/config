@@ -36,6 +36,13 @@ browser lynx
 # set pager
 # pager kak-man
 
+## macro
+
+macro y set browser "echo %u | wl-copy-env --trim-newline" ; open-in-browser ; set browser lynx
+macro f set browser "firefox --new-window %u" ; open-in-browser ; set browser lynx
+macro F set browser firefox ; open-in-browser ; set browser lynx
+macro w set browser w3m ; open-in-browser ; set browser lynx
+
 ## key-bindings
 
 bind-key j down
