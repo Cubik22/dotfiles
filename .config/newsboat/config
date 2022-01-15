@@ -47,51 +47,59 @@ macro w set browser w3m ; open-in-browser ; set browser lynx
 
 bind-key j down
 bind-key k up
-# bind-key j next articlelist
-# bind-key k prev articlelist
+bind-key j next articlelist
+bind-key k prev articlelist
 bind-key J next-feed articlelist
 bind-key K prev-feed articlelist
 bind-key l open
 bind-key h quit
+bind-key BACKSPACE quit
 bind-key G end
 bind-key g home
 bind-key ^D pagedown
 bind-key ^U pageup
 
-bind-key BACKSPACE quit
-
 bind-key u show-urls
 
 bind-key ^G goto-title
 
-bind-key ^V view-dialogs
-
-bind-key ^J next-dialog
-bind-key ^K prev-dialog
-
-bind-key ^N random-unread
-bind-key ^P random-unread
-
 bind-key t select-tag
 bind-key T set-tag
 
+bind-key ^V view-dialogs
+bind-key ^J next-dialog
+bind-key ^K prev-dialog
+
+bind-key ^N next-unread-feed
+bind-key ^P prev-unread-feed
+bind-key ^M random-unread
+
 bind-key o open-in-browser
-bind-key O open-in-browser-noninteractively
+bind-key O open-in-browser-and-mark-read
+bind-key ^O open-in-browser-noninteractively
 
 bind-key i open-all-unread-in-browser
 bind-key I open-all-unread-in-browser-and-mark-read
 
 bind-key a mark-feed-read
 bind-key A mark-all-feeds-read
+bind-key ^A mark-all-above-as-read
 
 bind-key c toggle-article-read
 bind-key C toggle-show-read-feeds
+bind-key ^C toggle-source-view
 
-bind-key s sort
-bind-key S rev-sort
+bind-key s save
+bind-key S save-all
 
-bind-key d pb-download
-bind-key D pb-delete
+bind-key z sort
+bind-key Z rev-sort
+
+bind-key d delete-article
+bind-key D delete-all-articles
+
+bind-key x pb-download
+bind-key X pb-delete
 
 ## colors
 
@@ -108,7 +116,7 @@ bind-key D pb-delete
 color listnormal        cyan default
 color listnormal_unread blue default bold
 color listfocus         yellow default
-color listfocus_unread  yellow default bold
+color listfocus_unread  magenta default bold
 color info              red default
 color article           default default
 color background        default default
