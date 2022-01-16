@@ -10,6 +10,32 @@ user_pref("_user.js.parrot", "overrides section syntax error");
  * [SETTING] General>Startup>Restore previous session ***/
 user_pref("browser.startup.page", 3);
 
+/* 0401: disable SB (Safe Browsing)
+ * [WARNING] Do this at your own risk! These are the master switches
+ * [SETTING] Privacy & Security>Security>... Block dangerous and deceptive content ***/
+user_pref("browser.safebrowsing.malware.enabled", false);
+user_pref("browser.safebrowsing.phishing.enabled", false);
+/* 0402: disable SB checks for downloads (both local lookups + remote)
+ * This is the master switch for the safebrowsing.downloads* prefs (0403, 0404)
+ * [SETTING] Privacy & Security>Security>... "Block dangerous downloads" ***/
+user_pref("browser.safebrowsing.downloads.enabled", false);
+/* 0403: disable SB checks for downloads (remote)
+ * To verify the safety of certain executable files, Firefox may submit some information about the
+ * file, including the name, origin, size and a cryptographic hash of the contents, to the Google
+ * Safe Browsing service which helps Firefox determine whether or not the file should be blocked
+ * [SETUP-SECURITY] If you do not understand this, or you want this protection, then override it ***/
+user_pref("browser.safebrowsing.downloads.remote.enabled", false);
+user_pref("browser.safebrowsing.downloads.remote.url", "");
+/* 0404: disable SB checks for unwanted software
+ * [SETTING] Privacy & Security>Security>... "Warn you about unwanted and uncommon software" ***/
+user_pref("browser.safebrowsing.downloads.remote.block_potentially_unwanted", false);
+user_pref("browser.safebrowsing.downloads.remote.block_uncommon", false);
+/* 0405: disable "ignore this warning" on SB warnings [FF45+]
+ * If clicked, it bypasses the block for that session. This is a means for admins to enforce SB
+ * [TEST] see github wiki APPENDIX A: Test Sites: Section 5
+ * [1] https://bugzilla.mozilla.org/1226490 ***/
+user_pref("browser.safebrowsing.allowOverride", false);
+
 /* 0701: disable IPv6
  * IPv6 can be abused, especially with MAC addresses, and can leak with VPNs: assuming
  * your ISP and/or router and/or website is IPv6 capable. Most sites will fall back to IPv4
