@@ -47,26 +47,24 @@ macro w set browser w3m ; open-in-browser ; set browser lynx
 
 bind-key j down
 bind-key k up
-bind-key j next articlelist
-bind-key k prev articlelist
-bind-key J next-feed articlelist
-bind-key K prev-feed articlelist
 bind-key l open
 bind-key h quit
 bind-key BACKSPACE quit
+bind-key J next-feed
+bind-key K prev-feed
+bind-key H next
+bind-key L prev
 bind-key G end
 bind-key g home
+
 bind-key ^D pagedown
 bind-key ^U pageup
-
-bind-key u show-urls
-
 bind-key ^G goto-title
+bind-key u show-urls
 
 bind-key t select-tag
 bind-key T set-tag
 
-bind-key ^V view-dialogs
 bind-key ^J next-dialog
 bind-key ^K prev-dialog
 
