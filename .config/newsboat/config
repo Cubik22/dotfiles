@@ -23,7 +23,7 @@ show-keymap-hint no
 history-limit 65536
 
 # number of lines above and below the selected item
-scrolloff 3
+scrolloff 8
 
 # if set to a number greater than 0, all HTML will be rendered
 # to this maximum line length or the terminal width
@@ -39,7 +39,7 @@ browser lynx
 ## macro
 
 macro y set browser "echo %u | wl-copy-env --trim-newline" ; open-in-browser ; set browser lynx
-macro f set browser "firefox --new-window %u" ; open-in-browser ; set browser lynx
+macro f set browser "firefox --private-window %u" ; open-in-browser ; set browser lynx
 macro F set browser firefox ; open-in-browser ; set browser lynx
 macro w set browser w3m ; open-in-browser ; set browser lynx
 
@@ -50,12 +50,13 @@ bind-key k up
 bind-key l open
 bind-key h quit
 bind-key BACKSPACE quit
-bind-key J next-feed
-bind-key K prev-feed
 bind-key H next
 bind-key L prev
 bind-key G end
 bind-key g home
+
+bind-key J next-feed
+bind-key K prev-feed
 
 bind-key ^D pagedown
 bind-key ^U pageup
