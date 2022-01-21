@@ -32,7 +32,6 @@ zathura() {
 # cd if directory
 # open with kak if file
 # supposed to be used just with aliases
-
 kak-smart() {
     # first parameter check if running as root
     if [ "$#" -le 0 ]; then
