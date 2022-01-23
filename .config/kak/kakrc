@@ -4,21 +4,27 @@
 
 # source config files
 evaluate-commands %sh{
+    filetype="filetype"
     plugins="plugins"
+    scripts="scripts"
 
-    config_files="
-        filetype/octave.kak
-        $plugins/foot.kak/rc/foot.kak
-        $plugins/kak-ansi/rc/ansi.kak
-        $plugins/kakoune-vertical-selection/vertical-selection.kak
-        $plugins/kak-crosshairs/crosshairs.kak
-        $plugins/kakoune-text-objects/text-objects.kak
-        $plugins/kakoune-palette/palette.kak
-        $plugins/kakoune-state-save/state-save.kak
-        $plugins/kakoune-shellcheck/shellcheck.kak
-        $plugins/tiny.kak/rc/tiny.kak
-        $plugins/auto-pairs.kak/rc/auto-pairs.kak
-        $plugins/surround.kak/rc/surround.kak
+    filetype_files="
+        octave.kak
+	"
+	plugins_files="
+        foot.kak/rc/foot.kak
+        kak-ansi/rc/ansi.kak
+        kakoune-vertical-selection/vertical-selection.kak
+        kak-crosshairs/crosshairs.kak
+        kakoune-text-objects/text-objects.kak
+        kakoune-palette/palette.kak
+        kakoune-state-save/state-save.kak
+        kakoune-shellcheck/shellcheck.kak
+        tiny.kak/rc/tiny.kak
+        auto-pairs.kak/rc/auto-pairs.kak
+        surround.kak/rc/surround.kak
+	"
+	scripts_files="
         indentation.kak
         wayland.kak
         git-commit-overflow.kak
@@ -28,16 +34,23 @@ evaluate-commands %sh{
         modeline.kak
         doas-write.kak
         languages.kak
-	"
+    "
 
-    for file in $config_files; do
-         printf "%s" "
-             try %{
-                 source %{${kak_config:?}/$file}
-             } catch %{
-                 echo -debug %val{error}
-             }
-         "
-    done
+	source_files() {
+        prefix="$1"
+        files="$2"
+        for file in $files; do
+             printf "%s" "
+                 try %{
+                     source %{${kak_config:?}/$prefix/$file}
+                 } catch %{
+                     echo -debug %val{error}
+                 }
+             "
+        done
+	}
+
+	source_files "$filetype" "$filetype_files"
+	source_files "$plugins" "$plugins_files"
+	source_files "$scripts" "$scripts_files"
 }
-
