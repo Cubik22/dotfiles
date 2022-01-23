@@ -10,14 +10,15 @@ iwctl station wlan0 show/scan/get-networks/(dis)connect
 ## bluez
 blueon blueoff bluescan
 bluetoothctl default-agent/power on/scan on/trust <device>/connect <device>
-when connecting mouse: riverctl-set-input mouse
+# when connecting mouse
+riverctl-set-input mouse
 
 ## audio
 amixer/alsamixer (alsa)
 pactl (pipewire)
 ffmpeg -i {file.ext} {file.ogg}
 youtube-dl --ignore-errors --retries=infinite
-    {--recode-video=ogg, --extract-audio --audio-format=opus}
+    {--recode-video=ogg, --extract-audio {--audio-format=opus}}
     {{--embed-thumbnail} --add-metadata --xattrs}
     "<url>" -o "<name>.%(ext)s"
 ydlv
@@ -29,7 +30,7 @@ ydlam
 ln -s /etc/sv/<service> /var/service/
 ln -s /etc/sv/<service> /etc/runit/runsvdir/default/
 touch /etc/sv/<service>/down
-servstat (info services)
+sv status /var/service/*
 
 ## drives and devices
 mount (list mounted drives and devices)
@@ -52,13 +53,13 @@ build-packages all
 git clone --recurse-submodules
 git pull --recurse-submodules
 git diff {--cached}
-git rm {--cached} -r
+git rm -r {--cached}
 git remote show origin
 git config --get remote.origin.url
 
 ## permission
 stat
-view the existing permissions of a file or directory in numeric form
+# view the existing permissions of a file or directory in numeric form
 stat -c %a "<name>"
 default dir: 755
 default file: 644
