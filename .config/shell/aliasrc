@@ -75,6 +75,9 @@ alias grep="grep --color=auto"
 # alias psmem='ps auxf | sort -nr -k 4'
 # alias pscpu='ps auxf | sort -nr -k 3'
 
+# replace tabs with 4 spaces
+alias tab-rep="sed -i 's/\t/    /g'"
+
 # verify signature
 alias gpg-check="gpg --keyserver-options auto-key-retrieve --verify"
 # receive signature
