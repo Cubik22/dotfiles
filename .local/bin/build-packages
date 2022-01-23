@@ -1,8 +1,11 @@
 #!/bin/sh
 
+# build packages from source
+
+# add important packages to git_bare_repository.sh
+
 package_names=$(cat << EOF
 all
-htop
 qrupdate
 epstool
 sundials
@@ -25,6 +28,7 @@ wlroots
 river
 waybar
 fuzzel
+htop
 epoll-shim
 foot
 EOF
@@ -102,75 +106,6 @@ prefix_dir="$HOME/.local"
 dev="$HOME/dev/package"
 
 mkdir -p "$dev"
-
-# https://github.com/htop-dev/htop
-# https://aur.archlinux.org/packages/htop-vim
-htop_install() {
-    echo "installing package: htop"
-
-    if [ ! -d "$dev/htop" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://aur.archlinux.org/htop-vim.git "$dev/htop-vim"
-    fi
-
-    doas rm -rf "$dev/htop"
-    git clone --recurse-submodules https://github.com/htop-dev/htop.git "$dev/htop"
-
-    cd  "$dev/htop-vim" || return 1
-
-    if [ "$action" = "update" ]; then
-        git pull --recurse-submodules
-    fi
-
-    cd "$dev/htop" || return 1
-
-    patch --forward --strip=1 --input="$dev/htop-vim/vim-keybindings.patch"
-
-cat << EOF > screen.patch
-    18a19
-    > #include "MainPanel.h"
-EOF
-
-    patch ScreenManager.c screen.patch
-
-    ./autogen.sh || return 1
-
-    # https://www.gnu.org/software/gettext/manual/html_node/config_002eguess.html
-    wget -O config.guess 'https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
-    chmod a+x config.guess
-
-    build_type="$(./config.guess)"
-
-    # program_transform_name="htop-vi"
-
-    # program_prefix="htop"
-    # program_suffix="vi"
-
-        # CFLAGS="-fcommon" \
-        # --prefix=/usr \
-        # --sysconfdir=/etc \
-        # --enable-pcp \
-        # --program-transform-name="$program_transform_name" \
-        # --program-prefix="$program_prefix" \
-        # --program-suffix="$program_suffix" \
-    ./configure \
-        --build="$build_type" \
-        --host="$build_type" \
-        --target="$build_type" \
-        --program-transform-name="" \
-        --enable-openvz \
-        --enable-vserver \
-        || return 1
-
-    make -j8 || return 1
-
-    doas make -j8 install
-}
 
 ### qrupdate
 # https://sourceforge.net/projects/qrupdate
@@ -1089,6 +1024,75 @@ fuzzel_install() {
     ninja
 
     ninja install
+}
+
+# https://github.com/htop-dev/htop
+# https://aur.archlinux.org/packages/htop-vim
+htop_install() {
+    echo "installing package: htop"
+
+    if [ ! -d "$dev/htop" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://aur.archlinux.org/htop-vim.git "$dev/htop-vim"
+    fi
+
+    doas rm -rf "$dev/htop"
+    git clone --recurse-submodules https://github.com/htop-dev/htop.git "$dev/htop"
+
+    cd  "$dev/htop-vim" || return 1
+
+    if [ "$action" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    cd "$dev/htop" || return 1
+
+    patch --forward --strip=1 --input="$dev/htop-vim/vim-keybindings.patch"
+
+cat << EOF > screen.patch
+    18a19
+    > #include "MainPanel.h"
+EOF
+
+    patch ScreenManager.c screen.patch
+
+    ./autogen.sh || return 1
+
+    # https://www.gnu.org/software/gettext/manual/html_node/config_002eguess.html
+    wget -O config.guess 'https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+    chmod a+x config.guess
+
+    build_type="$(./config.guess)"
+
+    # program_transform_name="htop-vi"
+
+    # program_prefix="htop"
+    # program_suffix="vi"
+
+        # CFLAGS="-fcommon" \
+        # --prefix=/usr \
+        # --sysconfdir=/etc \
+        # --enable-pcp \
+        # --program-transform-name="$program_transform_name" \
+        # --program-prefix="$program_prefix" \
+        # --program-suffix="$program_suffix" \
+    ./configure \
+        --build="$build_type" \
+        --host="$build_type" \
+        --target="$build_type" \
+        --program-transform-name="" \
+        --enable-openvz \
+        --enable-vserver \
+        || return 1
+
+    make -j8 || return 1
+
+    doas make -j8 install
 }
 
 ### epoll-shim

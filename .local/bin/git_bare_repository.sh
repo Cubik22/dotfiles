@@ -226,6 +226,7 @@ kak-plugins-update
 
 # clone, build and install packages
 build-packages foot
+build-packages htop
 build-packages river
 build-packages waybar
 build-packages fuzzel
