@@ -1163,34 +1163,34 @@ foot_install() {
     # -Ddefault-terminfo=alacritty
 
     export CFLAGS="$CFLAGS -O3"
-	meson --buildtype=release -Dthemes=true --prefix="$prefix_dir_global" -Dterminfo=enabled -Db_lto=true ../..
-	# meson --buildtype=release -Dthemes=true --prefix="$prefix_dir_global" -Dterminfo=enabled -Ddefault-terminfo=xterm-256color -Db_lto=true ../..
-	meson configure -Db_pgo=generate
-	ninja
-	ninja test
+    meson --buildtype=release -Dthemes=true --prefix="$prefix_dir_global" -Dterminfo=enabled -Db_lto=true ../..
+    # meson --buildtype=release -Dthemes=true --prefix="$prefix_dir_global" -Dterminfo=enabled -Ddefault-terminfo=xterm-256color -Db_lto=true ../..
+    meson configure -Db_pgo=generate
+    ninja
+    ninja test
 
-	# --term=xterm
-	# --term=xterm-256color
-	# --term=alacritty
+    # --term=xterm
+    # --term=xterm-256color
+    # --term=alacritty
 
-	./footclient --version
-	foot_tmp_file=$(mktemp)
-	./foot \
-		--config=/dev/null \
-		--override tweak.grapheme-shaping=no \
-		--term=xterm \
-		sh -c "$dev/foot/scripts/generate-alt-random-writes.py --scroll --scroll-region --colors-regular --colors-bright --colors-256 --colors-rgb --attr-bold --attr-italic --attr-underline --sixel ${foot_tmp_file} && cat ${foot_tmp_file}"
-	rm "${foot_tmp_file}"
+    ./footclient --version
+    foot_tmp_file=$(mktemp)
+    ./foot \
+        --config=/dev/null \
+        --override tweak.grapheme-shaping=no \
+        --term=xterm \
+        sh -c "$dev/foot/scripts/generate-alt-random-writes.py --scroll --scroll-region --colors-regular --colors-bright --colors-256 --colors-rgb --attr-bold --attr-italic --attr-underline --sixel ${foot_tmp_file} && cat ${foot_tmp_file}"
+    rm "${foot_tmp_file}"
 
-	meson configure -Db_pgo=use
-	ninja
-	ninja test
-	doas ninja install
+    meson configure -Db_pgo=use
+    ninja
+    ninja test
+    doas ninja install
 
     cd "$dev/foot" || return 1
 
-	# terminfo
-	doas sed 's/@default_terminfo@/foot/g' foot.info | doas tic -x -e foot,foot-direct -
+    # terminfo
+    doas sed 's/@default_terminfo@/foot/g' foot.info | doas tic -x -e foot,foot-direct -
 }
 
 #### install packages
