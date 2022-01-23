@@ -137,10 +137,12 @@ alias gpl="git pull"
 alias ucs="ucon status"
 alias uca="ucon add"
 alias ucm="ucon commit"
+alias ucd="ucon diff"
 alias ucp="ucon push"
 alias rcs="rcon status"
 alias rca="rcon add"
 alias rcm="rcon commit"
+alias rcd="ucon diff"
 alias rcp="rcon push"
 
 # void mirrors in order to quickly change when one is slow (-R flag)

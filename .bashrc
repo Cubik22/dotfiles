@@ -81,30 +81,8 @@ complete -F _sudo d
 # has to be loaded here or in /etc/bash/bashrc.d/bash_completion.sh
 _completion_loader git
 
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main gst
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main gad
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main gbr
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main gcm
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main gdf
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main gfe
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main glg
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main gco
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main gps
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main grb
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main gsa
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main gpl
-
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main ucon
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rcon
-
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main ucs
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main uca
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main ucm
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main ucp
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rcs
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rca
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rcm
-# complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rcp
 
 # autocomplete xbps
 complete -F _complete_alias xi
@@ -115,19 +93,19 @@ complete -F _complete_alias xq
 # so root user can link and use this bashrc
 # black: 30 red: 31 green: 32 yellow: 33 blue: 34 purple: 35 cyan: 36 white: 37
 if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
-	PS1="\[\e[1;31m\]\w\[\e[m\] "
-	# PS1="\[\e[1;31m\]\w\[\e[m\]\[\e[1;34m\]#\[\e[m\] "
-	# PS1="\[\e[1;31m\]\w\[\e[m\] \[\e[1;32m\]>\[\e[m\]\[\e[1;33m\]>\[\e[m\]\[\e[1;36m\]>\[\e[m\] "
-	# PS1='\[\e[1;31m\][\u@\h \W]\$\[\e[m\] '
+    PS1="\[\e[1;31m\]\w\[\e[m\] "
+    # PS1="\[\e[1;31m\]\w\[\e[m\]\[\e[1;34m\]#\[\e[m\] "
+    # PS1="\[\e[1;31m\]\w\[\e[m\] \[\e[1;32m\]>\[\e[m\]\[\e[1;33m\]>\[\e[m\]\[\e[1;36m\]>\[\e[m\] "
+    # PS1='\[\e[1;31m\][\u@\h \W]\$\[\e[m\] '
 
-	# PS2=""
+    # PS2=""
 else
-	PS1="\[\e[1;32m\]\w\[\e[m\] "
-	# PS1="\[\e[1;32m\]\w\[\e[m\]\[\e[1;34m\]$\[\e[m\] "
-	# PS1="\[\e[1;32m\]\w\[\e[m\] \[\e[1;31m\]>\[\e[m\]\[\e[1;33m\]>\[\e[m\]\[\e[1;36m\]>\[\e[m\] "
-	# PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[m\] '
+    PS1="\[\e[1;32m\]\w\[\e[m\] "
+    # PS1="\[\e[1;32m\]\w\[\e[m\]\[\e[1;34m\]$\[\e[m\] "
+    # PS1="\[\e[1;32m\]\w\[\e[m\] \[\e[1;31m\]>\[\e[m\]\[\e[1;33m\]>\[\e[m\]\[\e[1;36m\]>\[\e[m\] "
+    # PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[m\] '
 
-	# PS2=""
+    # PS2=""
 fi
 
 ### initalize zoxide
