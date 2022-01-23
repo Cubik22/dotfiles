@@ -36,7 +36,7 @@ SOCK 1;38;211                 	# socket
 DOOR 01;35                      # door
 BLK 40;33;01                    # block device driver
 CHR 40;33;01                    # character device driver
-ORPHAN 40;31;01                 # symlink to nonexistent file, or non-stat'able file
+ORPHAN 40;91;01                 # symlink to nonexistent file, or non-stat'able file
 SETUID 37;41                    # file that is setuid (u+s)
 SETGID 30;43                    # file that is setgid (g+s)
 CAPABILITY 30;41                # file with capability
@@ -98,7 +98,7 @@ EXEC  1;30;32
 .pod 01;36
 .tex 01;36
 .lua 01;36
-.tex 01;91
+.tex 01;36
 .r 01;36
 .m 01;36
 .kak 01;36

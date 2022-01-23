@@ -1,85 +1,128 @@
 #!/bin/sh
 
-package_names=$(cat << EOF
+# update programs aside from distro package manager
+
+program_names=$(cat << EOF
 all
 rustup
 cargo
 zigup
 go
+luarocks
+pip
 npm
 R
 EOF
 )
 
 print_info=$(cat << EOF
-only parameter package name:
-$package_names
+SYNOPSIS
+        update-extra [OPTION]... PROGRAM_NAME
+
+DESCRIPTION
+        update programs aside from distro package manager
+
+        -d, --dependencies
+            update also dependencies (default)
+
+        -c, --no-dependencies
+            do not update dependencies
+            by default it also update dependencies
+
+        -h, --help
+            print this info and exit
+
+PROGRAMS AVAILABLE:
+
+all means all programs
+
+$program_names
 EOF
 )
 
-end="false"
-
-if [ "$#" -ne 1 ]; then
-	echo "illegal number of parameters: $#"
-	end="true"
-fi
-
 if [ "$#" -lt 1 ]; then
+    echo "error: no parameters"
+    echo
     echo "$print_info"
     return 1
 fi
 
-found="false"
-while read -r param; do
-    if [ "$1" = "$param" ]; then
-        found="true"
-        break
-    fi
-done <<EOT
-$package_names
+dep=true
+
+for param in "$@"; do
+    if [ "$param" = "-h" ] || [ "$param" = "--help" ]; then
+        echo "$print_info"
+        return 0
+    elif [ "$param" = "-d" ] || [ "$param" = "--dependencies" ]; then
+        dep=true
+    elif [ "$param" = "-c" ] || [ "$param" = "--no-dependencies" ]; then
+        dep=false
+    else
+        found="false"
+        while read -r pack; do
+            if [ "$param" = "$pack" ]; then
+                found="true"
+                break
+            fi
+        done <<EOT
+$program_names
 EOT
-if [ "$found" = "false" ]; then
-    echo "wrong parameter: $1"
-    echo "package not available"
-	end="true"
-fi
+        if [ "$found" = "true" ]; then
+            program="$pack"
+            break
+        else
+            echo "wrong parameter: $1"
+            echo "program not available"
+            echo
+            echo "$print_info"
+            return 1
+        fi
+    fi
+done
 
-if [ "$end" = "true" ]; then
-	echo "$print_info"
-	return 1
-fi
-
-echo "installing package: $1"
+#### update functions
 
 ## rustup
 # stable toolchain
-if [ "$1" = "all" ] || [ "$1" = "rustup" ]; then
+rustup_update() {
     doas rustup update
-fi
+}
 
 ## cargo
-if [ "$1" = "all" ] || [ "$1" = "cargo" ]; then
+cargo_update() {
     doas cargo install-update --all
-fi
+}
 
 ## zigup
 # master branch
-if [ "$1" = "all" ] || [ "$1" = "zigup" ]; then
+zigup_update() {
     zigup --install-dir "$XDG_LIB_HOME/zigup" fetch master
-fi
+}
 
 ## go
-if [ "$1" = "all" ] || [ "$1" = "go" ]; then
+go_update() {
     doas go install golang.org/x/tools/gopls@latest
-fi
+}
+
+## luarocks
+luarocks_update() {
+    doas luarocks list --outdated
+    echo "doas luarocks install {package}"
+}
+
+## pip
+pip_update() {
+    doas luarocks list --outdated
+    echo "doas pip install {package}"
+}
 
 ## npm
-if [ "$1" = "all" ] || [ "$1" = "npm" ]; then
+npm_update() {
     doas npm -g update
-fi
+}
 
 ## R
-if [ "$1" = "all" ] || [ "$1" = "R" ]; then
+R_update() {
     rupdate=$(cat << EOF
 # set CRAN mirror
 local({
@@ -93,4 +136,24 @@ update.packages()
 EOF
 )
     Rscript -e "$rupdate"
+}
+
+#### update program
+
+# substitute '-' with '_'
+# posix shell does not support '-' inside function names
+program="$(echo "$program" | sed 's/-/_/g')"
+
+if [ "$program" = "all" ]; then
+    while read -r pack; do
+        eval "${pack}_update"
+    done <<EOT
+$program_names
+EOT
+else
+    if [ "$dep" = "false" ]; then
+        eval "${program}_update"
+    else
+        eval "${program}_update dep"
+    fi
 fi

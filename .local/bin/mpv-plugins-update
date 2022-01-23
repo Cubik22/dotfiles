@@ -1,0 +1,80 @@
+#!/bin/sh
+
+config_dir="$XDG_CONFIG_HOME/mpv"
+plugins_dir="$config_dir/plugins"
+scripts_dir="$config_dir/scripts"
+opts_dir="$config_dir/script-opts"
+
+[ ! -d "$config_dir" ]  && mkdir -p "$config_dir"
+[ ! -d "$plugins_dir" ] && mkdir -p "$plugins_dir"
+[ ! -d "$scripts_dir" ]  && mkdir -p "$scripts_dir"
+[ ! -d "$opts_dir" ]    && mkdir -p "$opts_dir"
+
+# clone mpv plugins if not already installed
+# update them if already cloned
+clone_pull() {
+    plugins_full=$(cat << EOF
+https://github.com/mpv-player/mpv.git mpv
+https://github.com/zsugabubus/mpv-fastforward.git fast-forward
+https://github.com/CogentRedTester/mpv-file-browser.git file-browser
+https://github.com/oltodosel/mpv-scripts.git oltodosel
+https://github.com/vflorelle/mpv-scripts.git speed
+https://github.com/marzzzello/mpv_thumbnail_script.git thumbnail
+https://github.com/ekisu/mpv-webm.git webm
+https://github.com/jgreco/mpv-youtube-quality.git youtube-quality
+https://github.com/zc62/mpv-scripts.git zc62
+EOF
+    )
+
+    if [ ! -d "$plugins_dir" ]; then
+        mkdir -p "$plugins_dir"
+    fi
+
+    while read -r plugin_full; do
+        plugin_name=$(echo "$plugin_full" | rev | cut -d " " -f 1 | rev)
+        plugin_url=$(echo "$plugin_full" | cut -d " " -f 1)
+        if [ ! -d "$plugins_dir/$plugin_name" ]; then
+            git clone --recurse-submodules "$plugin_url" "$plugins_dir/$plugin_name"
+        else
+            echo "updating: $plugin_name"
+            git -C "$plugins_dir/$plugin_name" pull
+        fi
+    done <<EOT
+$plugins_full
+EOT
+}
+
+# build/generate files
+build() {
+    cd "$plugins_dir/speed" || return 1
+    sed -i 's/ctrl+s/ctrl+t/g' speed.lua
+
+    cd "$plugins_dir/thumbnail" || return 1
+    python concat_files.py cat_osc.json
+    python concat_files.py cat_server.json
+
+    cd "$plugins_dir/webm" || return 1
+    make
+}
+
+# link files to scripts and script-opts
+link() {
+    ln -sf "$plugins_dir/mpv/TOOLS/lua/autoload.lua" "$scripts_dir/autoload.lua"
+    ln -sf "$plugins_dir/zc62/autoloop.lua" "$scripts_dir/autoloop.lua"
+    ln -sf "$plugins_dir/fast-forward/main.lua" "$scripts_dir/fast-forward.lua"
+    ln -sf "$plugins_dir/file-browser/file-browser.lua" "$scripts_dir/file-browser.lua"
+    ln -sf "$plugins_dir/thumbnail/mpv_thumbnail_script_client_osc.lua" "$scripts_dir/thumbnail-client.lua"
+    ln -sf "$plugins_dir/thumbnail/mpv_thumbnail_script_server.lua" "$scripts_dir/thumbnail-server.lua"
+    ln -sf "$plugins_dir/speed/speed.lua" "$scripts_dir/speed.lua"
+    ln -sf "$plugins_dir/oltodosel/total_playtime.lua" "$scripts_dir/total-playtime.lua"
+    ln -sf "$plugins_dir/webm/build/webm.lua" "$scripts_dir/webm.lua"
+    ln -sf "$plugins_dir/youtube-quality/youtube-quality.lua" "$scripts_dir/youtube-quality.lua"
+
+    ln -sf "$plugins_dir/file-browser/file_browser.conf" "$opts_dir/file-browser.conf"
+    ln -sf "$plugins_dir/file-browser/file-browser-keybinds.json" "$opts_dir/file-browser-keybinds.json"
+    ln -sf "$plugins_dir/youtube-quality/youtube-quality.conf" "$opts_dir/youtube-quality.conf"
+}
+
+clone_pull
+build
+link

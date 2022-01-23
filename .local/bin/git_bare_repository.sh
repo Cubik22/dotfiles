@@ -157,6 +157,9 @@ config update-index --assume-unchanged "$HOME"/README.md
 # surfraw
 # doas cp surfraw-bash-completion.IN /usr/share/bash-completion/completions/surfraw
 
+# moonscript
+doas luarocks install moonscript
+
 ### languge servers
 
 # check for outdated, incorrect, and unused dependencies

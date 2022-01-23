@@ -62,16 +62,16 @@ EOF
 if [ "$#" -lt 1 ]; then
     echo "error: no parameters"
     echo
-	echo "$print_info"
-	return 1
+    echo "$print_info"
+    return 1
 fi
 
 dep=true
 
 for param in "$@"; do
     if [ "$param" = "-h" ] || [ "$param" = "--help" ]; then
-    	echo "$print_info"
-    	return 0
+        echo "$print_info"
+        return 0
     elif [ "$param" = "-d" ] || [ "$param" = "--dependencies" ]; then
         dep=true
     elif [ "$param" = "-c" ] || [ "$param" = "--no-dependencies" ]; then
@@ -93,8 +93,8 @@ EOT
             echo "wrong parameter: $1"
             echo "package not available"
             echo
-        	echo "$print_info"
-        	return 1
+            echo "$print_info"
+            return 1
         fi
     fi
 done
@@ -628,7 +628,7 @@ ziget_install() {
     fi
 
     if [ "$action" = "install" ]; then
-    	git clone --recurse-submodules https://github.com/marler8997/ziget.git "$dev/ziget"
+        git clone --recurse-submodules https://github.com/marler8997/ziget.git "$dev/ziget"
     fi
 
     cd "$dev/ziget" || return 1
@@ -657,7 +657,7 @@ zigup_install() {
     fi
 
     if [ "$action" = "install" ]; then
-    	git clone --recurse-submodules https://github.com/marler8997/zigup.git "$dev/zigup"
+        git clone --recurse-submodules https://github.com/marler8997/zigup.git "$dev/zigup"
     fi
 
     cd "$dev/zigup" || return 1
@@ -707,7 +707,7 @@ zls_install() {
     fi
 
     if [ "$action" = "install" ]; then
-    	git clone --recurse-submodules https://github.com/zigtools/zls.git "$dev/zls"
+        git clone --recurse-submodules https://github.com/zigtools/zls.git "$dev/zls"
     fi
 
     cd "$dev/zls" || return 1
@@ -811,7 +811,7 @@ zig_install() {
     fi
 
     if [ "$action" = "install" ]; then
-    	git clone --recurse-submodules https://github.com/ziglang/zig.git "$dev/zig"
+        git clone --recurse-submodules https://github.com/ziglang/zig.git "$dev/zig"
     fi
 
     cd "$dev/zig" || return 1
@@ -841,8 +841,8 @@ wayland_install() {
     fi
 
     if [ "$action" = "install" ]; then
-    	git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland.git "$dev/wayland"
-    	git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland-protocols.git "$dev/wayland-protocols"
+        git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland.git "$dev/wayland"
+        git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland-protocols.git "$dev/wayland-protocols"
         git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland-utils.git "$dev/wayland-utils"
     fi
 
@@ -894,7 +894,7 @@ wlroots_install() {
     fi
 
     if [ "$action" = "install" ]; then
-    	git clone --recurse-submodules https://gitlab.freedesktop.org/wlroots/wlroots.git "$dev/wlroots"
+        git clone --recurse-submodules https://gitlab.freedesktop.org/wlroots/wlroots.git "$dev/wlroots"
     fi
 
     cd "$dev/wlroots" || return 1
@@ -932,7 +932,7 @@ river_install() {
     fi
 
     if [ "$action" = "install" ]; then
-    	git clone --recurse-submodules https://github.com/riverwm/river.git "$dev/river"
+        git clone --recurse-submodules https://github.com/riverwm/river.git "$dev/river"
     fi
 
     cd "$dev/river" || return 1
@@ -959,7 +959,7 @@ waybar_install() {
     fi
 
     if [ "$action" = "install" ]; then
-    	git clone --recurse-submodules https://github.com/Alexays/Waybar.git "$dev/waybar"
+        git clone --recurse-submodules https://github.com/Alexays/Waybar.git "$dev/waybar"
     fi
 
     cd "$dev/waybar" || return 1
@@ -1001,7 +1001,7 @@ fuzzel_install() {
     fi
 
     if [ "$action" = "install" ]; then
-    	git clone --recurse-submodules https://codeberg.org/dnkl/fuzzel.git "$dev/fuzzel"
+        git clone --recurse-submodules https://codeberg.org/dnkl/fuzzel.git "$dev/fuzzel"
     fi
 
     cd "$dev/fuzzel" || return 1
@@ -1108,7 +1108,7 @@ epoll_shim_install() {
     fi
 
     if [ "$action" = "install" ]; then
-    	git clone --recurse-submodules https://github.com/jiixyj/epoll-shim.git "$dev/epoll-shim"
+        git clone --recurse-submodules https://github.com/jiixyj/epoll-shim.git "$dev/epoll-shim"
     fi
 
     cd "$dev/epoll-shim" || return 1
@@ -1147,7 +1147,7 @@ foot_install() {
     fi
 
     if [ "$action" = "install" ]; then
-    	git clone --recurse-submodules https://codeberg.org/dnkl/foot.git "$dev/foot"
+        git clone --recurse-submodules https://codeberg.org/dnkl/foot.git "$dev/foot"
     fi
 
     cd "$dev/foot" || return 1

@@ -54,8 +54,11 @@ git clone --recurse-submodules
 git pull --recurse-submodules
 git diff {--cached}
 git rm {--cached} -r
+git remote show origin
+git config --get remote.origin.url
 
 ## permission
+stat
 view the existing permissions of a file or directory in numeric form
 stat -c %a "<name>"
 default dir: 755

@@ -116,6 +116,7 @@ map global user y '<a-|>wl-copy-env<ret>'     			-docstring 'copy to system'
 map global user p '<a-!>wl-paste-env -n<ret>' 			-docstring 'paste from system (after)'
 map global user P '!wl-paste-env -n<ret>'     			-docstring 'paste from system (before)'
 map global user <a-p> '<a-o>j !wl-paste-env -n<ret>'	-docstring 'paste from system (below)'
+map global user <a-P> '<a-O>k !wl-paste-env -n<ret>'	-docstring 'paste from system (above)'
 map global user R '!wl-paste-env -n<ret>d'    			-docstring 'replace from system'
 
 # system clipboard

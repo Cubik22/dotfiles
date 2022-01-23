@@ -17,6 +17,10 @@ hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|latex|html|
     # attention when a file has include if there is not a space between the # it interpret the file as a c/cpp
 
 	expandtab
+
+	# highlight tabs as errors
+	add-highlighter global/tabs regex \t 0:Error
+
     lsp-enable-window
 	# lsp-auto-hover-enable
 }

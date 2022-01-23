@@ -30,17 +30,15 @@ EOF
 
 plugins_dir="$XDG_CONFIG_HOME/kak/plugins"
 
-if [ ! -d "$plugins_dir" ]; then
-    mkdir -p "$plugins_dir"
-fi
+[ ! -d "$plugins_dir" ] && mkdir -p "$plugins_dir"
 
 while read -r plugin_url; do
-    plugin=$(echo "$plugin_url" | rev | cut -d "/" -f 1 | cut -d "." -f 2- | rev)
-    if [ ! -d "$plugins_dir/$plugin" ]; then
-        git clone --recurse-submodules "$plugin_url" "$plugins_dir/$plugin"
+    plugin_name=$(echo "$plugin_url" | rev | cut -d "/" -f 1 | cut -d "." -f 2- | rev)
+    if [ ! -d "$plugins_dir/$plugin_name" ]; then
+        git clone --recurse-submodules "$plugin_url" "$plugins_dir/$plugin_name"
     else
-        echo "updating: $plugin"
-        git -C "$plugins_dir/$plugin" pull
+        echo "updating: $plugin_name"
+        git -C "$plugins_dir/$plugin_name" pull
     fi
 done <<EOT
 $plugins_url
