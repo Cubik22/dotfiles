@@ -21,6 +21,9 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias cd..="cd .."
+alias cd...="cd ../.."
+alias cd....="cd ../../.."
+alias cd.....="cd ../../../.."
 
 # ls
 lsplus="ls --color=auto --group-directories-first --format=horizontal --human-readable"
