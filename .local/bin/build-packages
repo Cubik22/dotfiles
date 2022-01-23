@@ -165,9 +165,9 @@ EOF
         --program-transform-name="" \
         --enable-openvz \
         --enable-vserver \
-        return 1
+        || return 1
 
-    make -j8
+    make -j8 || return 1
 
     doas make -j8 install
 }
