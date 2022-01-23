@@ -70,6 +70,7 @@ apropos whatis
 # updating
 mandb
 makewhatis
+tldr
 
 ## latex
 lualatex <...>.tex
@@ -103,6 +104,7 @@ svlogd
 date cal
 uname
 df -h du -h
+diff -u
 ps -e
 pidof
 pgrep, pkill, pwait
