@@ -225,8 +225,7 @@ doas npm install -g typescript-language-server
 ## building
 
 # clone plugins
-kak-plugins-update
-mpv-plugins-update
+update-extra plugins
 
 # clone, build and install packages
 build-packages foot
