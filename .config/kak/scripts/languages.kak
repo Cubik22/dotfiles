@@ -6,23 +6,26 @@ evaluate-commands %sh{
 # information on current buffer filetype
 # echo %opt{filetype}
 
-# hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|latex|html|css|json|javascript|typescript) %{
-# 	add-highlighter window/delimiters		regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
-# 	add-highlighter window/operators		regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
-# 	# add-highlighter window/function 		regex ([a-zA-Z_0-9]+\(+)) 0:function
-# 	# add-highlighter window/class			regex ([^a-z][A-Z][a-zA-Z_0-9]+) 0:class
-# }
-
 hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|latex|html|css|json|javascript|typescript) %{
     # attention when a file has include if there is not a space between the # it interpret the file as a c/cpp
 
-	expandtab
+    expandtab
+    # highlight tabs as errors
+    add-highlighter global/tabs regex \t 0:Error
 
-	# highlight tabs as errors
-	add-highlighter global/tabs regex \t 0:Error
+    # add-highlighter window/delimiters        regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
+    # add-highlighter window/operators        regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
+    # # add-highlighter window/function         regex ([a-zA-Z_0-9]+\(+)) 0:function
+    # # add-highlighter window/class            regex ([^a-z][A-Z][a-zA-Z_0-9]+) 0:class
 
     lsp-enable-window
-	# lsp-auto-hover-enable
+    # lsp-auto-hover-enable
+}
+
+hook global WinSetOption filetype=kak %{
+    expandtab
+    # highlight tabs as errors
+    add-highlighter global/tabs regex \t 0:Error
 }
 
 # uncomment to enable debug logging for kak-lsp
@@ -30,32 +33,49 @@ hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|latex|html|
 
 # shell settings
 hook global BufCreate .*[.](inputrc|octaverc) %{
-	set-option buffer filetype sh
+    set-option buffer filetype sh
 }
 hook global BufCreate .*(renviron|rprofile) %{
-	set-option buffer filetype sh
+    set-option buffer filetype sh
 }
+hook global BufCreate /usr/bin/(sh|dash|zsh) %{
+    set-option buffer filetype sh
+}
+
+# set filetype to sh when file start with #!/usr/bin/{sh,dash}
+# for #!/usr/bin/{bash,zsh} is already working
+define-command -hidden sh-additional-file-detection %{ evaluate-commands %sh{
+    if [ -z "${kak_opt_filetype}" ]; then
+        first_line="$(head -n 1 "$kak_buffile")"
+        if [ "$first_line" = "#!/usr/bin/sh" ] || \
+            [ "$first_line" = "#!/usr/bin/dash" ]; then
+            printf "set-option buffer filetype sh\n"
+        fi
+    fi
+} }
+hook global BufOpenFile .* sh-additional-file-detection
+hook global BufWritePost .* sh-additional-file-detection
 
 # shell
 hook global WinSetOption filetype=sh %{
     # indent also elif
-	hook window InsertChar \n -group sh-indent %{
-		evaluate-commands -draft -itersel %{
-			# copy the indentation of the matching if, and then re-indent afterwards
-			try %{ execute-keys -draft <space> k <a-x> <a-k> \belif\b <ret> gh [c\bif\b,\bfi\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> j <a-gt> }
-		}
-	}
-	set-option window formatcmd "shfmt -fn -ci"
-	set-option window lintcmd "shellcheck -f gcc -x -a"
+    hook window InsertChar \n -group sh-indent %{
+        evaluate-commands -draft -itersel %{
+            # copy the indentation of the matching if, and then re-indent afterwards
+            try %{ execute-keys -draft <space> k <a-x> <a-k> \belif\b <ret> gh [c\bif\b,\bfi\b <ret> <a-x> <a-S> 1<a-&> <space> j K <a-&> j <a-gt> }
+        }
+    }
+    set-option window formatcmd "shfmt -fn -ci"
+    set-option window lintcmd "shellcheck -f gcc -x -a"
 }
 
 # c/cpp
 hook global WinSetOption filetype=(c|cpp) %{
-	set-option buffer formatcmd 'clang-format -style="{IndentWidth: 4,TabWidth: 4}"'
-	clang-enable-autocomplete
-	clang-enable-diagnostics
-	alias window lint clang-parse
-	alias window lint-next-error clang-diagnostics-next
+    set-option buffer formatcmd 'clang-format -style="{IndentWidth: 4,TabWidth: 4}"'
+    clang-enable-autocomplete
+    clang-enable-diagnostics
+    alias window lint clang-parse
+    alias window lint-next-error clang-diagnostics-next
 }
 
 # inlay hints are a feature supported by rust-analyzer, which show inferred types,
@@ -63,12 +83,12 @@ hook global WinSetOption filetype=(c|cpp) %{
 hook global WinSetOption filetype=rust %{
     set-option buffer formatcmd 'rustfmt'
 
-	hook window -group rust-inlay-hints BufReload .* rust-analyzer-inlay-hints
-	hook window -group rust-inlay-hints NormalIdle .* rust-analyzer-inlay-hints
-	hook window -group rust-inlay-hints InsertIdle .* rust-analyzer-inlay-hints
-	hook -once -always window WinSetOption filetype=.* %{
-		remove-hooks window rust-inlay-hints
-	}
+    hook window -group rust-inlay-hints BufReload .* rust-analyzer-inlay-hints
+    hook window -group rust-inlay-hints NormalIdle .* rust-analyzer-inlay-hints
+    hook window -group rust-inlay-hints InsertIdle .* rust-analyzer-inlay-hints
+    hook -once -always window WinSetOption filetype=.* %{
+        remove-hooks window rust-inlay-hints
+    }
 }
 
 # custom zig settings, basic syntax highlighting is handled by the zig.kak shipped with kakoune
@@ -76,10 +96,10 @@ hook global WinSetOption filetype=zig %{
     set-option window formatcmd 'zig fmt --stdin'
 
     # enable lsp support with semantic highlighting
-	set-option window lsp_insert_spaces true
-	set-option global lsp_server_configuration zls.zig_lib_path="/usr/lib/zig"
-	set-option -add global lsp_server_configuration zls.warn_style=true
-	set-option -add global lsp_server_configuration zls.enable_semantic_tokens=true
+    set-option window lsp_insert_spaces true
+    set-option global lsp_server_configuration zls.zig_lib_path="/usr/lib/zig"
+    set-option -add global lsp_server_configuration zls.warn_style=true
+    set-option -add global lsp_server_configuration zls.enable_semantic_tokens=true
 
     hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
     hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
@@ -90,19 +110,19 @@ hook global WinSetOption filetype=zig %{
 }
 
 hook global WinSetOption filetype=python %{
-	# python-language-server does not currently use initialization options
-	# python-language-server#403, so you can not configure it via kak-lsp.toml.
-	# instead, set the lsp_config option in your kakrc to send workspace/didChangeConfiguration
-	# this requires settings_section = "_" in kak-lsp.toml
-	set-option global lsp_config %{
-	    [language.python.settings._]
-	    "pyls.configurationSources" = ["flake8"]
-	}
+    # python-language-server does not currently use initialization options
+    # python-language-server#403, so you can not configure it via kak-lsp.toml.
+    # instead, set the lsp_config option in your kakrc to send workspace/didChangeConfiguration
+    # this requires settings_section = "_" in kak-lsp.toml
+    set-option global lsp_config %{
+        [language.python.settings._]
+        "pyls.configurationSources" = ["flake8"]
+    }
 }
 
 # markdown
 # hook global WinSetOption filetype=markdown %{
-# 	set-option window formatcmd "prettier --tab-width 4 --stdin-filepath='%val{buffile}'"
+#     set-option window formatcmd "prettier --tab-width 4 --stdin-filepath='%val{buffile}'"
 # }
 
 # makefile

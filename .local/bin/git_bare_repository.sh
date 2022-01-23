@@ -4,7 +4,7 @@
 # then run this script which will clone again this repository but bare
 
 # set dotfiles folder name
-git_dir="$HOME"/.dotfiles
+git_dir="$HOME/.dotfiles"
 
 email="lorenzo.bianco22@protonmail.com"
 
@@ -22,9 +22,9 @@ config () {
 }
 
 # remove files if present
-rm -f "${HOME}"/.bash_profile
-rm -f "${HOME}"/.bashrc
-rm -f "${HOME}"/.inputrc
+rm -f "${HOME}/.bash_profile"
+rm -f "${HOME}/.bashrc"
+rm -f "${HOME}/.inputrc"
 
 # checkout and copy files in the appropiate places
 config checkout
@@ -47,55 +47,14 @@ chmod 700 .config/gnupg
 mkdir -p "$HOME/.local"
 mkdir -p "$HOME/.local/share"
 mkdir -p "$HOME/.local/lib"
-# kak nvim
-mkdir -p "$HOME"/.local/share/kak
-mkdir -p "$HOME"/.local/share/nvim
-# zig
+
+mkdir -p "$HOME/.local/share/bash"
+mkdir -p "$HOME/.local/share/kak"
+mkdir -p "$HOME/.local/share/nvim"
+
 mkdir -p "$HOME/.local/lib/zig"
 
-# symlink stuff to root
-doas rm -f /root/.bash_profile
-doas rm -f /root/.bashrc
-doas rm -f /root/.inputrc
-doas rm -f /root/.dir_colors
-doas rm -fr /root/.config/git
-# doas rm -fr /root/.config/rbw
-doas rm -fr /root/.config/waylock
-doas rm -fr /root/.config/swaylock
-doas rm -fr /root/.config/shell
-doas rm -fr /root/.config/nvim
-doas rm -fr /root/.local/share/nvim
-doas rm -fr /root/.config/kak
-doas rm -fr /root/.config/kak-lsp
-doas rm -fr /root/.local/share/kak
-
-doas ln -s "$HOME"/.bash_profile /root/.bash_profile
-doas ln -s "$HOME"/.bashrc /root/.bashrc
-doas ln -s "$HOME"/.inputrc /root/.inputrc
-doas ln -s "$HOME"/.dir_colors /root/.dir_colors
-
-doas mkdir -p "/root/.config"
-doas mkdir -p "/root/.config/git"
-# doas mkdir -p "/root/.config/rbw"
-doas mkdir -p "/root/.config/waylock"
-doas mkdir -p "/root/.config/swaylock"
-
-doas mkdir -p "/root/.local/share"
-
-doas ln -s "$HOME"/.config/git/config /root/.config/git/
-# doas ln -s "$HOME"/.config/rbw/config.json /root/.config/rbw/
-doas ln -s "$HOME"/.config/waylock/waylock.toml /root/.config/waylock/
-doas ln -s "$HOME"/.config/swaylock/config /root/.config/swaylock/
-doas ln -s "$HOME"/.config/shell /root/.config/
-doas ln -s "$HOME"/.config/nvim /root/.config/
-doas ln -s "$HOME"/.local/share/nvim /root/.local/share/
-doas ln -s "$HOME"/.config/kak /root/.config/
-doas ln -s "$HOME"/.config/kak-lsp /root/.config/
-doas ln -s "$HOME"/.local/share/kak /root/.local/share/
-
-# link kak
-doas mkdir -p /root/.local/bin
-doas ln -s "$HOME"/.local/bin/kak* /root/.local/bin
+link-config-root
 
 # R
 # make sure directories are created otherwise there may be problems
@@ -126,14 +85,14 @@ rbw unlock
 config push --set-upstream origin main
 
 # remove README from HOME and set git to not track in locale
-rm -f "$HOME"/README.md
-config update-index --assume-unchanged "$HOME"/README.md
+rm -f "$HOME/README.md"
+config update-index --assume-unchanged "$HOME/README.md"
 
 # set git to remeber credentials (danger but with github token you can give small permission)
 # git config --global credential.helper store
 
 # clone packer for neovim
-# git clone --depth 1 https://github.com/wbthomason/packer.nvim "$HOME"/.local/share/nvim/site/pack/packer/start/packer.nvim
+# git clone --depth 1 https://github.com/wbthomason/packer.nvim "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim"
 
 # firefox
 # ln -s "$HOME/.config/firefox/user-overrides.js" "$HOME/.mozilla/firefox/{profile}/"

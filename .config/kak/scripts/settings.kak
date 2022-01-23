@@ -92,13 +92,13 @@ hook global KakEnd .* %{
 # auto-pairing of characters with quotes
 # set-option global auto_pairs ( ) { } [ ] '"' '"' "'" "'" ` ` “ ” ‘ ’ « » ‹ ›
 # hook global WinSetOption filetype=(.*) %{
-# 	set-option global auto_pairs ( ) { } [ ] '"' '"' "'" "'"
+#     set-option global auto_pairs ( ) { } [ ] '"' '"' "'" "'"
 # }
 # hook global WinSetOption filetype=(octave) %{
-# 	set-option global auto_pairs ( ) { } [ ] '"' '"'
+#     set-option global auto_pairs ( ) { } [ ] '"' '"'
 # }
 # hook global WinSetOption filetype=(.*) %{
-# 	enable-auto-pairs
+#     enable-auto-pairs
 # }
 
 # auto-pairing of characters without quotes
@@ -125,21 +125,21 @@ cursorline
 ## change cursor color between normal mode and insert mode
 
 # shades of blue/cyan for normal mode
-set-face global PrimarySelection 	white,bright-blue+g
-set-face global SecondarySelection 	black,bright-blue+g
-set-face global PrimaryCursor 		black,bright-cyan+fg
-set-face global SecondaryCursor 	black,bright-blue+fg
-set-face global PrimaryCursorEol 	black,bright-cyan
-set-face global SecondaryCursorEol 	black,bright-blue
+set-face global PrimarySelection     white,bright-blue+g
+set-face global SecondarySelection     black,bright-blue+g
+set-face global PrimaryCursor         black,bright-cyan+fg
+set-face global SecondaryCursor     black,bright-blue+fg
+set-face global PrimaryCursorEol     black,bright-cyan
+set-face global SecondaryCursorEol     black,bright-blue
 
 # shades of green/yellow for insert mode
 hook global ModeChange (push|pop):.*:insert %{
-    set-face window PrimarySelection 	white,bright-green+g
-    set-face window SecondarySelection 	black,bright-green+g
-    set-face window PrimaryCursor 		black,bright-yellow+fg
-    set-face window SecondaryCursor 	black,bright-green+fg
-    set-face window PrimaryCursorEol 	black,bright-yellow
-    set-face window SecondaryCursorEol 	black,bright-green
+    set-face window PrimarySelection     white,bright-green+g
+    set-face window SecondarySelection     black,bright-green+g
+    set-face window PrimaryCursor         black,bright-yellow+fg
+    set-face window SecondaryCursor     black,bright-green+fg
+    set-face window PrimaryCursorEol     black,bright-yellow
+    set-face window SecondaryCursorEol     black,bright-green
 }
 
 # undo colour changes when leaving insert mode
@@ -189,19 +189,19 @@ hook global WinSetOption filetype=(diff) %{
 
 # move to languge-server.kak in order to just highlight lsp files
 hook global WinCreate .* %{
-	add-highlighter window/delimiters		regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
-	add-highlighter window/operators		regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
-	# add-highlighter window/function 		regex ([a-zA-Z_0-9]+\(+)) 0:function
-	# add-highlighter window/class			regex ([^a-z][A-Z][a-zA-Z_0-9]+) 0:class
+    add-highlighter window/delimiters        regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
+    add-highlighter window/operators        regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
+    # add-highlighter window/function         regex ([a-zA-Z_0-9]+\(+)) 0:function
+    # add-highlighter window/class            regex ([^a-z][A-Z][a-zA-Z_0-9]+) 0:class
 }
 
 # highlight all occurences of word under the cursor
 set-face global CurWord default,rgb:3c3836
 hook global NormalIdle .* %{
-	eval -draft %{ try %{
-		exec <space><a-i>w <a-k>\A\w+\z<ret>
-		add-highlighter -override global/curword regex "\b\Q%val{selection}\E\b" 0:CurWord
-	} catch %{
-		add-highlighter -override global/curword group
-	} }
+    eval -draft %{ try %{
+        exec <space><a-i>w <a-k>\A\w+\z<ret>
+        add-highlighter -override global/curword regex "\b\Q%val{selection}\E\b" 0:CurWord
+    } catch %{
+        add-highlighter -override global/curword group
+    } }
 }

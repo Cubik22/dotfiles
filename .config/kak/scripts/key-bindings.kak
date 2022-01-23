@@ -48,11 +48,11 @@ map global insert <a-e> <end><esc>
 
 # selectors
 # , is no longer leader key
-map global normal , ': enter-user-mode selectors<ret>'			-docstring 'selectors mode'
-map global selectors v ': vertical-selection-down<ret>'			-docstring 'vertical selection down'
-map global selectors <a-v> ': vertical-selection-up<ret>'		-docstring 'vertical selection up'
-map global selectors V ': vertical-selection-up-and-down<ret>'	-docstring 'vertical selection up and down'
-# map global selectors s s										-docstring 'sub-selection'
+map global normal , ': enter-user-mode selectors<ret>'            -docstring 'selectors mode'
+map global selectors v ': vertical-selection-down<ret>'            -docstring 'vertical selection down'
+map global selectors <a-v> ': vertical-selection-up<ret>'        -docstring 'vertical selection up'
+map global selectors V ': vertical-selection-up-and-down<ret>'    -docstring 'vertical selection up and down'
+# map global selectors s s                                        -docstring 'sub-selection'
 
 # lsp mode
 map global user l ': enter-user-mode lsp<ret>' -docstring 'lsp mode'
@@ -66,58 +66,58 @@ map global user s ': enter-user-mode surround<ret>' -docstring 'surround mode'
 # utility
 declare-user-mode util
 map global user u ': enter-user-mode util<ret>' -docstring 'utility mode'
-map global util g ': grep ' 					-docstring 'grep'
-map global util t ': ctags-search<ret>' 		-docstring 'ctag def'
-map global util d ': db<ret>' 					-docstring 'close buffer'
-map global util m ': make<ret>' 				-docstring 'make'
+map global util g ': grep '                     -docstring 'grep'
+map global util t ': ctags-search<ret>'         -docstring 'ctag def'
+map global util d ': db<ret>'                     -docstring 'close buffer'
+map global util m ': make<ret>'                 -docstring 'make'
 
 # git
 declare-user-mode git
-map global user g ': enter-user-mode git<ret>' 	-docstring 'git mode'
-map global git l ': git log<ret>' 				-docstring 'log'
-map global git s ': git status<ret>'          	-docstring 'status'
-map global git d ': git diff<ret>'            	-docstring 'diff'
-map global git b ': git blame<ret>'           	-docstring 'blame'
-map global git B ': git hide-blame<ret>'      	-docstring 'hide blame'
-map global git p ': git prev-hunk<ret>'       	-docstring 'prev hunk'
-map global git n ': git next-hunk<ret>'       	-docstring 'next hunk'
+map global user g ': enter-user-mode git<ret>'     -docstring 'git mode'
+map global git l ': git log<ret>'                 -docstring 'log'
+map global git s ': git status<ret>'              -docstring 'status'
+map global git d ': git diff<ret>'                -docstring 'diff'
+map global git b ': git blame<ret>'               -docstring 'blame'
+map global git B ': git hide-blame<ret>'          -docstring 'hide blame'
+map global git p ': git prev-hunk<ret>'           -docstring 'prev hunk'
+map global git n ': git next-hunk<ret>'           -docstring 'next hunk'
 
 # spell checking
 declare-user-mode spell
-map global user c ': enter-user-mode spell<ret>' 	-docstring 'spell checking mode'
-map global spell s ': spell<ret>' 					-docstring 'spell'
-map global spell c ': spell-clear<ret>' 			-docstring 'clear'
-map global spell n ': spell-next<ret>' 				-docstring 'next'
-map global spell r ': spell-replace<ret>' 			-docstring 'replace'
+map global user c ': enter-user-mode spell<ret>'     -docstring 'spell checking mode'
+map global spell s ': spell<ret>'                     -docstring 'spell'
+map global spell c ': spell-clear<ret>'             -docstring 'clear'
+map global spell n ': spell-next<ret>'                 -docstring 'next'
+map global spell r ': spell-replace<ret>'             -docstring 'replace'
 
 # gdb
 # set-option global gdb_location_symbol ▶
 # declare-user-mode gdb
-# define-command gdb -params 0 'enter-user-mode -lock gdb' 	-docstring 'gdb mode'
-# map global gdb n ': gdb-next<ret>' 						-docstring 'next'
-# map global gdb s ': gdb-step<ret>' 						-docstring 'step'
-# map global gdb c ': gdb-continue<ret>' 					-docstring 'continue'
-# map global gdb f ': gdb-finish<ret>' 						-docstring 'finish function'
-# map global gdb b ': gdb-toggle-breakpoint<ret>' 			-docstring 'break'
-# map global gdb g ': gdb-jump-to-location<ret>' 			-docstring 'goto current location'
-# map global gdb p ': gdb-print<ret>' 						-docstring 'print selection'
-# map global gdb t ': gdb-backtrace<ret>' 					-docstring 'print backtrace'
+# define-command gdb -params 0 'enter-user-mode -lock gdb'     -docstring 'gdb mode'
+# map global gdb n ': gdb-next<ret>'                         -docstring 'next'
+# map global gdb s ': gdb-step<ret>'                         -docstring 'step'
+# map global gdb c ': gdb-continue<ret>'                     -docstring 'continue'
+# map global gdb f ': gdb-finish<ret>'                         -docstring 'finish function'
+# map global gdb b ': gdb-toggle-breakpoint<ret>'             -docstring 'break'
+# map global gdb g ': gdb-jump-to-location<ret>'             -docstring 'goto current location'
+# map global gdb p ': gdb-print<ret>'                         -docstring 'print selection'
+# map global gdb t ': gdb-backtrace<ret>'                     -docstring 'print backtrace'
 
 # write and quit
-map global user q ': q<ret>' 	-docstring 'quit'
-map global user w ': w<ret>' 	-docstring 'write'
-map global user z ': wq<ret>' 	-docstring 'write and quit'
+map global user q ': q<ret>'     -docstring 'quit'
+map global user w ': w<ret>'     -docstring 'write'
+map global user z ': wq<ret>'     -docstring 'write and quit'
 
 # system clipboard
 hook global RegisterModified '"' %{ nop %sh{
-	printf %s "$kak_main_reg_dquote" | wl-copy-env > /dev/null 2>&1 &
+    printf %s "$kak_main_reg_dquote" | wl-copy-env > /dev/null 2>&1 &
 } }
-map global user y '<a-|>wl-copy-env<ret>'     			-docstring 'copy to system'
-map global user p '<a-!>wl-paste-env -n<ret>' 			-docstring 'paste from system (after)'
-map global user P '!wl-paste-env -n<ret>'     			-docstring 'paste from system (before)'
-map global user <a-p> '<a-o>j !wl-paste-env -n<ret>'	-docstring 'paste from system (below)'
-map global user <a-P> '<a-O>k !wl-paste-env -n<ret>'	-docstring 'paste from system (above)'
-map global user R '!wl-paste-env -n<ret>d'    			-docstring 'replace from system'
+map global user y '<a-|>wl-copy-env<ret>'                 -docstring 'copy to system'
+map global user p '<a-!>wl-paste-env -n<ret>'             -docstring 'paste from system (after)'
+map global user P '!wl-paste-env -n<ret>'                 -docstring 'paste from system (before)'
+map global user <a-p> '<a-o>j !wl-paste-env -n<ret>'    -docstring 'paste from system (below)'
+map global user <a-P> '<a-O>k !wl-paste-env -n<ret>'    -docstring 'paste from system (above)'
+map global user R '!wl-paste-env -n<ret>d'                -docstring 'replace from system'
 
 # system clipboard
 # map global user c '<a-|>wl-copy<ret>' -docstring 'wl-copy'

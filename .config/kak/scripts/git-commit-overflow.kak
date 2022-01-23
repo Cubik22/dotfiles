@@ -8,14 +8,14 @@ hook -group git-commit-highlight global WinSetOption filetype=git-commit %{
 }
 
 provide-module git-commit-overflow %{
-	add-highlighter shared/git-commit-overflow group
+    add-highlighter shared/git-commit-overflow group
 
-	# highlight body at >72 characters
-	add-highlighter shared/git-commit-overflow/ regex ^[^#\n][^\n]{71}(?<overflow>[^\n]+) overflow:Error
+    # highlight body at >72 characters
+    add-highlighter shared/git-commit-overflow/ regex ^[^#\n][^\n]{71}(?<overflow>[^\n]+) overflow:Error
 
-	# highlight summary at >50 characters
-	add-highlighter shared/git-commit-overflow/ regex \A[^#\n][^\n]{49}(?<overflow>[^\n]+) overflow:Error
+    # highlight summary at >50 characters
+    add-highlighter shared/git-commit-overflow/ regex \A[^#\n][^\n]{49}(?<overflow>[^\n]+) overflow:Error
 
-	# highlight second line if not a comment or empty
-	add-highlighter shared/git-commit-overflow/ regex \A[^\n]*\n([^#\n]+) 1:Error
+    # highlight second line if not a comment or empty
+    add-highlighter shared/git-commit-overflow/ regex \A[^\n]*\n([^#\n]+) 1:Error
 }

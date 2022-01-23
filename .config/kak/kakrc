@@ -10,8 +10,8 @@ evaluate-commands %sh{
 
     filetype_files="
         octave.kak
-	"
-	plugins_files="
+    "
+    plugins_files="
         foot.kak/rc/foot.kak
         kak-ansi/rc/ansi.kak
         kakoune-vertical-selection/vertical-selection.kak
@@ -23,8 +23,8 @@ evaluate-commands %sh{
         tiny.kak/rc/tiny.kak
         auto-pairs.kak/rc/auto-pairs.kak
         surround.kak/rc/surround.kak
-	"
-	scripts_files="
+    "
+    scripts_files="
         indentation.kak
         wayland.kak
         git-commit-overflow.kak
@@ -36,7 +36,7 @@ evaluate-commands %sh{
         languages.kak
     "
 
-	source_files() {
+    source_files() {
         prefix="$1"
         files="$2"
         for file in $files; do
@@ -48,9 +48,9 @@ evaluate-commands %sh{
                  }
              "
         done
-	}
+    }
 
-	source_files "$filetype" "$filetype_files"
-	source_files "$plugins" "$plugins_files"
-	source_files "$scripts" "$scripts_files"
+    source_files "$filetype" "$filetype_files"
+    source_files "$plugins" "$plugins_files"
+    source_files "$scripts" "$scripts_files"
 }
