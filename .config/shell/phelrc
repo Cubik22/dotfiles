@@ -47,7 +47,6 @@ tar -c -<compression options (-z)> -f "<archived.tar.gz>" "<to-archive>"
 xi -Su
 update-extra all
 build-packages all
-kak-plugins-update
 
 ## git
 git clone --recurse-submodules

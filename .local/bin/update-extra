@@ -4,6 +4,7 @@
 
 program_names=$(cat << EOF
 all
+plugins
 rustup
 cargo
 zigup
@@ -81,6 +82,13 @@ EOT
 done
 
 #### update functions
+
+## plugins
+# update kak and mpv plugins
+plugins_update() {
+    kak-plugins-update
+    mpv-plugins-update
+}
 
 ## rustup
 # stable toolchain
