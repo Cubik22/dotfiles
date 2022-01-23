@@ -2,17 +2,17 @@
 
 # spawn zathura in a specified river tag
 if [ "$#" -lt 1 ]; then
-	echo "insert at least one parameter"
-	echo "first parameter: tag (optional)"
-	echo "if no tag is specified zathura is spawn in the current focused tag"
-	echo "other parameters: arguments for zathura"
-	return 1
+    echo "insert at least one parameter"
+    echo "first parameter: tag (optional)"
+    echo "if no tag is specified zathura is spawn in the current focused tag"
+    echo "other parameters: arguments for zathura"
+    return 1
 fi
 # check that the first parameter is a number
 if [ "$#" -gt 1 ] && [ "$1" -ge 0 ] 2> /dev/null; then
     tag="$1"
-	# shift arguments by one, now 2 becomes 1
-	shift 1
+    # shift arguments by one, now 2 becomes 1
+    shift 1
     riverctl set-focused-tags "$((1 << (tag - 1)))"
 fi
 current_dir="$(pwd)"

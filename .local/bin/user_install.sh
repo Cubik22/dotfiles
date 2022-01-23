@@ -19,16 +19,16 @@ mkdir -p "${HOME}"/.local/bin
 
 # symlink everything in .config
 for file in "${dotfiles}"/.config/*; do
-	ln -s "${file}" "${HOME}"/.config/
+    ln -s "${file}" "${HOME}"/.config/
 done
 
 # symlink everything in .local/bin
 for file in "${dotfiles}"/.local/bin/*; do
-	ln -s "${file}" "${HOME}"/.local/bin/
+    ln -s "${file}" "${HOME}"/.local/bin/
 done
 
 # symlink everything in .local/sv
 for file in "${dotfiles}"/.local/sv/*; do
-	ln -s "${file}" "${HOME}"/.local/sv/
+    ln -s "${file}" "${HOME}"/.local/sv/
 done
 

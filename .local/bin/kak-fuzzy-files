@@ -4,9 +4,9 @@
 
 # USAGE: e.g. in kakrc:
 # define-command -docstring 'Open files with fzf' fuzzy-files %{
-# 	try %sh{
-# 		footclient sh -c "kak-fuzzy-files $kak_session $kak_client"
-# 	}
+#     try %sh{
+#         footclient sh -c "kak-fuzzy-files $kak_session $kak_client"
+#     }
 # }
 # map global user o ': fuzzy-files<ret>' -docstring '[FZF] Open Files'
 
@@ -18,4 +18,4 @@ client_id="$2"
 target="$($FZF_DEFAULT_COMMAND --type file | fzf)"
 
 printf -- '%s\n' "eval -client $client_id edit -existing $target" |
-	kak -p "$session_id"
+    kak -p "$session_id"

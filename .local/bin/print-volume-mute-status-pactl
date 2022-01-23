@@ -8,7 +8,7 @@ fi
 mute_status="$(pactl get-sink-mute @DEFAULT_SINK@ | awk '{ print $2 }')"
 
 if [ "$mute_status" = "no" ]; then
-	print-volume-pactl
+    print-volume-pactl
 elif [ "$mute_status" = "yes" ]; then
     echo "0"
 fi

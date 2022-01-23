@@ -37,13 +37,13 @@ elif exists autojump; then
     printf "%s" "0c$odir" > "$NNN_PIPE"
 elif exists zoxide; then
     if exists fzf; then
-    	odir="$(zoxide query -i --)"
-    	printf "%s" "0c$odir" > "$NNN_PIPE"
+        odir="$(zoxide query -i --)"
+        printf "%s" "0c$odir" > "$NNN_PIPE"
     else
-	printf "jump to : "
-    	read -r dir
-    	odir="$(zoxide query -- "$dir")"
-    	printf "%s" "0c$odir" > "$NNN_PIPE"
+    printf "jump to : "
+        read -r dir
+        odir="$(zoxide query -- "$dir")"
+        printf "%s" "0c$odir" > "$NNN_PIPE"
     fi
 else
     # rupa/z uses $_Z_DATA, jethrokuan/z (=port of z for fish) uses $Z_DATA

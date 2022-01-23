@@ -6,9 +6,9 @@
 
 # USAGE: e.g. in kakrc:
 # define-command -docstring 'Search with ripgrep and fzf' fuzzy-grep %{
-# 	try %sh{
-# 		footclient sh -c "kak-fuzzy-grep $kak_session $kak_client"
-# 	}
+#     try %sh{
+#         footclient sh -c "kak-fuzzy-grep $kak_session $kak_client"
+#     }
 # }
 # map global user r ': fuzzy-grep<ret>' -docstring '[FZF] Live grep'
 
@@ -21,17 +21,17 @@ rg_prefix="rg --column --line-number --no-heading --color=always --smart-case "
 initial_query=""
 
 IFS=: read -ra selected < <(
-	FZF_DEFAULT_COMMAND="${rg_prefix} $(printf %q "${initial_query}")" \
-		fzf --layout=reverse --delimiter : \
-		--bind "change:reload:sleep 0.1; ${rg_prefix} {q} || true" \
-		--ansi --disabled --query "${initial_query}" \
-		--preview 'bat --color=always --paging=never --theme=gruvbox-dark --style="numbers,changes" {1} --highlight-line {2}'
-		# \
-		# --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'
+    FZF_DEFAULT_COMMAND="${rg_prefix} $(printf %q "${initial_query}")" \
+        fzf --layout=reverse --delimiter : \
+        --bind "change:reload:sleep 0.1; ${rg_prefix} {q} || true" \
+        --ansi --disabled --query "${initial_query}" \
+        --preview 'bat --color=always --paging=never --theme=gruvbox-dark --style="numbers,changes" {1} --highlight-line {2}'
+        # \
+        # --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'
 )
 
 session_id="$1"
 client_id="$2"
 
 printf -- '%s\n' "eval -client ${client_id} edit -existing ${selected[0]} ${selected[1]}" |
-	kak -p "${session_id}"
+    kak -p "${session_id}"

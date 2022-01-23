@@ -152,34 +152,34 @@ if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
     alias xi="xbps-install"
     alias xr="xbps-remove"
 
-	alias blueon="sv up bluetoothd; bluetoothctl power on;"
-	alias blueoff="bluetoothctl power off; sv down bluetoothd;"
+    alias blueon="sv up bluetoothd; bluetoothctl power on;"
+    alias blueoff="bluetoothctl power off; sv down bluetoothd;"
 
-	# alias servstat="sv status /var/service/*"
+    # alias servstat="sv status /var/service/*"
 
-	alias dka="kak-smart no"
+    alias dka="kak-smart no"
 else
     alias xbps-install="doas xbps-install"
     alias xbps-remove="doas xbps-remove"
     alias xi="doas xbps-install"
     alias xr="doas xbps-remove"
 
-	alias blueon="doas sv up bluetoothd; bluetoothctl power on;"
-	alias blueoff="bluetoothctl power off; doas sv down bluetoothd;"
+    alias blueon="doas sv up bluetoothd; bluetoothctl power on;"
+    alias blueoff="bluetoothctl power off; doas sv down bluetoothd;"
 
-	# alias servstat="doas sv status /var/service/*"
+    # alias servstat="doas sv status /var/service/*"
 
-	alias poweroff="doas poweroff"
-	alias reboot="doas reboot"
+    alias poweroff="doas poweroff"
+    alias reboot="doas reboot"
 
-	alias zzz="doas zzz"
-	alias ZZZ="doas ZZZ"
+    alias zzz="doas zzz"
+    alias ZZZ="doas ZZZ"
 
-	alias powertop="doas powertop"
+    alias powertop="doas powertop"
 
-	alias dn3="doas nnn"
-	alias dn3p="doas nnn-pre"
-	alias dnv="doas nvim"
-	alias dkak="kak-smart yes"
-	alias dka="kak-smart yes"
+    alias dn3="doas nnn"
+    alias dn3p="doas nnn-pre"
+    alias dnv="doas nvim"
+    alias dkak="kak-smart yes"
+    alias dka="kak-smart yes"
 fi

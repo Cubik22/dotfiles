@@ -1,25 +1,25 @@
 #!/bin/sh
 
 if [ "$#" -lt 2 ] || [ "$#" -gt 3 ]; then
-	echo "illegal number of parameters: $#"
-	echo "first parameter is the source file"
-	echo "second parameter is the destination file"
-	echo "third parameter is the root password (optional)"
+    echo "illegal number of parameters: $#"
+    echo "first parameter is the source file"
+    echo "second parameter is the destination file"
+    echo "third parameter is the root password (optional)"
 else
-	tmpfile="$1"
-	kak_buffile="$2"
+    tmpfile="$1"
+    kak_buffile="$2"
 
-	if [ "$#" -eq 3 ]; then
-		password="$3"
-		user="$USER"
-		hostname="$(cat /etc/hostname)"
+    if [ "$#" -eq 3 ]; then
+        password="$3"
+        user="$USER"
+        hostname="$(cat /etc/hostname)"
 
-		/usr/bin/expect <<EOF
-		spawn doas -- cp "$tmpfile" "$kak_buffile"
-		expect "doas ($user@$hostname) password: " {send -- "$password\r"}
-		expect eof
+        /usr/bin/expect <<EOF
+        spawn doas -- cp "$tmpfile" "$kak_buffile"
+        expect "doas ($user@$hostname) password: " {send -- "$password\r"}
+        expect eof
 EOF
-	else
-		doas -- cp "$tmpfile" "$kak_buffile"
-	fi
+    else
+        doas -- cp "$tmpfile" "$kak_buffile"
+    fi
 fi

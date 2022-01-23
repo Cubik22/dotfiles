@@ -4,9 +4,9 @@
 #
 # USAGE: e.g. in kakrc:
 # define-command -docstring 'Open file with nnn' nnn %{
-# 	try %sh{
-# 		footclient sh -c "kak-nnn $kak_session $kak_client"
-# 	}
+#     try %sh{
+#         footclient sh -c "kak-nnn $kak_session $kak_client"
+#     }
 # }
 # map global user n ': nnn<ret>' -docstring '[NNN] Open file'
 #
@@ -18,4 +18,4 @@ client_id=$2
 target=$(nnn -p -)
 
 printf -- '%s\n' "eval -client ${client_id} edit -existing ${target}" |
-	kak -p "${session_id}"
+    kak -p "${session_id}"

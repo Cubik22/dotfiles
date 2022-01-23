@@ -3,9 +3,9 @@
 status=$(doas sv status iwd | awk -F ":" '{print $1}')
 
 if [ $status = "run" ]; then
-	doas sv down iwd
+    doas sv down iwd
 elif [ $status = "down" ]; then
-	doas sv up iwd
+    doas sv up iwd
 else
-	echo "ERROR: iwd status is $status"
+    echo "ERROR: iwd status is $status"
 fi

@@ -1,11 +1,11 @@
 #!/bin/sh
 
 if [ "$#" -lt 2 ]; then
-   	echo "insert at least two parameters"
-   	echo "first parameter: tag"
-   	echo "second parameter: program"
-   	echo "following parameters (optional): arguments of program"
-   	return 1
+       echo "insert at least two parameters"
+       echo "first parameter: tag"
+       echo "second parameter: program"
+       echo "following parameters (optional): arguments of program"
+       return 1
 fi
 
 tag="$1"
