@@ -146,6 +146,7 @@ alias rcd="ucon diff"
 alias rcp="rcon push"
 
 # void mirrors in order to quickly change when one is slow (-R flag)
+# https://docs.voidlinux.org/xbps/repositories/mirrors/index.html#mirrors
 export mirror1="https://alpha.de.repo.voidlinux.org/current"
 export mirror2="https://repo-fi.voidlinux.org/current"
 export mirror3="https://mirrors.servercentral.com/voidlinux/current"
