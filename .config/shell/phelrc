@@ -15,7 +15,7 @@ when connecting mouse: riverctl-set-input mouse
 ## audio
 amixer/alsamixer (alsa)
 pactl (pipewire)
-ffmpeg -i {file.ext} -o {file.ogg}
+ffmpeg -i {file.ext} {file.ogg}
 youtube-dl --ignore-errors --retries=infinite
     {--recode-video=ogg, --extract-audio --audio-format=opus}
     {{--embed-thumbnail} --add-metadata --xattrs}
