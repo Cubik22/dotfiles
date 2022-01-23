@@ -1,7 +1,7 @@
 ## options
 
 # automatically reload all feeds on startup
-auto-reload yes
+# auto-reload yes
 
 # number of parallel reload threads
 reload-threads 8
