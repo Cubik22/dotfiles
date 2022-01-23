@@ -17,7 +17,7 @@
 
     "modules-right": [
         "pulseaudio",
-		"temperature",
+        "temperature",
         "cpu",
         "memory",
         "battery",
@@ -30,14 +30,14 @@
     "clock#time": {
         "interval": 60,
         "tooltip": false,
-		"format": "{:%H:%M}"
+        "format": "{:%H:%M}"
         //"format": " {:%H:%M}"
     },
 
     "clock#date": {
         "interval": 60,
         "tooltip": false,
-		"format": "{:%d/%m/%Y}"
+        "format": "{:%d/%m/%Y}"
         //"format": " {:%d/%m/%Y}" // Icon: calendar-alt
         //"tooltip-format": "{:%e %B %Y}"
     },
@@ -45,9 +45,9 @@
     "pulseaudio": {
         "tooltip": false,
         "scroll-step": 0.5,
-		"states": {
-	    "low": 10
-		},
+        "states": {
+        "low": 10
+        },
         "format": "{icon} {volume}%",
         "format-bluetooth": "{icon} {volume}%",
         //"format-bluetooth": "{icon} {volume}%",
@@ -60,29 +60,29 @@
             "phone": "",
             "portable": "",
             "car": "",
-			"default": "",
-			//"default": ""
-	    	//"default": ["", ""]
+            "default": "",
+            //"default": ""
+            //"default": ["", ""]
         },
         "on-click": "toggle_volume.sh toggle"
     },
 
     "temperature": {
-      	"interval": 10,
+          "interval": 10,
         "tooltip": false,
-		"states": {
+        "states": {
             "warning": 70,
             "critical": 90
         },
         "critical-threshold": 90,
-      	"format": "{icon} {temperatureC}°C",
-      	"format-icons": [
-	    	"", // Icon: temperature-empty
-	    	"", // Icon: temperature-quarter
+          "format": "{icon} {temperatureC}°C",
+          "format-icons": [
+            "", // Icon: temperature-empty
+            "", // Icon: temperature-quarter
             "", // Icon: temperature-half
             "", // Icon: temperature-three-quarters
             ""  // Icon: temperature-full
-		]
+        ]
     },
 
     "cpu": {
@@ -93,7 +93,7 @@
           "warning": 70,
           "critical": 90
         },
-		"on-click": "riverctl spawn 'foot htop'"
+        "on-click": "riverctl spawn 'foot htop'"
     },
 
     "memory": {
@@ -104,7 +104,7 @@
             "warning": 70,
             "critical": 90
         },
-		"on-click": "riverctl spawn 'foot htop'"
+        "on-click": "riverctl spawn 'foot htop'"
     },
 
     "battery": {
@@ -125,8 +125,8 @@
             "", // Icon: battery-three-quarters
             ""  // Icon: battery-full
         ],
-		// TODO: create script using "upower -d"
-		"on-click": "riverctl spawn 'foot doas powertop'"
+        // TODO: create script using "upower -d"
+        "on-click": "riverctl spawn 'foot doas powertop'"
     },
 
     "backlight": {
@@ -136,9 +136,9 @@
         "format": "  {percent}%",
         //"format": "{icon} {percent}%",
         //"states": [0,50],
-		//"format-icons": ["", ""],
-		"on-click-right": "adjust_brightness.sh up",
-		"on-click": "adjust_brightness.sh down"
+        //"format-icons": ["", ""],
+        "on-click-right": "adjust_brightness.sh up",
+        "on-click": "adjust_brightness.sh down"
     },
 
     "network": {
@@ -147,6 +147,6 @@
         "format-wifi": "  {essid}", // Icon: wifi
         "format-ethernet": "  {ifname}", // Icon: ethernet
         "format-disconnected": "Disconnected",
-		"on-click": "start_stop_iwd.sh"
+        "on-click": "start_stop_iwd.sh"
     },
 }

@@ -27,8 +27,8 @@ libinput-gestures &
 # wob
 if [ -p "$WOB_PIPE" ] || [ -p "$WOB_PIPE_CENTER" ]; then
     killall wob
-	rm -f "$WOB_PIPE"
-	rm -f "$WOB_PIPE_CENTER"
+    rm -f "$WOB_PIPE"
+    rm -f "$WOB_PIPE_CENTER"
 fi
 mkfifo "$WOB_PIPE"
 mkfifo "$WOB_PIPE_CENTER"
@@ -195,12 +195,12 @@ for mode in normal locked; do
     # riverctl map $mode None XF86AudioLowerVolume spawn "amixer -M set Master 5%- | sed -En 's/.*\[([0-9]+)%\].*/\1/p' | head -1 > $WOB_PIPE"
     # riverctl map $mode None XF86AudioMute spawn "amixer -M set Master toggle | sed -En '/\[on\]/ s/.*\[([0-9]+)%\].*/\1/ p; /\[off\]/ s/.*/0/p' | head -1 > $WOB_PIPE"
 
-	# control microphone volume with alsa
+    # control microphone volume with alsa
     riverctl map $mode Control XF86AudioRaiseVolume spawn "amixer -M set Capture 5%+ | sed -En 's/.*\[([0-9]+)%\].*/\1/p' | head -1 > $WOB_PIPE"
     riverctl map $mode Control XF86AudioLowerVolume spawn "amixer -M set Capture 5%- | sed -En 's/.*\[([0-9]+)%\].*/\1/p' | head -1 > $WOB_PIPE"
     riverctl map $mode Control XF86AudioMute spawn "amixer -M set Capture toggle | sed -En '/\[on\]/ s/.*\[([0-9]+)%\].*/\1/ p; /\[off\]/ s/.*/0/p' | head -1 > $WOB_PIPE"
 
-	# control audio volume with pipewire
+    # control audio volume with pipewire
     riverctl map $mode None XF86AudioRaiseVolume spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%; print-volume-pactl > $WOB_PIPE"
     riverctl map $mode None XF86AudioLowerVolume spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%; print-volume-pactl > $WOB_PIPE"
     riverctl map $mode None XF86AudioMute spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle; print-volume-mute-status-pactl > $WOB_PIPE"
@@ -211,14 +211,14 @@ for mode in normal locked; do
     riverctl map $mode None XF86AudioPrev  spawn 'playerctl previous'
     riverctl map $mode None XF86AudioNext  spawn 'playerctl next'
 
-	# brightness
-	riverctl map $mode None XF86MonBrightnessUp   spawn "adjust_brightness.sh up > $WOB_PIPE"
-	riverctl map $mode None XF86MonBrightnessDown spawn "adjust_brightness.sh down > $WOB_PIPE"
+    # brightness
+    riverctl map $mode None XF86MonBrightnessUp   spawn "adjust_brightness.sh up > $WOB_PIPE"
+    riverctl map $mode None XF86MonBrightnessDown spawn "adjust_brightness.sh down > $WOB_PIPE"
 
-	# Map power off key to lock system
-	# done with acpi
-	# riverctl map normal None XF86PowerOff spawn "waylock --init-color 0xebdbb2 --input-color 0xb8bb26 --fail-color 0xfb4934"
-	# riverctl map $mode None XF86PowerOff spawn "waylock"
+    # Map power off key to lock system
+    # done with acpi
+    # riverctl map normal None XF86PowerOff spawn ""
+    # riverctl map $mode None XF86PowerOff spawn ""
 done
 
 # spawn new window in less important part

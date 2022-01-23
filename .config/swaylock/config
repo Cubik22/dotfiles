@@ -1,0 +1,19 @@
+# show-keyboard-layout
+indicator-caps-lock
+
+# black
+color=1d2021
+
+# green bright 	b8bb26
+# green normal 	98971a
+# blue light 	83a598
+# blue normal	458588
+
+# red light 	fb4934
+# red normal 	cc241d
+
+# inside-color=
+# inside-clear-color=
+# inside-caps-lock-color=
+# inside-ver-color=
+# inside-wrong-color=

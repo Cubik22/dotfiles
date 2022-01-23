@@ -12,7 +12,7 @@
     background: #1d2021;
     color: white;
     /*font-family: "Material Icons";*/
-	/*font-family: "Awesome 5 Free Solid";*/
+    /*font-family: "Awesome 5 Free Solid";*/
     font-size: 16px;
     font-weight: bold;
 }
@@ -40,13 +40,13 @@
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
 #tags button:hover {
-	/* padding-left and padding-right has to be changed for some reason */
+    /* padding-left and padding-right has to be changed for some reason */
     /*all: inherit;
     padding-left: 7px;
     padding-right: 8px;*/
 
-	box-shadow: inherit;
-	text-shadow: inherit;
+    box-shadow: inherit;
+    text-shadow: inherit;
     color: #6b705c;
     background: #1d2021;
 }
@@ -78,15 +78,15 @@
 #clock.date {
     font-weight: bold;
     padding-left: 10px;
-	padding-right: 10px;
-	background: #CB997E;
+    padding-right: 10px;
+    background: #CB997E;
     color: #1d2021;
 }
 
 #clock.time {
     font-weight: bold;
     padding-left: 10px;
-	padding-right: 10px;
+    padding-right: 10px;
     background: #6B705C;
     color: #1d2021;
 }
@@ -164,7 +164,7 @@
 }
 
 #network {
-	min-width: 150px;
+    min-width: 150px;
     background: #6B705C;
     color: #1d2021;
 }

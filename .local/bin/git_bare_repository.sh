@@ -61,6 +61,7 @@ doas rm -f /root/.dir_colors
 doas rm -fr /root/.config/git
 # doas rm -fr /root/.config/rbw
 doas rm -fr /root/.config/waylock
+doas rm -fr /root/.config/swaylock
 doas rm -fr /root/.config/shell
 doas rm -fr /root/.config/nvim
 doas rm -fr /root/.local/share/nvim
@@ -77,12 +78,14 @@ doas mkdir -p "/root/.config"
 doas mkdir -p "/root/.config/git"
 # doas mkdir -p "/root/.config/rbw"
 doas mkdir -p "/root/.config/waylock"
+doas mkdir -p "/root/.config/swaylock"
 
 doas mkdir -p "/root/.local/share"
 
 doas ln -s "$HOME"/.config/git/config /root/.config/git/
 # doas ln -s "$HOME"/.config/rbw/config.json /root/.config/rbw/
 doas ln -s "$HOME"/.config/waylock/waylock.toml /root/.config/waylock/
+doas ln -s "$HOME"/.config/swaylock/config /root/.config/swaylock/
 doas ln -s "$HOME"/.config/shell /root/.config/
 doas ln -s "$HOME"/.config/nvim /root/.config/
 doas ln -s "$HOME"/.local/share/nvim /root/.local/share/
