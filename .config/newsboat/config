@@ -12,9 +12,18 @@ reload-time 120
 # number of tries of downloading a feed
 download-retries 4
 
+# maximum number of articles to open in a browser
+max-browser-tabs 16
+
+# when an item is opened in the browser and marked as read jump to the next unread item
+openbrowser-and-mark-jumps-to-next-unread yes
+
 # for all feed items with no content but with a link
 # the link is downloaded and the result used as content instead
 download-full-page yes
+
+# operations executed on startup separated by semicolons
+run-on-startup next-unread
 
 # do not show lower bar
 show-keymap-hint no
@@ -35,6 +44,9 @@ browser lynx
 
 # set pager
 # pager kak-man
+
+# url viewer
+# external-url-viewer "urlview"
 
 ## macro
 
