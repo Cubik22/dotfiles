@@ -1,4 +1,9 @@
+### swaylock
+
+# show keyboard layout when typing
 # show-keyboard-layout
+
+# show if caps lock is active
 indicator-caps-lock
 
 # black
