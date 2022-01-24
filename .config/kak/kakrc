@@ -1,6 +1,6 @@
-## kakrc
+### kakrc
 
-# to install and update plugins .local/bin/kak-plugins-update
+# to install and update plugins kak-plugins-update
 
 # source config files
 evaluate-commands %sh{

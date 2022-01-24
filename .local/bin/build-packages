@@ -6,6 +6,23 @@
 
 package_names=$(cat << EOF
 all
+llvm
+zig
+ziget
+zigup
+zls
+lua-language-server
+htop
+fontpreview
+lsix
+gn
+wayland
+wlroots
+river
+waybar
+fuzzel
+epoll-shim
+foot
 qrupdate
 epstool
 sundials
@@ -14,23 +31,6 @@ jna
 biglybt
 wxwidgets
 amule
-fontpreview
-lsix
-gn
-lua-language-server
-ziget
-zigup
-zls
-llvm
-zig
-wayland
-wlroots
-river
-waybar
-fuzzel
-htop
-epoll-shim
-foot
 EOF
 )
 
@@ -106,6 +106,711 @@ prefix_dir="$HOME/.local"
 dev="$HOME/dev/package"
 
 mkdir -p "$dev"
+
+#### build functions
+
+### llvm
+# https://github.com/ziglang/zig/wiki/How-to-build-LLVM,-libclang,-and-liblld-from-source#posix
+llvm_install() {
+    echo "installing package: llvm"
+
+    if [ ! -d "$dev/llvm" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://github.com/llvm/llvm-project "$dev/llvm"
+    fi
+
+    cd "$dev/llvm" || return 1
+
+    if [ "$action" = "update" ]; then
+        rm -rf llvm/build-release
+        rm -rf lld/build-release
+        rm -rf clang/build-release
+        git pull --recurse-submodules
+    fi
+
+    git checkout release/13.x
+
+    llvm_install_prefix="/usr/lib"
+    llvm_prefix_path="/usr/lib"
+    # llvm_install_prefix="/usr/local/lib/llvm13-release"
+    # llvm_prefix_path="/usr/local/lib/llvm13-release"
+    # llvm_install_prefix="$XDG_LIB_HOME/llvm13-release"
+    # llvm_prefix_path="$XDG_LIB_HOME/llvm13-release"
+
+    # LLVM
+    cd llvm || return 1
+    mkdir build-release
+    cd build-release || return 1
+    cmake .. \
+        -DCMAKE_INSTALL_PREFIX="$llvm_install_prefix" \
+        -DCMAKE_PREFIX_PATH="$llvm_prefix_path" \
+        -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_LIBXML2=OFF \
+        -G Ninja -DLLVM_PARALLEL_LINK_JOBS=1
+    doas ninja install
+    cd ../.. || return 1
+
+    # LLD
+    cd lld || return 1
+    mkdir build-release
+    cd build-release || return 1
+    cmake .. \
+        -DCMAKE_INSTALL_PREFIX="$llvm_install_prefix" \
+        -DCMAKE_PREFIX_PATH="$llvm_prefix_path" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -G Ninja -DLLVM_PARALLEL_LINK_JOBS=1 \
+        -DCMAKE_CXX_STANDARD=17
+    doas ninja install
+    cd ../.. || return 1
+
+    # clang
+    cd clang || return 1
+    mkdir build-release
+    cd build-release || return 1
+    cmake .. \
+        -DCMAKE_INSTALL_PREFIX="$llvm_install_prefix" \
+        -DCMAKE_PREFIX_PATH="$llvm_prefix_path" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -G Ninja -DLLVM_PARALLEL_LINK_JOBS=1
+    doas ninja install
+    cd ../.. || return 1
+}
+
+### zig
+# https://github.com/ziglang/zig/wiki/Building-Zig-From-Source
+zig_install() {
+    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+        llvm_install "dep"
+    fi
+
+    echo "installing package: zig"
+
+    if [ ! -d "$dev/zig" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://github.com/ziglang/zig.git "$dev/zig"
+    fi
+
+    cd "$dev/zig" || return 1
+
+    if [ "$action" = "update" ]; then
+        rm -rf build
+        git pull --recurse-submodules
+    fi
+
+    mkdir build
+
+    cd build || return 1
+
+    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$prefix_dir" ..
+
+    make install
+}
+
+### ziget
+ziget_install() {
+    echo "installing package: ziget"
+
+    if [ ! -d "$dev/ziget" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://github.com/marler8997/ziget.git "$dev/ziget"
+    fi
+
+    cd "$dev/ziget" || return 1
+
+    if [ "$action" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    rm -rf zig-cache
+
+    zig build -Drelease-safe -Dfetch --prefix "$prefix_dir" install
+}
+
+### zigup
+zigup_install() {
+    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+        ziget_install "dep"
+    fi
+
+    echo "installing package: zigup"
+
+    if [ ! -d "$dev/zigup" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://github.com/marler8997/zigup.git "$dev/zigup"
+    fi
+
+    cd "$dev/zigup" || return 1
+
+    # zig_version=$(curl -s https://api.github.com/repos/ziglang/zig/releases | grep -i tag_name | head -n 1 | sed 's/^.*\"tag_name\": \"//' | sed 's/\",.*$//')
+
+    # zig_bootstrap="zig-bootstrap-$zig_version"
+
+    # curl -L -o "$zig_bootstrap.tar.xz" "https://github.com/ziglang/zig/releases/download/$zig_version/$zig_bootstrap.tar.xz"
+
+    # mkdir "$zig_bootstrap"
+
+    # tar -x --xz --strip-components=1 -f "$zig_bootstrap.tar.xz" -C "$zig_bootstrap"
+
+    if [ "$action" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    rm -rf zig-cache
+
+    zig build -Drelease-safe -Dfetch --prefix "$prefix_dir" install
+
+    ## update with normal zig installed
+    # set path-link to a directory that does not exist so it does not automatically link
+    # zigup --install-dir "$XDG_LIB_HOME/zig" --path-link "does-not-exist" master
+    # then manually link zig-master
+    # ln -s "$XDG_LIB_HOME/zig/{version}/files/zig" "$XDG_BIN_HOME/zig-master"
+
+    ## update without normal zig installed
+    # zigup --install-dir "$XDG_LIB_HOME/zig" --path-link "$XDG_BIN_HOME" master
+    # then manually link zig if it fails
+    # ln -s "$XDG_LIB_HOME/zig/{version}/files/zig" "$XDG_BIN_HOME/zig"
+}
+
+### zls
+zls_install() {
+    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+        zigup_install "dep"
+    fi
+
+    echo "installing package: zls"
+
+    if [ ! -d "$dev/zls" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://github.com/zigtools/zls.git "$dev/zls"
+    fi
+
+    cd "$dev/zls" || return 1
+
+    if [ "$action" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    rm -rf zig-cache
+
+    # zig_version="$(xbps-query zig | grep pkgver | awk '{ print $1 }' | sed 's/zig-//g' | sed 's/_.//g')"
+
+    # zig build -Drelease-safe -Ddata_version="$zig_version" --prefix "$prefix_dir" install
+    zig build -Drelease-safe --prefix "$prefix_dir" install
+}
+
+### lua-language-server
+# https://github.com/sumneko/lua-language-server/wiki/Build-and-Run
+lua_language_server_install() {
+    echo "installing package: lua-language-server"
+
+    if [ ! -d "$dev/lua-language-server" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://github.com/sumneko/lua-language-server.git "$dev/lua-language-server"
+    fi
+
+    cd "$dev/lua-language-server" || return 1
+
+    if [ "$action" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    # prevent lua-language-server from writing .bashrc
+    chmod u-w "$HOME"/.bashrc
+
+    cd "3rd/luamake" || return 1
+
+    ./compile/install.sh
+
+    cd "$dev/lua-language-server" || return 1
+
+    ./3rd/luamake/luamake rebuild
+
+    # unlock .bashrc
+    chmod u+w "$HOME"/.bashrc
+
+    # directory used in kak-lsp/kak-lsp.toml
+    if [ "$action" = "install" ]; then
+        doas ln -s "$dev/lua-language-server/bin/Linux" /usr/local/lib/lua-language-server
+    fi
+}
+
+### htop
+# https://github.com/htop-dev/htop
+# https://aur.archlinux.org/packages/htop-vim
+htop_install() {
+    echo "installing package: htop"
+
+    if [ ! -d "$dev/htop" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://aur.archlinux.org/htop-vim.git "$dev/htop-vim"
+    fi
+
+    doas rm -rf "$dev/htop"
+    git clone --recurse-submodules https://github.com/htop-dev/htop.git "$dev/htop"
+
+    cd  "$dev/htop-vim" || return 1
+
+    if [ "$action" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    cd "$dev/htop" || return 1
+
+    patch --forward --strip=1 --input="$dev/htop-vim/vim-keybindings.patch"
+
+cat << EOF > screen.patch
+    18a19
+    > #include "MainPanel.h"
+EOF
+
+    patch ScreenManager.c screen.patch
+
+    ./autogen.sh || return 1
+
+    # https://www.gnu.org/software/gettext/manual/html_node/config_002eguess.html
+    wget -O config.guess 'https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+    chmod a+x config.guess
+
+    build_type="$(./config.guess)"
+
+    # program_transform_name="htop-vi"
+
+    # program_prefix="htop"
+    # program_suffix="vi"
+
+        # CFLAGS="-fcommon" \
+        # --prefix=/usr \
+        # --sysconfdir=/etc \
+        # --enable-pcp \
+        # --program-transform-name="$program_transform_name" \
+        # --program-prefix="$program_prefix" \
+        # --program-suffix="$program_suffix" \
+    ./configure \
+        --build="$build_type" \
+        --host="$build_type" \
+        --target="$build_type" \
+        --program-transform-name="" \
+        --enable-openvz \
+        --enable-vserver \
+        || return 1
+
+    make -j8 || return 1
+
+    doas make -j8 install
+}
+
+### fontpreview
+# https://github.com/sdushantha/fontpreview
+fontpreview_install() {
+    echo "installing package: fontpreview"
+
+    if [ ! -d "$dev/fontpreview" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://github.com/sdushantha/fontpreview.git "$dev/fontpreview"
+    fi
+
+    cd "$dev/fontpreview" || return 1
+
+    if [ "$action" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    doas make -j8 install
+}
+
+### lsix
+# https://github.com/hackerb9/lsix
+lsix_install() {
+    echo "installing package: lsix"
+
+    if [ ! -d "$dev/lsix" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://github.com/hackerb9/lsix.git "$dev/lsix"
+    fi
+
+    cd "$dev/lsix" || return 1
+
+    if [ "$action" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    doas install -Dm775 "$dev/lsix/lsix" /usr/local/bin/
+}
+
+### gn
+# https://gn.googlesource.com/gn
+gn_install() {
+    echo "installing package: gn"
+
+    if [ ! -d "$dev/gn" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://gn.googlesource.com/gn "$dev/gn"
+    fi
+
+    cd "$dev/gn" || return 1
+
+    if [ "$action" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    python build/gen.py
+
+    ninja -C out
+
+    # to run tests
+    # out/gn_unittests
+
+    if [ "$action" = "install" ]; then
+        doas ln -s "$dev/gn/out/gn" /usr/local/bin/
+    fi
+}
+
+### wayland
+wayland_install() {
+    echo "installing package: wayland"
+
+    if [ ! -d "$dev/wayland" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland.git "$dev/wayland"
+        git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland-protocols.git "$dev/wayland-protocols"
+        git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland-utils.git "$dev/wayland-utils"
+    fi
+
+    cd "$dev/wayland" || return 1
+
+    if [ "$action" = "update" ]; then
+        rm -rf build
+        git pull --recurse-submodules
+    fi
+
+    meson build/ --prefix="$prefix_dir"
+    ninja -C build/ install
+
+    cd "$dev/wayland-protocols" || return 1
+
+    if [ "$action" = "update" ]; then
+        rm -rf build
+        git pull --recurse-submodules
+    fi
+
+    meson build/ --prefix="$prefix_dir"
+    ninja -C build/ install
+
+    cd "$dev/wayland-utils" || return 1
+
+    if [ "$action" = "update" ]; then
+        rm -rf build
+        git pull --recurse-submodules
+    fi
+
+    meson build/ --prefix="$prefix_dir"
+    ninja -C build/ install
+
+    ldconfig -n "$XDG_LIB_HOME"
+}
+
+### wlroots
+wlroots_install() {
+    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+        wayland_install "dep"
+    fi
+
+    echo "installing package: wlroots"
+
+    if [ ! -d "$dev/wlroots" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://gitlab.freedesktop.org/wlroots/wlroots.git "$dev/wlroots"
+    fi
+
+    cd "$dev/wlroots" || return 1
+
+    if [ "$action" = "update" ]; then
+        rm -rf build
+        git pull --recurse-submodules
+    fi
+
+    mkdir build
+
+        # -Drenderers="['vulkan']" -Dbackends="['drm', 'libinput']" \
+    meson \
+        -Dxcb-errors=disabled -Dxwayland=disabled -Dexamples=false \
+        build/ --prefix="$prefix_dir"
+
+    # ninja -C build/
+    ninja -C build/ install
+
+    ldconfig -n "$XDG_LIB_HOME"
+}
+
+### river
+river_install() {
+    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+        wlroots_install "dep"
+    fi
+
+    echo "installing package: river"
+
+    if [ ! -d "$dev/river" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://github.com/riverwm/river.git "$dev/river"
+    fi
+
+    cd "$dev/river" || return 1
+
+    if [ "$action" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    rm -rf zig-cache
+
+    # -Dxwayland for xwayland support
+    zig build -Drelease-safe -Dman-pages --prefix "$prefix_dir" install
+    # zig build -Drelease-safe -Dman-pages -Dxwayland --prefix $prefix_dir install
+}
+
+### waybar
+waybar_install() {
+    echo "installing package: waybar"
+
+    if [ ! -d "$dev/waybar" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://github.com/Alexays/Waybar.git "$dev/waybar"
+    fi
+
+    cd "$dev/waybar" || return 1
+
+    if [ "$action" = "update" ]; then
+        git pull --recurse-submodules
+    fi
+
+    # build options enabled/disabled
+
+    if [ "$action" = "install" ]; then
+        meson -Dprefix="$prefix_dir" \
+            -Dlibnl=enabled -Dlibudev=enabled -Dlibevdev=enabled \
+            -Dpulseaudio=enabled -Dsystemd=disabled -Ddbusmenu-gtk=disabled \
+            -Dman-pages=enabled -Dmpd=disabled -Dgtk-layer-shell=disabled \
+            -Drfkill=enabled -Dsndio=disabled -Dtests=disabled \
+            build
+    else
+        meson --reconfigure -Dprefix="$prefix_dir" \
+            -Dlibnl=enabled -Dlibudev=enabled -Dlibevdev=enabled \
+            -Dpulseaudio=enabled -Dsystemd=disabled -Ddbusmenu-gtk=disabled \
+            -Dman-pages=enabled -Dmpd=disabled -Dgtk-layer-shell=disabled \
+            -Drfkill=enabled -Dsndio=disabled -Dtests=disabled \
+            build
+    fi
+
+    ninja -C build install
+}
+
+### fuzzel
+# https://codeberg.org/dnkl/fuzzel
+fuzzel_install() {
+    echo "installing package: fuzzel"
+
+    if [ ! -d "$dev/fuzzel" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://codeberg.org/dnkl/fuzzel.git "$dev/fuzzel"
+    fi
+
+    cd "$dev/fuzzel" || return 1
+
+    if [ "$action" = "update" ]; then
+        rm -rf bld/release
+        git pull --recurse-submodules
+    fi
+
+    mkdir -p bld/release
+
+    cd bld/release || return 1
+
+    meson --prefix="$prefix_dir" --buildtype=release \
+        -Denable-cairo=enabled \
+        -Dpng-backend=libpng \
+        -Dsvg-backend=librsvg \
+        ../..
+
+    ninja
+
+    ninja install
+}
+
+### epoll-shim
+# https://github.com/jiixyj/epoll-shim
+# just when on bsd
+epoll_shim_install() {
+    echo "installing package: epoll-shim"
+
+    if [ ! -d "$dev/epoll-shim" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://github.com/jiixyj/epoll-shim.git "$dev/epoll-shim"
+    fi
+
+    cd "$dev/epoll-shim" || return 1
+
+    if [ "$action" = "update" ]; then
+        rm -rf build
+        git pull --recurse-submodules
+    fi
+
+    mkdir build
+
+    cd build || return 1
+
+    cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
+
+    cmake --build .
+
+    ctest --output-on-failure
+
+    doas cmake --build . --target install
+}
+
+### foot
+# https://codeberg.org/dnkl/foot/src/branch/master/INSTALL.md
+foot_install() {
+    # if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+    #     epoll_shim_install "dep"
+    # fi
+
+    echo "installing package: foot"
+
+    if [ ! -d "$dev/foot" ]; then
+        action="install"
+    else
+        action="update"
+    fi
+
+    if [ "$action" = "install" ]; then
+        git clone --recurse-submodules https://codeberg.org/dnkl/foot.git "$dev/foot"
+    fi
+
+    cd "$dev/foot" || return 1
+
+    if [ "$action" = "update" ]; then
+        rm -rf bld/release
+        git pull --recurse-submodules
+    fi
+
+    mkdir -p bld/release
+
+    cd bld/release || return 1
+
+    # change also below and in .config/kak/foot.kak
+    # -Ddefault-terminfo=xterm
+    # -Ddefault-terminfo=xterm-256color
+    # -Ddefault-terminfo=alacritty
+
+    export CFLAGS="$CFLAGS -O3"
+    meson --buildtype=release -Dthemes=true --prefix="$prefix_dir_global" -Dterminfo=enabled -Db_lto=true ../..
+    # meson --buildtype=release -Dthemes=true --prefix="$prefix_dir_global" -Dterminfo=enabled -Ddefault-terminfo=xterm-256color -Db_lto=true ../..
+    meson configure -Db_pgo=generate
+    ninja
+    ninja test
+
+    # --term=xterm
+    # --term=xterm-256color
+    # --term=alacritty
+
+    ./footclient --version
+    foot_tmp_file=$(mktemp)
+    ./foot \
+        --config=/dev/null \
+        --override tweak.grapheme-shaping=no \
+        --term=xterm \
+        sh -c "$dev/foot/scripts/generate-alt-random-writes.py --scroll --scroll-region --colors-regular --colors-bright --colors-256 --colors-rgb --attr-bold --attr-italic --attr-underline --sixel ${foot_tmp_file} && cat ${foot_tmp_file}"
+    rm "${foot_tmp_file}"
+
+    meson configure -Db_pgo=use
+    ninja
+    ninja test
+    doas ninja install
+
+    cd "$dev/foot" || return 1
+
+    # terminfo
+    doas sed 's/@default_terminfo@/foot/g' foot.info | doas tic -x -e foot,foot-direct -
+}
 
 ### qrupdate
 # https://sourceforge.net/projects/qrupdate
@@ -493,708 +1198,6 @@ amule_install() {
     #   comment: wxCHECK_RET
     # doas make -j8 install
     # doas ldconfig
-}
-
-### fontpreview
-# https://github.com/sdushantha/fontpreview
-fontpreview_install() {
-    echo "installing package: fontpreview"
-
-    if [ ! -d "$dev/fontpreview" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/sdushantha/fontpreview.git "$dev/fontpreview"
-    fi
-
-    cd "$dev/fontpreview" || return 1
-
-    if [ "$action" = "update" ]; then
-        git pull --recurse-submodules
-    fi
-
-    doas make -j8 install
-}
-
-### lsix
-# https://github.com/hackerb9/lsix
-lsix_install() {
-    echo "installing package: lsix"
-
-    if [ ! -d "$dev/lsix" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/hackerb9/lsix.git "$dev/lsix"
-    fi
-
-    cd "$dev/lsix" || return 1
-
-    if [ "$action" = "update" ]; then
-        git pull --recurse-submodules
-    fi
-
-    doas install -Dm775 "$dev/lsix/lsix" /usr/local/bin/
-}
-
-### gn
-# https://gn.googlesource.com/gn
-gn_install() {
-    echo "installing package: gn"
-
-    if [ ! -d "$dev/gn" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://gn.googlesource.com/gn "$dev/gn"
-    fi
-
-    cd "$dev/gn" || return 1
-
-    if [ "$action" = "update" ]; then
-        git pull --recurse-submodules
-    fi
-
-    python build/gen.py
-
-    ninja -C out
-
-    # to run tests
-    # out/gn_unittests
-
-    if [ "$action" = "install" ]; then
-        doas ln -s "$dev/gn/out/gn" /usr/local/bin/
-    fi
-}
-
-### lua-language-server
-# https://github.com/sumneko/lua-language-server/wiki/Build-and-Run
-lua_language_server_install() {
-    echo "installing package: lua-language-server"
-
-    if [ ! -d "$dev/lua-language-server" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/sumneko/lua-language-server.git "$dev/lua-language-server"
-    fi
-
-    cd "$dev/lua-language-server" || return 1
-
-    if [ "$action" = "update" ]; then
-        git pull --recurse-submodules
-    fi
-
-    # prevent lua-language-server from writing .bashrc
-    chmod u-w "$HOME"/.bashrc
-
-    cd "3rd/luamake" || return 1
-
-    ./compile/install.sh
-
-    cd "$dev/lua-language-server" || return 1
-
-    ./3rd/luamake/luamake rebuild
-
-    # unlock .bashrc
-    chmod u+w "$HOME"/.bashrc
-
-    # directory used in kak-lsp/kak-lsp.toml
-    if [ "$action" = "install" ]; then
-        doas ln -s "$dev/lua-language-server/bin/Linux" /usr/local/lib/lua-language-server
-    fi
-}
-
-### ziget
-ziget_install() {
-    echo "installing package: ziget"
-
-    if [ ! -d "$dev/ziget" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/marler8997/ziget.git "$dev/ziget"
-    fi
-
-    cd "$dev/ziget" || return 1
-
-    if [ "$action" = "update" ]; then
-        git pull --recurse-submodules
-    fi
-
-    rm -rf zig-cache
-
-    zig build -Drelease-safe -Dfetch --prefix "$prefix_dir" install
-}
-
-### zigup
-zigup_install() {
-    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
-        ziget_install "dep"
-    fi
-
-    echo "installing package: zigup"
-
-    if [ ! -d "$dev/zigup" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/marler8997/zigup.git "$dev/zigup"
-    fi
-
-    cd "$dev/zigup" || return 1
-
-    # zig_version=$(curl -s https://api.github.com/repos/ziglang/zig/releases | grep -i tag_name | head -n 1 | sed 's/^.*\"tag_name\": \"//' | sed 's/\",.*$//')
-
-    # zig_bootstrap="zig-bootstrap-$zig_version"
-
-    # curl -L -o "$zig_bootstrap.tar.xz" "https://github.com/ziglang/zig/releases/download/$zig_version/$zig_bootstrap.tar.xz"
-
-    # mkdir "$zig_bootstrap"
-
-    # tar -x --xz --strip-components=1 -f "$zig_bootstrap.tar.xz" -C "$zig_bootstrap"
-
-    if [ "$action" = "update" ]; then
-        git pull --recurse-submodules
-    fi
-
-    rm -rf zig-cache
-
-    zig build -Drelease-safe -Dfetch --prefix "$prefix_dir" install
-
-    ## update with normal zig installed
-    # set path-link to a directory that does not exist so it does not automatically link
-    # zigup --install-dir "$XDG_LIB_HOME/zig" --path-link "does-not-exist" master
-    # then manually link zig-master
-    # ln -s "$XDG_LIB_HOME/zig/{version}/files/zig" "$XDG_BIN_HOME/zig-master"
-
-    ## update without normal zig installed
-    # zigup --install-dir "$XDG_LIB_HOME/zig" --path-link "$XDG_BIN_HOME" master
-    # then manually link zig if it fails
-    # ln -s "$XDG_LIB_HOME/zig/{version}/files/zig" "$XDG_BIN_HOME/zig"
-}
-
-### zls
-zls_install() {
-    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
-        zigup_install "dep"
-    fi
-
-    echo "installing package: zls"
-
-    if [ ! -d "$dev/zls" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/zigtools/zls.git "$dev/zls"
-    fi
-
-    cd "$dev/zls" || return 1
-
-    if [ "$action" = "update" ]; then
-        git pull --recurse-submodules
-    fi
-
-    rm -rf zig-cache
-
-    # zig_version="$(xbps-query zig | grep pkgver | awk '{ print $1 }' | sed 's/zig-//g' | sed 's/_.//g')"
-
-    # zig build -Drelease-safe -Ddata_version="$zig_version" --prefix "$prefix_dir" install
-    zig build -Drelease-safe --prefix "$prefix_dir" install
-}
-
-### llvm
-# https://github.com/ziglang/zig/wiki/How-to-build-LLVM,-libclang,-and-liblld-from-source#posix
-llvm_install() {
-    echo "installing package: llvm"
-
-    if [ ! -d "$dev/llvm" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/llvm/llvm-project "$dev/llvm"
-    fi
-
-    cd "$dev/llvm" || return 1
-
-    if [ "$action" = "update" ]; then
-        rm -rf llvm/build-release
-        rm -rf lld/build-release
-        rm -rf clang/build-release
-        git pull --recurse-submodules
-    fi
-
-    git checkout release/13.x
-
-    llvm_install_prefix="/usr/lib"
-    llvm_prefix_path="/usr/lib"
-    # llvm_install_prefix="/usr/local/lib/llvm13-release"
-    # llvm_prefix_path="/usr/local/lib/llvm13-release"
-    # llvm_install_prefix="$XDG_LIB_HOME/llvm13-release"
-    # llvm_prefix_path="$XDG_LIB_HOME/llvm13-release"
-
-    # LLVM
-    cd llvm || return 1
-    mkdir build-release
-    cd build-release || return 1
-    cmake .. \
-        -DCMAKE_INSTALL_PREFIX="$llvm_install_prefix" \
-        -DCMAKE_PREFIX_PATH="$llvm_prefix_path" \
-        -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_LIBXML2=OFF \
-        -G Ninja -DLLVM_PARALLEL_LINK_JOBS=1
-    doas ninja install
-    cd ../.. || return 1
-
-    # LLD
-    cd lld || return 1
-    mkdir build-release
-    cd build-release || return 1
-    cmake .. \
-        -DCMAKE_INSTALL_PREFIX="$llvm_install_prefix" \
-        -DCMAKE_PREFIX_PATH="$llvm_prefix_path" \
-        -DCMAKE_BUILD_TYPE=Release \
-        -G Ninja -DLLVM_PARALLEL_LINK_JOBS=1 \
-        -DCMAKE_CXX_STANDARD=17
-    doas ninja install
-    cd ../.. || return 1
-
-    # clang
-    cd clang || return 1
-    mkdir build-release
-    cd build-release || return 1
-    cmake .. \
-        -DCMAKE_INSTALL_PREFIX="$llvm_install_prefix" \
-        -DCMAKE_PREFIX_PATH="$llvm_prefix_path" \
-        -DCMAKE_BUILD_TYPE=Release \
-        -G Ninja -DLLVM_PARALLEL_LINK_JOBS=1
-    doas ninja install
-    cd ../.. || return 1
-}
-
-### zig
-# https://github.com/ziglang/zig/wiki/Building-Zig-From-Source
-zig_install() {
-    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
-        llvm_install "dep"
-    fi
-
-    echo "installing package: zig"
-
-    if [ ! -d "$dev/zig" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/ziglang/zig.git "$dev/zig"
-    fi
-
-    cd "$dev/zig" || return 1
-
-    if [ "$action" = "update" ]; then
-        rm -rf build
-        git pull --recurse-submodules
-    fi
-
-    mkdir build
-
-    cd build || return 1
-
-    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$prefix_dir" ..
-
-    make install
-}
-
-### wayland
-wayland_install() {
-    echo "installing package: wayland"
-
-    if [ ! -d "$dev/wayland" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland.git "$dev/wayland"
-        git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland-protocols.git "$dev/wayland-protocols"
-        git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland-utils.git "$dev/wayland-utils"
-    fi
-
-    cd "$dev/wayland" || return 1
-
-    if [ "$action" = "update" ]; then
-        rm -rf build
-        git pull --recurse-submodules
-    fi
-
-    meson build/ --prefix="$prefix_dir"
-    ninja -C build/ install
-
-    cd "$dev/wayland-protocols" || return 1
-
-    if [ "$action" = "update" ]; then
-        rm -rf build
-        git pull --recurse-submodules
-    fi
-
-    meson build/ --prefix="$prefix_dir"
-    ninja -C build/ install
-
-    cd "$dev/wayland-utils" || return 1
-
-    if [ "$action" = "update" ]; then
-        rm -rf build
-        git pull --recurse-submodules
-    fi
-
-    meson build/ --prefix="$prefix_dir"
-    ninja -C build/ install
-
-    ldconfig -n "$XDG_LIB_HOME"
-}
-
-### wlroots
-wlroots_install() {
-    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
-        wayland_install "dep"
-    fi
-
-    echo "installing package: wlroots"
-
-    if [ ! -d "$dev/wlroots" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://gitlab.freedesktop.org/wlroots/wlroots.git "$dev/wlroots"
-    fi
-
-    cd "$dev/wlroots" || return 1
-
-    if [ "$action" = "update" ]; then
-        rm -rf build
-        git pull --recurse-submodules
-    fi
-
-    mkdir build
-
-        # -Drenderers="['vulkan']" -Dbackends="['drm', 'libinput']" \
-    meson \
-        -Dxcb-errors=disabled -Dxwayland=disabled -Dexamples=false \
-        build/ --prefix="$prefix_dir"
-
-    # ninja -C build/
-    ninja -C build/ install
-
-    ldconfig -n "$XDG_LIB_HOME"
-}
-
-### river
-river_install() {
-    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
-        wlroots_install "dep"
-    fi
-
-    echo "installing package: river"
-
-    if [ ! -d "$dev/river" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/riverwm/river.git "$dev/river"
-    fi
-
-    cd "$dev/river" || return 1
-
-    if [ "$action" = "update" ]; then
-        git pull --recurse-submodules
-    fi
-
-    rm -rf zig-cache
-
-    # -Dxwayland for xwayland support
-    zig build -Drelease-safe -Dman-pages --prefix "$prefix_dir" install
-    # zig build -Drelease-safe -Dman-pages -Dxwayland --prefix $prefix_dir install
-}
-
-### waybar
-waybar_install() {
-    echo "installing package: waybar"
-
-    if [ ! -d "$dev/waybar" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/Alexays/Waybar.git "$dev/waybar"
-    fi
-
-    cd "$dev/waybar" || return 1
-
-    if [ "$action" = "update" ]; then
-        git pull --recurse-submodules
-    fi
-
-    # build options enabled/disabled
-
-    if [ "$action" = "install" ]; then
-        meson -Dprefix="$prefix_dir" \
-            -Dlibnl=enabled -Dlibudev=enabled -Dlibevdev=enabled \
-            -Dpulseaudio=enabled -Dsystemd=disabled -Ddbusmenu-gtk=disabled \
-            -Dman-pages=enabled -Dmpd=disabled -Dgtk-layer-shell=disabled \
-            -Drfkill=enabled -Dsndio=disabled -Dtests=disabled \
-            build
-    else
-        meson --reconfigure -Dprefix="$prefix_dir" \
-            -Dlibnl=enabled -Dlibudev=enabled -Dlibevdev=enabled \
-            -Dpulseaudio=enabled -Dsystemd=disabled -Ddbusmenu-gtk=disabled \
-            -Dman-pages=enabled -Dmpd=disabled -Dgtk-layer-shell=disabled \
-            -Drfkill=enabled -Dsndio=disabled -Dtests=disabled \
-            build
-    fi
-
-    ninja -C build install
-}
-
-### fuzzel
-# https://codeberg.org/dnkl/fuzzel
-fuzzel_install() {
-    echo "installing package: fuzzel"
-
-    if [ ! -d "$dev/fuzzel" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://codeberg.org/dnkl/fuzzel.git "$dev/fuzzel"
-    fi
-
-    cd "$dev/fuzzel" || return 1
-
-    if [ "$action" = "update" ]; then
-        rm -rf bld/release
-        git pull --recurse-submodules
-    fi
-
-    mkdir -p bld/release
-
-    cd bld/release || return 1
-
-    meson --prefix="$prefix_dir" --buildtype=release \
-        -Denable-cairo=enabled \
-        -Dpng-backend=libpng \
-        -Dsvg-backend=librsvg \
-        ../..
-
-    ninja
-
-    ninja install
-}
-
-# https://github.com/htop-dev/htop
-# https://aur.archlinux.org/packages/htop-vim
-htop_install() {
-    echo "installing package: htop"
-
-    if [ ! -d "$dev/htop" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://aur.archlinux.org/htop-vim.git "$dev/htop-vim"
-    fi
-
-    doas rm -rf "$dev/htop"
-    git clone --recurse-submodules https://github.com/htop-dev/htop.git "$dev/htop"
-
-    cd  "$dev/htop-vim" || return 1
-
-    if [ "$action" = "update" ]; then
-        git pull --recurse-submodules
-    fi
-
-    cd "$dev/htop" || return 1
-
-    patch --forward --strip=1 --input="$dev/htop-vim/vim-keybindings.patch"
-
-cat << EOF > screen.patch
-    18a19
-    > #include "MainPanel.h"
-EOF
-
-    patch ScreenManager.c screen.patch
-
-    ./autogen.sh || return 1
-
-    # https://www.gnu.org/software/gettext/manual/html_node/config_002eguess.html
-    wget -O config.guess 'https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
-    chmod a+x config.guess
-
-    build_type="$(./config.guess)"
-
-    # program_transform_name="htop-vi"
-
-    # program_prefix="htop"
-    # program_suffix="vi"
-
-        # CFLAGS="-fcommon" \
-        # --prefix=/usr \
-        # --sysconfdir=/etc \
-        # --enable-pcp \
-        # --program-transform-name="$program_transform_name" \
-        # --program-prefix="$program_prefix" \
-        # --program-suffix="$program_suffix" \
-    ./configure \
-        --build="$build_type" \
-        --host="$build_type" \
-        --target="$build_type" \
-        --program-transform-name="" \
-        --enable-openvz \
-        --enable-vserver \
-        || return 1
-
-    make -j8 || return 1
-
-    doas make -j8 install
-}
-
-### epoll-shim
-# https://github.com/jiixyj/epoll-shim
-# just when on bsd
-epoll_shim_install() {
-    echo "installing package: epoll-shim"
-
-    if [ ! -d "$dev/epoll-shim" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/jiixyj/epoll-shim.git "$dev/epoll-shim"
-    fi
-
-    cd "$dev/epoll-shim" || return 1
-
-    if [ "$action" = "update" ]; then
-        rm -rf build
-        git pull --recurse-submodules
-    fi
-
-    mkdir build
-
-    cd build || return 1
-
-    cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
-
-    cmake --build .
-
-    ctest --output-on-failure
-
-    doas cmake --build . --target install
-}
-
-### foot
-# https://codeberg.org/dnkl/foot/src/branch/master/INSTALL.md
-foot_install() {
-    # if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
-    #     epoll_shim_install "dep"
-    # fi
-
-    echo "installing package: foot"
-
-    if [ ! -d "$dev/foot" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://codeberg.org/dnkl/foot.git "$dev/foot"
-    fi
-
-    cd "$dev/foot" || return 1
-
-    if [ "$action" = "update" ]; then
-        rm -rf bld/release
-        git pull --recurse-submodules
-    fi
-
-    mkdir -p bld/release
-
-    cd bld/release || return 1
-
-    # change also below and in .config/kak/foot.kak
-    # -Ddefault-terminfo=xterm
-    # -Ddefault-terminfo=xterm-256color
-    # -Ddefault-terminfo=alacritty
-
-    export CFLAGS="$CFLAGS -O3"
-    meson --buildtype=release -Dthemes=true --prefix="$prefix_dir_global" -Dterminfo=enabled -Db_lto=true ../..
-    # meson --buildtype=release -Dthemes=true --prefix="$prefix_dir_global" -Dterminfo=enabled -Ddefault-terminfo=xterm-256color -Db_lto=true ../..
-    meson configure -Db_pgo=generate
-    ninja
-    ninja test
-
-    # --term=xterm
-    # --term=xterm-256color
-    # --term=alacritty
-
-    ./footclient --version
-    foot_tmp_file=$(mktemp)
-    ./foot \
-        --config=/dev/null \
-        --override tweak.grapheme-shaping=no \
-        --term=xterm \
-        sh -c "$dev/foot/scripts/generate-alt-random-writes.py --scroll --scroll-region --colors-regular --colors-bright --colors-256 --colors-rgb --attr-bold --attr-italic --attr-underline --sixel ${foot_tmp_file} && cat ${foot_tmp_file}"
-    rm "${foot_tmp_file}"
-
-    meson configure -Db_pgo=use
-    ninja
-    ninja test
-    doas ninja install
-
-    cd "$dev/foot" || return 1
-
-    # terminfo
-    doas sed 's/@default_terminfo@/foot/g' foot.info | doas tic -x -e foot,foot-direct -
 }
 
 #### install packages
