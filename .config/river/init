@@ -45,26 +45,34 @@ mod="Mod4"
 
 ### Programs
 
+# mod + key used
+# Return Space Period,Comma [0-9] F11
+# J K H L Q F P
+# A I S D
+
 # Return footclient
 riverctl map normal $mod+Control Return spawn "footclient"
 # Backspace footclient float
 riverctl map normal $mod+Control Backspace spawn "footclient --app-id=float"
 
+# A kak fzf
+riverctl map normal $mod A spawn "footclient --app-id=float kak-smart no"
+
+# I iwctl
+riverctl map normal $mod I spawn "footclient --app-id=float iwctl"
+
+# S screenshots with grim and slurp
+riverctl map normal $mod S spawn 'screenshot selection; echo "100" > $WOB_PIPE_CENTER'
+riverctl map normal $mod+Shift S spawn 'screenshot fullscreen; echo "100" > $WOB_PIPE_CENTER'
+# riverctl map normal $mod S spawn 'grim -g "$(slurp)" - | wl-copy-env'
+
+# D fuzzel
+riverctl map normal $mod D spawn "fuzzel.sh"
+
 # F firefox
 riverctl map normal $mod+Control F spawn "firefox-wayland"
 # Firefox incognito mode
 riverctl map normal $mod+Control+Shift F spawn "firefox-wayland -private-window"
-
-# A kak fzf
-riverctl map normal $mod A spawn "footclient --app-id=float kak-smart no"
-
-# S screenshots with grim and slurp
-# riverctl map normal $mod S spawn 'grim -g "$(slurp)" - | wl-copy-env'
-riverctl map normal $mod S spawn 'screenshot selection; echo "100" > $WOB_PIPE_CENTER'
-riverctl map normal $mod+Shift S spawn 'screenshot fullscreen; echo "100" > $WOB_PIPE_CENTER'
-
-# D fuzzel
-riverctl map normal $mod D spawn "fuzzel.sh"
 
 ### Windows
 
@@ -168,11 +176,11 @@ riverctl map normal $mod Space toggle-float
 # Mod+F to toggle fullscreen
 riverctl map normal $mod F toggle-fullscreen
 
-# Mod+{Up,Right,Down,Left} to change layout orientation
-riverctl map normal $mod Up    send-layout-cmd rivertile "main-location top"
-riverctl map normal $mod Right send-layout-cmd rivertile "main-location right"
-riverctl map normal $mod Down  send-layout-cmd rivertile "main-location bottom"
-riverctl map normal $mod Left  send-layout-cmd rivertile "main-location left"
+# Mod+Control+{J,K,H,L} to change layout orientation
+riverctl map normal $mod+Control J send-layout-cmd rivertile "main-location bottom"
+riverctl map normal $mod+Control K send-layout-cmd rivertile "main-location top"
+riverctl map normal $mod+Control H send-layout-cmd rivertile "main-location left"
+riverctl map normal $mod+Control L send-layout-cmd rivertile "main-location right"
 
 # Declare a passthrough mode. This mode has only a single mapping to return to
 # normal mode. This makes it useful for testing a nested wayland compositor
@@ -196,9 +204,9 @@ for mode in normal locked; do
     # riverctl map $mode None XF86AudioMute spawn "amixer -M set Master toggle | sed -En '/\[on\]/ s/.*\[([0-9]+)%\].*/\1/ p; /\[off\]/ s/.*/0/p' | head -1 > $WOB_PIPE"
 
     # control microphone volume with alsa
-    riverctl map $mode Control XF86AudioRaiseVolume spawn "amixer -M set Capture 5%+ | sed -En 's/.*\[([0-9]+)%\].*/\1/p' | head -1 > $WOB_PIPE"
-    riverctl map $mode Control XF86AudioLowerVolume spawn "amixer -M set Capture 5%- | sed -En 's/.*\[([0-9]+)%\].*/\1/p' | head -1 > $WOB_PIPE"
-    riverctl map $mode Control XF86AudioMute spawn "amixer -M set Capture toggle | sed -En '/\[on\]/ s/.*\[([0-9]+)%\].*/\1/ p; /\[off\]/ s/.*/0/p' | head -1 > $WOB_PIPE"
+    riverctl map $mode+Shift XF86AudioRaiseVolume spawn "amixer -M set Capture 5%+ | sed -En 's/.*\[([0-9]+)%\].*/\1/p' | head -1 > $WOB_PIPE"
+    riverctl map $mode+Shift XF86AudioLowerVolume spawn "amixer -M set Capture 5%- | sed -En 's/.*\[([0-9]+)%\].*/\1/p' | head -1 > $WOB_PIPE"
+    riverctl map $mode+Shift XF86AudioMute spawn "amixer -M set Capture toggle | sed -En '/\[on\]/ s/.*\[([0-9]+)%\].*/\1/ p; /\[off\]/ s/.*/0/p' | head -1 > $WOB_PIPE"
 
     # control audio volume with pipewire
     riverctl map $mode None XF86AudioRaiseVolume spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%; print-volume-pactl > $WOB_PIPE"

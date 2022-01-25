@@ -46,7 +46,7 @@
         "tooltip": false,
         "scroll-step": 0.5,
         "states": {
-        "low": 10
+            "low": 10
         },
         "format": "{icon} {volume}%",
         "format-bluetooth": "{icon} {volume}%",
@@ -68,15 +68,15 @@
     },
 
     "temperature": {
-          "interval": 10,
+        "interval": 10,
         "tooltip": false,
         "states": {
             "warning": 70,
             "critical": 90
         },
         "critical-threshold": 90,
-          "format": "{icon} {temperatureC}°C",
-          "format-icons": [
+        "format": "{icon} {temperatureC}°C",
+        "format-icons": [
             "", // Icon: temperature-empty
             "", // Icon: temperature-quarter
             "", // Icon: temperature-half
@@ -90,10 +90,10 @@
         "tooltip": false,
         "format": " {usage}%", //Icon: microchip
         "states": {
-          "warning": 70,
-          "critical": 90
+            "warning": 70,
+            "critical": 90
         },
-        "on-click": "riverctl spawn 'foot htop'"
+        "on-click": "footclient --app-id=float htop --sort-key PERCENT_CPU"
     },
 
     "memory": {
@@ -104,7 +104,7 @@
             "warning": 70,
             "critical": 90
         },
-        "on-click": "riverctl spawn 'foot htop'"
+        "on-click": "footclient --app-id=float htop --sort-key PERCENT_MEM"
     },
 
     "battery": {
@@ -126,7 +126,7 @@
             ""  // Icon: battery-full
         ],
         // TODO: create script using "upower -d"
-        "on-click": "riverctl spawn 'foot doas powertop'"
+        "on-click": "footclient --app-id=float doas powertop"
     },
 
     "backlight": {
@@ -147,6 +147,6 @@
         "format-wifi": "  {essid}", // Icon: wifi
         "format-ethernet": "  {ifname}", // Icon: ethernet
         "format-disconnected": "Disconnected",
-        "on-click": "start_stop_iwd.sh"
+        "on-click": "footclient --app-id=float iwctl"
     },
 }
