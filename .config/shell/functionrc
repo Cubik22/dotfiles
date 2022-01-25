@@ -283,7 +283,7 @@ nnn-pre() {
 
     # use a new window with foot as a preview window
     if exists riverctl && exists footclient; then
-        riverctl spawn "footclient $preview_cmd"
+        footclient "$preview_cmd" &
         # wait some time otherwise river is still focused on the previous tag
         sleep 0.01
         riverctl focus-view previous

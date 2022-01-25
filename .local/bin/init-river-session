@@ -11,7 +11,7 @@ second_firefox="$((1 << (8 - 1)))"
 
 riverctl set-focused-tags "$second_firefox"
 
-riverctl spawn firefox-wayland
+firefox &
 
 # sleep before setting view tags otherwise window is not focused
 sleep 2
@@ -19,11 +19,11 @@ sleep 2
 riverctl set-view-tags "$first_firefox"
 
 # sleep again for some time, river has to change the tag assigned to the window
-sleep 2
+sleep 1
 
 riverctl set-focused-tags "$pos_foot"
 
-riverctl spawn footclient
+footclient &
 
 # load audio status
 # it is done here in order to wait for pipewire to load in the backgroud

@@ -23,7 +23,8 @@ for i do
     set -- "$@" "${current_dir}/${i}"
     shift
 done
-riverctl spawn "export GTK_THEME=Adwaita:dark; /bin/zathura $*"
+export GTK_THEME="Adwaita:dark"
+/bin/zathura "$@"
 
 # append pwd to the file (last parameter)
 # i=0
@@ -33,4 +34,5 @@ riverctl spawn "export GTK_THEME=Adwaita:dark; /bin/zathura $*"
 # done
 # file="$1"
 # shift
-# riverctl spawn "export GTK_THEME=Adwaita:dark; /bin/zathura $* $current_dir/$file"
+# export "GTK_THEME=Adwaita:dark"
+# /bin/zathura "$@" "$current_dir/$file"

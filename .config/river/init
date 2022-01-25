@@ -273,7 +273,7 @@ riverctl float-filter-add app-id "imv"
 riverctl-set-input touchpad
 
 # start with an instance of foot
-# riverctl spawn footclient
+# footclient &
 
 # init-river-session
 init-river-session &
