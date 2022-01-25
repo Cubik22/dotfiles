@@ -8,7 +8,7 @@ set selection-clipboard clipboard
 # set sandbox strict
 
 # open document in fit-width mode by default
-# set adjust-open "best-fit"
+set adjust-open "width"
 
 # one page per row by default
 # set pages-per-row 1
@@ -41,6 +41,9 @@ map gj goto bottom
 # goto left/right not available
 map gh scroll full-left
 map gl scroll full-right
+map - zomm out
+map = zoom in
+map 0 zoom default
 
 ## gruvbox dark hard
 
