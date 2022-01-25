@@ -84,7 +84,7 @@ bind-key ^K prev-dialog
 
 bind-key ^N next-unread-feed
 bind-key ^P prev-unread-feed
-bind-key ^M random-unread
+bind-key N random-unread
 
 bind-key o open-in-browser
 bind-key O open-in-browser-and-mark-read
