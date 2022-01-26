@@ -99,7 +99,25 @@ export LESSHISTFILE="$XDG_DATA_HOME/less/lesshst"
 # runit
 # export SVDIR="$XDG_CONFIG_HOME"/service
 
-## nnn
+### bash history
+
+# export HISTTIMEFORMAT='%f %t '
+export HISTSIZE=
+export HISTFILESIZE=
+export HISTCONTROL="erasedups:ignoreboth"
+export HISTIGNORE="pwd:exit:clear"
+# export HISTIGNORE="cd:pwd:exit:q:c:e:ea:et::fe:clear:nnn:n3:xb*():curl"
+export HISTFILE="${XDG_DATA_HOME}/bash/bash_history"
+
+## sync command history across sessions
+
+# this is faster since only new lines are read from the history file
+# export PROMPT_COMMAND="${PROMPT_COMMAND}${PROMPT_COMMAND:+;}history -a;history -n"
+
+# append to hist file, clear local hist then read hist file and add to local hist
+# export PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
+
+### nnn
 
 export NNN_OPTS="eEHr"
 export NNN_COLORS="3415"
@@ -128,7 +146,7 @@ NNN_PLUG_OPEN="u:doasedit;o:open-editor;i:imgview;d:dragdrop;m:nmount"
 NNN_PLUG_GIT="l:!git log;s:!git status"
 export NNN_PLUG="$NNN_PLUG_EDIT;$NNN_PLUG_FUZZY;$NNN_PLUG_OPEN;$NNN_PLUG_GIT"
 
-## fzf
+### fzf
 
 # when changing FZF_DEFAULT_COMMAND change also _fzf_compgen_path and _fzf_compgen_dir in .bashrc
 export FZF_DEFAULT_COMMAND='fd --hidden --follow --exclude ".git" --exclude ".hg" --exclude ".svn" --color=always --strip-cwd-prefix'

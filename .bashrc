@@ -39,24 +39,6 @@ shopt -s histappend
 # case-insensitive globbing
 shopt -s nocaseglob
 
-### bash history
-
-# export HISTTIMEFORMAT='%f %t '
-export HISTSIZE=
-export HISTFILESIZE=
-export HISTCONTROL="erasedups:ignoreboth"
-export HISTIGNORE="pwd:exit:clear"
-# export HISTIGNORE="cd:pwd:exit:q:c:e:ea:et::fe:clear:nnn:n3:xb*():curl"
-export HISTFILE="${XDG_DATA_HOME}/bash/bash_history"
-
-## sync command history across sessions
-
-# this is faster since only new lines are read from the history file
-# export PROMPT_COMMAND="${PROMPT_COMMAND}${PROMPT_COMMAND:+;}history -a;history -n"
-
-# append to hist file, clear local hist then read hist file and add to local hist
-# export PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
-
 ### completion
 
 # alias config='/usr/bin/git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME"'

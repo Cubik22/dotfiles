@@ -1,0 +1,78 @@
+#!/usr/bin/sh
+
+print_info=$(cat << EOF
+SYNOPSIS
+        fzf-kak [OPTION]...
+
+DESCRIPTION
+        choose a file with fzf and open it with kak
+
+        -d, --use-doas
+            open the file with doas
+
+        -c --clear-history
+            clear the last history command
+            (useful when running from command line)
+
+        -a --append-history
+            append the command executed to history
+            (useful when running from command line)
+
+        -h, --help
+            print this info and exit
+EOF
+)
+
+use_doas="no"
+clear_history="no"
+append_history="no"
+
+if [ "$#" -ge 1 ]; then
+    for param in "$@"; do
+        if [ "$param" = "-h" ] || [ "$param" = "--help" ]; then
+            echo "$print_info"
+            return 0
+        elif [ "$param" = "-d" ] || [ "$param" = "--use-doas" ]; then
+            use_doas="yes"
+        elif [ "$param" = "-c" ] || [ "$param" = "--clear-history" ]; then
+            clear_history="yes"
+        elif [ "$param" = "-a" ] || [ "$param" = "--append-history" ]; then
+            append_history="yes"
+        else
+            echo "error: parameter $param not available"
+            echo
+            echo "$print_info"
+            return 1
+        fi
+    done
+fi
+
+# TODO: history need to be flashed before and after
+# otherwise edit tmp history (how?)
+
+hist_file="${HISTFILE:-.bash_history}"
+# clear last command (kak)
+# below it is substituted by the real command (kak file)
+if [ "$clear_history" = "yes" ]; then
+    # remove last line without reading all file
+    tail -n 1 "$hist_file" | wc -c | xargs -I {} truncate "$hist_file" -s -{}
+    # history -d -1
+fi
+
+# run fzf for files with preview
+file="$($FZF_DEFAULT_COMMAND --type file | fzf --preview="$FZF_DEFAULT_PREVIEW")"
+if [ -e "$file" ]; then
+    if [ "$use_doas" = "no" ]; then
+        /bin/kak "$file"
+        if [ "$append_history" = "yes" ]; then
+            echo "kak $file" >> "$hist_file"
+            # history -ps "kak $file"
+        fi
+    elif [ "$use_doas" = "yes" ]; then
+        doas /bin/kak "$file"
+        if [ "$append_history" = "yes" ]; then
+            echo "doas kak $file" >> "$hist_file"
+            # history -ps "doas kak $file"
+        fi
+    fi
+fi

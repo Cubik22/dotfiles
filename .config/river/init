@@ -56,7 +56,7 @@ riverctl map normal $mod+Control Return spawn "footclient"
 riverctl map normal $mod+Control Backspace spawn "footclient --app-id=float"
 
 # A kak fzf
-riverctl map normal $mod A spawn "footclient --app-id=float kak-smart no"
+riverctl map normal $mod A spawn "footclient --app-id=float fzf-kak"
 
 # I iwctl
 riverctl map normal $mod I spawn "footclient --app-id=float iwctl"

@@ -19,21 +19,21 @@ _err()
 # Help
 _usage()
 {
-    cat <<-END
-        screen_dir = $HOME/img/screenshot
+    cat <<END
+screen_dir = $HOME/img/screenshot
 
-        Usage: screenshot [OPTION...]
+Usage: screenshot [OPTION...]
 
-        With grim & slurp (Wayland):
-            f | fullscreen    Fullscreen
-            s | selection     Select an area
+With grim & slurp (Wayland):
+    f | fullscreen    Fullscreen
+    s | selection     Select an area
 
-        With maim & slop (X11):
-            f | fullscreen    Fullscreen
-            s | selection     Select an area
-            w | window        Active window
-            c | click         Click to select a window
-    END
+With maim & slop (X11):
+    f | fullscreen    Fullscreen
+    s | selection     Select an area
+    w | window        Active window
+    c | click         Click to select a window
+END
     exit 1
 }
 
