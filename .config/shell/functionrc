@@ -77,6 +77,7 @@ kak-smart() {
             fi
         fi
     else
+        # see also fzf-kak
         # run fzf for files with preview
         file="$($FZF_DEFAULT_COMMAND --type file | fzf --preview="$FZF_DEFAULT_PREVIEW")"
         # clear last command (kak)
