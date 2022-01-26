@@ -2,27 +2,26 @@
 
 ### start all program/services in the background
 
+## starting services with runsvdir
+
 # start foot server
-foot --server &
+# foot --server &
 
 # Start pipewire (before waybar otherwise PulseAudio module may not start)
-pipewire &
-pipewire-pulse &
-# pipewire-media-session &
+# pipewire &
+# pipewire-pulse &
+# # pipewire-media-session &
 
 # start waybar
-waybar &
-
-# scale everything (problems with partial scaling)
-# wlr-randr --output eDP-1 --scale 1.25
+# waybar &
 
 # Turin coordinates
 # wlsunset -l 45.1 -L 7.7 &
 # Lausanne coordinates
-wlsunset -l 46.5 -L 6.6 &
+# wlsunset -l 46.5 -L 6.6 &
 
 # libinput-gestures
-libinput-gestures &
+# libinput-gestures &
 
 # wob
 if [ -p "$WOB_PIPE" ] || [ -p "$WOB_PIPE_CENTER" ]; then
@@ -39,6 +38,9 @@ tail -f "$WOB_PIPE_CENTER" | wob --anchor "center" --width 400 &
 # load brightness level
 adjust_brightness.sh load
 # echo "brightness level is: $(adjust_brightness.sh load)"
+
+# scale everything (problems with partial scaling)
+# wlr-randr --output eDP-1 --scale 1.25
 
 # Use the "logo" key as the primary modifier
 mod="Mod4"
@@ -272,9 +274,6 @@ riverctl float-filter-add app-id "imv"
 # set up touchpad with riverctl
 riverctl-set-input touchpad
 
-# start with an instance of foot
-# footclient &
-
 # init-river-session
 init-river-session &
 
@@ -283,14 +282,17 @@ init-river-session &
 riverctl default-layout rivertile
 
 # start rivertile without padding
-exec rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.6
+# exec rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.6
 
 # starting with runit
-# svdir="/tmp/$(id -u)-sv-${WAYLAND_DISPLAY}"
+# /run is mounted noexec so can't use XDG_RUNTIME_DIR
+svdir="/tmp/$(id -u)-sv-${WAYLAND_DISPLAY}"
 
-# pgrep -f "^runsvdir ${svdir}" && exec echo "runsvdir already running for wayland session"
+pgrep -f "^runsvdir ${svdir}" &&
+    exec echo "runsvdir already running for wayland session"
 
 # recursive, deref links, preserve mode, if target is a dir, overwrite instead of copying into it
-# cp -rLpT ~/.local/sv $svdir
+cp -rLpT "$HOME/.local/sv" "$svdir"
 
-# exec runsvdir $svdir
+exec runsvdir "$svdir" \
+    'log: ...........................................................................................................................................................................................................................................................................................................................................................................................................'
