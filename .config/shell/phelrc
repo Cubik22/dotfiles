@@ -79,7 +79,9 @@ tldr
 lualatex <...>.tex
 
 ## pdf
-pdfunite inputs.pdf output.pdf
+pdfunite <inputs>.pdf <output>.pdf
+# repair pdf
+pdftocairo -pdf <input>.pdf <output>.pdf
 
 ## terminal
 terminfo

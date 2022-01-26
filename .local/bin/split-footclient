@@ -4,4 +4,4 @@
 
 dir="$(pwd)"
 
-footclient --working-directory="$dir"
+footclient --working-directory="$dir" &

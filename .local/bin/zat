@@ -24,7 +24,7 @@ for i do
     shift
 done
 export GTK_THEME="Adwaita:dark"
-/bin/zathura "$@"
+/bin/zathura "$@" &
 
 # append pwd to the file (last parameter)
 # i=0
@@ -35,4 +35,4 @@ export GTK_THEME="Adwaita:dark"
 # file="$1"
 # shift
 # export "GTK_THEME=Adwaita:dark"
-# /bin/zathura "$@" "$current_dir/$file"
+# /bin/zathura "$@" "$current_dir/$file" &
