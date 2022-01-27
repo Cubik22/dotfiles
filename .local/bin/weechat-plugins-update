@@ -16,9 +16,11 @@ plugins_cloned_dir="$config_dir/plugins-cloned"
 # update them if already cloned
 clone_pull() {
     plugins_full=$(cat << EOF
-https://github.com/GermainZ/weechat-vimode.git vimode
+https://github.com/weechat/weechat.git weechat
+https://github.com/weechat/scripts scripts
 https://github.com/poljar/rust-weechat.git rust
 https://github.com/poljar/weechat-matrix-rs.git matrix
+https://github.com/GermainZ/weechat-vimode.git vimode
 EOF
     )
 
@@ -41,12 +43,16 @@ build() {
     cd "$plugins_cloned_dir/matrix" || return 1
     export RUSTUP_HOME="${XDG_LIB_HOME:-$HOME/.local/lib}/rustup"
     export CARGO_HOME="${XDG_LIB_HOME:-$HOME/.local/lib}/cargo"
+    export WEECHAT_PLUGIN_FILE="$plugins_cloned_dir/weechat/src/plugins/weechat-plugin.h"
+    # rm -rf target
     make install
 }
 
 # link files to scripts and script-opts
 link() {
-    ln -s "$plugins_cloned_dir/vimode/vimode.py" "$WEECHAT_HOME/python/autoload/vimode.py"
+    # this version is more updated
+    ln -sf "$plugins_cloned_dir/scripts/python/vimode.py" "$WEECHAT_HOME/python/autoload/vimode.py"
+    # ln -sf "$plugins_cloned_dir/vimode/vimode.py" "$WEECHAT_HOME/python/autoload/vimode.py"
 }
 
 clone_pull

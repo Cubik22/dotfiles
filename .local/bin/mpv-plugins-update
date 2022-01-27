@@ -50,6 +50,7 @@ build() {
     python concat_files.py cat_server.json
 
     cd "$plugins_dir/webm" || return 1
+    rm -rf build
     make
 }
 
