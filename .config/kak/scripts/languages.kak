@@ -27,6 +27,11 @@ hook global WinSetOption filetype=kak %{
     # highlight tabs as errors
     add-highlighter global/tabs regex \t 0:Error
 }
+hook global BufCreate .*newsboat/urls %{
+    expandtab
+    # highlight tabs as errors
+    add-highlighter global/tabs regex \t 0:Error
+}
 
 # uncomment to enable debug logging for kak-lsp
 # set-option global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
@@ -36,9 +41,6 @@ hook global BufCreate .*[.](inputrc|octaverc) %{
     set-option buffer filetype sh
 }
 hook global BufCreate .*(renviron|rprofile) %{
-    set-option buffer filetype sh
-}
-hook global BufCreate /usr/bin/(sh|dash|zsh) %{
     set-option buffer filetype sh
 }
 
