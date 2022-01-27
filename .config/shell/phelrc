@@ -114,5 +114,7 @@ ps -e
 pidof
 pgrep, pkill, pwait
 ip
+crontab
+croc
 EOF
 }

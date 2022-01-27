@@ -75,9 +75,9 @@ riverctl map normal $mod+Shift S spawn 'screenshot fullscreen; echo "100" > $WOB
 riverctl map normal $mod D spawn "fuzzel.sh"
 
 # F firefox
-riverctl map normal $mod+Control F spawn "firefox-wayland"
+riverctl map normal $mod+Control F spawn "firefox"
 # Firefox incognito mode
-riverctl map normal $mod+Control+Shift F spawn "firefox-wayland -private-window"
+riverctl map normal $mod+Control+Shift F spawn "firefox -private-window"
 
 ### Windows
 

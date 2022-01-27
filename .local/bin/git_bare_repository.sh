@@ -56,6 +56,9 @@ mkdir -p "$HOME/.local/lib/zig"
 
 link-config-root
 
+# crontab
+crontab "${XDG_CONFIG_HOME:-$HOME/.config}/crontab/file"
+
 # R
 # make sure directories are created otherwise there may be problems
 mkdir -p "$HOME/.local/share/R"
