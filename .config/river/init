@@ -50,7 +50,7 @@ mod="Mod4"
 # mod + key used
 # Return Space Period,Comma [0-9] F11
 # J K H L Q F P
-# A I S D
+# A I B S D
 
 # Return footclient
 riverctl map normal $mod+Control Return spawn "footclient"
@@ -62,6 +62,9 @@ riverctl map normal $mod A spawn "footclient --app-id=float fzf-kak"
 
 # I iwctl
 riverctl map normal $mod I spawn "footclient --app-id=float iwctl"
+
+# B iwctl
+riverctl map normal $mod B spawn "footclient --app-id=float bluetoothctl"
 
 # S screenshots with grim and slurp
 riverctl map normal $mod S spawn 'screenshot selection; echo "100" > $WOB_PIPE_CENTER'
