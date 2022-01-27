@@ -28,16 +28,16 @@ set-option -add global ui_options terminal_assistant=dilbert
 set-option global startup_info_version 20211028
 
 # disable all default insert hooks
-set-option global disabled_hooks '.*-insert.*'
+# set-option global disabled_hooks '.*-insert.*'
 # disable all default indent hooks
 # set-option global disabled_hooks '.*-indent.*'
 # disable all default insert and indent hooks
-# set-option global disabled_hooks '.*-insert.*|.*-indent.*'
+set-option global disabled_hooks '.*-insert.*|.*-indent.*'
 
 # preserve indent level
-# hook global InsertChar \n %{
-#     try %{ execute-keys -draft <semicolon> K <a-&> }
-# }
+hook global InsertChar \n %{
+    try %{ execute-keys -draft <semicolon> K <a-&> }
+}
 
 # trim trailing whitespace on the current line when leaving insert mode
 # hook global ModeChange pop:insert:.* %{
@@ -59,21 +59,6 @@ set-option global disabled_hooks '.*-insert.*'
 # show git diff
 hook global BufWritePost .* %{ git show-diff }
 hook global BufReload    .* %{ git show-diff }
-
-# completion
-# <c-n> <c-p> <c-o>
-# hook global InsertCompletionShow .* %{ try %{
-#     execute-keys -draft 'h<a-K>\h<ret>'
-#     map window insert <tab> <c-n>
-#     map window insert <s-tab> <c-p>
-#     map window insert <c-g> <c-o>
-# } }
-
-# hook global InsertCompletionHide .* %{
-#     unmap window insert <tab> <c-n>
-#     unmap window insert <s-tab> <c-p>
-#     unmap window insert <c-g> <c-o>
-# }
 
 ## state save
 hook global KakBegin .* %{
