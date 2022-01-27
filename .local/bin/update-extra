@@ -121,7 +121,7 @@ luarocks_update() {
 
 ## pip
 pip_update() {
-    doas luarocks list --outdated
+    doas pip list --outdated
     echo "doas pip install {package}"
 }
 

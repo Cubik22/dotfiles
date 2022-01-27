@@ -20,6 +20,7 @@ https://github.com/weechat/weechat.git weechat
 https://github.com/weechat/scripts scripts
 https://github.com/poljar/rust-weechat.git rust
 https://github.com/poljar/weechat-matrix-rs.git matrix
+https://github.com/sleduc/weechat-xmpp.git xmpp
 https://github.com/GermainZ/weechat-vimode.git vimode
 EOF
     )
@@ -50,9 +51,12 @@ build() {
 
 # link files to scripts and script-opts
 link() {
+    ln -sfv "$plugins_cloned_dir/xmpp/jabber.py" "$WEECHAT_HOME/python/autoload/"
+    # ln -sfv "$plugins_cloned_dir/scripts/python/jabber.py" "$WEECHAT_HOME/python/autoload/"
+
     # this version is more updated
-    ln -sf "$plugins_cloned_dir/scripts/python/vimode.py" "$WEECHAT_HOME/python/autoload/vimode.py"
-    # ln -sf "$plugins_cloned_dir/vimode/vimode.py" "$WEECHAT_HOME/python/autoload/vimode.py"
+    ln -sfv "$plugins_cloned_dir/scripts/python/vimode.py" "$WEECHAT_HOME/python/autoload/"
+    # ln -sfv "$plugins_cloned_dir/vimode/vimode.py" "$WEECHAT_HOME/python/autoload/"
 }
 
 clone_pull

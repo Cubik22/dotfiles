@@ -127,6 +127,9 @@ rustup-init
 # moonscript
 doas luarocks install moonscript
 
+# pip
+doas pip install xmpppy
+
 ### languge servers
 
 # check for outdated, incorrect, and unused dependencies
