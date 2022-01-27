@@ -117,6 +117,9 @@ alias fzfp="fzf --preview=\"$FZF_DEFAULT_PREVIEW\""
 # zigup
 alias zigup="zigup --install-dir \"$XDG_LIB_HOME/zigup\""
 
+# rust local
+alias set-rust-local="export RUSTUP_HOME=\"$XDG_LIB_HOME/rustup\"; export CARGO_HOME=\"$XDG_LIB_HOME/cargo\""
+
 # wifi
 alias iwscan="iwctl station wlan0 scan;"
 
@@ -158,7 +161,7 @@ alias ucp="ucon push"
 alias rcs="rcon status"
 alias rca="rcon add"
 alias rcm="rcon commit"
-alias rcd="ucon diff"
+alias rcd="rcon diff"
 alias rcp="rcon push"
 
 # void mirrors in order to quickly change when one is slow (-R flag)

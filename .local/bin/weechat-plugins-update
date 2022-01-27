@@ -1,0 +1,54 @@
+#!/bin/sh
+
+if [ -z "${WEECHAT_HOME}" ]; then
+    export WEECHAT_HOME="$XDG_CONFIG_HOME/weechat"
+fi
+
+config_dir="$WEECHAT_HOME"
+plugins_dir="$config_dir/plugins"
+plugins_cloned_dir="$config_dir/plugins-cloned"
+
+[ ! -d "$config_dir" ]          && mkdir -p "$config_dir"
+[ ! -d "$plugins_dir" ]         && mkdir -p "$plugins_dir"
+[ ! -d "$plugins_cloned_dir" ]  && mkdir -p "$plugins_cloned_dir"
+
+# clone weechat plugins if not already installed
+# update them if already cloned
+clone_pull() {
+    plugins_full=$(cat << EOF
+https://github.com/GermainZ/weechat-vimode.git vimode
+https://github.com/poljar/rust-weechat.git rust
+https://github.com/poljar/weechat-matrix-rs.git matrix
+EOF
+    )
+
+    while read -r plugin_full; do
+        plugin_name=$(echo "$plugin_full" | rev | cut -d " " -f 1 | rev)
+        plugin_url=$(echo "$plugin_full" | cut -d " " -f 1)
+        if [ ! -d "$plugins_cloned_dir/$plugin_name" ]; then
+            git clone --recurse-submodules "$plugin_url" "$plugins_cloned_dir/$plugin_name"
+        else
+            echo "updating: $plugin_name"
+            git -C "$plugins_cloned_dir/$plugin_name" pull
+        fi
+    done <<EOT
+$plugins_full
+EOT
+}
+
+# build/generate files
+build() {
+    cd "$plugins_cloned_dir/matrix" || return 1
+    export RUSTUP_HOME="${XDG_LIB_HOME:-$HOME/.local/lib}/rustup"
+    export CARGO_HOME="${XDG_LIB_HOME:-$HOME/.local/lib}/cargo"
+    make install
+}
+
+# link files to scripts and script-opts
+link() {
+    ln -s "$plugins_cloned_dir/vimode/vimode.py" "$WEECHAT_HOME/python/autoload/vimode.py"
+}
+
+clone_pull
+build
+link

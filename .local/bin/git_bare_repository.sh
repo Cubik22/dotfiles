@@ -88,8 +88,10 @@ config push --set-upstream origin main
 rm -f "$HOME/README.md"
 config update-index --assume-unchanged "$HOME/README.md"
 
-# set git to remeber credentials (danger but with github token you can give small permission)
-# git config --global credential.helper store
+# local rust
+export RUSTUP_HOME="${XDG_LIB_HOME:-$HOME/.local/lib}/rustup"
+export CARGO_HOME="${XDG_LIB_HOME:-$HOME/.local/lib}/cargo"
+rustup-init
 
 # clone packer for neovim
 # git clone --depth 1 https://github.com/wbthomason/packer.nvim "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim"

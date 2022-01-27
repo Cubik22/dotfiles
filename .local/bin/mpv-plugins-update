@@ -7,7 +7,7 @@ opts_dir="$config_dir/script-opts"
 
 [ ! -d "$config_dir" ]  && mkdir -p "$config_dir"
 [ ! -d "$plugins_dir" ] && mkdir -p "$plugins_dir"
-[ ! -d "$scripts_dir" ]  && mkdir -p "$scripts_dir"
+[ ! -d "$scripts_dir" ] && mkdir -p "$scripts_dir"
 [ ! -d "$opts_dir" ]    && mkdir -p "$opts_dir"
 
 # clone mpv plugins if not already installed
@@ -25,10 +25,6 @@ https://github.com/jgreco/mpv-youtube-quality.git youtube-quality
 https://github.com/zc62/mpv-scripts.git zc62
 EOF
     )
-
-    if [ ! -d "$plugins_dir" ]; then
-        mkdir -p "$plugins_dir"
-    fi
 
     while read -r plugin_full; do
         plugin_name=$(echo "$plugin_full" | rev | cut -d " " -f 1 | rev)

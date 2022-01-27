@@ -9,16 +9,19 @@ phelrc="$HOME/.config/shell/phelrc"
 
 # touch file and change its permissions
 touch-per() {
-    if [ "$#" -ne 2 ]; then
-        echo "error: insert two parameters"
-        echo "first: name of file"
-        echo "second: permissions to pass to chmod"
+    if [ "$#" -le 0 ]; then
+        echo "at least one parameter: the name of the file to be created"
+        return 1
+    elif [ "$#" -gt 2 ]; then
+        echo "too many arguments"
+        echo "first parameter file second optional to pass to chmod"
         return 1
     fi
-    permissions="$1"
-    file="$2"
+    file="$1"
     touch "$file"
-    chmod "$permissions" "$file"
+    if [ "$#" -eq 2 ]; then
+        chmod "$2" "$file"
+    fi
 }
 
 # use dark theme for zathura
@@ -185,38 +188,12 @@ rcon() {
 
 # create a file and automatically add it with ucon
 utouch() {
-    if [ "$#" -le 0 ]; then
-        echo "at least one parameter: the name of the file to be created"
-        return 1
-    elif [ "$#" -gt 2 ]; then
-        echo "too many arguments"
-        echo "first parameter file second optional to pass to chmod"
-        return 1
-    fi
-    file="$1"
-    touch "$file"
-    if [ "$#" -eq 2 ]; then
-        chmod "$2" "$file"
-    fi
-    ucon add "$file"
+    touch-per "$@" && ucon add "$file"
 } && export -f utouch
 
 # create a file and automatically add it with rcon
 rtouch() {
-    if [ "$#" -le 0 ]; then
-        echo "at least one parameter: the name of the file to be created"
-        return 1
-    elif [ "$#" -gt 2 ]; then
-        echo "too many arguments"
-        echo "first parameter file second optional to pass to chmod"
-        return 1
-    fi
-    file="$1"
-    doas touch "$file"
-    if [ "$#" -eq 2 ]; then
-        doas chmod "$2" "$file"
-    fi
-    rcon add "$file"
+    touch-per && rcon add "$file"
 } && export -f rtouch
 
 # old

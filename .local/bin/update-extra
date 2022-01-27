@@ -88,6 +88,7 @@ done
 plugins_update() {
     kak-plugins-update
     mpv-plugins-update
+    weechat-plugins-update
 }
 
 ## rustup

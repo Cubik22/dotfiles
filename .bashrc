@@ -16,18 +16,20 @@
 # source fzf completions bindings and settings
 [ -f "$HOME/.config/shell/fzfrc" ] && . "$HOME/.config/shell/fzfrc"
 
-### <https://wiki.bash-hackers.org/internals/shell_options>
+### options
+
+# https://wiki.bash-hackers.org/internals/shell_options
 
 # prepend cd to directory names automatically
 shopt -s autocd
 # correct spelling errors in arguments supplied to cd
-shopt -s cdspell
+# shopt -s cdspell
 # check the window size after each command
 shopt -s checkwinsize
 # save multi-line commands as one command
 shopt -s cmdhist
-# variable expansion on tab complete
-shopt -s direxpand
+# directories expansion on tab complete
+# shopt -s direxpand
 # correct spelling errors during tab-completion
 shopt -s dirspell
 # expand aliases
