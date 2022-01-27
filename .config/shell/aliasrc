@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # aliasrc
-# aliases for bash/zsh
+# aliases for bash
 
 # better not to have too many aliases so it is easier when writing scripts
 
@@ -75,34 +75,39 @@ alias grep="grep --color=auto"
 # alias psmem='ps auxf | sort -nr -k 4'
 # alias pscpu='ps auxf | sort -nr -k 3'
 
-# replace tabs with 4 spaces
-alias tab-rep="sed -i 's/\t/    /g'"
+# wayland
+# alias imv="imv-wayland"
+# alias firefox="firefox-wayland"
 
-# verify signature
-alias gpg-check="gpg --keyserver-options auto-key-retrieve --verify"
-# receive signature
-alias gpg-retrieve="gpg --keyserver-options auto-key-retrieve --receive-keys"
-
-# programs
-alias n3="nnn"
-alias n3p="nnn-pre"
-alias nv="nvim"
+# kak
 alias kak="kak-smart no"
 alias ka="kak-smart no"
+alias kakf="kak-fzf-bash no"
+alias kaf="kak-fzf-bash no"
+
+alias nv="nvim"
+
+alias n3="nnn"
+alias n3p="nnn-pre"
+
 alias xq="xbps-query"
 
-# wayland
-alias imv="imv-wayland"
-alias firefox="firefox-wayland"
+# verify signature
+alias gpg-verify="gpg --keyserver-options auto-key-retrieve --verify"
+# receive signature
+alias gpg-receive="gpg --keyserver-options auto-key-retrieve --receive-keys"
 
 # youtube-dl
 alias ydlv="youtube-dl --ignore-errors --retries=infinite"
-alias ydla="youtube-dl --ignore-errors --retries=infinite --extract-audio"
 alias ydlvm="youtube-dl --ignore-errors --retries=infinite --add-metadata --xattrs"
+alias ydla="youtube-dl --ignore-errors --retries=infinite --extract-audio"
 alias ydlam="youtube-dl --ignore-errors --retries=infinite --extract-audio --add-metadata --xattrs"
 
 # fzf with preview
 alias fzfp="fzf --preview=\"$FZF_DEFAULT_PREVIEW\""
+
+# zigup
+alias zigup="zigup --install-dir \"$XDG_LIB_HOME/zigup\""
 
 # wifi
 alias iwscan="iwctl station wlan0 scan;"
@@ -114,13 +119,13 @@ alias bluectl="echo \"scan on\"; echo \"trust\"; echo \"connect\"; bluetoothctl"
 # lists the installed system libraries
 alias listlib="scanelf --ldpath -BF '%f'"
 
+# replace tabs with 4 spaces
+alias tab-rep="sed -i 's/\t/    /g'"
+
 # weather
 # https://github.com/chubin/wttr.in
 export weather="wttr.in"
 # curl wttr.in/:help
-
-# zigup
-alias zigup="zigup --install-dir \"$XDG_LIB_HOME/zigup\""
 
 # git related
 alias gst="git status"
@@ -155,7 +160,7 @@ export mirror2="https://repo-fi.voidlinux.org/current"
 export mirror3="https://mirrors.servercentral.com/voidlinux/current"
 export mirror4="https://repo-us.voidlinux.org/current"
 
-# so the root user can link and use bash/zsh config
+# so the root user can link and use bash config
 # remember to add package to /etc/config/xbps-packages
 if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
     alias xi="xbps-install"
@@ -165,8 +170,6 @@ if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
     alias blueoff="bluetoothctl power off; sv down bluetoothd;"
 
     # alias servstat="sv status /var/service/*"
-
-    alias dka="kak-smart no"
 else
     alias xbps-install="doas xbps-install"
     alias xbps-remove="doas xbps-remove"
@@ -186,9 +189,14 @@ else
 
     alias powertop="doas powertop"
 
-    alias dn3="doas nnn"
-    alias dn3p="doas nnn-pre"
-    alias dnv="doas nvim"
+    # kak
     alias dkak="kak-smart yes"
     alias dka="kak-smart yes"
+    alias dkakf="kak-fzf-bash yes"
+    alias dkaf="kak-fzf-bash yes"
+
+    alias dnv="doas nvim"
+
+    alias dn3="doas nnn"
+    alias dn3p="doas nnn-pre"
 fi
