@@ -3,7 +3,7 @@
 # aliasrc
 # aliases for bash
 
-# better not to have too many aliases so it is easier when writing scripts
+# better not to have too many aliases so as not to get confused in the scripts
 
 # doas
 alias d="doas"
@@ -34,16 +34,11 @@ alias cd3="cd ../../.."
 alias cd4="cd ../../../.."
 
 # ls
-lsplus="ls --color=auto --group-directories-first --format=horizontal --human-readable"
-alias ls='$lsplus'
-alias la='$lsplus -a'
-alias ll='$lsplus -l'
-alias lal='$lsplus -a -l'
-alias lla='$lsplus -l -a'
-cdl () {
-    cd "$@" || return
-    $lsplus
-}
+alias ls='ls $LS_OPTIONS'
+alias la='ls $LS_OPTIONS -a'
+alias ll='ls $LS_OPTIONS -l'
+alias lal='ls $LS_OPTIONS -a -l'
+alias lla='ls $LS_OPTIONS -l -a'
 # alias trexa="exa --long --header --modified --git --tree --color=auto --icons --all --group-directories-first"
 
 # color stuff
@@ -113,13 +108,13 @@ alias ydla="youtube-dl --ignore-errors --retries=infinite --extract-audio"
 alias ydlam="youtube-dl --ignore-errors --retries=infinite --extract-audio --add-metadata --xattrs"
 
 # fzf with preview
-alias fzfp="fzf --preview=\"$FZF_DEFAULT_PREVIEW\""
+alias fzfp='fzf --preview="$FZF_DEFAULT_PREVIEW"'
 
 # zigup
-alias zigup="zigup --install-dir \"$XDG_LIB_HOME/zigup\""
+alias zigup='zigup --install-dir "$XDG_LIB_HOME/zigup"'
 
 # rust local
-alias set-rust-local="export RUSTUP_HOME=\"$XDG_LIB_HOME/rustup\"; export CARGO_HOME=\"$XDG_LIB_HOME/cargo\""
+alias set-rust-local='export RUSTUP_HOME="$XDG_LIB_HOME/rustup"; export CARGO_HOME="$XDG_LIB_HOME/cargo"'
 
 # wifi
 alias iwscan="iwctl station wlan0 scan;"

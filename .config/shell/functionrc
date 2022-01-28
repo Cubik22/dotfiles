@@ -7,6 +7,23 @@
 phelrc="$HOME/.config/shell/phelrc"
 [ -f "$phelrc" ] && . "$phelrc"
 
+# cd and ls
+cdl() {
+    cd "$@" || return 1
+    ls $LS_OPTIONS
+}
+
+# cat files ls everything else
+lc() {
+    for obj in "$@"; do
+        if [ -f "$obj" ]; then
+            cat "$obj"
+        else
+            ls $LS_OPTIONS "$obj"
+        fi
+    done
+}
+
 # use dark theme for zathura
 # change also zat and spa
 zathura() {

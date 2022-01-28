@@ -3,8 +3,10 @@
 # fzfrc
 
 # source fzf completion and key-bindings
-[ -f "/usr/share/fzf/completion.bash" ] && . "/usr/share/fzf/completion.bash"
-[ -f "/usr/share/fzf/key-bindings.bash" ] && . "/usr/share/fzf/key-bindings.bash"
+completion_file="/usr/share/fzf/completion.bash"
+[ -f "$completion_file" ] && . "$completion_file"
+key_bindings_file="/usr/share/fzf/key-bindings.bash"
+[ -f "$key_bindings_file" ] && . "$key_bindings_file"
 
 # use fd (https://github.com/sharkdp/fd) instead of the default find
 # command for listing path candidates.
@@ -58,7 +60,8 @@ fi
 
 # see /usr/share/fzf/key-bindings.bash
 _fzf_cd_widget() {
-    local cd_selected="$(__fzf_cd__)"
+    local cd_selected
+    cd_selected="$(__fzf_cd__)"
     READLINE_LINE="${cd_selected}"
     READLINE_POINT=$(( ${#cd_selected} ))
 }

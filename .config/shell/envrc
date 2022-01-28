@@ -49,6 +49,9 @@ idu="$(id -u)"
 export XDG_RUNTIME_DIR="/run/user/$idu"
 # export XDG_RUNTIME_DIR="${XDG_LOCAL_HOME}/runtime"
 
+# ls
+export LS_OPTIONS="--color=auto --group-directories-first --format=horizontal --human-readable"
+
 # zsh shell
 export ZDOTDIR="${XDG_CONFIG_HOME}/shell"
 
