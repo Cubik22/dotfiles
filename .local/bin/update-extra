@@ -18,7 +18,7 @@ EOF
 
 print_info=$(cat << EOF
 SYNOPSIS
-        update-extra [OPTION]... PROGRAM_NAME
+        update-extra [option]... program_name
 
 DESCRIPTION
         update programs aside from distro package manager
@@ -72,7 +72,7 @@ EOT
             program="$pack"
             break
         else
-            echo "wrong parameter: $1"
+            echo "wrong parameter: $param"
             echo "program not available"
             echo
             echo "$print_info"
@@ -94,12 +94,24 @@ plugins_update() {
 ## rustup
 # stable toolchain
 rustup_update() {
+    # global
     doas rustup update
+
+    # local
+    export RUSTUP_HOME="$XDG_LIB_HOME/rustup"
+    export CARGO_HOME="$XDG_LIB_HOME/cargo"
+    rustup update
 }
 
 ## cargo
 cargo_update() {
+    # global
     doas cargo install-update --all
+
+    # local
+    export RUSTUP_HOME="$XDG_LIB_HOME/rustup"
+    export CARGO_HOME="$XDG_LIB_HOME/cargo"
+    cargo install-update --all
 }
 
 ## zigup

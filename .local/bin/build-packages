@@ -36,7 +36,7 @@ EOF
 
 print_info=$(cat << EOF
 SYNOPSIS
-        build-packages [OPTION]... PACKAGE_NAME
+        build-packages [option]... package_name
 
 DESCRIPTION
         build packages from source
@@ -90,7 +90,7 @@ EOT
             package="$pack"
             break
         else
-            echo "wrong parameter: $1"
+            echo "wrong parameter: $param"
             echo "package not available"
             echo
             echo "$print_info"

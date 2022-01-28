@@ -2,17 +2,103 @@
 
 # print informations
 phel() {
-    cat << EOF
+
+subject_names=$(cat << EOF
+wifi
+bluez
+audio
+runit
+device
+compression
+update
+git
+permission
+man
+lib
+kernel
+terminal
+pdf
+latex
+font
+log
+util
+EOF
+)
+
+print_info=$(cat << EOF
+SYNOPSIS
+        phel [option]... subject [subject...]
+
+DESCRIPTION
+        print info about subjects
+
+        -a, --all
+            print info about all subjects
+
+        -h, --help
+            print this info and exit
+
+SUBJECTS AVAILABLE:
+
+$subject_names
+EOF
+)
+
+if [ "$#" -lt 1 ]; then
+    echo "error: no parameters"
+    echo
+    echo "$print_info"
+    return 1
+fi
+
+subjects=""
+
+for param in "$@"; do
+    if [ "$param" = "-h" ] || [ "$param" = "--help" ]; then
+        echo "$print_info"
+        return 0
+    elif [ "$param" = "-a" ] || [ "$param" = "--all" ]; then
+        subjects="all"
+        break
+    else
+        found="false"
+        while read -r subj; do
+            if [ "$param" = "$subj" ]; then
+                found="true"
+                break
+            fi
+        done <<EOT
+$subject_names
+EOT
+        if [ "$found" = "true" ]; then
+            subjects="$subjects $param"
+        else
+            echo "wrong parameter: $param"
+            echo "subject not available"
+            echo
+            echo "$print_info"
+            return 1
+        fi
+    fi
+done
+
+wifi_info=$(cat << EOF
 ## wifi
 iwscan
 iwctl station wlan0 show/scan/get-networks/(dis)connect
+EOF
+)
 
+bluez_info=$(cat << EOF
 ## bluez
 blueon blueoff bluescan
 bluetoothctl default-agent/power on/scan on/trust <device>/connect <device>
 # when connecting mouse
 riverctl-set-input mouse
+EOF
+)
 
+audio_info=$(cat << EOF
 ## audio
 amixer/alsamixer (alsa)
 pactl (pipewire)
@@ -25,30 +111,45 @@ ydlv
 ydla
 ydlvm
 ydlam
+EOF
+)
 
+runit_info=$(cat << EOF
 ## runit
 ln -s /etc/sv/<service> /var/service/
 ln -s /etc/sv/<service> /etc/runit/runsvdir/default/
 touch /etc/sv/<service>/down
 sv status /var/service/*
+EOF
+)
 
-## drives and devices
+device_info=$(cat << EOF
+## drive and device
 mount (list mounted drives and devices)
 dd if=/dev/{zero,urandom} of=/dev/sda bs=4M status=progress
 cat <...>.iso | pv > /dev/sda
 udisksctl {un}mount -b <drive (from lsblk)>
 findmnt
+EOF
+)
 
+compression_info=$(cat << EOF
 ## (de)compression
 aunpack (atool)
 tar -x -<compression options (-z)> {--strip-components=1} -C "<output dir>"
 tar -c -<compression options (-z)> -f "<archived.tar.gz>" "<to-archive>"
+EOF
+)
 
+update_info=$(cat << EOF
 ## update
 xi -Su
 update-extra all
 build-packages all
+EOF
+)
 
+git_info=$(cat << EOF
 ## git
 git clone --recurse-submodules
 git pull --recurse-submodules
@@ -56,7 +157,10 @@ git diff {--cached}
 git rm -r {--cached}
 git remote show origin
 git config --get remote.origin.url
+EOF
+)
 
+permission_info=$(cat << EOF
 ## permission
 stat
 # view the existing permissions of a file or directory in numeric form
@@ -65,7 +169,10 @@ default dir: 755
 default file: 644
 executable user: 744
 executable all: 755
+EOF
+)
 
+man_info=$(cat << EOF
 ## man
 man {character} search
 # searching
@@ -74,37 +181,61 @@ apropos whatis
 mandb
 makewhatis
 tldr
+EOF
+)
 
-## latex
-lualatex <...>.tex
+lib_info=$(cat << EOF
+## lib
+ldconfig -v
+ldconfig -n "$XDG_LIB_HOME"
+EOF
+)
 
+kernel_info=$(cat << EOF
+## kernel
+vkpurge list
+vkpurge rm <kernel>
+EOF
+)
+
+terminal_info=$(cat << EOF
+## terminal
+terminfo
+stty
+EOF
+)
+
+pdf_info=$(cat << EOF
 ## pdf
 pdfunite <inputs>.pdf <output>.pdf
 # repair pdf
 pdftocairo -pdf <input>.pdf <output>.pdf
+EOF
+)
 
-## terminal
-terminfo
-stty
+latex_info=$(cat << EOF
+## latex
+lualatex <...>.tex
+EOF
+)
 
-## lib
-ldconfig -v
-ldconfig -n "$XDG_LIB_HOME"
-
-## kernel
-vkpurge list
-vkpurge rm <kernel>
-
+font_info=$(cat << EOF
 ## font
 fc-list
 fc-cache -f -v
 ttx <font-name>.<ttf,otf>
 ttx <font-name>.<ttx>
+EOF
+)
 
+log_info=$(cat << EOF
 ## log
 dmesg
 svlogd
+EOF
+)
 
+util_info=$(cat << EOF
 ## util
 date cal
 uname
@@ -117,4 +248,20 @@ ip
 crontab
 croc
 EOF
+)
+
+if [ "$subjects" = "all" ]; then
+    while read -r subj; do
+        eval "echo \"\$${subj}_info\""
+        echo
+    done <<EOT
+$subject_names
+EOT
+else
+    for subj in $subjects; do
+        eval "echo \"\$${subj}_info\""
+        echo
+    done
+fi
+
 }
