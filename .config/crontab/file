@@ -4,6 +4,6 @@
 #    <minute> <hour> <day> <month> <dow> <tags and command>
 #    <@freq> <tags and command>
 
-0 * * * * /usr/local/bin/newsup
+0 * * * * /usr/local/bin/newsup
 
 # end
