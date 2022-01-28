@@ -7,23 +7,6 @@
 phelrc="$HOME/.config/shell/phelrc"
 [ -f "$phelrc" ] && . "$phelrc"
 
-# touch file and change its permissions
-touch-per() {
-    if [ "$#" -le 0 ]; then
-        echo "at least one parameter: the name of the file to be created"
-        return 1
-    elif [ "$#" -gt 2 ]; then
-        echo "too many arguments"
-        echo "first parameter file second optional to pass to chmod"
-        return 1
-    fi
-    file="$1"
-    touch "$file"
-    if [ "$#" -eq 2 ]; then
-        chmod "$2" "$file"
-    fi
-}
-
 # use dark theme for zathura
 # change also zat and spa
 zathura() {
@@ -187,13 +170,20 @@ rcon() {
 } && export -f rcon
 
 # create a file and automatically add it with ucon
+# see touch-per
 utouch() {
-    touch-per "$@" && ucon add "$file"
+    touch-per "$@" && ucon add "$1"
 } && export -f utouch
 
 # create a file and automatically add it with rcon
+# see touch-per
 rtouch() {
-    touch-per && rcon add "$file"
+    # make sure that when running as user use doas
+    if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
+        touch-per "$@" && rcon add "$1"
+    else
+        doas touch-per "$@" && rcon add "$1"
+    fi
 } && export -f rtouch
 
 # old

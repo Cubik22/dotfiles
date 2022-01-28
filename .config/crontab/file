@@ -1,1 +1,9 @@
-0 */1 * * * newsboat -x reload
+# user crontab
+
+# man 1 crontab for acceptable formats:
+#    <minute> <hour> <day> <month> <dow> <tags and command>
+#    <@freq> <tags and command>
+
+0 * * * * /usr/local/bin/newsup
+
+# end

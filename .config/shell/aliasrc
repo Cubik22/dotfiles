@@ -106,6 +106,7 @@ alias gpg-verify="gpg --keyserver-options auto-key-retrieve --verify"
 alias gpg-receive="gpg --keyserver-options auto-key-retrieve --receive-keys"
 
 # youtube-dl
+alias ydl="youtube-dl"
 alias ydlv="youtube-dl --ignore-errors --retries=infinite"
 alias ydlvm="youtube-dl --ignore-errors --retries=infinite --add-metadata --xattrs"
 alias ydla="youtube-dl --ignore-errors --retries=infinite --extract-audio"
