@@ -68,7 +68,8 @@ hook global WinSetOption filetype=sh %{
         }
     }
     set-option window formatcmd "shfmt -fn -ci"
-    set-option window lintcmd "shellcheck -f gcc -x -a"
+    # done by shellcheck.kak
+    # set-option window lintcmd "shellcheck -f gcc -x -a"
 }
 
 # c/cpp
