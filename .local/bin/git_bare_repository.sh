@@ -130,6 +130,9 @@ doas luarocks install moonscript
 # pip
 doas pip install xmpppy
 
+# pip local
+pip install pywayland
+
 ### languge servers
 
 # check for outdated, incorrect, and unused dependencies

@@ -36,7 +36,7 @@ EOF
 
 print_info=$(cat << EOF
 SYNOPSIS
-        build-packages [option]... package_name
+        build-packages [option]... package
 
 DESCRIPTION
         build packages from source
@@ -48,9 +48,15 @@ DESCRIPTION
             do not build dependencies
             by default it also builds dependencies
 
+        -l, --list-packages
+            print list of available packages and exit
+
         -h, --help
             print this info and exit
+EOF
+)
 
+print_info_packages=$(cat << EOF
 PACKAGES AVAILABLE:
 
 all means all packages
@@ -71,6 +77,9 @@ dep=true
 for param in "$@"; do
     if [ "$param" = "-h" ] || [ "$param" = "--help" ]; then
         echo "$print_info"
+        return 0
+    elif [ "$param" = "-l" ] || [ "$param" = "--list-packages" ]; then
+        echo "$package_names"
         return 0
     elif [ "$param" = "-d" ] || [ "$param" = "--dependencies" ]; then
         dep=true
@@ -94,6 +103,8 @@ EOT
             echo "package not available"
             echo
             echo "$print_info"
+            echo
+            echo "$print_info_packages"
             return 1
         fi
     fi
@@ -519,30 +530,26 @@ wayland_install() {
     echo "installing package: wayland"
 
     if [ ! -d "$dev/wayland" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
         git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland.git "$dev/wayland"
-        git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland-protocols.git "$dev/wayland-protocols"
-        git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland-utils.git "$dev/wayland-utils"
     fi
 
     cd "$dev/wayland" || return 1
 
-    if [ "$action" = "update" ]; then
+    if [ -d "$dev/wayland" ]; then
         rm -rf build
         git pull --recurse-submodules
     fi
 
     meson build/ --prefix="$prefix_dir"
     ninja -C build/ install
+
+    if [ ! -d "$dev/wayland-protocols" ]; then
+        git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland-protocols.git "$dev/wayland-protocols"
+    fi
 
     cd "$dev/wayland-protocols" || return 1
 
-    if [ "$action" = "update" ]; then
+    if [ -d "$dev/wayland-protocols" ]; then
         rm -rf build
         git pull --recurse-submodules
     fi
@@ -550,9 +557,13 @@ wayland_install() {
     meson build/ --prefix="$prefix_dir"
     ninja -C build/ install
 
+    if [ ! -d "$dev/wayland-utils" ]; then
+        git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland-utils.git "$dev/wayland-utils"
+    fi
+
     cd "$dev/wayland-utils" || return 1
 
-    if [ "$action" = "update" ]; then
+    if [ -d "$dev/wayland-utils" ]; then
         rm -rf build
         git pull --recurse-submodules
     fi
@@ -610,18 +621,12 @@ river_install() {
     echo "installing package: river"
 
     if [ ! -d "$dev/river" ]; then
-        action="install"
-    else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
         git clone --recurse-submodules https://github.com/riverwm/river.git "$dev/river"
     fi
 
     cd "$dev/river" || return 1
 
-    if [ "$action" = "update" ]; then
+    if [ -d "$dev/river" ]; then
         git pull --recurse-submodules
     fi
 
@@ -630,6 +635,20 @@ river_install() {
     # -Dxwayland for xwayland support
     zig build -Drelease-safe -Dman-pages --prefix "$prefix_dir" install
     # zig build -Drelease-safe -Dman-pages -Dxwayland --prefix $prefix_dir install
+
+    python3 -m pywayland.scanner -i "$XDG_DATA_HOME/wayland/wayland.xml" protocol/river-control-unstable-v1.xml protocol/river-status-unstable-v1.xml
+
+    if [ ! -d "$dev/river-utils" ]; then
+        git clone --recurse-submodules https://github.com/NickHastings/riverwm-utils.git "$dev/river-utils"
+    fi
+
+    cd "$dev/river-utils" || return 1
+
+    if [ -d "$dev/river-utils" ]; then
+        git pull --recurse-submodules
+    fi
+
+    pip install .
 }
 
 ### waybar
