@@ -4,18 +4,18 @@
 
 # add programs to path
 # see also .local/bin/git_bare_repository.sh
-cargo_bin="${CARGO_HOME}/bin"
+cargo_bin="$CARGO_HOME/bin"
 [ -d "$cargo_bin" ] && \
-    export PATH="$cargo_bin:${PATH}"
-go_bin="${GOPATH}/bin"
+    export PATH="$cargo_bin:$PATH"
+go_bin="$GOPATH/bin"
 [ -d "$go_bin" ] && \
-    export PATH="$go_bin:${PATH}"
+    export PATH="$go_bin:$PATH"
 npm_bin="/usr/local/lib/npm/bin"
 [ -d "$npm_bin" ] && \
-    export PATH="$npm_bin:${PATH}"
+    export PATH="$npm_bin:$PATH"
 # llvm13_bin="/usr/local/lib/llvm13-release/bin"
 # [ -d "$llvm13_bin" ] && \
-#     export PATH="$llvm13_bin:${PATH}"
+#     export PATH="$llvm13_bin:$PATH"
 
 # less
 # -F automatically exit if the entire file can be displayed on the first screen
@@ -33,71 +33,72 @@ export MANPAGER="kak-man"
 export TMPDIR="/tmp"
 
 # XDG
-export XDG_CONFIG_HOME="${HOME}/.config"
-export XDG_CACHE_HOME="${HOME}/.cache"
-export XDG_LOCAL_HOME="${HOME}/.local"
-export XDG_DATA_HOME="${XDG_LOCAL_HOME}/share"
-export XDG_STATE_HOME="${XDG_LOCAL_HOME}/state"
-export XDG_LIB_HOME="${XDG_LOCAL_HOME}/lib"
-export XDG_BIN_HOME="${XDG_LOCAL_HOME}/bin"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_LOCAL_HOME="$HOME/.local"
+export XDG_DATA_HOME="$XDG_LOCAL_HOME/share"
+export XDG_STATE_HOME="$XDG_LOCAL_HOME/state"
+export XDG_LIB_HOME="$XDG_LOCAL_HOME/lib"
+export XDG_INCLUDE_HOME="$XDG_LOCAL_HOME/include"
+export XDG_BIN_HOME="$XDG_LOCAL_HOME/bin"
 
 # path
-export PATH="${XDG_BIN_HOME}:${PATH}"
+export PATH="$XDG_BIN_HOME:$PATH"
 
 # runtime dir
 idu="$(id -u)"
 export XDG_RUNTIME_DIR="/run/user/$idu"
-# export XDG_RUNTIME_DIR="${XDG_LOCAL_HOME}/runtime"
+# export XDG_RUNTIME_DIR="$XDG_LOCAL_HOME/runtime"
 
 # ls
 export LS_OPTIONS="--color=auto --group-directories-first --format=horizontal --human-readable"
 
 # zsh shell
-export ZDOTDIR="${XDG_CONFIG_HOME}/shell"
+export ZDOTDIR="$XDG_CONFIG_HOME/shell"
 
 # ripgrep config file
-export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgrep/rc"
+export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/rc"
 
 # mbsync config
-export MBSYNCRC="${XDG_CONFIG_HOME}/mbsync/mbsyncrc"
+export MBSYNCRC="$XDG_CONFIG_HOME/mbsync/mbsyncrc"
 
 # weechat
-export WEECHAT_HOME="${XDG_CONFIG_HOME}/weechat"
+export WEECHAT_HOME="$XDG_CONFIG_HOME/weechat"
 
 # notmuch
-# export NOTMUCH_CONFIG="${XDG_CONFIG_HOME}/notmuch-config"
+# export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch-config"
 
 # password
-export PASSWORD_STORE_DIR="${XDG_DATA_HOME}/password-store"
+export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
 
 # npm config
-# export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}"/npm/npmrc
+# export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME"/npm/npmrc
 
 # gpg
 GPG_TTY="$(tty)"
 export GPG_TTY
-export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
+export GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
 
 # gtk-2.0 config file
-export GTK2_RC_FILES="${XDG_CONFIG_HOME}/gtk-2.0/config"
+export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/config"
 
 # development
-export C_INCLUDE_PATH="${XDG_LOCAL_HOME}/include"
-export LD_LIBRARY_PATH="${XDG_LIB_HOME}"
-export PKG_CONFIG_PATH="${XDG_LIB_HOME}/pkgconfig"
+export C_INCLUDE_PATH="$XDG_INCLUDE_HOME"
+export LD_LIBRARY_PATH="$XDG_LIB_HOME"
+export PKG_CONFIG_PATH="$XDG_LIB_HOME/pkgconfig"
 
 # R
-export R_HOME_USER="${XDG_DATA_HOME}/R"
-export R_LIBS_USER="${XDG_LIB_HOME}/R"
-export R_ENVIRON_USER="${XDG_CONFIG_HOME}/R/renviron"
-export R_PROFILE_USER="${XDG_CONFIG_HOME}/R/rprofile"
-export R_HISTFILE="${R_HOME_USER}/rhistory"
+export R_HOME_USER="$XDG_DATA_HOME/R"
+export R_LIBS_USER="$XDG_LIB_HOME/R"
+export R_ENVIRON_USER="$XDG_CONFIG_HOME/R/renviron"
+export R_PROFILE_USER="$XDG_CONFIG_HOME/R/rprofile"
+export R_HISTFILE="$R_HOME_USER/rhistory"
 
 # manpath
 # if $MANPATH is set, manpath displays its value rather than determining it on the fly
 # if $MANPATH is prefixed by a colon, then the value of the variable is
 # appended to the list determined from the content of the configuration files
-export MANPATH=":${XDG_DATA_HOME}/man"
+export MANPATH=":$XDG_DATA_HOME/man"
 
 # less history
 export LESSHISTFILE="$XDG_DATA_HOME/less/lesshst"
@@ -113,7 +114,7 @@ export HISTFILESIZE=
 export HISTCONTROL="erasedups:ignoreboth"
 export HISTIGNORE="pwd:exit:clear"
 # export HISTIGNORE="cd:pwd:exit:q:c:e:ea:et::fe:clear:nnn:n3:xb*():curl"
-export HISTFILE="${XDG_DATA_HOME}/bash/bash_history"
+export HISTFILE="$XDG_DATA_HOME/bash/bash_history"
 
 ## sync command history across sessions
 
@@ -133,14 +134,14 @@ export NNN_TRASH=1
 # without rar
 export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
 
-export NNN_PREVIEWDIR="${XDG_CACHE_HOME}/nnn/previews"
+export NNN_PREVIEWDIR="$XDG_CACHE_HOME/nnn/previews"
 export NNN_PREVIEWWIDTH="1920"
 export NNN_PREVIEWHEIGHT="1080"
 
 export NNN_SEL="/tmp/.sel"
 export NNN_FIFO="/tmp/nnn.fifo"
 
-NNN_BMS_CONFIG="c:${XDG_CONFIG_HOME};l:${XDG_LOCAL_HOME}"
+NNN_BMS_CONFIG="c:$XDG_CONFIG_HOME;l:$XDG_LOCAL_HOME"
 NNN_BMS_DEV="v:$HOME/dev"
 NNN_BMS_DOC="d:$HOME/doc"
 NNN_BMS_DOW="w:$HOME/dow"
@@ -189,7 +190,7 @@ export LYNX_CFG="$XDG_CONFIG_HOME/lynx/lynx.cfg"
 export LYNX_LSS="$XDG_CONFIG_HOME/lynx/lynx.lss"
 
 # set wayland environment variables and start river
-if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty1" ]; then
+if [ "$(id -u)" -ne 0 ] && [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
     # session and desktop
     export XDG_SESSION_TYPE=wayland
     export XDG_SESSION_DESKTOP=river
@@ -231,7 +232,7 @@ if [ "$(id -u)" -ne 0 ] && [ -z "${WAYLAND_DISPLAY}" ] && [ "$(tty)" = "/dev/tty
     # export _JAVA_AWT_WM_NONREPARENTING=1
 
     export BROWSER=firefox
-    # export BROWSER="${XDG_BIN_HOME}/ungoogled_chromium.sh"
+    # export BROWSER="$XDG_BIN_HOME/ungoogled_chromium.sh"
 
     # set GTK theme
     # export GTK_THEME=Adwaita

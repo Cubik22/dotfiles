@@ -554,7 +554,7 @@ wayland_install() {
         git pull --recurse-submodules
     fi
 
-    meson build/ --prefix="$prefix_dir"
+    meson -Dtests=false build/ --prefix="$prefix_dir"
     ninja -C build/ install
 
     if [ ! -d "$dev/wayland-utils" ]; then
