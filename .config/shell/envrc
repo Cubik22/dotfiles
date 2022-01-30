@@ -26,6 +26,9 @@ export LESS="-g -i -R -w"
 # kak as manpager
 export MANPAGER="kak-man"
 
+# ls
+export LS_OPTIONS="--color=auto --group-directories-first --format=horizontal --human-readable"
+
 # bat as manpager (set bat config)
 # export MANPAGER="bat-man"
 
@@ -42,16 +45,28 @@ export XDG_LIB_HOME="$XDG_LOCAL_HOME/lib"
 export XDG_INCLUDE_HOME="$XDG_LOCAL_HOME/include"
 export XDG_BIN_HOME="$XDG_LOCAL_HOME/bin"
 
-# path
-export PATH="$XDG_BIN_HOME:$PATH"
-
 # runtime dir
 idu="$(id -u)"
 export XDG_RUNTIME_DIR="/run/user/$idu"
 # export XDG_RUNTIME_DIR="$XDG_LOCAL_HOME/runtime"
 
-# ls
-export LS_OPTIONS="--color=auto --group-directories-first --format=horizontal --human-readable"
+# path
+export PATH="$XDG_BIN_HOME:$PATH"
+
+# manpath
+# if $MANPATH is set, manpath displays its value rather than determining it on the fly
+# if $MANPATH is prefixed by a colon, then the value of the variable is
+# appended to the list determined from the content of the configuration files
+export MANPATH=":$XDG_DATA_HOME/man"
+
+# library path
+export LD_LIBRARY_PATH="$XDG_LIB_HOME:$LD_LIBRARY_PATH"
+
+# include directories
+export C_INCLUDE_PATH="$XDG_INCLUDE_HOME:$C_INCLUDE_PATH"
+
+# pkg config
+export PKG_CONFIG_PATH="$XDG_LIB_HOME/pkgconfig"
 
 # zsh shell
 export ZDOTDIR="$XDG_CONFIG_HOME/shell"
@@ -82,23 +97,12 @@ export GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
 # gtk-2.0 config file
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/config"
 
-# development
-export C_INCLUDE_PATH="$XDG_INCLUDE_HOME"
-export LD_LIBRARY_PATH="$XDG_LIB_HOME"
-export PKG_CONFIG_PATH="$XDG_LIB_HOME/pkgconfig"
-
 # R
 export R_HOME_USER="$XDG_DATA_HOME/R"
 export R_LIBS_USER="$XDG_LIB_HOME/R"
 export R_ENVIRON_USER="$XDG_CONFIG_HOME/R/renviron"
 export R_PROFILE_USER="$XDG_CONFIG_HOME/R/rprofile"
 export R_HISTFILE="$R_HOME_USER/rhistory"
-
-# manpath
-# if $MANPATH is set, manpath displays its value rather than determining it on the fly
-# if $MANPATH is prefixed by a colon, then the value of the variable is
-# appended to the list determined from the content of the configuration files
-export MANPATH=":$XDG_DATA_HOME/man"
 
 # less history
 export LESSHISTFILE="$XDG_DATA_HOME/less/lesshst"
