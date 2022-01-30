@@ -34,14 +34,15 @@ set-option global startup_info_version 20211028
 # disable all default insert and indent hooks
 set-option global disabled_hooks '.*-insert.*|.*-indent.*'
 
-# preserve indent level
-hook global InsertChar \n %{
-    try %{ execute-keys -draft <semicolon> K <a-&> }
-}
-
 # trim trailing whitespace on the current line when leaving insert mode
 hook global ModeChange pop:insert:.* %{
     try %{ execute-keys -draft '<a-x>s\h+$<ret>d' }
+}
+
+# preserve indent level and trim trailing whitespace
+hook global InsertChar \n %{
+    try %{ execute-keys -draft <semicolon> K <a-&> }
+    try %{ execute-keys -draft 'k<a-x>s\h+$<ret>d' }
 }
 
 # run the formatcmd for the current filetype on write
