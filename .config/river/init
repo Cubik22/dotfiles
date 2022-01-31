@@ -52,13 +52,15 @@ mod="Mod4"
 # J K H L Q F P
 # A I B S D
 
-# Return footclient
+# Ctrl+Return footclient
 riverctl map normal $mod+Control Return spawn "footclient"
-# Backspace footclient float
+# Ctrl+Backspace footclient float
 riverctl map normal $mod+Control Backspace spawn "footclient --app-id=float"
 
-# A kak fzf
+# A kak-fzf
 riverctl map normal $mod A spawn "footclient --app-id=float fzf-kak"
+# Shift+A kak-fzf from root
+riverctl map normal $mod+Shift A spawn "footclient --app-id=float fzf-kak --from-root"
 
 # I iwctl
 riverctl map normal $mod I spawn "footclient --app-id=float iwctl"
@@ -66,17 +68,19 @@ riverctl map normal $mod I spawn "footclient --app-id=float iwctl"
 # B iwctl
 riverctl map normal $mod B spawn "footclient --app-id=float bluetoothctl"
 
-# S screenshots with grim and slurp
+# S screenshot selection with grim and slurp
 riverctl map normal $mod S spawn 'screenshot selection; echo "100" > $WOB_PIPE_CENTER'
+# Shif+S screenshot fullscreen with grim and slurp
 riverctl map normal $mod+Shift S spawn 'screenshot fullscreen; echo "100" > $WOB_PIPE_CENTER'
+# old screenshot with grim and slurp
 # riverctl map normal $mod S spawn 'grim -g "$(slurp)" - | wl-copy-env'
 
 # D fuzzel
 riverctl map normal $mod D spawn "fuzzel.sh"
 
-# F firefox
+# Ctrl+F firefox
 riverctl map normal $mod+Control F spawn "firefox"
-# Firefox incognito mode
+# Control+Shift+F firefox incognito mode
 riverctl map normal $mod+Control+Shift F spawn "firefox -private-window"
 
 ### Windows

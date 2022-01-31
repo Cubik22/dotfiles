@@ -7,6 +7,10 @@ SYNOPSIS
 DESCRIPTION
         choose a file with fzf and open it with kak
 
+        -r, --from-root
+            search file from root directory
+            by default it search it from HOME
+
         -d, --use-doas
             open the file with doas
 
@@ -23,6 +27,7 @@ DESCRIPTION
 EOF
 )
 
+from_root="no"
 use_doas="no"
 clear_history="no"
 append_history="no"
@@ -32,6 +37,8 @@ if [ "$#" -ge 1 ]; then
         if [ "$param" = "-h" ] || [ "$param" = "--help" ]; then
             echo "$print_info"
             return 0
+        elif [ "$param" = "-r" ] || [ "$param" = "--from-root" ]; then
+            from_root="yes"
         elif [ "$param" = "-d" ] || [ "$param" = "--use-doas" ]; then
             use_doas="yes"
         elif [ "$param" = "-c" ] || [ "$param" = "--clear-history" ]; then
@@ -58,6 +65,9 @@ if [ "$clear_history" = "yes" ]; then
     tail -n 1 "$hist_file" | wc -c | xargs -I {} truncate "$hist_file" -s -{}
     # history -d -1
 fi
+
+# change to root directory
+[ "$from_root" = "yes" ] && cd /
 
 # run fzf for files with preview
 file="$($FZF_DEFAULT_COMMAND --type file | fzf --preview="$FZF_DEFAULT_PREVIEW")"

@@ -193,6 +193,9 @@ export BROWSER_CLI=lynx
 export LYNX_CFG="$XDG_CONFIG_HOME/lynx/lynx.cfg"
 export LYNX_LSS="$XDG_CONFIG_HOME/lynx/lynx.lss"
 
+# dir_colors
+# eval "$(dircolors $HOME/.dir_colors)"
+
 # set wayland environment variables and start river
 if [ "$(id -u)" -ne 0 ] && [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
     # session and desktop

@@ -4,6 +4,8 @@
 	signingkey = 684CA4D079BE5028F25EC33FF2518EE8F2C2066F
 [core]
 	editor = kak
+[init]
+	defaultBranch = main
 [commit]
 #	gpgSign = true
 [gpg]
