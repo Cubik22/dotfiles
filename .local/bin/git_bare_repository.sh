@@ -201,8 +201,10 @@ doas npm install -g typescript-language-server
 update-extra plugins
 
 # clone, build and install packages
-build-packages foot
+build-packages zls
+build-packages lua-language-server
 build-packages htop
 build-packages river
 build-packages waybar
 build-packages fuzzel
+build-packages foot
