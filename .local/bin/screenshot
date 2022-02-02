@@ -1,10 +1,10 @@
 #!/bin/sh
-#
+
 # Take screenshot with grim & slurp on Wayland
 # or with maim & slop on X11
-#
+
 # USAGE: screenshot <options>
-#
+
 # REQUIREMENTS: grim & slurp or maim & slop
 # OPTIONALS:
 

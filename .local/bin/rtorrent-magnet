@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# https://wiki.archlinux.org/index.php?title=RTorrent&useskinversion=1
+# script used by browser to load magnet links to rtorrent
+
  watch_folder="$HOME/rtorrent/watch/load"
  cd "$watch_folder" || exit;
  [[ "$1" =~ xt=urn:btih:([^&/]+) ]] || exit;

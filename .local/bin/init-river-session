@@ -3,7 +3,7 @@
 # this script is usually run in river/init
 # is spawns foot in tag 1
 # firefox in tag 9
-# and if firefox is composed of two tabs the second one in tag 8
+# and if firefox is composed of two windows the second one in tag 8
 
 pos_foot="$((1 << (1 - 1)))"
 first_firefox="$((1 << (9 - 1)))"

@@ -375,6 +375,7 @@ lua_language_server_install() {
 }
 
 ### htop
+# htop with kak/vi keybindings
 # https://github.com/htop-dev/htop
 # https://aur.archlinux.org/packages/htop-vim
 htop_install() {
