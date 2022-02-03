@@ -1,31 +1,31 @@
 #!/bin/sh
 
-if [ "$#" -ne 1 ]; then
-    echo "error: please insert just one parameter"
+if [ "$#" -lt 1 ]; then
+    echo "error: please insert at least one url"
     exit
 fi
 
-url="$1"
+for url in "$@"; do
+    dir="$(mktemp -d video-XXXXXX)"
+    cd "$dir" || return 1
 
-dir="$(mktemp -d video-XXXXXX)"
-cd "$dir" || return 1
+    youtube-dl \
+    --ignore-errors \
+    --retries=infinite \
+    --add-metadata \
+    --xattrs \
+    "$url"
 
-youtube-dl \
---ignore-errors \
---retries=infinite \
---add-metadata \
---xattrs \
-"$url"
+    name="$(echo *)"
+    name_ext="$(echo "$name" | rev | cut -d "." -f 1 | rev)"
+    name_no_ext="$(echo "$name" | rev | cut -d "." -f 2- | rev)"
+    name_ogg="${name_no_ext}.ogg"
 
-name="$(echo *)"
-name_ext="$(echo "$name" | rev | cut -d "." -f 1 | rev)"
-name_no_ext="$(echo "$name" | rev | cut -d "." -f 2- | rev)"
-name_ogg="${name_no_ext}.ogg"
+    if [ ! "$name_ext" = "ogg" ]; then
+        ffmpeg -loglevel quiet -i "$name" "$name_ogg"
+    fi
 
-if [ ! "$name_ext" = "ogg" ]; then
-    ffmpeg -loglevel quiet -i "$name" "$name_ogg"
-fi
-
-mv "$name_ogg" ../
-cd ..
-rm -r "$dir"
+    mv "$name_ogg" ../
+    cd .. || return 1
+    rm -r "$dir"
+done
