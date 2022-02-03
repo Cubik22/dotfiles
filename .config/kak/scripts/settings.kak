@@ -102,7 +102,7 @@ make-directory-on-save
 
 ## number-toggle.kak
 
-require-module "number-toggle"
+# require-module "number-toggle"
 
 ## crosshairs.kak
 
@@ -145,6 +145,7 @@ set-face global CursorColumn default,rgb:282828
 set-face global Search @MatchingChar
 
 hook global WinCreate .* %{
+    ui-line-numbers-toggle
     ui-todos-toggle
     ui-wrap-toggle
     ui-cursorline-toggle

@@ -12,11 +12,11 @@ evaluate-commands %sh{
         octave.kak
     "
         # kak-crosshairs/crosshairs.kak
+        # number-toggle.kak/rc/number-toggle.kak
     plugins_files="
         foot.kak/rc/foot.kak
         kak-ansi/rc/ansi.kak
         kakoune-vertical-selection/vertical-selection.kak
-        number-toggle.kak/rc/number-toggle.kak
         ui.kak/rc/ui.kak
         kakoune-text-objects/text-objects.kak
         kakoune-palette/palette.kak
@@ -30,6 +30,7 @@ evaluate-commands %sh{
         indentation.kak
         wayland.kak
         git-commit-overflow.kak
+        number-toggle.kak
         settings.kak
         key-bindings.kak
         functionality.kak
