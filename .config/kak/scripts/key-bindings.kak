@@ -81,7 +81,13 @@ define-command -override ui-tabs-toggle -docstring 'toggle tabs' %{
     trigger-user-hook ui-hl-changed
 }
 map global user i ': enter-user-mode ui<ret>'                   -docstring 'ui mode'
-map global ui b ': ui-tabs-toggle<ret>'                          -docstring 'toggle tabs'
+map global ui s ': ui-trailing-spaces-toggle<ret>'              -docstring 'toggle trailing spaces'
+map global ui t ': ui-tabs-toggle<ret>'                         -docstring 'toggle tabs'
+map global ui w ': ui-whitespaces-toggle<ret>'                  -docstring 'toggle whitespaces'
+map global ui n ': ui-line-numbers-toggle<ret>'                 -docstring 'toggle line numbers'
+map global ui r ': ui-wrap-toggle<ret>'                         -docstring 'toggle wrap'
+map global ui l ': ui-lint-toggle<ret>'                         -docstring 'toggle lint diagnostics'
+unmap global ui L
 
 # utility
 declare-user-mode util
