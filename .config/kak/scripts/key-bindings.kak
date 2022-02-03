@@ -47,10 +47,10 @@ map global insert <a-e> <end><esc>
 # map global user W 'c\s,\s<ret>' -docstring "select between whitespace"
 
 # lint
-map global normal <c-l> ': ui-lint-toggle<ret>'                 -docstring 'lint'
+map global normal <c-l> ': ui-lint-toggle<ret>'                 -docstring 'toggle lint'
 map global normal <c-s-l> ': lint<ret>'                         -docstring 'lint'
 map global normal <c-j> ': lint-next-message<ret>'              -docstring 'lint next message'
-map global normal <c-k> ': lint-previous-message<ret>'          -docstring 'lint next message'
+map global normal <c-k> ': lint-previous-message<ret>'          -docstring 'lint previous message'
 
 # selectors
 # , is no longer leader key
