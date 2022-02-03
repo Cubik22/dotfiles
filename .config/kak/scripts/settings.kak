@@ -111,6 +111,18 @@ make-directory-on-save
 # cursorline
 # crosshairs
 
+define-command source-all-rc -docstring 'source all default settings' %{ evaluate-commands %sh{
+    for file in "$(find /usr/share/kak/rc -type f)"; do
+        printf "%s" "
+            try %{
+                source %{$file}
+            } catch %{
+                echo -debug %val{error}
+            }
+        "
+    done
+} }
+
 ### ui settings
 
 # colorscheme gruvbox
@@ -138,6 +150,48 @@ set-face global CursorColumn default,rgb:282828
 # highlight trailing whitespace as errors
 # add-highlighter global/trailing-whitespace regex \h+$ 0:Error
 
+# highlight delimiters and operators
+# not working overrides comment highlights
+# define-command -override ui-delimiters-toggle -docstring 'toggle delimiters' %{
+#     try %{
+#         add-highlighter window/delimiters regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
+#         echo -markup "{Information}delimiters enabled"
+#     } catch %{
+#         remove-highlighter window/delimiters
+#         echo -markup "{Information}delimiters disabled"
+#     }
+#     trigger-user-hook ui-hl-changed
+# }
+# define-command -override ui-operators-toggle -docstring 'toggle operators' %{
+#     try %{
+#         add-highlighter window/operators regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
+#         echo -markup "{Information}operators enabled"
+#     } catch %{
+#         remove-highlighter window/operators
+#         echo -markup "{Information}operators disabled"
+#     }
+#     trigger-user-hook ui-hl-changed
+# }
+# move to languge-server.kak in order to just highlight lsp files
+hook global WinCreate .* %{
+    add-highlighter window/delimiters           regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
+    add-highlighter window/operators            regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
+    # add-highlighter window/function             regex ([a-zA-Z_0-9]+\(+)) 0:function
+    # add-highlighter window/class                regex ([^a-z][A-Z][a-zA-Z_0-9]+) 0:class
+}
+
+# highlight tabs as error
+define-command -override ui-tabs-toggle -docstring 'toggle tabs' %{
+    try %{
+        add-highlighter window/tabs regex \t 0:Error
+        echo -markup "{Information}tabs enabled"
+    } catch %{
+        remove-highlighter window/tabs
+        echo -markup "{Information}tabs disabled"
+    }
+    trigger-user-hook ui-hl-changed
+}
+
 # highlight matching char of the character under the selections' cursor
 # add-highlighter global/ show-matching
 
@@ -150,25 +204,29 @@ hook global WinCreate .* %{
     ui-wrap-toggle
     ui-cursorline-toggle
     ui-trailing-spaces-toggle
+    # ui-delimiters-toggle
+    # ui-operators-toggle
     # ui-matching-toggle
     # ui-search-toggle
 }
 
 # allow one trailing space only in diff output
-hook global WinSetOption filetype=(diff) %{
-    add-highlighter buffer/diff-allow-one-trailing-space regex '^ ' 0:Default
+define-command -override ui-diff-one-trailing-space-toggle -docstring 'toggle one trailing space in diff files' %{
+    try %{
+        add-highlighter buffer/diff-allow-one-trailing-space regex '^ ' 0:Default
+        echo -markup "{Information}one trailing space diff files enabled"
+    } catch %{
+        remove-highlighter buffer/diff-allow-one-trailing-space
+        echo -markup "{Information}one trailing space diff files disabled"
+    }
+    trigger-user-hook ui-hl-changed
 }
+# hook global WinSetOption filetype=(diff) %{
+#     add-highlighter buffer/diff-allow-one-trailing-space regex '^ ' 0:Default
+# }
 
 # require-module kak
 # add-highlighter shared/kakrc/code/if_else regex \b(if|when|unless)\b 0:keyword
-
-# move to languge-server.kak in order to just highlight lsp files
-hook global WinCreate .* %{
-    add-highlighter window/delimiters           regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
-    add-highlighter window/operators            regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
-    # add-highlighter window/function             regex ([a-zA-Z_0-9]+\(+)) 0:function
-    # add-highlighter window/class                regex ([^a-z][A-Z][a-zA-Z_0-9]+) 0:class
-}
 
 # highlight all occurences of word under the cursor
 set-face global CurWord default,rgb:3c3836

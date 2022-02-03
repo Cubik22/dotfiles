@@ -43,13 +43,13 @@ evaluate-commands %sh{
         prefix="$1"
         files="$2"
         for file in $files; do
-             printf "%s" "
-                 try %{
-                     source %{${kak_config:?}/$prefix/$file}
-                 } catch %{
-                     echo -debug %val{error}
-                 }
-             "
+            printf "%s" "
+                try %{
+                    source %{${kak_config:?}/$prefix/$file}
+                } catch %{
+                    echo -debug %val{error}
+                }
+            "
         done
     }
 

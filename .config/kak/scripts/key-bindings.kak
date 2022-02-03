@@ -70,24 +70,23 @@ map global user m ': enter-user-mode man<ret>'                  -docstring 'man 
 map global user s ': enter-user-mode surround<ret>'             -docstring 'surround mode'
 
 # ui
-define-command -override ui-tabs-toggle -docstring 'toggle tabs' %{
-    try %{
-        add-highlighter window/tabs regex \t 0:Error
-        echo -markup "{Information}tabs enabled"
-    } catch %{
-        remove-highlighter window/tabs
-        echo -markup "{Information}tabs disabled"
-    }
-    trigger-user-hook ui-hl-changed
-}
+unmap global ui
 map global user i ': enter-user-mode ui<ret>'                   -docstring 'ui mode'
-map global ui s ': ui-trailing-spaces-toggle<ret>'              -docstring 'toggle trailing spaces'
-map global ui t ': ui-tabs-toggle<ret>'                         -docstring 'toggle tabs'
-map global ui w ': ui-whitespaces-toggle<ret>'                  -docstring 'toggle whitespaces'
-map global ui n ': ui-line-numbers-toggle<ret>'                 -docstring 'toggle line numbers'
-map global ui r ': ui-wrap-toggle<ret>'                         -docstring 'toggle wrap'
-map global ui l ': ui-lint-toggle<ret>'                         -docstring 'toggle lint diagnostics'
-unmap global ui L
+map global ui n ': ui-line-numbers-toggle<ret>'                 -docstring 'line numbers'
+map global ui s ': ui-trailing-spaces-toggle<ret>'              -docstring 'trailing spaces'
+map global ui t ': ui-tabs-toggle<ret>'                         -docstring 'tabs'
+map global ui w ': ui-whitespaces-toggle<ret>'                  -docstring 'whitespaces'
+map global ui x ': ui-todos-toggle<ret>'                        -docstring 'todo comments'
+# map global ui d ': ui-delimiters-toggle<ret>'                   -docstring 'delimiters'
+# map global ui o ': ui-operators-toggle<ret>'                    -docstring 'operators'
+map global ui / ': ui-search-toggle<ret>'                       -docstring 'search'
+map global ui m ': ui-matching-toggle<ret>'                     -docstring 'matching'
+map global ui r ': ui-wrap-toggle<ret>'                         -docstring 'wrap'
+map global ui l ': ui-lint-toggle<ret>'                         -docstring 'lint diagnostics'
+map global ui c ': ui-cursorline-toggle<ret>'                   -docstring 'cursor line'
+map global ui C ': ui-cursorcolumn-toggle<ret>'                 -docstring 'cursor column'
+map global ui f ': ui-git-diff-toggle<ret>'                     -docstring 'git diff'
+map global ui F ': ui-diff-one-trailing-space-toggle<ret>'      -docstring 'one trailing space in diff files'
 
 # utility
 declare-user-mode util
