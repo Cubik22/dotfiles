@@ -34,13 +34,12 @@ map global normal <a-/> '<a-/>(?i)'
 map global normal <a-?> '<a-?>(?i)'
 
 # insert mode go to start/end line
-map global insert <c-a> <home>
-map global insert <c-e> <end>
+map global insert <c-a> <home>      -docstring "goto start of line"
+map global insert <c-e> <end>       -docstring "goto end of line"
 
 # insert mode enter normal mode start/end line
-map global insert <a-a> <home><esc>
-map global insert <a-e> <end><esc>
-
+map global insert <a-a> <home><esc> -docstring "enter normal mode start of line"
+map global insert <a-e> <end><esc>  -docstring "enter normal mode end of line"
 # map global insert <c-p> <a-semicolon>P
 
 # custom text objects
@@ -70,6 +69,9 @@ map global user m ': enter-user-mode man<ret>'                  -docstring 'man 
 map global user s ': enter-user-mode surround<ret>'             -docstring 'surround mode'
 
 # ui
+define-command -override ui -docstring 'enter ui mode' %{
+    enter-user-mode ui
+}
 unmap global ui
 map global user i ': enter-user-mode ui<ret>'                   -docstring 'ui mode'
 map global ui n ': ui-line-numbers-toggle<ret>'                 -docstring 'line numbers'
@@ -77,6 +79,7 @@ map global ui s ': ui-trailing-spaces-toggle<ret>'              -docstring 'trai
 map global ui t ': ui-tabs-toggle<ret>'                         -docstring 'tabs'
 map global ui w ': ui-whitespaces-toggle<ret>'                  -docstring 'whitespaces'
 map global ui x ': ui-todos-toggle<ret>'                        -docstring 'todo comments'
+map global ui u ': ui-word-under-cursor-toggle<ret>'            -docstring 'word under cursor'
 # map global ui d ': ui-delimiters-toggle<ret>'                   -docstring 'delimiters'
 # map global ui o ': ui-operators-toggle<ret>'                    -docstring 'operators'
 map global ui / ': ui-search-toggle<ret>'                       -docstring 'search'
