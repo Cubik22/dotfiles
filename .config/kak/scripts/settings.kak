@@ -58,8 +58,8 @@ hook global InsertChar \n %{
 # hook global BufNewFile  .* %{ editorconfig-load }
 
 # show git diff
-hook global BufWritePost .* %{ git show-diff }
-hook global BufReload    .* %{ git show-diff }
+# hook global BufWritePost .* %{ git show-diff }
+# hook global BufReload    .* %{ git show-diff }
 
 ## state save
 hook global KakBegin .* %{
@@ -73,7 +73,7 @@ hook global KakEnd .* %{
     state-save-reg-save slash
 }
 
-## auto-pairs
+## auto-pairs.kak
 
 # auto-pairing of characters with quotes
 # set-option global auto_pairs ( ) { } [ ] '"' '"' "'" "'" ` ` “ ” ‘ ’ « » ‹ ›
@@ -100,57 +100,58 @@ make-directory-on-save
 # remove error scratch message
 # remove-scratch-message
 
+## number-toggle.kak
+
+require-module "number-toggle"
+
 ## crosshairs.kak
-set-face global crosshairs_line default,rgb:282828
-set-face global crosshairs_column default,rgb:282828
-cursorline
+
+# set-face global crosshairs_line default,rgb:282828
+# set-face global crosshairs_column default,rgb:282828
+# cursorline
 # crosshairs
 
 ### ui settings
 
-## change cursor color between normal mode and insert mode
-
-# shades of blue/cyan for normal mode
-set-face global PrimarySelection     white,bright-blue+g
-set-face global SecondarySelection     black,bright-blue+g
-set-face global PrimaryCursor         black,bright-cyan+fg
-set-face global SecondaryCursor     black,bright-blue+fg
-set-face global PrimaryCursorEol     black,bright-cyan
-set-face global SecondaryCursorEol     black,bright-blue
-
-# shades of green/yellow for insert mode
-hook global ModeChange (push|pop):.*:insert %{
-    set-face window PrimarySelection     white,bright-green+g
-    set-face window SecondarySelection     black,bright-green+g
-    set-face window PrimaryCursor         black,bright-yellow+fg
-    set-face window SecondaryCursor     black,bright-green+fg
-    set-face window PrimaryCursorEol     black,bright-yellow
-    set-face window SecondaryCursorEol     black,bright-green
-}
-
-# undo colour changes when leaving insert mode
-hook global ModeChange (push|pop):insert:.* %{
-    unset-face window PrimarySelection
-    unset-face window SecondarySelection
-    unset-face window PrimaryCursor
-    unset-face window SecondaryCursor
-    unset-face window PrimaryCursorEol
-    unset-face window SecondaryCursorEol
-}
-
 # colorscheme gruvbox
 colorscheme gruvbox-hard-dark
 
-add-highlighter global/ number-lines -relative -hlcursor -separator ' '
-add-highlighter global/ show-matching
-add-highlighter global/ wrap -word -indent -marker '↪'
+## ui.kak
+
+# done in number-toggle.kak
+# add-highlighter global/ number-lines -relative -hlcursor -separator ' '
+
+# highlight info keywords
+set-face global TodoComment +r@default
+set-option global ui_todo_keywords_regex "\b(TODO|FIXME|XXX|NOTE|REF|USAGE|REQUIREMENTS|OPTIONALS)\b"
+# add-highlighter global/ regex \b(TODO|FIXME|XXX|NOTE|REF|USAGE|REQUIREMENTS|OPTIONALS)\b 0:default+r
+
+# soft wrap
+set-option global ui_wrap_flags -word -indent -marker '↪'
+# add-highlighter global/ wrap -word -indent -marker '↪'
 # add-highlighter global/ wrap -word -indent -marker ''
 
-# highlight TODO/FIXME/...
-add-highlighter global/ regex \b(TODO|FIXME|XXX|NOTE|REF|USAGE|REQUIREMENTS|OPTIONALS)\b 0:default+r
+# set cursor line color
+set-face global CursorLine default,rgb:282828
+set-face global CursorColumn default,rgb:282828
 
 # highlight trailing whitespace as errors
-add-highlighter global/trailing-whitespace regex \h+$ 0:Error
+# add-highlighter global/trailing-whitespace regex \h+$ 0:Error
+
+# highlight matching char of the character under the selections' cursor
+# add-highlighter global/ show-matching
+
+# highlight when search
+set-face global Search @MatchingChar
+
+hook global WinCreate .* %{
+    ui-todos-toggle
+    ui-wrap-toggle
+    ui-cursorline-toggle
+    ui-trailing-spaces-toggle
+    # ui-matching-toggle
+    # ui-search-toggle
+}
 
 # allow one trailing space only in diff output
 hook global WinSetOption filetype=(diff) %{
@@ -160,25 +161,12 @@ hook global WinSetOption filetype=(diff) %{
 # require-module kak
 # add-highlighter shared/kakrc/code/if_else regex \b(if|when|unless)\b 0:keyword
 
-# global highlighters
-# moved to colors
-# # delimiter red
-# set-face global delimiter rgb:af3a03,default
-# # operator blue
-# set-face global operator rgb:5a947f,default
-# # function yellow
-# set-face global function rgb:ffba19,default
-# # set-face global function rgb:d79921,default
-# # set-face global function rgb:fabd2f,default
-# # builtin orange
-# set-face global builtin rgb:f49008,default
-
 # move to languge-server.kak in order to just highlight lsp files
 hook global WinCreate .* %{
-    add-highlighter window/delimiters        regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
-    add-highlighter window/operators        regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
-    # add-highlighter window/function         regex ([a-zA-Z_0-9]+\(+)) 0:function
-    # add-highlighter window/class            regex ([^a-z][A-Z][a-zA-Z_0-9]+) 0:class
+    add-highlighter window/delimiters           regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
+    add-highlighter window/operators            regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
+    # add-highlighter window/function             regex ([a-zA-Z_0-9]+\(+)) 0:function
+    # add-highlighter window/class                regex ([^a-z][A-Z][a-zA-Z_0-9]+) 0:class
 }
 
 # highlight all occurences of word under the cursor
@@ -190,4 +178,34 @@ hook global NormalIdle .* %{
     } catch %{
         add-highlighter -override global/curword group
     } }
+}
+
+## change cursor color between normal mode and insert mode
+
+# shades of blue/cyan for normal mode
+# set-face global PrimarySelection        white,bright-blue+g
+# set-face global SecondarySelection      black,bright-blue+g
+# set-face global PrimaryCursor           black,bright-cyan+fg
+# set-face global SecondaryCursor         black,bright-blue+fg
+# set-face global PrimaryCursorEol        black,bright-cyan
+# set-face global SecondaryCursorEol      black,bright-blue
+
+# shades of green/yellow for insert mode
+hook global ModeChange (push|pop):.*:insert %{
+    set-face window PrimarySelection    white,bright-green+g
+    set-face window SecondarySelection  black,bright-green+g
+    set-face window PrimaryCursor       black,bright-yellow+fg
+    set-face window SecondaryCursor     black,bright-green+fg
+    set-face window PrimaryCursorEol    black,bright-yellow
+    set-face window SecondaryCursorEol  black,bright-green
+}
+
+# undo colour changes when leaving insert mode
+hook global ModeChange (push|pop):insert:.* %{
+    unset-face window PrimarySelection
+    unset-face window SecondarySelection
+    unset-face window PrimaryCursor
+    unset-face window SecondaryCursor
+    unset-face window PrimaryCursorEol
+    unset-face window SecondaryCursorEol
 }

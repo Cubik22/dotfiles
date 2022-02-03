@@ -11,11 +11,13 @@ evaluate-commands %sh{
     filetype_files="
         octave.kak
     "
+        # kak-crosshairs/crosshairs.kak
     plugins_files="
         foot.kak/rc/foot.kak
         kak-ansi/rc/ansi.kak
         kakoune-vertical-selection/vertical-selection.kak
-        kak-crosshairs/crosshairs.kak
+        number-toggle.kak/rc/number-toggle.kak
+        ui.kak/rc/ui.kak
         kakoune-text-objects/text-objects.kak
         kakoune-palette/palette.kak
         kakoune-state-save/state-save.kak

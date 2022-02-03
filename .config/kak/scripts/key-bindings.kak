@@ -47,7 +47,8 @@ map global insert <a-e> <end><esc>
 # map global user W 'c\s,\s<ret>' -docstring "select between whitespace"
 
 # lint
-map global normal <c-l> ': lint<ret>'                           -docstring 'lint'
+map global normal <c-l> ': ui-lint-toggle<ret>'                 -docstring 'lint'
+map global normal <c-s-l> ': lint<ret>'                         -docstring 'lint'
 map global normal <c-j> ': lint-next-message<ret>'              -docstring 'lint next message'
 map global normal <c-k> ': lint-previous-message<ret>'          -docstring 'lint next message'
 
@@ -67,6 +68,20 @@ map global user m ': enter-user-mode man<ret>'                  -docstring 'man 
 
 # surround
 map global user s ': enter-user-mode surround<ret>'             -docstring 'surround mode'
+
+# ui
+define-command -override ui-tabs-toggle -docstring 'toggle tabs' %{
+    try %{
+        add-highlighter window/tabs regex \t 0:Error
+        echo -markup "{Information}tabs enabled"
+    } catch %{
+        remove-highlighter window/tabs
+        echo -markup "{Information}tabs disabled"
+    }
+    trigger-user-hook ui-hl-changed
+}
+map global user i ': enter-user-mode ui<ret>'                   -docstring 'ui mode'
+map global ui b ': ui-tabs-toggle<ret>'                          -docstring 'toggle tabs'
 
 # utility
 declare-user-mode util

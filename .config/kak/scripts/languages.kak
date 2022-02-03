@@ -11,12 +11,12 @@ hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|latex|html|
 
     expandtab
     # highlight tabs as errors
-    add-highlighter global/tabs regex \t 0:Error
+    ui-tabs-toggle
 
-    # add-highlighter window/delimiters        regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
-    # add-highlighter window/operators        regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
-    # # add-highlighter window/function         regex ([a-zA-Z_0-9]+\(+)) 0:function
-    # # add-highlighter window/class            regex ([^a-z][A-Z][a-zA-Z_0-9]+) 0:class
+    # add-highlighter window/delimiters         regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
+    # add-highlighter window/operators          regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
+    # # add-highlighter window/function           regex ([a-zA-Z_0-9]+\(+)) 0:function
+    # # add-highlighter window/class              regex ([^a-z][A-Z][a-zA-Z_0-9]+) 0:class
 
     lsp-enable-window
     # lsp-auto-hover-enable
@@ -25,12 +25,12 @@ hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|latex|html|
 hook global WinSetOption filetype=kak %{
     expandtab
     # highlight tabs as errors
-    add-highlighter global/tabs regex \t 0:Error
+    ui-tabs-toggle
 }
 hook global BufCreate .*newsboat/urls %{
     expandtab
     # highlight tabs as errors
-    add-highlighter global/tabs regex \t 0:Error
+    ui-tabs-toggle
 }
 
 # uncomment to enable debug logging for kak-lsp
