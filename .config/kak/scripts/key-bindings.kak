@@ -156,5 +156,5 @@ map global user R '!wl-paste-env -n<ret>d'                      -docstring 'repl
 
 # functionality
 map global user f ': fuzzy-files<ret>'                          -docstring 'fzf files'
-map global user r ': fuzzy-grep<ret>'                           -docstring 'fzf grep'
+map global user G ': fuzzy-grep<ret>'                           -docstring 'fzf grep'
 map global user n ': nnn-open<ret>'                             -docstring 'nnn open'

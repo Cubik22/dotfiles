@@ -31,6 +31,12 @@ set-option global startup_info_version 20211028
 # disable all default insert and indent hooks
 set-option global disabled_hooks '.*-insert.*|.*-indent.*'
 
+# use ripgrep for grepping
+set-option global grepcmd 'rg --column'
+
+# use foot as the terminal
+set-option global windowing_modules 'wayland'
+
 # trim trailing whitespace on the current line when leaving insert mode
 hook global ModeChange pop:insert:.* %{
     try %{ execute-keys -draft '<a-x>s\h+$<ret>d' }
@@ -104,8 +110,8 @@ enable-auto-pairs
 
 # integration
 make-directory-on-save
-# synchronize-terminal-clipboard
 
+# synchronize-terminal-clipboard
 # remove error scratch message
 # remove-scratch-message
 

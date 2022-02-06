@@ -30,10 +30,10 @@ evaluate-commands %sh{
         indentation.kak
         wayland.kak
         git-commit-overflow.kak
+        functionality.kak
         number-toggle.kak
         settings.kak
         ui-extra.kak
-        functionality.kak
         key-bindings.kak
         modeline.kak
         doas-write.kak

@@ -46,20 +46,8 @@ declare-option -docstring 'highlight delimiter' bool delimiters_highlight "false
 define-command -override ui-delimiters-toggle -docstring 'toggle delimiters' %{
     evaluate-commands %sh{
         if [ "$kak_opt_delimiters_highlight" = "false" ]; then
-            file_name="$kak_buffile"
-            line="$cursor_line"
-            column="$cursor_char_column"
-
-            # see plugin state-save
-            if [ -n "$kak_opt_last_state_save_selection" ]; then
-                state_file=$(printf "%s" "$kak_buffile" | sed -e 's|_|__|g' -e 's|/|_-|g')
-                echo "$kak_opt_last_state_save_selection" > "$kak_opt_state_save_path/$state_file"
-            fi
-
             printf "%s" "
-                write $file_name
-                delete-buffer $file_name
-                edit $file_name $line $column
+                reload-buffer
                 ui-delimiters-highlight
                 echo -markup '{Information}delimiters enabled'
             "
@@ -83,20 +71,8 @@ declare-option -docstring 'highlight operators' bool operators_highlight "false"
 define-command -override ui-operators-toggle -docstring 'toggle operators' %{
     evaluate-commands %sh{
         if [ "$kak_opt_operators_highlight" = "false" ]; then
-            file_name="$kak_buffile"
-            line="$cursor_line"
-            column="$cursor_char_column"
-
-            # see plugin state-save
-            if [ -n "$kak_opt_last_state_save_selection" ]; then
-                state_file=$(printf "%s" "$kak_buffile" | sed -e 's|_|__|g' -e 's|/|_-|g')
-                echo "$kak_opt_last_state_save_selection" > "$kak_opt_state_save_path/$state_file"
-            fi
-
             printf "%s" "
-                write $file_name
-                delete-buffer $file_name
-                edit $file_name $line $column
+                reload-buffer
                 ui-operators-highlight
                 echo -markup '{Information}operators enabled'
             "

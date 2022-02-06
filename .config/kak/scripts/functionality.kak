@@ -1,10 +1,25 @@
 # functionality
 
-# use ripgrep for grepping
-set-option global grepcmd 'rg --column'
+# close and reopen current file
+define-command reload-buffer -docstring 'reload buffer' %{
+    evaluate-commands %sh{
+        file_name="$kak_buffile"
+        line="$cursor_line"
+        column="$cursor_char_column"
 
-# use foot as the terminal
-set-option global windowing_modules 'wayland'
+        # see plugin state-save
+        if [ -n "$kak_opt_last_state_save_selection" ]; then
+            state_file=$(printf "%s" "$kak_buffile" | sed -e 's|_|__|g' -e 's|/|_-|g')
+            echo "$kak_opt_last_state_save_selection" > "$kak_opt_state_save_path/$state_file"
+        fi
+
+        printf "%s" "
+            write $file_name
+            delete-buffer $file_name
+            edit $file_name $line $column
+        "
+    }
+}
 
 # source-runtime for just one
 define-command source-all-rc -docstring 'source all default settings' %{ evaluate-commands %sh{
