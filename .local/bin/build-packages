@@ -20,6 +20,7 @@ wayland
 wlroots
 river
 waybar
+fcft
 fuzzel
 epoll-shim
 foot
@@ -654,6 +655,10 @@ river_install() {
 
 ### waybar
 waybar_install() {
+    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+        wlroots_install "dep"
+    fi
+
     echo "installing package: waybar"
 
     if [ ! -d "$dev/waybar" ]; then
@@ -693,9 +698,38 @@ waybar_install() {
     ninja -C build install
 }
 
+### fcft
+fcft_install() {
+    echo "installing package: fcft"
+
+    if [ ! -d "$dev/fcft" ]; then
+        git clone --recurse-submodules https://codeberg.org/dnkl/fcft.git "$dev/fcft"
+    fi
+
+    cd "$dev/fcft" || return 1
+
+    if [ -d "$dev/fcft" ]; then
+        git pull --recurse-submodules
+    fi
+
+    rm -rf build
+
+    meson build --prefix="$prefix_dir" --buildtype=release \
+        -Ddocs=enabled \
+        -Dgrapheme-shaping=enabled -Drun-shaping=enabled \
+        -Dtest-text-shaping=true
+    ninja -C build
+    ninja -C build test
+    ninja -C build install
+}
+
 ### fuzzel
 # https://codeberg.org/dnkl/fuzzel
 fuzzel_install() {
+    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+        fcft_install "dep"
+    fi
+
     echo "installing package: fuzzel"
 
     if [ ! -d "$dev/fuzzel" ]; then
@@ -763,15 +797,16 @@ epoll_shim_install() {
 
     ctest --output-on-failure
 
-    doas cmake --build . --target install
+    cmake --build . --target --prefix="$prefix_dir" install
 }
 
 ### foot
 # https://codeberg.org/dnkl/foot/src/branch/master/INSTALL.md
 foot_install() {
-    # if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
-    #     epoll_shim_install "dep"
-    # fi
+    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+        fcft_install "dep"
+        # epoll_shim_install "dep"
+    fi
 
     echo "installing package: foot"
 
@@ -802,7 +837,7 @@ foot_install() {
     # -Ddefault-terminfo=alacritty
 
     export CFLAGS="$CFLAGS -O3"
-    meson --buildtype=release -Dthemes=true --prefix="$prefix_dir_global" -Dterminfo=enabled -Db_lto=true ../..
+    meson --buildtype=release -Dthemes=true --prefix="$prefix_dir" -Dterminfo=enabled -Db_lto=true ../..
     # meson --buildtype=release -Dthemes=true --prefix="$prefix_dir_global" -Dterminfo=enabled -Ddefault-terminfo=xterm-256color -Db_lto=true ../..
     meson configure -Db_pgo=generate
     ninja
@@ -824,12 +859,12 @@ foot_install() {
     meson configure -Db_pgo=use
     ninja
     ninja test
-    doas ninja install
+    ninja install
 
     cd "$dev/foot" || return 1
 
     # terminfo
-    doas sed 's/@default_terminfo@/foot/g' foot.info | doas tic -x -e foot,foot-direct -
+    sed 's/@default_terminfo@/foot/g' foot.info | tic -x -e foot,foot-direct -
 }
 
 ### qrupdate
