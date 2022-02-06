@@ -136,6 +136,9 @@ map global user q ': q<ret>'                                    -docstring 'quit
 map global user w ': w<ret>'                                    -docstring 'write'
 map global user z ': wq<ret>'                                   -docstring 'write and quit'
 
+# buffer *debug*
+map global user d ': buffer *debug*<ret>'                       -docstring 'buffer *debug*'
+
 # system clipboard
 hook global RegisterModified '"' %{ nop %sh{
     printf %s "$kak_main_reg_dquote" | wl-copy-env > /dev/null 2>&1 &
