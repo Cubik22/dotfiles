@@ -1,16 +1,17 @@
 # ui-extra.kak
 
+## commands
+
 # show line numbers
 # requires number-toggle
 define-command -override ui-line-numbers-toggle -docstring 'toggle line numbers' %{
-    reg p %opt{show_line_numbers}
     evaluate-commands %sh{
-        if [ "$kak_main_reg_p" = "false" ]; then
+        if [ "$kak_opt_show_line_numbers" = "false" ]; then
             printf "%s" '
                 set-option window show_line_numbers true
                 echo -markup "{Information}line numbers enabled"
             '
-        elif [ "$kak_main_reg_p" = "true" ]; then
+        elif [ "$kak_opt_show_line_numbers" = "true" ]; then
             printf "%s" '
                 set-option window show_line_numbers false
                 echo -markup "{Information}line numbers disabled"
@@ -33,30 +34,84 @@ define-command -override ui-tabs-toggle -docstring 'toggle tabs' %{
     trigger-user-hook ui-hl-changed
 }
 
-# highlight delimiters and operators
-# not working overrides comment highlights
+## highlight delimiters and operators
+## have to reload all buffer otherwise it also highlights comments
 
-# define-command -override ui-delimiters-toggle -docstring 'toggle delimiters' %{
-#     try %{
-#         add-highlighter window/delimiters regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
-#         echo -markup "{Information}delimiters enabled"
-#     } catch %{
-#         remove-highlighter window/delimiters
-#         echo -markup "{Information}delimiters disabled"
-#     }
-#     trigger-user-hook ui-hl-changed
-# }
+# to be called at the start because there is no need to reload buffer
+define-command -override ui-delimiters-highlight -docstring 'highlight delimiters' %{
+    add-highlighter window/delimiters_common regex (\(|\)|\[|\]|\{|\}|\;) 0:delimiter
+    set-option window delimiters_highlight true
+}
+declare-option -docstring 'highlight delimiter' bool delimiters_highlight "false"
+define-command -override ui-delimiters-toggle -docstring 'toggle delimiters' %{
+    evaluate-commands %sh{
+        if [ "$kak_opt_delimiters_highlight" = "false" ]; then
+            file_name="$kak_buffile"
+            line="$cursor_line"
+            column="$cursor_char_column"
 
-# define-command -override ui-operators-toggle -docstring 'toggle operators' %{
-#     try %{
-#         add-highlighter window/operators regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
-#         echo -markup "{Information}operators enabled"
-#     } catch %{
-#         remove-highlighter window/operators
-#         echo -markup "{Information}operators disabled"
-#     }
-#     trigger-user-hook ui-hl-changed
-# }
+            # see plugin state-save
+            if [ -n "$kak_opt_last_state_save_selection" ]; then
+                state_file=$(printf "%s" "$kak_buffile" | sed -e 's|_|__|g' -e 's|/|_-|g')
+                echo "$kak_opt_last_state_save_selection" > "$kak_opt_state_save_path/$state_file"
+            fi
+
+            printf "%s" "
+                write $file_name
+                delete-buffer $file_name
+                edit $file_name $line $column
+                add-highlighter -override window/delimiters_common regex (\(|\)|\[|\]|\{|\}|\;) 0:delimiter
+                set-option window delimiters_highlight true
+                echo -markup '{Information}delimiters enabled'
+            "
+        elif [ "$kak_opt_delimiters_highlight" = "true" ]; then
+            printf "%s" "
+                remove-highlighter window/delimiters_common
+                set-option window delimiters_highlight false
+                echo -markup '{Information}delimiters disabled'
+            "
+        fi
+    }
+    trigger-user-hook ui-hl-changed
+}
+
+# to be called at the start because there is no need to reload buffer
+define-command -override ui-operators-highlight -docstring 'highlight operators' %{
+    add-highlighter window/operators_common regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
+    set-option window operators_highlight true
+}
+declare-option -docstring 'highlight operators' bool operators_highlight "false"
+define-command -override ui-operators-toggle -docstring 'toggle operators' %{
+    evaluate-commands %sh{
+        if [ "$kak_opt_operators_highlight" = "false" ]; then
+            file_name="$kak_buffile"
+            line="$cursor_line"
+            column="$cursor_char_column"
+
+            # see plugin state-save
+            if [ -n "$kak_opt_last_state_save_selection" ]; then
+                state_file=$(printf "%s" "$kak_buffile" | sed -e 's|_|__|g' -e 's|/|_-|g')
+                echo "$kak_opt_last_state_save_selection" > "$kak_opt_state_save_path/$state_file"
+            fi
+
+            printf "%s" "
+                write $file_name
+                delete-buffer $file_name
+                edit $file_name $line $column
+                add-highlighter -override window/operators_common regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
+                set-option window operators_highlight true
+                echo -markup '{Information}operators enabled'
+            "
+        elif [ "$kak_opt_operators_highlight" = "true" ]; then
+            printf "%s" "
+                remove-highlighter window/operators_common
+                set-option window operators_highlight false
+                echo -markup '{Information}operators disabled'
+            "
+        fi
+    }
+    trigger-user-hook ui-hl-changed
+}
 
 # allow one trailing space only in diff output
 define-command -override ui-diff-one-trailing-space-toggle -docstring 'toggle one trailing space in diff files' %{
@@ -73,9 +128,8 @@ define-command -override ui-diff-one-trailing-space-toggle -docstring 'toggle on
 # highlight word under cursor
 declare-option -docstring 'add line highlighter' bool word_under_cursor "false"
 define-command -override ui-word-under-cursor-toggle -docstring 'toggle highlight word under cursor' %{
-    reg p %opt{word_under_cursor}
     evaluate-commands %sh{
-        if [ "$kak_main_reg_p" = "false" ]; then
+        if [ "$kak_opt_word_under_cursor" = "false" ]; then
             printf "%s" '
                 hook -group word-under-cursor window NormalIdle .* %{
                     evaluate-commands -draft %{ try %{
@@ -88,7 +142,7 @@ define-command -override ui-word-under-cursor-toggle -docstring 'toggle highligh
                 set-option window word_under_cursor true
                 echo -markup "{Information}highlight word under cursor enabled"
             '
-        elif [ "$kak_main_reg_p" = "true" ]; then
+        elif [ "$kak_opt_word_under_cursor" = "true" ]; then
             printf "%s" '
                 remove-hooks window word-under-cursor
                 remove-highlighter window/curword
@@ -98,4 +152,80 @@ define-command -override ui-word-under-cursor-toggle -docstring 'toggle highligh
         fi
     }
     trigger-user-hook ui-hl-changed
+}
+
+## ui
+
+# done in number-toggle.kak
+# add-highlighter global/ number-lines -relative -hlcursor -separator ' '
+
+# highlight info keywords
+set-face global TodoComment +r@default
+set-option global ui_todo_keywords_regex "\b(TODO|FIXME|XXX|NOTE|REF|USAGE|REQUIREMENTS|OPTIONALS)\b"
+# add-highlighter global/ regex \b(TODO|FIXME|XXX|NOTE|REF|USAGE|REQUIREMENTS|OPTIONALS)\b 0:default+r
+
+# soft wrap
+set-option global ui_wrap_flags -word -indent -marker '↪'
+# add-highlighter global/ wrap -word -indent -marker '↪'
+# add-highlighter global/ wrap -word -indent -marker ''
+
+# set cursor line color
+set-face global CursorLine default,rgb:282828
+set-face global CursorColumn default,rgb:282828
+
+# highlight trailing whitespace as errors
+# add-highlighter global/trailing-whitespace regex \h+$ 0:Error
+
+# move to languge-server.kak in order to just highlight lsp files
+# hook global WinCreate .* %{
+    # add-highlighter window/delimiters           regex (\(|\)|\[|\]|\{|\}|\;) 0:delimiter
+    # add-highlighter window/operators            regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
+    # add-highlighter window/function             regex ([a-zA-Z_0-9]+\(+)) 0:function
+    # add-highlighter window/class                regex ([^a-z][A-Z][a-zA-Z_0-9]+) 0:class
+# }
+
+# highlight matching char of the character under the selections' cursor
+# add-highlighter global/ show-matching
+
+# highlight when search
+set-face global Search @MatchingChar
+
+# hook global WinSetOption filetype=(diff) %{
+#     add-highlighter buffer/diff-allow-one-trailing-space regex '^ ' 0:Default
+# }
+
+# highlight all occurences of word under the cursor
+set-face global CurWord default,rgb:3c3836
+
+# toggle highlights at start
+hook global WinCreate .* %{
+    ui-line-numbers-toggle
+    ui-todos-toggle
+    ui-wrap-toggle
+    ui-cursorline-toggle
+    ui-trailing-spaces-toggle
+    ui-word-under-cursor-toggle
+    ui-git-diff-toggle
+    ui-diff-one-trailing-space-toggle
+    # ui-matching-toggle
+    # ui-search-toggle
+}
+
+## highlight operators and delimiters in known filetypes
+
+# in this way it override comments highlight
+# hook global WinSetOption filetype=.+ %{
+#     ui-delimiters-highlight
+#     ui-operators-highlight
+# }
+
+hook global WinCreate .* %{
+    evaluate-commands %sh{
+        if [ -n "$kak_opt_filetype" ]; then
+            printf "%s" "
+                ui-delimiters-highlight
+                ui-operators-highlight
+            "
+        fi
+    }
 }

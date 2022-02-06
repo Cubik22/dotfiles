@@ -6,6 +6,19 @@ set-option global grepcmd 'rg --column'
 # use foot as the terminal
 set-option global windowing_modules 'wayland'
 
+# source-runtime for just one
+define-command source-all-rc -docstring 'source all default settings' %{ evaluate-commands %sh{
+    for file in "$(find /usr/share/kak/rc -type f)"; do
+        printf "%s" "
+            try %{
+                source %{$file}
+            } catch %{
+                echo -debug %val{error}
+            }
+        "
+    done
+} }
+
 # fzf
 define-command -docstring 'open files with fzf' fuzzy-files %{
     try %sh{

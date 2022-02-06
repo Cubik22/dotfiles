@@ -31,8 +31,8 @@ evaluate-commands %sh{
         wayland.kak
         git-commit-overflow.kak
         number-toggle.kak
-        ui-extra.kak
         settings.kak
+        ui-extra.kak
         key-bindings.kak
         functionality.kak
         modeline.kak

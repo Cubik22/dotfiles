@@ -1,6 +1,6 @@
 # enable kak-lsp for some filetypes
 evaluate-commands %sh{
-    kak-lsp --kakoune -s $kak_session
+    kak-lsp --kakoune -s "$kak_session"
 }
 
 # information on current buffer filetype
@@ -12,11 +12,6 @@ hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|latex|html|
     expandtab
     # highlight tabs as errors
     ui-tabs-toggle
-
-    # add-highlighter window/delimiters         regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
-    # add-highlighter window/operators          regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
-    # # add-highlighter window/function           regex ([a-zA-Z_0-9]+\(+)) 0:function
-    # # add-highlighter window/class              regex ([^a-z][A-Z][a-zA-Z_0-9]+) 0:class
 
     lsp-enable-window
     # lsp-auto-hover-enable

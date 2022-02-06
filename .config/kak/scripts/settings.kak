@@ -1,4 +1,4 @@
-# kakrc
+# settings
 
 ### editor settings
 
@@ -61,17 +61,28 @@ hook global InsertChar \n %{
 # hook global BufWritePost .* %{ git show-diff }
 # hook global BufReload    .* %{ git show-diff }
 
-## state save
-hook global KakBegin .* %{
+define-command state-save-reg-load-important -docstring "load all registers from disk" %{
     state-save-reg-load colon
     state-save-reg-load pipe
     state-save-reg-load slash
 }
-hook global KakEnd .* %{
+define-command state-save-reg-save-important -docstring "save all registers on disk" %{
     state-save-reg-save colon
     state-save-reg-save pipe
     state-save-reg-save slash
 }
+
+## state save
+hook global KakBegin .* %{
+    state-save-reg-load-important
+}
+hook global KakEnd .* %{
+    state-save-reg-save-important
+}
+
+# sync yank/paste buffer between kakoune session
+# hook global FocusOut .* %{ state-save-reg-save dquote }
+# hook global FocusIn  .* %{ state-save-reg-load dquote }
 
 ## auto-pairs.kak
 
@@ -94,8 +105,8 @@ enable-auto-pairs
 ## tiny.kak
 
 # integration
-synchronize-terminal-clipboard
 make-directory-on-save
+# synchronize-terminal-clipboard
 
 # remove error scratch message
 # remove-scratch-message
@@ -110,18 +121,6 @@ make-directory-on-save
 # set-face global crosshairs_column default,rgb:282828
 # cursorline
 # crosshairs
-
-define-command source-all-rc -docstring 'source all default settings' %{ evaluate-commands %sh{
-    for file in "$(find /usr/share/kak/rc -type f)"; do
-        printf "%s" "
-            try %{
-                source %{$file}
-            } catch %{
-                echo -debug %val{error}
-            }
-        "
-    done
-} }
 
 ### ui settings
 
@@ -156,62 +155,4 @@ hook global ModeChange (push|pop):insert:.* %{
     unset-face window SecondaryCursor
     unset-face window PrimaryCursorEol
     unset-face window SecondaryCursorEol
-}
-
-## ui.kak
-
-# done in number-toggle.kak
-# add-highlighter global/ number-lines -relative -hlcursor -separator ' '
-
-# highlight info keywords
-set-face global TodoComment +r@default
-set-option global ui_todo_keywords_regex "\b(TODO|FIXME|XXX|NOTE|REF|USAGE|REQUIREMENTS|OPTIONALS)\b"
-# add-highlighter global/ regex \b(TODO|FIXME|XXX|NOTE|REF|USAGE|REQUIREMENTS|OPTIONALS)\b 0:default+r
-
-# soft wrap
-set-option global ui_wrap_flags -word -indent -marker '↪'
-# add-highlighter global/ wrap -word -indent -marker '↪'
-# add-highlighter global/ wrap -word -indent -marker ''
-
-# set cursor line color
-set-face global CursorLine default,rgb:282828
-set-face global CursorColumn default,rgb:282828
-
-# highlight trailing whitespace as errors
-# add-highlighter global/trailing-whitespace regex \h+$ 0:Error
-
-# move to languge-server.kak in order to just highlight lsp files
-hook global WinCreate .* %{
-    add-highlighter window/delimiters           regex (\(|\)|\[|\]|\{|\}|\;|') 0:delimiter
-    add-highlighter window/operators            regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
-    # add-highlighter window/function             regex ([a-zA-Z_0-9]+\(+)) 0:function
-    # add-highlighter window/class                regex ([^a-z][A-Z][a-zA-Z_0-9]+) 0:class
-}
-
-# highlight matching char of the character under the selections' cursor
-# add-highlighter global/ show-matching
-
-# highlight when search
-set-face global Search @MatchingChar
-
-# hook global WinSetOption filetype=(diff) %{
-#     add-highlighter buffer/diff-allow-one-trailing-space regex '^ ' 0:Default
-# }
-
-# highlight all occurences of word under the cursor
-set-face global CurWord default,rgb:3c3836
-
-hook global WinCreate .* %{
-    ui-line-numbers-toggle
-    ui-todos-toggle
-    ui-wrap-toggle
-    ui-cursorline-toggle
-    ui-trailing-spaces-toggle
-    ui-word-under-cursor-toggle
-    ui-git-diff-toggle
-    ui-diff-one-trailing-space-toggle
-    # ui-delimiters-toggle
-    # ui-operators-toggle
-    # ui-matching-toggle
-    # ui-search-toggle
 }

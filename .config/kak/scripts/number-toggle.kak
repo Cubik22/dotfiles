@@ -7,11 +7,10 @@ declare-option -docstring 'line number highlighter parameters' str-list number_t
 declare-option -hidden str number_toggle_internal_state '-relative'
 
 define-command number-toggle-refresh %{
-    reg p %opt{show_line_numbers}
     evaluate-commands %sh{
-        if [ "$kak_main_reg_p" = "true" ]; then
+        if [ "$kak_opt_show_line_numbers" = "true" ]; then
             printf '%s' "add-highlighter -override window/number-toggle number-lines $kak_quoted_opt_number_toggle_params $kak_opt_number_toggle_internal_state"
-        elif [ "$kak_main_reg_p" = "false" ]; then
+        elif [ "$kak_opt_show_line_numbers" = "false" ]; then
             printf '%s' "remove-highlighter window/number-toggle"
         fi
     }

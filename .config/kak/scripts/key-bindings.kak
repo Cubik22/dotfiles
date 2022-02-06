@@ -80,8 +80,8 @@ map global ui t ': ui-tabs-toggle<ret>'                         -docstring 'tabs
 map global ui w ': ui-whitespaces-toggle<ret>'                  -docstring 'whitespaces'
 map global ui x ': ui-todos-toggle<ret>'                        -docstring 'todo comments'
 map global ui u ': ui-word-under-cursor-toggle<ret>'            -docstring 'word under cursor'
-# map global ui d ': ui-delimiters-toggle<ret>'                   -docstring 'delimiters'
-# map global ui o ': ui-operators-toggle<ret>'                    -docstring 'operators'
+map global ui d ': ui-delimiters-toggle<ret>'                   -docstring 'delimiters'
+map global ui o ': ui-operators-toggle<ret>'                    -docstring 'operators'
 map global ui / ': ui-search-toggle<ret>'                       -docstring 'search'
 map global ui m ': ui-matching-toggle<ret>'                     -docstring 'matching'
 map global ui r ': ui-wrap-toggle<ret>'                         -docstring 'wrap'
@@ -89,7 +89,7 @@ map global ui l ': ui-lint-toggle<ret>'                         -docstring 'lint
 map global ui c ': ui-cursorline-toggle<ret>'                   -docstring 'cursor line'
 map global ui C ': ui-cursorcolumn-toggle<ret>'                 -docstring 'cursor column'
 map global ui f ': ui-git-diff-toggle<ret>'                     -docstring 'git diff'
-map global ui F ': ui-diff-one-trailing-space-toggle<ret>'      -docstring 'one trailing space in diff files'
+map global ui F ': ui-diff-one-trailing-space-toggle<ret>'      -docstring 'diff files'
 
 # utility
 declare-user-mode util
@@ -139,17 +139,13 @@ map global user z ': wq<ret>'                                   -docstring 'writ
 # buffer *debug*
 map global user d ': buffer *debug*<ret>'                       -docstring 'buffer *debug*'
 
-# system clipboard
-hook global RegisterModified '"' %{ nop %sh{
-    printf %s "$kak_main_reg_dquote" | wl-copy-env > /dev/null 2>&1 &
-} }
+# system clipboard (tiny.kak)
+# hook global RegisterModified '"' %{ nop %sh{
+#     printf %s "$kak_main_reg_dquote" | wl-copy-env > /dev/null 2>&1 &
+# } }
 map global user y '<a-|>wl-copy-env<ret>'                       -docstring 'copy to system'
 map global user p '<a-!>wl-paste-env -n<ret>'                   -docstring 'paste from system (after)'
 map global user P '!wl-paste-env -n<ret>'                       -docstring 'paste from system (before)'
 map global user <a-p> '<a-o>j !wl-paste-env -n<ret>'            -docstring 'paste from system (below)'
 map global user <a-P> '<a-O>k !wl-paste-env -n<ret>'            -docstring 'paste from system (above)'
 map global user R '!wl-paste-env -n<ret>d'                      -docstring 'replace from system'
-
-# system clipboard
-# map global user c '<a-|>wl-copy<ret>'                         -docstring 'wl-copy'
-# map global user v '!wl-paste -n<ret>'                         -docstring 'wl-paste'
