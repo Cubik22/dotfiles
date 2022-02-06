@@ -7,6 +7,8 @@ doas rm -f /root/.bashrc
 doas rm -f /root/.inputrc
 doas rm -f /root/.dir_colors
 
+doas rm -fr /root/.terminfo
+
 doas rm -fr /root/.config/git
 doas rm -fr /root/.config/ripgrep
 doas rm -fr /root/.config/waylock
@@ -25,6 +27,8 @@ doas ln -s "$HOME/.bash_profile" /root/.bash_profile
 doas ln -s "$HOME/.bashrc" /root/.bashrc
 doas ln -s "$HOME/.inputrc" /root/.inputrc
 doas ln -s "$HOME/.dir_colors" /root/.dir_colors
+
+doas ln -s "$HOME/.terminfo" /root/
 
 doas mkdir -p "/root/.config"
 doas mkdir -p "/root/.config/git"
