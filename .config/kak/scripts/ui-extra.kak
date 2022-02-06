@@ -58,6 +58,11 @@ define-command -override ui-delimiters-toggle -docstring 'toggle delimiters' %{
                 echo -markup '{Information}delimiters disabled'
             "
         fi
+        if [ "$kak_opt_operators_highlight" = "true" ]; then
+            printf "%s" "
+                ui-operators-highlight
+            "
+        fi
     }
     trigger-user-hook ui-hl-changed
 }
@@ -81,6 +86,11 @@ define-command -override ui-operators-toggle -docstring 'toggle operators' %{
                 remove-highlighter window/operators_common
                 set-option window operators_highlight false
                 echo -markup '{Information}operators disabled'
+            "
+        fi
+        if [ "$kak_opt_delimiters_highlight" = "true" ]; then
+            printf "%s" "
+                ui-delimiters-highlight
             "
         fi
     }
