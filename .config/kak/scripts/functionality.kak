@@ -25,15 +25,13 @@ define-command -docstring 'open files with fzf' fuzzy-files %{
         footclient --app-id 'float' sh -c "kak-fuzzy-files $kak_session $kak_client"
     }
 }
-map global user f ': fuzzy-files<ret>' -docstring 'fzf: open files'
 
 # nnn
-define-command -docstring 'open file with nnn' nnn %{
+define-command -docstring 'open file with nnn' nnn-open %{
     try %sh{
         footclient --app-id 'float' sh -c "kak-nnn $kak_session $kak_client"
     }
 }
-map global user n ': nnn<ret>' -docstring 'nnn: open file'
 
 # ripgrep
 define-command -docstring 'search with ripgrep and fzf' fuzzy-grep %{
@@ -41,4 +39,3 @@ define-command -docstring 'search with ripgrep and fzf' fuzzy-grep %{
         footclient --app-id 'float' -w 1840x1000 sh -c "kak-fuzzy-grep $kak_session $kak_client"
     }
 }
-map global user r ': fuzzy-grep<ret>' -docstring 'fzf: live grep'

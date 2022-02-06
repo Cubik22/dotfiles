@@ -18,10 +18,7 @@ set-option global scrolloff 3,3
 # options that are forwarded to the user interface implementation NCurses UI
 # set-option -add global ui_options terminal_set_title=true
 # set-option -add global ui_options terminal_status_on_top=true
-# set-option -add global ui_options terminal_assistant=cat
-set-option -add global ui_options terminal_assistant=dilbert
-# set-option -add global ui_options terminal_assistant=none
-# set-option -add global ui_options terminal_enable_mouse=false
+set-option -add global ui_options terminal_enable_mouse=false
 # set-option -add global ui_options terminal_synchronized=true
 
 # messages in the startup info box only from the version greater than the value
@@ -61,18 +58,19 @@ hook global InsertChar \n %{
 # hook global BufWritePost .* %{ git show-diff }
 # hook global BufReload    .* %{ git show-diff }
 
-define-command state-save-reg-load-important -docstring "load all registers from disk" %{
+## state save
+
+define-command state-save-reg-load-important -docstring "load important registers from disk" %{
     state-save-reg-load colon
     state-save-reg-load pipe
     state-save-reg-load slash
 }
-define-command state-save-reg-save-important -docstring "save all registers on disk" %{
+define-command state-save-reg-save-important -docstring "save important registers on disk" %{
     state-save-reg-save colon
     state-save-reg-save pipe
     state-save-reg-save slash
 }
 
-## state save
 hook global KakBegin .* %{
     state-save-reg-load-important
 }

@@ -39,7 +39,7 @@ define-command -override ui-tabs-toggle -docstring 'toggle tabs' %{
 
 # to be called at the start because there is no need to reload buffer
 define-command -override ui-delimiters-highlight -docstring 'highlight delimiters' %{
-    add-highlighter window/delimiters_common regex (\(|\)|\[|\]|\{|\}|\;) 0:delimiter
+    add-highlighter -override window/delimiters_common regex (\(|\)|\[|\]|\{|\}|\;) 0:delimiter
     set-option window delimiters_highlight true
 }
 declare-option -docstring 'highlight delimiter' bool delimiters_highlight "false"
@@ -60,8 +60,7 @@ define-command -override ui-delimiters-toggle -docstring 'toggle delimiters' %{
                 write $file_name
                 delete-buffer $file_name
                 edit $file_name $line $column
-                add-highlighter -override window/delimiters_common regex (\(|\)|\[|\]|\{|\}|\;) 0:delimiter
-                set-option window delimiters_highlight true
+                ui-delimiters-highlight
                 echo -markup '{Information}delimiters enabled'
             "
         elif [ "$kak_opt_delimiters_highlight" = "true" ]; then
@@ -77,7 +76,7 @@ define-command -override ui-delimiters-toggle -docstring 'toggle delimiters' %{
 
 # to be called at the start because there is no need to reload buffer
 define-command -override ui-operators-highlight -docstring 'highlight operators' %{
-    add-highlighter window/operators_common regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
+    add-highlighter -override window/operators_common regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
     set-option window operators_highlight true
 }
 declare-option -docstring 'highlight operators' bool operators_highlight "false"
@@ -98,8 +97,7 @@ define-command -override ui-operators-toggle -docstring 'toggle operators' %{
                 write $file_name
                 delete-buffer $file_name
                 edit $file_name $line $column
-                add-highlighter -override window/operators_common regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
-                set-option window operators_highlight true
+                ui-operators-highlight
                 echo -markup '{Information}operators enabled'
             "
         elif [ "$kak_opt_operators_highlight" = "true" ]; then
@@ -151,6 +149,33 @@ define-command -override ui-word-under-cursor-toggle -docstring 'toggle highligh
             '
         fi
     }
+    trigger-user-hook ui-hl-changed
+}
+
+declare-option -docstring 'current terminal assistant' str current_terminal_assistant "dilbert"
+define-command -override ui-terminal-assistant-reload -docstring 'reload terminal assistant' %{
+    evaluate-commands %sh{
+        printf "%s" "
+            set-option -add global ui_options terminal_assistant=$kak_opt_current_terminal_assistant
+        "
+    }
+}
+define-command -override ui-terminal-assistant-toggle -docstring 'toggle terminal assistant' %{
+    evaluate-commands %sh{
+        if [ "$kak_opt_current_terminal_assistant" = "none" ]; then
+            new_terminal_assistant="clippy"
+        elif [ "$kak_opt_current_terminal_assistant" = "clippy" ]; then
+            new_terminal_assistant="cat"
+        elif [ "$kak_opt_current_terminal_assistant" = "cat" ]; then
+            new_terminal_assistant="dilbert"
+        elif [ "$kak_opt_current_terminal_assistant" = "dilbert" ]; then
+            new_terminal_assistant="none"
+        fi
+        printf "%s" "
+            set-option global current_terminal_assistant $new_terminal_assistant
+        "
+    }
+    ui-terminal-assistant-reload
     trigger-user-hook ui-hl-changed
 }
 
@@ -209,6 +234,7 @@ hook global WinCreate .* %{
     ui-diff-one-trailing-space-toggle
     # ui-matching-toggle
     # ui-search-toggle
+    ui-terminal-assistant-reload
 }
 
 ## highlight operators and delimiters in known filetypes

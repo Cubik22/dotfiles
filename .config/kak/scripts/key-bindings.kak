@@ -90,10 +90,13 @@ map global ui c ': ui-cursorline-toggle<ret>'                   -docstring 'curs
 map global ui C ': ui-cursorcolumn-toggle<ret>'                 -docstring 'cursor column'
 map global ui f ': ui-git-diff-toggle<ret>'                     -docstring 'git diff'
 map global ui F ': ui-diff-one-trailing-space-toggle<ret>'      -docstring 'diff files'
+map global ui a ': ui-terminal-assistant-toggle<ret>'           -docstring 'terminal assistant'
 
 # utility
 declare-user-mode util
 map global user u ': enter-user-mode util<ret>'                 -docstring 'utility mode'
+map global util l ': state-save-reg-load dquote<ret>'           -docstring 'load clipboard'
+map global util s ': state-save-reg-save dquote<ret>'           -docstring 'save clipboard'
 map global util g ': grep '                                     -docstring 'grep'
 map global util t ': ctags-search<ret>'                         -docstring 'ctag def'
 map global util d ': db<ret>'                                   -docstring 'close buffer'
@@ -137,15 +140,21 @@ map global user w ': w<ret>'                                    -docstring 'writ
 map global user z ': wq<ret>'                                   -docstring 'write and quit'
 
 # buffer *debug*
-map global user d ': buffer *debug*<ret>'                       -docstring 'buffer *debug*'
+map global user D ': buffer *debug*<ret>'                       -docstring 'buffer *debug*'
 
 # system clipboard (tiny.kak)
 # hook global RegisterModified '"' %{ nop %sh{
 #     printf %s "$kak_main_reg_dquote" | wl-copy-env > /dev/null 2>&1 &
 # } }
 map global user y '<a-|>wl-copy-env<ret>'                       -docstring 'copy to system'
+map global user d '<a-|>wl-copy-env<ret><a-d>'                  -docstring 'delete and copy to system'
 map global user p '<a-!>wl-paste-env -n<ret>'                   -docstring 'paste from system (after)'
 map global user P '!wl-paste-env -n<ret>'                       -docstring 'paste from system (before)'
 map global user <a-p> '<a-o>j !wl-paste-env -n<ret>'            -docstring 'paste from system (below)'
 map global user <a-P> '<a-O>k !wl-paste-env -n<ret>'            -docstring 'paste from system (above)'
 map global user R '!wl-paste-env -n<ret>d'                      -docstring 'replace from system'
+
+# functionality
+map global user f ': fuzzy-files<ret>'                          -docstring 'fzf files'
+map global user r ': fuzzy-grep<ret>'                           -docstring 'fzf grep'
+map global user n ': nnn-open<ret>'                             -docstring 'nnn open'
