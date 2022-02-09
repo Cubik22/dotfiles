@@ -207,7 +207,16 @@ user_pref("ui.key.menuAccessKey", 0); // disable alt key toggling the menu bar [
 
 user_pref("view_source.tab", false); // view "page/selection source" in a new window [FF68+, FF59 and under]
 
+user_pref("browser.messaging-system.whatsNewPanel.enabled", false); // What's New toolbar icon [FF69+]
+
 user_pref("extensions.pocket.enabled", false); // Pocket Account [FF46+]
+
+user_pref("extensions.screenshots.disabled", true); // [FF55+]
+
+// [SETTING] General>Browsing>Recommend extensions as you browse
+user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", false); // disable CFR [FF67+]
+// [SETTING] General>Browsing>Recommend features as you browse
+user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", false); // disable CFR [FF67+]
 
 /** personal **/
 

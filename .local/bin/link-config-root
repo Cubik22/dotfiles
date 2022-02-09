@@ -28,6 +28,7 @@ doas ln -s "$HOME/.bashrc" /root/.bashrc
 doas ln -s "$HOME/.inputrc" /root/.inputrc
 doas ln -s "$HOME/.dir_colors" /root/.dir_colors
 
+mkdir -p "$HOME/.terminfo"
 doas ln -s "$HOME/.terminfo" /root/
 
 doas mkdir -p "/root/.config"
