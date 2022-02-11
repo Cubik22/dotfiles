@@ -133,6 +133,10 @@ doas pip install xmpppy
 # pip local
 pip install pywayland
 
+# npm
+doas npm install --global web-ext
+doas npm install --global lerna
+
 ### languge servers
 
 # check for outdated, incorrect, and unused dependencies

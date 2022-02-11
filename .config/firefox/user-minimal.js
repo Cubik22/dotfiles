@@ -373,6 +373,11 @@ user_pref("services.sync.engine.passwords", false);
 
 user_pref("services.sync.declinedEngines", "prefs,creditcards,passwords,addons");
 
+/* allow installation of unsigned extensions */
+/* just in developer and nightly editions */
+// user_pref("xpinstall.signatures.required", false);
+// user_pref("extensions.langpacks.signatures.required", false);
+
 /*** end ***/
 
 user_pref("_user.js.parrot", "user-minimal end");

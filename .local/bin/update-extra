@@ -151,7 +151,7 @@ pip_update() {
 
 ## npm
 npm_update() {
-    doas npm -g update
+    doas npm --global update
 }
 
 ## R
