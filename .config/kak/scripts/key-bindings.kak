@@ -101,6 +101,8 @@ map global util g ': grep '                                     -docstring 'grep
 map global util t ': ctags-search<ret>'                         -docstring 'ctag def'
 map global util d ': db<ret>'                                   -docstring 'close buffer'
 map global util m ': make<ret>'                                 -docstring 'make'
+map global util c ': palette-status<ret>'                       -docstring 'show color'
+map global util p ': palette-gutter<ret>'                       -docstring 'show palette'
 
 # git
 declare-user-mode git

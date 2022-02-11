@@ -1,15 +1,6 @@
 # gruvbox-hard-dark theme
 
 evaluate-commands %sh{
-    gray="rgb:928374"
-    red="rgb:fb4934"
-    green="rgb:b8bb26"
-    yellow="rgb:fabd2f"
-    blue="rgb:83a598"
-    purple="rgb:d3869b"
-    aqua="rgb:8ec07c"
-    orange="rgb:fe8019"
-
     gray_nor="rgb:7c6f64"
     red_nor="rgb:cc241d"
     green_nor="rgb:98971a"
@@ -18,6 +9,15 @@ evaluate-commands %sh{
     purple_nor="rgb:b16286"
     aqua_nor="rgb:689d6a"
     orange_nor="rgb:d65d0e"
+
+    gray="rgb:928374"
+    red="rgb:fb4934"
+    green="rgb:b8bb26"
+    yellow="rgb:fabd2f"
+    blue="rgb:83a598"
+    purple="rgb:d3869b"
+    aqua="rgb:8ec07c"
+    orange="rgb:fe8019"
 
     bg="rgb:1d2021"
     bg_alpha="rgba:1d2021a0"
@@ -62,8 +62,8 @@ evaluate-commands %sh{
         face global list      ${fg}
 
         face global Default            ${fg},${bg}
-        face global PrimarySelection   ${fg_alpha},${blue}+g
-        face global SecondarySelection ${bg_alpha},${blue}+g
+        face global PrimarySelection   ${fg_alpha},${blue_nor}+g
+        face global SecondarySelection ${bg_alpha},${blue_nor}+g
         face global PrimaryCursor      ${bg},${fg}+fg
         face global SecondaryCursor    ${bg},${bg4}+fg
         face global PrimaryCursorEol   ${bg},${fg4}+fg

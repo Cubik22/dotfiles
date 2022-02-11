@@ -243,14 +243,19 @@ done
 # spawn new window in less important part
 riverctl attach-mode bottom
 
-# set background and border color
+## set colors
+
+# background
 riverctl background-color 0x1d2021
+# foreground 4
+riverctl border-color-focused 0xa89984
+# background 2
+riverctl border-color-unfocused 0x504945
+# red normal
+riverctl border-color-urgent 0xcc241d
 # default
 # riverctl border-color-focused 0x93a1a1
 # riverctl border-color-unfocused 0x586e75
-# new
-riverctl border-color-focused 0x6e6e6e
-riverctl border-color-unfocused 0x525252
 
 # set border width
 riverctl border-width 3
