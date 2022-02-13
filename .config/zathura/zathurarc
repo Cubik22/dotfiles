@@ -8,7 +8,7 @@ set selection-clipboard clipboard
 # set sandbox strict
 
 # open document in fit-width mode by default
-set adjust-open "width"
+# set adjust-open "width"
 
 # one page per row by default
 # set pages-per-row 1

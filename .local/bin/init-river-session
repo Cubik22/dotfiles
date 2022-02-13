@@ -4,24 +4,37 @@
 # is spawns foot in tag 1
 # firefox in tag 9
 # and if firefox is composed of two windows the second one in tag 8
+# firefox soft profile in tag 7
 
-pos_foot="$((1 << (1 - 1)))"
-first_firefox="$((1 << (9 - 1)))"
-second_firefox="$((1 << (8 - 1)))"
+get_tags() {
+    echo "$((1 << ($1 - 1)))"
+}
 
-riverctl set-focused-tags "$second_firefox"
+pos_foot=1
+first_firefox=9
+second_firefox=8
+# soft_firefox=7
+
+# riverctl set-focused-tags "$(get_tags $soft_firefox)"
+
+# firefox -P soft &
+
+# # sleep
+# sleep 2
+
+riverctl set-focused-tags "$(get_tags $second_firefox)"
 
 firefox &
 
 # sleep before setting view tags otherwise window is not focused
 sleep 2
 
-riverctl set-view-tags "$first_firefox"
+riverctl set-view-tags "$(get_tags $first_firefox)"
 
 # sleep again for some time, river has to change the tag assigned to the window
 sleep 1
 
-riverctl set-focused-tags "$pos_foot"
+riverctl set-focused-tags "$(get_tags $pos_foot)"
 
 footclient &
 

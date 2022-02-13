@@ -50,14 +50,20 @@ browser lynx
 
 ## macro
 
+# browser
 macro y set browser "echo %u | wl-copy-env --trim-newline" ; open-in-browser ; set browser lynx
 macro f set browser "firefox --private-window %u" ; open-in-browser ; set browser lynx
 macro ^F set browser "firefox --new-window %u" ; open-in-browser ; set browser lynx
 macro F set browser firefox ; open-in-browser ; set browser lynx
 macro w set browser w3m ; open-in-browser ; set browser lynx
-# macro w set browser lynx ; open-in-browser ; set browser w3m
+
+# wrap
+macro j set text-width 80
+macro k set text-width 0
 
 ## key-bindings
+
+bind-key SPACE macro-prefix
 
 bind-key j down
 bind-key k up
@@ -85,7 +91,7 @@ bind-key ^K prev-dialog
 
 bind-key ^N next-unread-feed
 bind-key ^P prev-unread-feed
-bind-key N random-unread
+bind-key , random-unread
 
 bind-key o open-in-browser
 bind-key O open-in-browser-and-mark-read
