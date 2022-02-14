@@ -50,9 +50,9 @@ mod="Mod4"
 # mod + key used
 # Return Backspace Space Period Comma [0-9] F11
 # J K H L Q F P
-# A I B S D
+# A B C D I S
 
-# Ctrl+Return footclient
+# Control+Return footclient
 riverctl map normal "$mod"+Control Return spawn "footclient"
 # Backspace footclient float
 riverctl map normal "$mod" Backspace spawn "footclient --app-id=float"
@@ -78,12 +78,17 @@ riverctl map normal "$mod"+Shift S spawn 'screenshot fullscreen; echo "100" > $W
 # D fuzzel
 riverctl map normal "$mod" D spawn "fuzzel.sh"
 
-# Ctrl+F firefox
+# Control+F firefox
 riverctl map normal "$mod"+Control F spawn "firefox"
 # Control+Shift+F firefox incognito mode
 riverctl map normal "$mod"+Control+Shift F spawn "firefox -private-window"
 # Shift+F firefox soft profile
 riverctl map normal "$mod"+Shift F spawn "firefox -P soft"
+
+# Control+F chromium
+riverctl map normal "$mod"+Control C spawn "chromium-wayland"
+# Control+Shift C chromium incognito mode
+riverctl map normal "$mod"+Control+Shift C spawn "chromium-wayland --incognito"
 
 ### Windows
 
@@ -154,10 +159,10 @@ for i in $(seq 1 9); do
     # Mod+Shift+[1-9] to tag focused view with tag [1-9]
     riverctl map normal "$mod"+Shift "$i" set-view-tags "$tags"
 
-    # Mod+Ctrl+[1-9] to toggle focus of tag [1-9]
+    # Mod+Control+[1-9] to toggle focus of tag [1-9]
     riverctl map normal "$mod"+Control "$i" toggle-focused-tags "$tags"
 
-    # Mod+Shift+Ctrl+[1-9] to toggle tag [1-9] of focused view
+    # Mod+Shift+Control+[1-9] to toggle tag [1-9] of focused view
     riverctl map normal "$mod"+Shift+Control "$i" toggle-view-tags "$tags"
 done
 

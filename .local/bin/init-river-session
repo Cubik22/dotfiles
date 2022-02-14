@@ -1,41 +1,39 @@
 #!/bin/sh
 
 # this script is usually run in river/init
-# is spawns foot in tag 1
+# it spawns foot in tag 1
 # firefox in tag 9
 # and if firefox is composed of two windows the second one in tag 8
-# firefox soft profile in tag 7
+# chromium/firefox-soft in tag 7
+# and if chromium/firefox-soft is composed of two windows the second one in tag 6
 
 get_tags() {
     echo "$((1 << ($1 - 1)))"
 }
 
-pos_foot=1
-first_firefox=9
-second_firefox=8
-# soft_firefox=7
-
-# riverctl set-focused-tags "$(get_tags $soft_firefox)"
-
-# firefox -P soft &
-
-# # sleep
-# sleep 2
-
-riverctl set-focused-tags "$(get_tags $second_firefox)"
-
-firefox &
+footclient_pos=1
+browser_normal_first_pos=9
+browser_normal_second_pos=8
+browser_soft_first_pos=7
+browser_soft_second_pos=6
 
 # sleep before setting view tags otherwise window is not focused
-sleep 2
-
-riverctl set-view-tags "$(get_tags $first_firefox)"
-
 # sleep again for some time, river has to change the tag assigned to the window
+
+riverctl set-focused-tags "$(get_tags $browser_soft_second_pos)"
+chromium-wayland &
+# firefox -P soft &
+sleep 2
+riverctl set-view-tags "$(get_tags $browser_soft_first_pos)"
 sleep 1
 
-riverctl set-focused-tags "$(get_tags $pos_foot)"
+riverctl set-focused-tags "$(get_tags $browser_normal_second_pos)"
+firefox &
+sleep 2
+riverctl set-view-tags "$(get_tags $browser_normal_first_pos)"
+sleep 1
 
+riverctl set-focused-tags "$(get_tags $footclient_pos)"
 footclient &
 
 # load audio status

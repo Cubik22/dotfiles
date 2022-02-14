@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# launch chromium with wayland flags and black ui
+
+chromium \
+    --enable-features=UseOzonePlatform,WebUIDarkMode \
+    --ozone-platform=wayland \
+    --force-dark-mode \
+    "$@"
