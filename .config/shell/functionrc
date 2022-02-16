@@ -127,9 +127,10 @@ git() {
 ucon() {
     # when adding echo to remember to pull before commit
     if [ "$#" -ge 1 ]; then
-        if [ "$1" = "add" ]; then
-            echo "remember to pull before commit"
-        elif [ "$1" = "push" ]; then
+        # if [ "$1" = "add" ]; then
+        #     echo "remember to pull before commit"
+        # fi
+        if [ "$1" = "push" ]; then
             rbw unlock
         fi
     fi
@@ -155,9 +156,10 @@ rcon() {
     fi
     # when adding echo to remember to pull before commit
     if [ "$#" -ge 1 ]; then
-        if [ "$1" = "add" ]; then
-            echo "remember to pull before commit"
-        elif [ "$1" = "push" ]; then
+        # if [ "$1" = "add" ]; then
+        #     echo "remember to pull before commit"
+        # fi
+        if [ "$1" = "push" ]; then
             if [ "$as_root" = "true" ]; then
                 rbw unlock
             else

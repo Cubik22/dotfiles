@@ -21,6 +21,7 @@ pdf
 latex
 font
 log
+debug
 util
 EOF
 )
@@ -232,6 +233,13 @@ log_info=$(cat << EOF
 ## log
 dmesg
 svlogd
+EOF
+)
+
+debug_info=$(cat << EOF
+## debug
+strace
+ltrace
 EOF
 )
 

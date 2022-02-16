@@ -106,7 +106,7 @@ map global util p ': palette-gutter<ret>'                       -docstring 'show
 
 # git
 declare-user-mode git
-map global user g ': enter-user-mode git<ret>'                  -docstring 'git mode'
+map global user G ': enter-user-mode git<ret>'                  -docstring 'git mode'
 map global git l ': git log<ret>'                               -docstring 'log'
 map global git s ': git status<ret>'                            -docstring 'status'
 map global git d ': git diff<ret>'                              -docstring 'diff'
@@ -158,5 +158,5 @@ map global user R '!wl-paste-env -n<ret>d'                      -docstring 'repl
 
 # functionality
 map global user f ': fuzzy-files<ret>'                          -docstring 'fzf files'
-map global user G ': fuzzy-grep<ret>'                           -docstring 'fzf grep'
+map global user g ': fuzzy-grep<ret>'                           -docstring 'fzf grep'
 map global user n ': nnn-open<ret>'                             -docstring 'nnn open'

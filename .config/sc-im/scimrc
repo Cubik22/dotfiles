@@ -1,0 +1,4 @@
+# kakoune mappings
+nmap "gk" "gg"
+nmap "gj" "G"
+nmap "U" "<C-r>"
