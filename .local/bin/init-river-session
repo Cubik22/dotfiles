@@ -20,12 +20,15 @@ browser_soft_second_pos=6
 # sleep before setting view tags otherwise window is not focused
 # sleep again for some time, river has to change the tag assigned to the window
 
-riverctl set-focused-tags "$(get_tags $browser_soft_second_pos)"
-chromium-wayland &
-# firefox -P soft &
-sleep 2
-riverctl set-view-tags "$(get_tags $browser_soft_first_pos)"
-sleep 1
+if command -v "chromium" >/dev/null 2>&1; then
+# if [ -d "$HOME/.mozilla/firefox/soft" ]; then
+    riverctl set-focused-tags "$(get_tags $browser_soft_second_pos)"
+    chromium-wayland &
+    # firefox -P soft &
+    sleep 2
+    riverctl set-view-tags "$(get_tags $browser_soft_first_pos)"
+    sleep 1
+fi
 
 riverctl set-focused-tags "$(get_tags $browser_normal_second_pos)"
 firefox &
