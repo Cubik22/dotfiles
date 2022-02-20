@@ -48,7 +48,8 @@ mod="Mod4"
 ### Programs
 
 # mod + key used
-# Return Backspace Space Period Comma [0-9] F11
+# Return Backspace Space Period Comma
+# {Up,Right,Down,Left} [0-9] F7 F11
 # J K H L Q F P
 # A B C D I S
 
@@ -198,6 +199,12 @@ riverctl map normal "$mod"+Control K send-layout-cmd rivertile "main-location to
 riverctl map normal "$mod"+Control H send-layout-cmd rivertile "main-location left"
 riverctl map normal "$mod"+Control L send-layout-cmd rivertile "main-location right"
 
+# {Up,Right,Down,Left} change tags
+riverctl map normal "$mod" Right    spawn "cycle-focused-tags next 9"
+riverctl map normal "$mod" Left     spawn "cycle-focused-tags previous 9"
+riverctl map normal "$mod" Up       spawn "cycle-focused-tags next 9; cycle-focused-tags next 9"
+riverctl map normal "$mod" Down     spawn "cycle-focused-tags previous 9; cycle-focused-tags previous 9"
+
 # Declare a passthrough mode. This mode has only a single mapping to return to
 # normal mode. This makes it useful for testing a nested wayland compositor
 riverctl declare-mode passthrough
@@ -250,6 +257,11 @@ for mode in normal locked; do
     # riverctl map normal None XF86PowerOff spawn ""
     # riverctl map "$mode" None XF86PowerOff spawn ""
 done
+
+# F7 poweroff
+riverctl map normal "$mod" F7 spawn "poweroff"
+# Shift+F7 reboot
+riverctl map normal "$mod"+Shift F7 spawn "reboot"
 
 # spawn new window in less important part
 riverctl attach-mode bottom
