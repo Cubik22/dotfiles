@@ -1,0 +1,94 @@
+#!/bin/sh
+
+print_info=$(cat << EOF
+SYNOPSIS
+        toggle-volume [audio/microphone] [on/off/toggle/load]
+
+DESCRIPTION
+        set the volume status of audio or microphone
+        on/off unmute/mute audio
+        toggle toggle audio status
+        load it load the last saved audio status from file (used at startup)
+EOF
+)
+
+if [ "$#" -ne 2 ]; then
+    echo "error: you inserted $# parameters"
+    echo "please insert 2 parameters"
+    echo "$print_info"
+    return 1
+fi
+
+volume="$1"
+mode="$2"
+
+if [ "$volume" != "audio" ] && [ "$volume" != "microphone" ]; then
+    echo "error: volume parameter not recognized"
+    echo "possible values: 'audio', microphone"
+    echo "$print_info"
+    return 1
+fi
+
+if [ "$mode" != "on" ] && [ "$mode" != "off" ] && [ "$mode" != "toggle" ] && [ "$mode" != "load" ]; then
+    echo "error: mode parameter non recognized"
+    echo "possible values: 'on' 'off' 'toggle' 'load'"
+    echo "$print_info"
+    return 1
+fi
+
+state_dir="$XDG_DATA_HOME/state"
+if [ "$volume" = "audio" ]; then
+    status_path="$state_dir/audio_status"
+elif [ "$volume" = "microphone" ]; then
+    status_path="$state_dir/microphone_status"
+else
+    echo "error: first unreachable code"
+    return 1
+fi
+
+if [ ! -e "$status_path" ]; then
+    mkdir -p "$state_dir"
+    echo "off" > "$status_path"
+elif [ ! -f "$status_path" ]; then
+    echo "error: status_path is not a file"
+    return 1
+fi
+
+current_status="$(cat "$status_path")"
+
+if [ "$mode" = "on" ] || [ "$mode" = "off" ]; then
+    new_status="$mode"
+elif [ "$mode" = "load" ]; then
+    new_status="$current_status"
+elif [ "$mode" = "toggle" ]; then
+    if [ "$current_status" = "on" ]; then
+        new_status="off"
+    elif [ "$current_status" = "off" ]; then
+        new_status="on"
+    fi
+fi
+
+if [ "$volume" = "audio" ]; then
+    if [ "$new_status" = "on" ]; then
+        amixer -q set Master unmute
+    elif [ "$new_status" = "off" ]; then
+        amixer -q set Master mute
+    else
+        echo "error: new_status can not be: $new_status"
+        return 1
+    fi
+elif [ "$volume" = "microphone" ]; then
+    if [ "$new_status" = "on" ]; then
+        amixer -q set Capture cap
+    elif [ "$new_status" = "off" ]; then
+        amixer -q set Capture nocap
+    else
+        echo "error: new_status can not be: $new_status"
+        return 1
+    fi
+else
+    echo "error: second unreachable code"
+    return 1
+fi
+
+echo "$new_status" > "$status_path"

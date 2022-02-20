@@ -41,9 +41,18 @@ footclient &
 
 # load audio status
 # it is done here in order to wait for pipewire to load in the backgroud
-# if done before pipewire resets audio status
+# if done before pipewire then resets audio status
 
-# set volume status to off
-toggle_volume.sh off
-# load volume status
-# toggle_volume.sh load
+## set audio volume
+# pactl set-sink-volume @DEFAULT_SINK@ 20%
+## set audio status to off
+toggle-volume audio off
+## load audio status
+# toggle-volume audio load
+
+## set microphone volume
+pactl set-source-volume @DEFAULT_SOURCE@ 20%
+## set microphone status to off
+toggle-volume microphone off
+## load microphone status
+# toggle-volume microphone load

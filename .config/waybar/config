@@ -64,7 +64,8 @@
             //"default": ""
             //"default": ["", ""]
         },
-        "on-click": "toggle_volume.sh toggle"
+        "on-click": "toggle-volume audio toggle; print-volume-mute-status-pactl audio > $WOB_PIPE",
+        "on-click-right": "toggle-volume microphone toggle; print-volume-mute-status-pactl microphone > $WOB_PIPE"
     },
 
     "temperature": {
@@ -93,7 +94,7 @@
             "warning": 70,
             "critical": 90
         },
-        "on-click": "footclient --app-id=float htop --sort-key PERCENT_CPU"
+        "on-click": "footclient --app-id=float htop --sort-key=PERCENT_CPU"
     },
 
     "memory": {
@@ -104,7 +105,7 @@
             "warning": 70,
             "critical": 90
         },
-        "on-click": "footclient --app-id=float htop --sort-key PERCENT_MEM"
+        "on-click": "footclient --app-id=float htop --sort-key=PERCENT_MEM"
     },
 
     "battery": {
@@ -137,8 +138,8 @@
         //"format": "{icon} {percent}%",
         //"states": [0,50],
         //"format-icons": ["", ""],
-        "on-click-right": "adjust_brightness.sh up",
-        "on-click": "adjust_brightness.sh down"
+        "on-click": "adjust_brightness.sh down > $WOB_PIPE",
+        "on-click-right": "adjust_brightness.sh up > $WOB_PIPE"
     },
 
     "network": {
