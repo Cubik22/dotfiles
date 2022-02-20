@@ -1,14 +1,20 @@
 #!/bin/sh
 
-if [ "$#" -ne 0 ]; then
-    # echo "this script does not accept parameters"
-    exit
+# print audio/microphone mute status
+# used with wob
+
+if [ "$1" = "audio" ]; then
+    pactl_get_command="pactl get-sink-mute @DEFAULT_SINK@"
+elif [ "$1" = "microphone" ]; then
+    pactl_get_command="pactl get-source-mute @DEFAULT_SOURCE@"
+else
+    return 1
 fi
 
-mute_status="$(pactl get-sink-mute @DEFAULT_SINK@ | awk '{ print $2 }')"
+mute_status="$($pactl_get_command | awk '{ print $2 }')"
 
 if [ "$mute_status" = "no" ]; then
-    print-volume-pactl
+    print-volume-pactl "$1"
 elif [ "$mute_status" = "yes" ]; then
     echo "0"
 fi

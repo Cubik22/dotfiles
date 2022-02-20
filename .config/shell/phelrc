@@ -252,7 +252,7 @@ diff -u
 ps -e
 pidof
 pgrep, pkill, pwait
-ip
+ip {address}
 crontab
 croc
 EOF

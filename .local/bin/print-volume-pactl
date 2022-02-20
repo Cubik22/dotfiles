@@ -1,3 +1,15 @@
 #!/bin/sh
-volume="$(pactl get-sink-volume @DEFAULT_SINK@ | grep -i volume | awk '{ print $5 }')"
+
+# print audio/microphone volume percentage
+# used with wob
+
+if [ "$1" = "audio" ]; then
+    pactl_get_command="pactl get-sink-volume @DEFAULT_SINK@"
+elif [ "$1" = "microphone" ]; then
+    pactl_get_command="pactl get-source-volume @DEFAULT_SOURCE@"
+else
+    return 1
+fi
+
+volume="$($pactl_get_command | grep -i volume | awk '{ print $5 }')"
 echo "${volume%?}"

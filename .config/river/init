@@ -220,14 +220,20 @@ for mode in normal locked; do
     # riverctl map "$mode" None XF86AudioMute spawn "amixer -M set Master toggle | sed -En '/\[on\]/ s/.*\[([0-9]+)%\].*/\1/ p; /\[off\]/ s/.*/0/p' | head -1 > $WOB_PIPE"
 
     # control microphone volume with alsa
-    riverctl map "$mode" Shift XF86AudioRaiseVolume spawn "amixer -M set Capture 1%+ | sed -En 's/.*\[([0-9]+)%\].*/\1/p' | head -1 > $WOB_PIPE"
-    riverctl map "$mode" Shift XF86AudioLowerVolume spawn "amixer -M set Capture 1%- | sed -En 's/.*\[([0-9]+)%\].*/\1/p' | head -1 > $WOB_PIPE"
-    riverctl map "$mode" Shift XF86AudioMute spawn "amixer -M set Capture toggle | sed -En '/\[on\]/ s/.*\[([0-9]+)%\].*/\1/ p; /\[off\]/ s/.*/0/p' | head -1 > $WOB_PIPE"
+    # for some reason -M option is not working
+    # riverctl map "$mode" Shift XF86AudioRaiseVolume spawn "amixer -M set Capture 1%+ | sed -En 's/.*\[([0-9]+)%\].*/\1/p' | head -1 > $WOB_PIPE"
+    # riverctl map "$mode" Shift XF86AudioLowerVolume spawn "amixer -M set Capture 1%- | sed -En 's/.*\[([0-9]+)%\].*/\1/p' | head -1 > $WOB_PIPE"
+    # riverctl map "$mode" Shift XF86AudioMute spawn "amixer -M set Capture toggle | sed -En '/\[on\]/ s/.*\[([0-9]+)%\].*/\1/ p; /\[off\]/ s/.*/0/p' | head -1 > $WOB_PIPE"
 
     # control audio volume with pipewire
-    riverctl map "$mode" None XF86AudioRaiseVolume spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%; print-volume-pactl > $WOB_PIPE"
-    riverctl map "$mode" None XF86AudioLowerVolume spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%; print-volume-pactl > $WOB_PIPE"
-    riverctl map "$mode" None XF86AudioMute spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle; print-volume-mute-status-pactl > $WOB_PIPE"
+    riverctl map "$mode" None XF86AudioRaiseVolume spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%; print-volume-pactl audio > $WOB_PIPE"
+    riverctl map "$mode" None XF86AudioLowerVolume spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%; print-volume-pactl audio > $WOB_PIPE"
+    riverctl map "$mode" None XF86AudioMute spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle; print-volume-mute-status-pactl audio > $WOB_PIPE"
+
+    # control microphone volume with pipewire
+    riverctl map "$mode" Shift XF86AudioRaiseVolume spawn "pactl set-source-volume @DEFAULT_SOURCE@ +5%; print-volume-pactl microphone > $WOB_PIPE"
+    riverctl map "$mode" Shift XF86AudioLowerVolume spawn "pactl set-source-volume @DEFAULT_SOURCE@ -5%; print-volume-pactl microphone > $WOB_PIPE"
+    riverctl map "$mode" Shift XF86AudioMute spawn "pactl set-source-mute @DEFAULT_SOURCE@ toggle; print-volume-mute-status-pactl microphone > $WOB_PIPE"
 
     # control MPRIS aware media players with playerctl
     riverctl map "$mode" None XF86AudioMedia spawn 'playerctl play-pause'
@@ -239,7 +245,7 @@ for mode in normal locked; do
     riverctl map "$mode" None XF86MonBrightnessUp   spawn "adjust_brightness.sh up > $WOB_PIPE"
     riverctl map "$mode" None XF86MonBrightnessDown spawn "adjust_brightness.sh down > $WOB_PIPE"
 
-    # Map power off key to lock system
+    # map power off key to lock system
     # done with acpi
     # riverctl map normal None XF86PowerOff spawn ""
     # riverctl map "$mode" None XF86PowerOff spawn ""

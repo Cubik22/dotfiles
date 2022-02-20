@@ -252,6 +252,26 @@ user_pref("browser.download.alwaysOpenPanel", true);
 /* 2653: disable adding downloads to the system's "recent documents" list ***/
 user_pref("browser.download.manager.addToRecentDocs", false);
 
+/* 2810: enable Firefox to clear items on shutdown (2811)
+ * [SETTING] Privacy & Security>History>Custom Settings>Clear history when Firefox closes ***/
+// user_pref("privacy.sanitize.sanitizeOnShutdown", true);
+/* 2811: set/enforce what items to clear on shutdown (if 2810 is true) [SETUP-CHROME]
+ * These items do not use exceptions, it is all or nothing (1681701)
+ * [NOTE] If "history" is true, downloads will also be cleared
+ * [NOTE] "sessions": Active Logins: refers to HTTP Basic Authentication [1], not logins via cookies
+ * [NOTE] "offlineApps": Offline Website Data: localStorage, service worker cache, QuotaManager (IndexedDB, asm-cache)
+ * [SETTING] Privacy & Security>History>Custom Settings>Clear history when Firefox closes>Settings
+ * [1] https://en.wikipedia.org/wiki/Basic_access_authentication ***/
+// user_pref("privacy.clearOnShutdown.cache", false);          // [DEFAULT: true]
+// user_pref("privacy.clearOnShutdown.downloads", false);      // [DEFAULT: true]
+// user_pref("privacy.clearOnShutdown.formdata", true);        // [DEFAULT: true]
+// user_pref("privacy.clearOnShutdown.history", true);         // [DEFAULT: true]
+// user_pref("privacy.clearOnShutdown.sessions", false);       // [DEFAULT: true]
+// user_pref("privacy.clearOnShutdown.offlineApps", false);    // [DEFAULT: false]
+// user_pref("privacy.clearOnShutdown.cookies", false);
+   // user_pref("privacy.clearOnShutdown.siteSettings", false); // [DEFAULT: false]
+   // user_pref("privacy.clearOnShutdown.openWindows", false);  // [DEFAULT: false]
+
 /* 5003: disable saving passwords
  * [NOTE] This does not clear any passwords already saved
  * [SETTING] Privacy & Security>Logins and Passwords>Ask to save logins and passwords for websites ***/
