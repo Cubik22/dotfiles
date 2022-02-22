@@ -24,6 +24,7 @@ fcft
 fuzzel
 epoll-shim
 foot
+libinput-gestures
 qrupdate
 epstool
 sundials
@@ -537,10 +538,8 @@ wayland_install() {
 
     cd "$dev/wayland" || return 1
 
-    if [ -d "$dev/wayland" ]; then
-        rm -rf build
-        git pull --recurse-submodules
-    fi
+    rm -rf build
+    git pull --recurse-submodules
 
     meson build/ --prefix="$prefix_dir"
     ninja -C build/ install
@@ -551,10 +550,8 @@ wayland_install() {
 
     cd "$dev/wayland-protocols" || return 1
 
-    if [ -d "$dev/wayland-protocols" ]; then
-        rm -rf build
-        git pull --recurse-submodules
-    fi
+    rm -rf build
+    git pull --recurse-submodules
 
     meson -Dtests=false build/ --prefix="$prefix_dir"
     ninja -C build/ install
@@ -565,10 +562,8 @@ wayland_install() {
 
     cd "$dev/wayland-utils" || return 1
 
-    if [ -d "$dev/wayland-utils" ]; then
-        rm -rf build
-        git pull --recurse-submodules
-    fi
+    rm -rf build
+    git pull --recurse-submodules
 
     meson build/ --prefix="$prefix_dir"
     ninja -C build/ install
@@ -865,6 +860,22 @@ foot_install() {
 
     # terminfo
     sed 's/@default_terminfo@/foot/g' foot.info | tic -x -e foot,foot-direct -
+}
+
+### libinput-gestures
+# https://github.com/bulletmark/libinput-gestures
+libinput_gestures_install() {
+    echo "installing package: libinput-gestures"
+
+    if [ ! -d "$dev/libinput-gestures" ]; then
+        git clone --recurse-submodules https://github.com/bulletmark/libinput-gestures "$dev/libinput-gestures"
+    fi
+
+    cd "$dev/libinput-gestures"
+
+    doas make install
+
+    doas rm -rf /usr/lib/systemd
 }
 
 ### qrupdate

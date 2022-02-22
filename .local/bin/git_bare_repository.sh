@@ -212,3 +212,4 @@ build-packages river
 build-packages waybar
 build-packages fuzzel
 build-packages foot
+build-packages libinput-gestures
