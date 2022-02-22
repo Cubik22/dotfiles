@@ -15,6 +15,7 @@
 # https://github.com/insipx/kak-crosshairs.git
 
 plugins_url=$(cat << EOF
+https://github.com/kakoune-editor/kakoune-extra-filetypes.git
 https://github.com/kkga/foot.kak.git
 https://github.com/eraserhd/kak-ansi.git
 https://github.com/occivink/kakoune-vertical-selection.git

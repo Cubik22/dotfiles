@@ -53,42 +53,42 @@ mod="Mod4"
 # J K H L Q F P
 # A B C D I S
 
-# Control+Return footclient
+# Mod+Control+Return footclient
 riverctl map normal "$mod"+Control Return spawn "footclient"
-# Backspace footclient float
-riverctl map normal "$mod" Backspace spawn "footclient --app-id=float"
+# Mod+Control+Backspace footclient float
+riverctl map normal "$mod"+Control Backspace spawn "footclient --app-id=float"
 
-# A kak-fzf
+# Mod+A kak-fzf
 riverctl map normal "$mod" A spawn "footclient --app-id=float fzf-kak"
-# Shift+A kak-fzf from root
+# Mod+Shift+A kak-fzf from root
 riverctl map normal "$mod"+Shift A spawn "footclient --app-id=float fzf-kak --from-root"
 
-# I iwctl
+# Mod+I iwctl
 riverctl map normal "$mod" I spawn "footclient --app-id=float iwctl"
 
-# B iwctl
+# Mod+B iwctl
 riverctl map normal "$mod" B spawn "footclient --app-id=float bluetoothctl"
 
-# S screenshot selection with grim and slurp
+# Mod+S screenshot selection with grim and slurp
 riverctl map normal "$mod" S spawn 'screenshot selection; echo "100" > $WOB_PIPE_CENTER'
-# Shift+S screenshot fullscreen with grim and slurp
+# Mod+Shift+S screenshot fullscreen with grim and slurp
 riverctl map normal "$mod"+Shift S spawn 'screenshot fullscreen; echo "100" > $WOB_PIPE_CENTER'
 # old screenshot with grim and slurp
 # riverctl map normal "$mod" S spawn 'grim -g "$(slurp)" - | wl-copy-env'
 
-# D fuzzel
+# Mod+D fuzzel
 riverctl map normal "$mod" D spawn "fuzzel.sh"
 
-# Control+F firefox
+# Mod+Control+F firefox
 riverctl map normal "$mod"+Control F spawn "firefox"
-# Control+Shift+F firefox incognito mode
+# Mod+Control+Shift+F firefox incognito mode
 riverctl map normal "$mod"+Control+Shift F spawn "firefox -private-window"
-# Shift+F firefox soft profile
+# Mod+Shift+F firefox soft profile
 riverctl map normal "$mod"+Shift F spawn "firefox -P soft"
 
-# Control+F chromium
+# Mod+Control+F chromium
 riverctl map normal "$mod"+Control C spawn "chromium-wayland"
-# Control+Shift C chromium incognito mode
+# Mod+Control+Shift C chromium incognito mode
 riverctl map normal "$mod"+Control+Shift C spawn "chromium-wayland --incognito"
 
 ### Windows
@@ -115,6 +115,9 @@ riverctl map normal "$mod" Comma focus-output previous
 # Mod+Shift+{Period,Comma} to send the focused view to the next/previous output
 riverctl map normal "$mod"+Shift Period send-to-output next
 riverctl map normal "$mod"+Shift Comma send-to-output previous
+
+# Mod+Backspace focus previous tags
+riverctl map normal "$mod" Backspace focus-previous-tags
 
 # Mod+Return to bump the focused view to the top of the layout stack
 riverctl map normal "$mod" Return zoom
@@ -258,10 +261,10 @@ for mode in normal locked; do
     # riverctl map "$mode" None XF86PowerOff spawn ""
 done
 
-# F7 poweroff
-riverctl map normal "$mod" F7 spawn "poweroff"
-# Shift+F7 reboot
-riverctl map normal "$mod"+Shift F7 spawn "reboot"
+# Mod+F7 poweroff
+riverctl map normal "$mod" F7 spawn "doas poweroff"
+# Mod+Shift+F7 reboot
+riverctl map normal "$mod"+Shift F7 spawn "doas reboot"
 
 # spawn new window in less important part
 riverctl attach-mode bottom
