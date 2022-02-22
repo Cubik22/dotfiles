@@ -119,6 +119,9 @@ riverctl map normal "$mod"+Shift Comma send-to-output previous
 # Mod+Backspace focus previous tags
 riverctl map normal "$mod" Backspace focus-previous-tags
 
+# Mod+Shift+Backspace tag focused view with previous tags
+riverctl map normal "$mod"+Shift Backspace send-to-previous-tags
+
 # Mod+Return to bump the focused view to the top of the layout stack
 riverctl map normal "$mod" Return zoom
 
