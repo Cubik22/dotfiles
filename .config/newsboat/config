@@ -16,7 +16,7 @@ reload-threads 8
 max-browser-tabs 16
 
 # when an item is opened in the browser and marked as read jump to the next unread item
-openbrowser-and-mark-jumps-to-next-unread yes
+# openbrowser-and-mark-jumps-to-next-unread yes
 
 # for all feed items with no content but with a link
 # the link is downloaded and the result used as content instead
@@ -52,8 +52,8 @@ browser lynx
 
 # browser
 macro y set browser "echo %u | wl-copy-env --trim-newline" ; open-in-browser ; set browser lynx
-macro f set browser "firefox-float --private-window -P soft %u" ; open-in-browser ; set browser lynx
-macro F set browser "firefox --private-window -P soft %u" ; open-in-browser ; set browser lynx
+macro f set browser "firefox-float --private-window -P soft %u" ; open-in-browser-and-mark-read ; set browser lynx
+macro F set browser "firefox --private-window -P soft %u" ; open-in-browser-and-mark-read ; set browser lynx
 macro ^F set browser firefox ; open-in-browser ; set browser lynx
 macro w set browser w3m ; open-in-browser ; set browser lynx
 macro v set browser "riverctl spawn \"mpv --force-window %u\"" ; open-in-browser ; set browser lynx
