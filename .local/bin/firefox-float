@@ -12,7 +12,7 @@ riverctl toggle-float
 
 # resize window
 riverctl resize vertical 16
-riverctl resize horizontal 200
+riverctl resize horizontal 400
 
 sleep 0.01
 
