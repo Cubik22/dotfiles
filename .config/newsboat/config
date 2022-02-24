@@ -52,9 +52,9 @@ browser lynx
 
 # browser
 macro y set browser "echo %u | wl-copy-env --trim-newline" ; open-in-browser ; set browser lynx
-macro f set browser "firefox --private-window %u" ; open-in-browser ; set browser lynx
-macro ^F set browser "firefox --new-window %u" ; open-in-browser ; set browser lynx
-macro F set browser firefox ; open-in-browser ; set browser lynx
+macro f set browser "firefox-float --private-window -P soft %u" ; open-in-browser ; set browser lynx
+macro F set browser "firefox --private-window -P soft %u" ; open-in-browser ; set browser lynx
+macro ^F set browser firefox ; open-in-browser ; set browser lynx
 macro w set browser w3m ; open-in-browser ; set browser lynx
 macro v set browser "riverctl spawn \"mpv --force-window %u\"" ; open-in-browser ; set browser lynx
 macro a set browser "riverctl spawn \"mpv --force-window --video=no %u\"" ; open-in-browser ; set browser lynx

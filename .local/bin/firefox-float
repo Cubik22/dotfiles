@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# spawn firefox in a floating window
+# used with newsboat
+
+firefox "$@" > /dev/null 2>&1 &
+
+# wait for the window
+sleep 1
+
+riverctl toggle-float
+
+# resize window
+riverctl resize vertical 16
+riverctl resize horizontal 200
+
+sleep 0.01
+
+# move below bar
+riverctl snap up
+riverctl move down 20

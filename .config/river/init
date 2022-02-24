@@ -42,8 +42,11 @@ adjust_brightness.sh load
 # scale everything (problems with partial scaling)
 # wlr-randr --output eDP-1 --scale 1.25
 
-# Use the "logo" key as the primary modifier
+# use the "logo" key as the primary modifier
 mod="Mod4"
+
+# alt key
+alt="Mod1"
 
 ### Programs
 
@@ -134,22 +137,35 @@ riverctl map normal "$mod"+Shift H send-layout-cmd rivertile "main-count +1"
 riverctl map normal "$mod"+Shift L send-layout-cmd rivertile "main-count -1"
 
 # Mod+Alt+{H,J,K,L} to move views
-riverctl map normal "$mod"+Mod1 H move left 100
-riverctl map normal "$mod"+Mod1 J move down 100
-riverctl map normal "$mod"+Mod1 K move up 100
-riverctl map normal "$mod"+Mod1 L move right 100
+riverctl map normal "$mod"+"$alt" H move left 100
+riverctl map normal "$mod"+"$alt" J move down 100
+riverctl map normal "$mod"+"$alt" K move up 100
+riverctl map normal "$mod"+"$alt" L move right 100
 
 # Mod+Alt+Control+{H,J,K,L} to snap views to screen edges
-riverctl map normal "$mod"+Mod1+Control H snap left
-riverctl map normal "$mod"+Mod1+Control J snap down
-riverctl map normal "$mod"+Mod1+Control K snap up
-riverctl map normal "$mod"+Mod1+Control L snap right
+# when snapping to top move below bar
+riverctl map normal "$mod"+"$alt"+Control H snap left
+riverctl map normal "$mod"+"$alt"+Control J snap down
+riverctl map normal "$mod"+"$alt"+Control K spawn "riverctl snap up; riverctl move down 20"
+riverctl map normal "$mod"+"$alt"+Control L snap right
 
 # Mod+Alt+Shift+{H,J,K,L} to resize views
-riverctl map normal "$mod"+Mod1+Shift H resize horizontal -100
-riverctl map normal "$mod"+Mod1+Shift J resize vertical 100
-riverctl map normal "$mod"+Mod1+Shift K resize vertical -100
-riverctl map normal "$mod"+Mod1+Shift L resize horizontal 100
+riverctl map normal "$mod"+Control H resize horizontal -100
+riverctl map normal "$mod"+Control J resize vertical -100
+riverctl map normal "$mod"+Control K resize vertical 100
+riverctl map normal "$mod"+Control L resize horizontal 100
+
+# Mod+Control+{J,K,H,L} to change layout orientation
+riverctl map normal "$mod"+"$alt"+Shift H send-layout-cmd rivertile "main-location left"
+riverctl map normal "$mod"+"$alt"+Shift J send-layout-cmd rivertile "main-location bottom"
+riverctl map normal "$mod"+"$alt"+Shift K send-layout-cmd rivertile "main-location top"
+riverctl map normal "$mod"+"$alt"+Shift L send-layout-cmd rivertile "main-location right"
+
+# {Up,Right,Down,Left} change tags
+riverctl map normal "$mod" Right    spawn "cycle-focused-tags next 9"
+riverctl map normal "$mod" Left     spawn "cycle-focused-tags previous 9"
+riverctl map normal "$mod" Up       spawn "cycle-focused-tags next 9; cycle-focused-tags next 9"
+riverctl map normal "$mod" Down     spawn "cycle-focused-tags previous 9; cycle-focused-tags previous 9"
 
 # Mod+Left Mouse Button to move views
 riverctl map-pointer normal "$mod" BTN_LEFT move-view
@@ -198,18 +214,6 @@ riverctl map normal "$mod" Space toggle-float
 
 # Mod+F to toggle fullscreen
 riverctl map normal "$mod" F toggle-fullscreen
-
-# Mod+Control+{J,K,H,L} to change layout orientation
-riverctl map normal "$mod"+Control J send-layout-cmd rivertile "main-location bottom"
-riverctl map normal "$mod"+Control K send-layout-cmd rivertile "main-location top"
-riverctl map normal "$mod"+Control H send-layout-cmd rivertile "main-location left"
-riverctl map normal "$mod"+Control L send-layout-cmd rivertile "main-location right"
-
-# {Up,Right,Down,Left} change tags
-riverctl map normal "$mod" Right    spawn "cycle-focused-tags next 9"
-riverctl map normal "$mod" Left     spawn "cycle-focused-tags previous 9"
-riverctl map normal "$mod" Up       spawn "cycle-focused-tags next 9; cycle-focused-tags next 9"
-riverctl map normal "$mod" Down     spawn "cycle-focused-tags previous 9; cycle-focused-tags previous 9"
 
 # Declare a passthrough mode. This mode has only a single mapping to return to
 # normal mode. This makes it useful for testing a nested wayland compositor
