@@ -3,14 +3,14 @@
 # automatically reload all feeds on startup
 # auto-reload yes
 
+# number of minutes between reloads when auto-reload yes
+# reload-time 120
+
 # number of parallel reload threads
 reload-threads 8
 
-# number of minutes between reloads
-reload-time 120
-
 # number of tries of downloading a feed
-download-retries 4
+# download-retries 4
 
 # maximum number of articles to open in a browser
 max-browser-tabs 16
@@ -56,6 +56,8 @@ macro f set browser "firefox --private-window %u" ; open-in-browser ; set browse
 macro ^F set browser "firefox --new-window %u" ; open-in-browser ; set browser lynx
 macro F set browser firefox ; open-in-browser ; set browser lynx
 macro w set browser w3m ; open-in-browser ; set browser lynx
+macro v set browser "riverctl spawn \"mpv --force-window %u\"" ; open-in-browser ; set browser lynx
+macro a set browser "riverctl spawn \"mpv --force-window --video=no %u\"" ; open-in-browser ; set browser lynx
 
 # wrap
 macro j set text-width 80

@@ -12,11 +12,11 @@ if [ "$#" -ne 1 ]; then
 fi
 
 case "$1" in
-    *mp3|*flac|*opus|*mp3?source*|*mkv|*webm|*mp4|*youtube.com/watch*|*youtube.com/playlist*|*youtu.be*|*hooktube.com*|*bitchute.com*|*videos.lukesmith.xyz*|*odysee.com*)
+    *mp3|*mp4|*mkv|*webm|*avi|*flac|*opus)
         setsid -f mpv -quiet "$1" >/dev/null 2>&1 ;;
     *png|*jpg|*jpe|*jpeg|*gif)
         curl -sL "$1" > "/tmp/$(echo "$1" | sed "s/.*\///;s/%20/ /g")" && imv "/tmp/$(echo "$1" | sed "s/.*\///;s/%20/ /g")"  >/dev/null 2>&1 & ;;
-    *pdf|*cbz|*cbr)
+    *pdf|*cbz|*cbr|*djvu)
         curl -sL "$1" > "/tmp/$(echo "$1" | sed "s/.*\///;s/%20/ /g")" && zathura "/tmp/$(echo "$1" | sed "s/.*\///;s/%20/ /g")"  >/dev/null 2>&1 & ;;
     *)
         [ -f "$1" ] && setsid -f "$TERMINAL" -e "$EDITOR" "$1" >/dev/null 2>&1 || setsid -f "$BROWSER" "$1" >/dev/null 2>&1

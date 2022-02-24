@@ -348,6 +348,9 @@ user_pref("media.videocontrols.picture-in-picture.video-toggle.enabled", false);
 /* remove title bar */
 user_pref("browser.tabs.inTitlebar", 1);
 
+/* disable tabs overflow */
+user_pref("browser.tabs.tabMinWidth", 0);
+
 /* dark theme */
 user_pref("browser.theme.content-theme", 0);
 user_pref("browser.theme.toolbar-theme", 0);
