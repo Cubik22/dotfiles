@@ -31,3 +31,27 @@
 #TabsToolbar .tabbrowser-tab[selected] .tab-line {
     display: none !important;
 }
+
+/* multi-row bookmarks bar */
+
+#PlacesToolbarItems {
+    display: flex !important;
+    flex-wrap: wrap !important;
+}
+
+#PersonalToolbar #PlacesToolbarItems {
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+}
+
+#PlacesToolbar > hbox:first-child {
+    display: block !important;
+    /* remove bottom margin */
+    margin-bottom: -6px !important;
+}
+
+/*
+#PlacesToolbarItems > .bookmark-item {
+    margin: 2px 2px !important;
+}
+*/

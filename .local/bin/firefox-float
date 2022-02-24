@@ -10,12 +10,27 @@ sleep 1
 
 riverctl toggle-float
 
-# resize window
-riverctl resize vertical 16
-riverctl resize horizontal 400
+## resize window
 
-sleep 0.01
+# maximize window
+riverctl resize vertical 10000
+riverctl resize horizontal 10000
 
-# move below bar
-riverctl snap up
-riverctl move down 20
+sleep 0.05
+
+# resize and move below bar
+riverctl resize vertical -20
+riverctl resize horizontal -800
+riverctl snap down
+
+## with constant window size
+
+# # resize window
+# riverctl resize vertical 16
+# riverctl resize horizontal 400
+
+# sleep 0.05
+
+# # move below bar
+# riverctl snap up
+# riverctl move down 20

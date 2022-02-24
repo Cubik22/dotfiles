@@ -239,6 +239,9 @@ user_pref("browser.tabs.inTitlebar", 1);
 /* disable tabs overflow */
 user_pref("browser.tabs.tabMinWidth", 0);
 
+/* 0 normal density (default), 1 compact density, 2 touch density */
+user_pref("browser.uidensity", 1);
+
 /* dark theme */
 user_pref("browser.theme.content-theme", 0);
 user_pref("browser.theme.toolbar-theme", 0);
