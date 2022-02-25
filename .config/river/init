@@ -136,37 +136,53 @@ riverctl map normal "$mod" L send-layout-cmd rivertile "main-ratio +0.025"
 riverctl map normal "$mod"+Shift H send-layout-cmd rivertile "main-count +1"
 riverctl map normal "$mod"+Shift L send-layout-cmd rivertile "main-count -1"
 
-# Mod+Alt+{H,J,K,L} to move views
+# Mod+Alt+{H,J,K,L} to move views big step
 # TODO: when moving to top move below bar
-riverctl map normal "$mod"+"$alt" H move left 100
-riverctl map normal "$mod"+"$alt" J move down 100
-riverctl map normal "$mod"+"$alt" K move up 100
-riverctl map normal "$mod"+"$alt" L move right 100
+move_pixel_big=200
+riverctl map normal "$mod"+"$alt" H move left   "$move_pixel_big"
+riverctl map normal "$mod"+"$alt" J move down   "$move_pixel_big"
+riverctl map normal "$mod"+"$alt" K move up     "$move_pixel_big"
+riverctl map normal "$mod"+"$alt" L move right  "$move_pixel_big"
+
+# Mod+Alt+Shift+{H,J,K,L} to move views small step
+move_pixel_small=20
+riverctl map normal "$mod"+"$alt"+Shift H move left     "$move_pixel_small"
+riverctl map normal "$mod"+"$alt"+Shift J move down     "$move_pixel_small"
+riverctl map normal "$mod"+"$alt"+Shift K move up       "$move_pixel_small"
+riverctl map normal "$mod"+"$alt"+Shift L move right    "$move_pixel_small"
 
 # Mod+Alt+Control+{H,J,K,L} to snap views to screen edges
 # when snapping to top move below bar
-riverctl map normal "$mod"+"$alt"+Control H snap left
-riverctl map normal "$mod"+"$alt"+Control J snap down
-riverctl map normal "$mod"+"$alt"+Control K spawn riverctl-snap-up-bar
-riverctl map normal "$mod"+"$alt"+Control L snap right
+riverctl map normal "$mod"+"$alt"+Control H snap    left
+riverctl map normal "$mod"+"$alt"+Control J snap    down
+riverctl map normal "$mod"+"$alt"+Control K spawn   riverctl-snap-up-bar
+riverctl map normal "$mod"+"$alt"+Control L snap    right
 
-# Mod+Alt+Shift+{H,J,K,L} to resize views
-riverctl map normal "$mod"+Control H resize horizontal -100
-riverctl map normal "$mod"+Control J resize vertical -100
-riverctl map normal "$mod"+Control K resize vertical 100
-riverctl map normal "$mod"+Control L resize horizontal 100
+# Mod+Control+{H,J,K,L} to resize views big step
+resize_pixel_big=100
+riverctl map normal "$mod"+Control H resize horizontal  "-$resize_pixel_big"
+riverctl map normal "$mod"+Control J resize vertical    "-$resize_pixel_big"
+riverctl map normal "$mod"+Control K resize vertical    "$resize_pixel_big"
+riverctl map normal "$mod"+Control L resize horizontal  "$resize_pixel_big"
 
-# Mod+Control+{J,K,H,L} to change layout orientation
-riverctl map normal "$mod"+"$alt"+Shift H send-layout-cmd rivertile "main-location left"
-riverctl map normal "$mod"+"$alt"+Shift J send-layout-cmd rivertile "main-location bottom"
-riverctl map normal "$mod"+"$alt"+Shift K send-layout-cmd rivertile "main-location top"
-riverctl map normal "$mod"+"$alt"+Shift L send-layout-cmd rivertile "main-location right"
+# Mod+Control+Shift+{H,J,K,L} to resize views small step
+resize_pixel_small=10
+riverctl map normal "$mod"+Control+Shift H resize horizontal  "-$resize_pixel_small"
+riverctl map normal "$mod"+Control+Shift J resize vertical    "-$resize_pixel_small"
+riverctl map normal "$mod"+Control+Shift K resize vertical    "$resize_pixel_small"
+riverctl map normal "$mod"+Control+Shift L resize horizontal  "$resize_pixel_small"
 
-# {Up,Right,Down,Left} change tags
-riverctl map normal "$mod" Right    spawn "cycle-focused-tags next 9"
+# Mod+Alt+Control+Shift+{J,K,H,L} to change layout orientation
+riverctl map normal "$mod"+"$alt"+Control+Shift H send-layout-cmd rivertile "main-location left"
+riverctl map normal "$mod"+"$alt"+Control+Shift J send-layout-cmd rivertile "main-location bottom"
+riverctl map normal "$mod"+"$alt"+Control+Shift K send-layout-cmd rivertile "main-location top"
+riverctl map normal "$mod"+"$alt"+Control+Shift L send-layout-cmd rivertile "main-location right"
+
+# Mod+{Left,Down,Up,Right} change tags
 riverctl map normal "$mod" Left     spawn "cycle-focused-tags previous 9"
-riverctl map normal "$mod" Up       spawn "cycle-focused-tags next 9; cycle-focused-tags next 9"
 riverctl map normal "$mod" Down     spawn "cycle-focused-tags previous 9; cycle-focused-tags previous 9"
+riverctl map normal "$mod" Up       spawn "cycle-focused-tags next 9; cycle-focused-tags next 9"
+riverctl map normal "$mod" Right    spawn "cycle-focused-tags next 9"
 
 # Mod+Left Mouse Button to move views
 riverctl map-pointer normal "$mod" BTN_LEFT move-view
@@ -186,8 +202,8 @@ for i in $(seq 1 9); do
     # Mod+Control+[1-9] to toggle focus of tag [1-9]
     riverctl map normal "$mod"+Control "$i" toggle-focused-tags "$tags"
 
-    # Mod+Shift+Control+[1-9] to toggle tag [1-9] of focused view
-    riverctl map normal "$mod"+Shift+Control "$i" toggle-view-tags "$tags"
+    # Mod+Control+Shift+[1-9] to toggle tag [1-9] of focused view
+    riverctl map normal "$mod"+Control+Shift "$i" toggle-view-tags "$tags"
 done
 
 # Mod+0 to focus all tags
@@ -207,7 +223,7 @@ riverctl map normal "$mod" P toggle-focused-tags "$scratch_tag"
 riverctl map normal "$mod"+Shift P set-view-tags "$scratch_tag"
 
 # set spawn tagmask to ensure new windows does not have the scratchpad tag unless explicitly set
-all_but_scratch_tag="$(( ((1 << 32) - 1) ^ $scratch_tag ))"
+all_but_scratch_tag="$(( ((1 << 32) - 1) ^ scratch_tag ))"
 riverctl spawn-tagmask "$all_but_scratch_tag"
 
 # Mod+Space to toggle float
