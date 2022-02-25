@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# wrap riverctl snap up command
+# when there is a bar move window below it
+
+riverctl snap up
+
+riverctl move down "$(height-bar)"

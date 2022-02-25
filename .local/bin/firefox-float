@@ -16,10 +16,12 @@ riverctl toggle-float
 riverctl resize vertical 10000
 riverctl resize horizontal 10000
 
+height_bar="$(height-bar)"
+
 sleep 0.05
 
 # resize and move below bar
-riverctl resize vertical -20
+riverctl resize vertical "-$height_bar"
 riverctl resize horizontal -800
 riverctl snap down
 
@@ -32,5 +34,4 @@ riverctl snap down
 # sleep 0.05
 
 # # move below bar
-# riverctl snap up
-# riverctl move down 20
+# riverctl-snap-up-bar

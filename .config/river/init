@@ -137,6 +137,7 @@ riverctl map normal "$mod"+Shift H send-layout-cmd rivertile "main-count +1"
 riverctl map normal "$mod"+Shift L send-layout-cmd rivertile "main-count -1"
 
 # Mod+Alt+{H,J,K,L} to move views
+# TODO: when moving to top move below bar
 riverctl map normal "$mod"+"$alt" H move left 100
 riverctl map normal "$mod"+"$alt" J move down 100
 riverctl map normal "$mod"+"$alt" K move up 100
@@ -146,7 +147,7 @@ riverctl map normal "$mod"+"$alt" L move right 100
 # when snapping to top move below bar
 riverctl map normal "$mod"+"$alt"+Control H snap left
 riverctl map normal "$mod"+"$alt"+Control J snap down
-riverctl map normal "$mod"+"$alt"+Control K spawn "riverctl snap up; riverctl move down 20"
+riverctl map normal "$mod"+"$alt"+Control K spawn riverctl-snap-up-bar
 riverctl map normal "$mod"+"$alt"+Control L snap right
 
 # Mod+Alt+Shift+{H,J,K,L} to resize views
@@ -333,7 +334,7 @@ riverctl default-layout rivertile
 # exec rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.6
 
 # starting with runit
-# /run is mounted noexec so can't use XDG_RUNTIME_DIR
+# TODO: /run is mounted noexec so can't use XDG_RUNTIME_DIR
 svdir="/tmp/$(id -u)-sv-$WAYLAND_DISPLAY"
 
 pgrep -f "^runsvdir $svdir" &&

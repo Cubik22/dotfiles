@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# get height of bar
+# used when moving/resizing floating windows
+# support just waybar
+
+if pidof -q waybar; then
+    echo "$(cat ${XDG_CONFIG_HOME:-$HOME/.config}/waybar/config |
+            grep height | head -n 1 | sed 's/^.*:\s*//' | sed 's/,.*$//')"
+else
+    echo 0
+fi
