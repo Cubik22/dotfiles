@@ -7,7 +7,7 @@
 # start foot server
 # foot --server &
 
-# Start pipewire (before waybar otherwise PulseAudio module may not start)
+# start pipewire (before waybar otherwise PulseAudio module may not start)
 # pipewire &
 # pipewire-pulse &
 # # pipewire-media-session &
@@ -53,13 +53,20 @@ alt="Mod1"
 # mod + key used
 # Return Backspace Space Period Comma
 # {Up,Right,Down,Left} [0-9] F7 F11
-# J K H L Q F P
-# A B C D I S
+# {H,J,K,L} Q F P
+# S A I B M
 
 # Mod+Control+Return footclient
 riverctl map normal "$mod"+Control Return spawn "footclient"
 # Mod+Control+Backspace footclient float
 riverctl map normal "$mod"+Control Backspace spawn "footclient --app-id=float"
+
+# Mod+S screenshot selection with grim and slurp
+riverctl map normal "$mod" S spawn 'screenshot selection; echo "100" > $WOB_PIPE_CENTER'
+# Mod+Shift+S screenshot fullscreen with grim and slurp
+riverctl map normal "$mod"+Shift S spawn 'screenshot fullscreen; echo "100" > $WOB_PIPE_CENTER'
+# old screenshot with grim and slurp
+# riverctl map normal "$mod" S spawn 'grim -g "$(slurp)" - | wl-copy-env'
 
 # Mod+A kak-fzf
 riverctl map normal "$mod" A spawn "footclient --app-id=float fzf-kak"
@@ -72,15 +79,8 @@ riverctl map normal "$mod" I spawn "footclient --app-id=float iwctl"
 # Mod+B iwctl
 riverctl map normal "$mod" B spawn "footclient --app-id=float bluetoothctl"
 
-# Mod+S screenshot selection with grim and slurp
-riverctl map normal "$mod" S spawn 'screenshot selection; echo "100" > $WOB_PIPE_CENTER'
-# Mod+Shift+S screenshot fullscreen with grim and slurp
-riverctl map normal "$mod"+Shift S spawn 'screenshot fullscreen; echo "100" > $WOB_PIPE_CENTER'
-# old screenshot with grim and slurp
-# riverctl map normal "$mod" S spawn 'grim -g "$(slurp)" - | wl-copy-env'
-
-# Mod+D fuzzel
-riverctl map normal "$mod" D spawn "fuzzel.sh"
+# Mod+M fuzzel
+riverctl map normal "$mod" M spawn "fuzzel.sh"
 
 # Mod+Control+F firefox
 riverctl map normal "$mod"+Control F spawn "firefox"
