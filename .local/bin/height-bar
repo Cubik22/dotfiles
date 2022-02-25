@@ -5,8 +5,13 @@
 # support just waybar
 
 if pidof -q waybar; then
-    echo "$(cat ${XDG_CONFIG_HOME:-$HOME/.config}/waybar/config |
+    height="$(cat ${XDG_CONFIG_HOME:-$HOME/.config}/waybar/config |
             grep height | head -n 1 | sed 's/^.*:\s*//' | sed 's/,.*$//')"
+    if [ -n "$height" ]; then
+        echo "$height"
+    else
+        echo 20
+    fi
 else
     echo 0
 fi
