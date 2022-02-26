@@ -39,6 +39,16 @@ hook global BufCreate .*(renviron|rprofile) %{
     set-option buffer filetype sh
 }
 
+# json
+hook global BufSetOption filetype=json %{
+    set-option buffer comment_line '//'
+}
+
+# waybar
+hook global BufCreate .*waybar/config %{
+    set-option buffer filetype json
+}
+
 # set filetype to sh when file start with #!/usr/bin/{sh,dash}
 # for #!/usr/bin/{bash,zsh} is already working
 define-command -hidden sh-additional-file-detection %{ evaluate-commands %sh{

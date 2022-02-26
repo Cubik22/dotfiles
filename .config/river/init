@@ -232,7 +232,7 @@ riverctl map normal "$mod" Space toggle-float
 # Mod+F to toggle fullscreen
 riverctl map normal "$mod" F toggle-fullscreen
 
-# Mod+U set window float fullscreen
+# Mod+U set window float fullscreen (stacking mode)
 riverctl map normal "$mod" U spawn riverctl-float-fullscreen
 
 # Declare a passthrough mode. This mode has only a single mapping to return to

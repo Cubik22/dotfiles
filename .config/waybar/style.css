@@ -164,7 +164,7 @@
 }
 
 #network {
-    min-width: 150px;
+    /*min-width: 150px;*/
     background: #6B705C;
     color: #1d2021;
 }

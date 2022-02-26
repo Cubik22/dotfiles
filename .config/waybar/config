@@ -147,9 +147,13 @@
     "network": {
         "interval": 10,
         "tooltip": false,
-        "format-wifi": "  {essid}", // Icon: wifi
-        "format-ethernet": "  {ifname}", // Icon: ethernet
-        "format-disconnected": "Disconnected",
+        "format-wifi": "  {signalStrength}%", // Icon: wifi
+        "format-ethernet": " ethernet", // Icon: ethernet
+        "format-disconnected": "  off", // Icon: power-off
+        // "format-disconnected": "  off", // Icon: toggle-off
+        // "format-wifi": "  {essid}", // Icon: wifi
+        // "format-ethernet": "  {ifname}", // Icon: ethernet
+        // "format-disconnected": "Disconnected",
         "on-click": "footclient --app-id=float iwctl"
-    },
+    }
 }
