@@ -1,5 +1,5 @@
 {
-    //GLOBAL
+    // GLOBAL
 
     "layer": "top",
 
@@ -8,7 +8,7 @@
     "height": 20,
 
     "modules-left": [
-        //"tray",
+        // "tray",
         "river/tags"
     ],
 
@@ -27,21 +27,21 @@
         "network"
     ],
 
-    //MODULES
-
-    "clock#time": {
-        "interval": 60,
-        "tooltip": false,
-        "format": "{:%H:%M}"
-        //"format": " {:%H:%M}"
-    },
+    // MODULES
 
     "clock#date": {
         "interval": 60,
         "tooltip": false,
         "format": "{:%d/%m/%Y}"
-        //"format": " {:%d/%m/%Y}" // Icon: calendar-alt
-        //"tooltip-format": "{:%e %B %Y}"
+        // "format": " {:%d/%m/%Y}" // Icon: calendar-alt
+        // "tooltip-format": "{:%e %B %Y}"
+    },
+
+    "clock#time": {
+        "interval": 60,
+        "tooltip": false,
+        "format": "{:%H:%M}"
+        // "format": " {:%H:%M}"
     },
 
     "pulseaudio": {
@@ -52,8 +52,8 @@
         },
         "format": "{icon} {volume}%",
         "format-bluetooth": "{icon} {volume}%",
-        //"format-bluetooth": "{icon} {volume}%",
-        //"format-muted": " {volume}%",
+        // "format-bluetooth": "{icon} {volume}%",
+        // "format-muted": " {volume}%",
         "format-muted": " {volume}%",
         "format-icons": {
             "headphone": "",
@@ -62,9 +62,9 @@
             "phone": "",
             "portable": "",
             "car": "",
-            "default": "",
-            //"default": ""
-            //"default": ["", ""]
+            "default": ""
+            // "default": ""
+            // "default": ["", ""]
         },
         "on-click": "toggle-volume audio toggle; print-volume-mute-status-pactl audio > $WOB_PIPE",
         "on-click-right": "toggle-volume microphone toggle; print-volume-mute-status-pactl microphone > $WOB_PIPE"
@@ -91,7 +91,7 @@
     "cpu": {
         "interval": 10,
         "tooltip": false,
-        "format": " {usage}%", //Icon: microchip
+        "format": " {usage}%", // Icon: microchip
         "states": {
             "warning": 70,
             "critical": 90
@@ -102,7 +102,7 @@
     "memory": {
         "interval": 10,
         "tooltip": false,
-        "format": "  {percentage}%", // Icon: memory
+        "format": " {percentage}%", // Icon: memory
         "states": {
             "warning": 70,
             "critical": 90
@@ -120,7 +120,7 @@
         // Connected to AC
         "format": " {capacity}%", // Icon: bolt
         // Not connected to AC
-        "format-discharging": "{icon}  {capacity}%",
+        "format-discharging": "{icon} {capacity}%",
         "format-icons": [
             "", // Icon: battery-empty
             "", // Icon: battery-quarter
@@ -136,10 +136,10 @@
         "interval": 10,
         "tooltip": false,
         // "device": "acpi_video1",
-        "format": "  {percent}%",
-        //"format": "{icon} {percent}%",
-        //"states": [0,50],
-        //"format-icons": ["", ""],
+        "format": " {percent}%",
+        // "format": "{icon} {percent}%",
+        // "states": [0,50],
+        // "format-icons": ["", ""],
         "on-click": "adjust_brightness.sh down > $WOB_PIPE",
         "on-click-right": "adjust_brightness.sh up > $WOB_PIPE"
     },
@@ -147,12 +147,12 @@
     "network": {
         "interval": 10,
         "tooltip": false,
-        "format-wifi": "  {signalStrength}%", // Icon: wifi
-        "format-ethernet": " ethernet", // Icon: ethernet
-        "format-disconnected": "  off", // Icon: power-off
-        // "format-disconnected": "  off", // Icon: toggle-off
-        // "format-wifi": "  {essid}", // Icon: wifi
-        // "format-ethernet": "  {ifname}", // Icon: ethernet
+        "format-wifi": " {signalStrength}%",   // Icon: wifi
+        "format-ethernet": " ethernet",        // Icon: ethernet
+        "format-disconnected": " off",         // Icon: power-off
+        // "format-disconnected": " off",      // Icon: toggle-off
+        // "format-wifi": " {essid}",          // Icon: wifi
+        // "format-ethernet": " {ifname}",     // Icon: ethernet
         // "format-disconnected": "Disconnected",
         "on-click": "footclient --app-id=float iwctl"
     }
