@@ -8,24 +8,17 @@ firefox "$@" > /dev/null 2>&1 &
 # wait for the window
 sleep 1
 
-riverctl toggle-float
-
 ## resize window
 
-# maximize window
-riverctl resize vertical 10000
-riverctl resize horizontal 10000
+# maximize window and move below bar
+riverctl-float-fullscreen
 
-height_bar="$(height-bar)"
-
-sleep 0.05
-
-# resize and move below bar
-riverctl resize vertical "-$height_bar"
+# resize window
 riverctl resize horizontal -800
-riverctl snap down
 
 ## with constant window size
+
+# riverctl toggle-float
 
 # # resize window
 # riverctl resize vertical 16

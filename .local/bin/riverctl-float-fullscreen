@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# set a window floating fullscreen
+# so windows can be stacked
+
+# not needed
+# riverctl toggle-float
+
+# maximize window
+riverctl resize vertical 10000
+riverctl resize horizontal 10000
+
+height_bar="$(height-bar)"
+
+sleep 0.02
+
+# move below bar
+riverctl resize vertical "-$height_bar"
+riverctl snap down

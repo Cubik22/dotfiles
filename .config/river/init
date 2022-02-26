@@ -53,7 +53,7 @@ alt="Mod1"
 # mod + key used
 # Return Backspace Space Period Comma
 # {Up,Right,Down,Left} [0-9] F7 F11
-# {H,J,K,L} Q F P
+# {H,J,K,L} Q F P U
 # S A I B M
 
 # Mod+Control+Return footclient
@@ -231,6 +231,9 @@ riverctl map normal "$mod" Space toggle-float
 
 # Mod+F to toggle fullscreen
 riverctl map normal "$mod" F toggle-fullscreen
+
+# Mod+U set window float fullscreen
+riverctl map normal "$mod" U spawn riverctl-float-fullscreen
 
 # Declare a passthrough mode. This mode has only a single mapping to return to
 # normal mode. This makes it useful for testing a nested wayland compositor
