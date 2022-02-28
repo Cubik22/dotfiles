@@ -60,6 +60,9 @@ alt="Mod1"
 riverctl map normal "$mod"+Control Return spawn "footclient"
 # Mod+Control+Backspace footclient float
 riverctl map normal "$mod"+Control Backspace spawn "footclient --app-id=float"
+# Mod+Control+Equal footclient float fullscreen
+# TODO: currently not working
+# riverctl map normal "$mod"+Control Equal spawn "footclient riverctl-float-fullscreen"
 
 # Mod+S screenshot selection with grim and slurp
 riverctl map normal "$mod" S spawn 'screenshot selection; echo "100" > $WOB_PIPE_CENTER'
@@ -292,6 +295,8 @@ done
 riverctl map normal "$mod" F7 spawn "doas poweroff"
 # Mod+Shift+F7 reboot
 riverctl map normal "$mod"+Shift F7 spawn "doas reboot"
+# Mod+Control+F7 zzz
+riverctl map normal "$mod"+Control F7 spawn "doas zzz"
 
 # spawn new window in less important part
 riverctl attach-mode bottom
@@ -342,7 +347,7 @@ riverctl float-filter-add app-id "imv"
 # set up touchpad with riverctl
 riverctl-set-input touchpad
 
-# init-river-session
+# start browser and footclient
 init-river-session &
 
 # set and exec into the default layout generator, rivertile

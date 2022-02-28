@@ -1,0 +1,64 @@
+#!/bin/sh
+
+# set wayland environment variables and start river
+
+# session and desktop
+export XDG_SESSION_TYPE=wayland
+export XDG_SESSION_DESKTOP=river
+export XDG_CURRENT_DESKTOP=river
+export DESKTOP_SESSION=river
+
+# for multi-gpu setup
+# export WLR_DRM_DEVICES=/dev/dri/card0
+
+# seat management
+# seatd is more minimal
+export LIBSEAT_BACKEND=seatd
+# export LIBSEAT_BACKEND=logind
+
+# QT
+export QT_QPA_PLATFORM=wayland-egl
+export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+
+# SDL
+export SDL_VIDEODRIVER=wayland
+# when no sound in SDL applications
+# export SDL_AUDIODRIVER=alsa
+
+# clutter
+# export CLUTTER_BACKEND=wayland
+
+# elementary/EFL
+# export ECORE_EVAS_ENGINE=wayland_egl
+# export ELM_ENGINE=wayland_egl
+# export ELM_DISPLAY=wl
+# export ELM_ACCEL=opengl
+
+# mozilla
+export MOZ_ENABLE_WAYLAND=1
+# Open links in external applications in Firefox
+# export MOZ_DBUS_REMOTE=1
+
+# needed for some Java applications
+# export _JAVA_AWT_WM_NONREPARENTING=1
+
+export BROWSER=firefox
+# export BROWSER="$XDG_BIN_HOME/ungoogled_chromium.sh"
+
+# set GTK theme
+# export GTK_THEME=Adwaita
+# export GTK_THEME=Adwaita:dark
+
+# cursor
+# remember to change also .config/river/init
+# remember to change also .config/gtk-{2, 3}.0/{config, settings.ini}
+# remember to change also .icons/default/index.theme
+export XCURSOR_THEME=Adwaita
+export XCURSOR_SIZE=16
+
+# wob pipe directory
+export WOB_PIPE="/tmp/wobpipe"
+export WOB_PIPE_CENTER="/tmp/wobpipe-center"
+
+# finally start river with a dbus-session
+exec dbus-run-session river

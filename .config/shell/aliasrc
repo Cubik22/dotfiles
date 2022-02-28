@@ -114,7 +114,7 @@ alias fzfp='fzf --preview="$FZF_DEFAULT_PREVIEW"'
 alias zigup='zigup --install-dir "$XDG_LIB_HOME/zigup"'
 
 # rust local
-alias set-rust-local='export RUSTUP_HOME="$XDG_LIB_HOME/rustup"; export CARGO_HOME="$XDG_LIB_HOME/cargo"'
+alias rust-set-local='export RUSTUP_HOME="$XDG_LIB_HOME/rustup"; export CARGO_HOME="$XDG_LIB_HOME/cargo"'
 
 # wifi
 alias iwscan="iwctl station wlan0 scan;"
