@@ -199,4 +199,5 @@ export LYNX_LSS="$XDG_CONFIG_HOME/lynx/lynx.lss"
 # start river
 if [ "$(id -u)" -ne 0 ] && [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
     river-start
+    exit
 fi

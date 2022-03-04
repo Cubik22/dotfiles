@@ -73,7 +73,7 @@ define-command -override ui -docstring 'enter ui mode' %{
     enter-user-mode ui
 }
 unmap global ui
-map global user i ': enter-user-mode ui<ret>'                   -docstring 'ui mode'
+map global user u ': enter-user-mode ui<ret>'                   -docstring 'ui mode'
 map global ui n ': ui-line-numbers-toggle<ret>'                 -docstring 'line numbers'
 map global ui s ': ui-trailing-spaces-toggle<ret>'              -docstring 'trailing spaces'
 map global ui t ': ui-tabs-toggle<ret>'                         -docstring 'tabs'
@@ -94,7 +94,7 @@ map global ui a ': ui-terminal-assistant-toggle<ret>'           -docstring 'term
 
 # utility
 declare-user-mode util
-map global user u ': enter-user-mode util<ret>'                 -docstring 'utility mode'
+map global user t ': enter-user-mode util<ret>'                 -docstring 'utility mode'
 map global util l ': state-save-reg-load dquote<ret>'           -docstring 'load clipboard'
 map global util s ': state-save-reg-save dquote<ret>'           -docstring 'save clipboard'
 map global util g ': grep '                                     -docstring 'grep'
