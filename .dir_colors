@@ -103,6 +103,7 @@ EXEC  1;30;32
 .r 01;36
 .m 01;36
 .kak 01;36
+.sol 01;36
 
 # archives or compressed
 .tar 01;31

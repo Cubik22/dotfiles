@@ -68,11 +68,20 @@ evaluate-commands %sh{
 
     meta="import"
 
-    keywords="if else elseif for parfor while do until switch case otherwise try catch spmd unwind_protect unwind_protect_cleanup function arguments classdef properties methods events enumeration end endif endfor endparfor endwhile endswitch end_try_catch end_unwind_protect endfunction endclassdef endproperties endmethods endevents enumeration return break continue throw rethrow persistent global __FILE__ __LINE__"
+    keywords="if else elseif for parfor while do until switch case otherwise
+    try catch spmd unwind_protect unwind_protect_cleanup function arguments
+    classdef properties methods events enumeration end endif endfor endparfor
+    endwhile endswitch end_try_catch end_unwind_protect endfunction endclassdef
+    endproperties endmethods endevents enumeration return break continue
+    throw rethrow persistent global __FILE__ __LINE__"
 
-    types="double single int8 int16 int32 int64 uint8 uint16 uint32 uint64 string char"
+    types="double single int8 int16 int32 int64
+    uint8 uint16 uint32 uint64 string char"
 
-    attributes="Abstract AllowedSubclasses ConstructOnLoad HandleCompatible Hidden InferiorClasses Sealed AbortSet Access Constant Dependent GetAccess GetObservable NonCopyable PartialMatchPriority SetAccess SetObservable Transient"
+    attributes="Abstract AllowedSubclasses ConstructOnLoad
+    HandleCompatible Hidden InferiorClasses Sealed AbortSet
+    Access Constant Dependent GetAccess GetObservable NonCopyable
+    PartialMatchPriority SetAccess SetObservable Transient"
 
     methods="Abstract Access Hidden Sealed Static"
 
