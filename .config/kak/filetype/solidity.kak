@@ -111,6 +111,13 @@ evaluate-commands %sh{
 
     join() { sep=$2; eval set -- $1; IFS="$sep"; echo "$*"; }
 
+    # prepend_at () {
+    #     for value in $@; do
+    #         result="@$value $result"
+    #     done
+    #     echo "$result"
+    # }
+
     # add the language's grammar to the static completion list
     printf %s\\n "declare-option str-list solidity_static_words $(join "${values} ${meta} ${keywords} ${types} ${attributes} ${methods} ${functions}" ' ')"
 

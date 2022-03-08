@@ -347,8 +347,11 @@ riverctl float-filter-add app-id "imv"
 # set up touchpad with riverctl
 riverctl-set-input touchpad
 
+# run extra initializations
+river-init-extra
+
 # start browser and footclient
-init-river-session &
+river-init-session &
 
 # set and exec into the default layout generator, rivertile
 # river will send the process group of the init executable SIGTERM on exit

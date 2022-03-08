@@ -11,10 +11,10 @@ get_tags() {
     echo "$((1 << ($1 - 1)))"
 }
 
-footclient_pos=1
+# footclient_pos=1
 
-firefox_hard_first_pos=9
-firefox_hard_second_pos=8
+# firefox_hard_first_pos=9
+# firefox_hard_second_pos=8
 
 # firefox_soft_pos=7
 
@@ -38,14 +38,16 @@ firefox_hard_second_pos=8
 #     sleep 2
 # fi
 
-riverctl set-focused-tags "$(get_tags $firefox_hard_second_pos)"
-firefox &
-sleep 2
-riverctl set-view-tags "$(get_tags $firefox_hard_first_pos)"
-sleep 1
+# riverctl set-focused-tags "$(get_tags $firefox_hard_second_pos)"
+# firefox &
+# sleep 2
+# riverctl set-view-tags "$(get_tags $firefox_hard_first_pos)"
+# sleep 1
 
-riverctl set-focused-tags "$(get_tags $footclient_pos)"
-footclient &
+# riverctl set-focused-tags "$(get_tags $footclient_pos)"
+# # just if running just footclient
+# sleep 0.5
+# footclient &
 
 # load audio status
 # it is done here in order to wait for pipewire to load in the backgroud
