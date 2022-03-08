@@ -41,6 +41,10 @@ shopt -s histappend
 # case-insensitive globbing
 shopt -s nocaseglob
 
+### gnupg
+GPG_TTY="$(tty)"
+export GPG_TTY
+
 ### completion
 
 # alias config='/usr/bin/git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME"'

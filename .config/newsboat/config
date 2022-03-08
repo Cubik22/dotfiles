@@ -53,14 +53,17 @@ browser lynx
 # browser
 macro y set browser "echo %u | wl-copy-env --trim-newline" ; open-in-browser ; set browser lynx
 macro f set browser "firefox-float --private-window -P soft %u" ; open-in-browser ; set browser lynx
-macro F set browser "firefox --private-window -P soft %u" ; open-in-browser ; set browser lynx
+macro F set browser "firefox-float -P soft %u" ; open-in-browser ; set browser lynx
 macro ^F set browser firefox ; open-in-browser ; set browser lynx
 macro r set browser "firefox-float --private-window -P soft %u" ; open-in-browser-and-mark-read ; set browser lynx
-macro R set browser "firefox --private-window -P soft %u" ; open-in-browser-and-mark-read ; set browser lynx
+macro R set browser "firefox-float -P soft %u" ; open-in-browser-and-mark-read ; set browser lynx
 macro ^R set browser firefox ; open-in-browser-and-mark-read ; set browser lynx
 macro w set browser w3m ; open-in-browser ; set browser lynx
-macro v set browser "riverctl spawn \"mpv --force-window %u\"" ; open-in-browser ; set browser lynx
-macro a set browser "riverctl spawn \"mpv --force-window --video=no %u\"" ; open-in-browser ; set browser lynx
+macro a set browser "riverctl spawn \"mpv --force-window --video=no %u\"" ; open-in-browser-and-mark-read ; set browser lynx
+macro v set browser "riverctl spawn \"mpv --force-window %u\"" ; open-in-browser-and-mark-read ; set browser lynx
+macro t set browser "riverctl spawn \"mpv --force-window --ytdl --ytdl-format=bestvideo+bestaudio/best %u\"" ; open-in-browser-and-mark-read ; set browser lynx
+macro T set browser "riverctl spawn \"mpv --force-window --ytdl --ytdl-format=best/bestvideo+bestaudio %u\"" ; open-in-browser-and-mark-read ; set browser lynx
+macro ^T set browser "riverctl spawn \"mpv --force-window --ytdl --ytdl-format=worstvideo+worstaudio/worst %u\"" ; open-in-browser-and-mark-read ; set browser lynx
 
 # wrap
 macro j set text-width 80

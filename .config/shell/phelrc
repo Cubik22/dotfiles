@@ -257,7 +257,8 @@ util_info=$(cat << EOF
 ## util
 date cal
 uname
-df -h du -h
+df -h
+du -h
 diff -u
 ps -e
 pidof
