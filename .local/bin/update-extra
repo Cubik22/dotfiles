@@ -35,7 +35,6 @@ DESCRIPTION
 
         -h, --help
             print this info and exit
-
 EOF
 )
 

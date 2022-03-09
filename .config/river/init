@@ -54,7 +54,7 @@ alt="Mod1"
 # Return Backspace Space Period Comma
 # {Up,Right,Down,Left} [0-9] F7 F11
 # {H,J,K,L} Q F P U
-# S A I B M
+# S A I B Z M
 
 # Mod+Control+Return footclient
 riverctl map normal "$mod"+Control Return spawn "footclient"
@@ -82,8 +82,11 @@ riverctl map normal "$mod" I spawn "footclient --app-id=float iwctl"
 # Mod+B iwctl
 riverctl map normal "$mod" B spawn "footclient --app-id=float bluetoothctl"
 
-# Mod+M fuzzel
-riverctl map normal "$mod" M spawn "fuzzel.sh"
+# Mod+Z fuzzel
+riverctl map normal "$mod" Z spawn "fuzzel.sh"
+
+# Mod+M mpv-copyied
+riverctl map normal "$mod" M spawn "mpv-copied --fullscreen"
 
 # Mod+Control+F firefox
 riverctl map normal "$mod"+Control F spawn "firefox"

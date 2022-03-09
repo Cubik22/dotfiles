@@ -1,0 +1,51 @@
+#!/bin/sh
+
+# play in mpv what is copied with wl-clipboard
+# optional: pass as a  parameter yt-dl format
+
+# it is executed in the background
+set_fullscreen() {
+    # wait for mpv to load
+    sleep 8
+    riverctl toggle-fullscreen
+}
+
+print_info=$(cat << EOF
+SYNOPSIS
+        mpv-copied [option]... [ytdl-format]
+
+DESCRIPTION
+        play in mpv what is copied with wl-clipboard
+
+        -f, --fullscreen
+            set mpv window fullscreen
+
+        -h, --help
+            print this info and exit
+EOF
+)
+
+fullscreen=false
+
+for param in "$@"; do
+    if [ "$param" = "-h" ] || [ "$param" = "--help" ]; then
+        echo "$print_info"
+        return 0
+    elif [ "$param" = "-f" ] || [ "$param" = "--fullscreen" ]; then
+        fullscreen=true
+    else
+        ytdl_format="$param"
+    fi
+done
+
+play="$(wl-paste-env)"
+
+if [ "$fullscreen" = "true" ]; then
+    set_fullscreen &
+fi
+
+if [ -z "$ytdl_format" ]; then
+    mpv --force-window "$play"
+else
+    mpv --force-window --ytdl --ytdl-format="$ytdl_format" "$play"
+fi
