@@ -51,9 +51,9 @@ alt="Mod1"
 ### Programs
 
 # mod + key used
-# Return Backspace Space Period Comma
+# Return Backspace Space Period Comma Minus
 # {Up,Right,Down,Left} [0-9] F7 F11
-# {H,J,K,L} Q F P U
+# {H,J,K,L} Q F U N P
 # S A I B Z M
 
 # Mod+Control+Return footclient
@@ -86,7 +86,7 @@ riverctl map normal "$mod" B spawn "footclient --app-id=float bluetoothctl"
 riverctl map normal "$mod" Z spawn "fuzzel.sh"
 
 # Mod+M mpv-copyied
-riverctl map normal "$mod" M spawn "mpv-copied --fullscreen"
+riverctl map normal "$mod" M spawn "mpv-copied"
 
 # Mod+Control+F firefox
 riverctl map normal "$mod"+Control F spawn "firefox"
@@ -184,6 +184,10 @@ riverctl map normal "$mod"+"$alt"+Control+Shift J send-layout-cmd rivertile "mai
 riverctl map normal "$mod"+"$alt"+Control+Shift K send-layout-cmd rivertile "main-location top"
 riverctl map normal "$mod"+"$alt"+Control+Shift L send-layout-cmd rivertile "main-location right"
 
+# Mod+{N,P} change tags
+riverctl map normal "$mod" N spawn "cycle-focused-tags next 9"
+riverctl map normal "$mod" P spawn "cycle-focused-tags previous 9"
+
 # Mod+{Left,Down,Up,Right} change tags
 riverctl map normal "$mod" Left     spawn "cycle-focused-tags previous 9"
 riverctl map normal "$mod" Down     spawn "cycle-focused-tags previous 9; cycle-focused-tags previous 9"
@@ -222,11 +226,11 @@ riverctl map normal "$mod"+Shift 0 set-view-tags "$all_tags"
 # https://github.com/ifreund/river/wiki/Scratchpad
 scratch_tag="$((1 << 20 ))"
 
-# toggle the scratchpad with Super+P
-riverctl map normal "$mod" P toggle-focused-tags "$scratch_tag"
+# toggle the scratchpad with Mod+Minus
+riverctl map normal "$mod" Minus toggle-focused-tags "$scratch_tag"
 
-# send windows to the scratchpad with Super+Shift+P
-riverctl map normal "$mod"+Shift P set-view-tags "$scratch_tag"
+# send windows to the scratchpad with Mod+Shift+Minus
+riverctl map normal "$mod"+Shift Minus set-view-tags "$scratch_tag"
 
 # set spawn tagmask to ensure new windows does not have the scratchpad tag unless explicitly set
 all_but_scratch_tag="$(( ((1 << 32) - 1) ^ scratch_tag ))"

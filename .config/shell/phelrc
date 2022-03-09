@@ -110,7 +110,7 @@ audio_info=$(cat << EOF
 amixer/alsamixer (alsa)
 pactl (pipewire)
 ffmpeg -i {file.ext} {file.ogg}
-youtube-dl --ignore-errors --retries=infinite
+{yt-dlp, youtube-dl} --ignore-errors --retries=infinite
     {--recode-video=ogg, --extract-audio {--audio-format=opus}}
     {{--embed-thumbnail} --add-metadata --xattrs}
     "<url>" -o "<name>.%(ext)s"
@@ -255,6 +255,7 @@ EOF
 
 util_info=$(cat << EOF
 ## util
+time
 date cal
 uname
 df -h

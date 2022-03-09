@@ -189,19 +189,19 @@ rcon() {
 } && export -f rcon
 
 # create a file and automatically add it with ucon
-# see touch-per
+# see stouch
 utouch() {
-    touch-per "$@" && ucon add "$1"
+    stouch "$@" && ucon add "$1"
 } && export -f utouch
 
 # create a file and automatically add it with rcon
-# see touch-per
+# see stouch
 rtouch() {
     # make sure that when running as user use doas
     if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
-        touch-per "$@" && rcon add "$1"
+        stouch "$@" && rcon add "$1"
     else
-        doas touch-per "$@" && rcon add "$1"
+        doas stouch "$@" && rcon add "$1"
     fi
 } && export -f rtouch
 

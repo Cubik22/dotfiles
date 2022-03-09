@@ -6,7 +6,7 @@
 # it is executed in the background
 set_fullscreen() {
     # wait for mpv to load
-    sleep 8
+    sleep 10
     riverctl toggle-fullscreen
 }
 
@@ -45,7 +45,7 @@ if [ "$fullscreen" = "true" ]; then
 fi
 
 if [ -z "$ytdl_format" ]; then
-    mpv --force-window "$play"
+    mpv --force-window --keep-open=no "$play"
 else
-    mpv --force-window --ytdl --ytdl-format="$ytdl_format" "$play"
+    mpv --force-window --keep-open=no --ytdl --ytdl-format="$ytdl_format" "$play"
 fi

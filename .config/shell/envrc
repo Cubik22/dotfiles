@@ -105,6 +105,10 @@ export R_HISTFILE="$R_HOME_USER/rhistory"
 # less history
 export LESSHISTFILE="$XDG_DATA_HOME/less/lesshst"
 
+# ydl
+export YDL="yt-dlp"
+# export YDL="youtube-dl"
+
 # runit
 # export SVDIR="$XDG_CONFIG_HOME"/service
 
