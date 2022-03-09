@@ -85,8 +85,14 @@ riverctl map normal "$mod" B spawn "footclient --app-id=float bluetoothctl"
 # Mod+Z fuzzel
 riverctl map normal "$mod" Z spawn "fuzzel.sh"
 
-# Mod+M mpv-copyied
-riverctl map normal "$mod" M spawn "mpv-copied"
+# Mod+M play copied url with mpv
+riverctl map normal "$mod" M spawn 'mpv-url $(wl-paste-env)'
+# Mod+Shift+M play copied url with mpv with ytdl mode and medium quality
+riverctl map normal "$mod"+Shift M spawn 'mpv-url --medium $(wl-paste-env)'
+# Mod+Control+M play copied url with mpv with ytdl mode and worst quality
+riverctl map normal "$mod"+Control M spawn 'mpv-url --worst $(wl-paste-env)'
+# Mod+Control+Shift+M play copied url with mpv with ytdl mode and best quality
+riverctl map normal "$mod"+Control+Shift M spawn 'mpv-url --best $(wl-paste-env)'
 
 # Mod+Control+F firefox
 riverctl map normal "$mod"+Control F spawn "firefox"

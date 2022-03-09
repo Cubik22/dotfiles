@@ -59,11 +59,11 @@ macro ^F set browser firefox ; open-in-browser; set browser lynx -- "open firefo
 macro r set browser "firefox-float --private-window -P soft %u"; open-in-browser-and-mark-read; set browser lynx -- "read firefox private window"
 macro R set browser "firefox-float -P soft %u"; open-in-browser-and-mark-read; set browser lynx -- "read firefox normal window"
 macro ^R set browser firefox; open-in-browser-and-mark-read; set browser lynx -- "read firefox outside"
-macro a set browser "riverctl spawn \"mpv --force-window --keep-open=no --video=no %u\""; open-in-browser-and-mark-read; set browser lynx -- "audio mpv"
-macro v set browser "riverctl spawn \"mpv --force-window --keep-open=no %u\""; open-in-browser-and-mark-read; set browser lynx -- "video mpv"
-macro t set browser "riverctl spawn \"mpv --force-window --keep-open=no --ytdl --ytdl-format=bestvideo+bestaudio/best %u\""; open-in-browser-and-mark-read; set browser lynx -- "ytdl bestvideo+bestaudio/best mpv"
-macro T set browser "riverctl spawn \"mpv --force-window --keep-open=no --ytdl --ytdl-format=best/bestvideo+bestaudio %u\""; open-in-browser-and-mark-read; set browser lynx -- "ytdl best/bestvideo+bestaudio mpv"
-macro ^T set browser "riverctl spawn \"mpv --force-window --keep-open=no --ytdl --ytdl-format=worstvideo+worstaudio/worst %u\""; open-in-browser-and-mark-read; set browser lynx -- "ytdl worstvideo+worstaudio/worst mpv"
+macro a set browser "riverctl spawn \"mpv-url --audio %u\""; open-in-browser-and-mark-read; set browser lynx -- "audio mpv"
+macro v set browser "riverctl spawn \"mpv-url %u\""; open-in-browser-and-mark-read; set browser lynx -- "video mpv"
+macro t set browser "riverctl spawn \"mpv-url --medium %u\""; open-in-browser-and-mark-read; set browser lynx -- "ytdl medium mpv"
+macro T set browser "riverctl spawn \"mpv-url --best %u\""; open-in-browser-and-mark-read; set browser lynx -- "ytdl best mpv"
+macro ^T set browser "riverctl spawn \"mpv-url --worst %u\""; open-in-browser-and-mark-read; set browser lynx -- "ytdl worst mpv"
 
 # wrap
 macro j set text-width 80 -- "text width half page"

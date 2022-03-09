@@ -1,0 +1,91 @@
+#!/bin/sh
+
+# play url with mpv
+# optional: use ytdl mode and pass quality
+
+# it is executed in the background
+set_fullscreen() {
+    # wait for mpv to load
+    sleep 10
+    riverctl toggle-fullscreen
+}
+
+print_info=$(cat << EOF
+SYNOPSIS
+        mpv-url [option]... url
+
+DESCRIPTION
+        play url with mpv
+        optionally specifying quality
+
+        -h, --help
+            print this info and exit
+
+        -f, --fullscreen
+            set mpv window fullscreen
+
+        -a, --audio
+            open mpv without video
+
+        --best
+            use ytdl with best quality
+
+        --medium
+            use ytdl with medium quality
+
+        --worst
+            use ytdl with worst quality
+
+        --no-ytdl
+            do not use ytdl mode (default)
+EOF
+)
+
+fullscreen=false
+audio=false
+quality=false
+
+for param in "$@"; do
+    if [ "$param" = "-h" ] || [ "$param" = "--help" ]; then
+        echo "$print_info"
+        return 0
+    elif [ "$param" = "-f" ] || [ "$param" = "--fullscreen" ]; then
+        fullscreen=true
+    elif [ "$param" = "-a" ] || [ "$param" = "--audio" ]; then
+        audio=true
+    elif [ "$param" = "--best" ]; then
+        quality="best"
+    elif [ "$param" = "--medium" ]; then
+        quality="medium"
+    elif [ "$param" = "--worst" ]; then
+        quality="worst"
+    elif [ "$param" = "--no-ytdl" ]; then
+        quality=false
+    else
+        url="$param"
+    fi
+done
+
+if [ "$fullscreen" = "true" ]; then
+    set_fullscreen &
+fi
+
+parameters="--force-window --keep-open=no"
+
+if [ "$audio" = "true" ]; then
+    parameters="$parameters --video=no"
+fi
+
+if [ "$quality" = "best" ]; then
+    parameters="$parameters --ytdl --ytdl-format=best"
+elif [ "$quality" = "medium" ]; then
+    parameters="$parameters --ytdl --ytdl-format=\\\"best[height<=480]\\\""
+elif [ "$quality" = "worst" ]; then
+    parameters="$parameters --ytdl --ytdl-format=worst"
+fi
+
+echo "parameters passed to mpv:"
+echo "$parameters"
+echo
+
+mpv $parameters "$url"

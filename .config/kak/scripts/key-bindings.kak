@@ -117,7 +117,7 @@ map global git n ': git next-hunk<ret>'                         -docstring 'next
 
 # spell checking
 declare-user-mode spell
-map global user c ': enter-user-mode spell<ret>'                -docstring 'spell checking mode'
+map global user C ': enter-user-mode spell<ret>'                -docstring 'spell checking mode'
 map global spell s ': spell<ret>'                               -docstring 'spell'
 map global spell c ': spell-clear<ret>'                         -docstring 'clear'
 map global spell n ': spell-next<ret>'                          -docstring 'next'
@@ -150,6 +150,7 @@ map global user D ': buffer *debug*<ret>'                       -docstring 'buff
 # } }
 map global user y '<a-|>wl-copy-env<ret>'                       -docstring 'copy to system'
 map global user d '<a-|>wl-copy-env<ret><a-d>'                  -docstring 'delete and copy to system'
+map global user c '<a-|>wl-copy-env<ret><a-c>'                  -docstring 'change and copy to system'
 map global user p '<a-!>wl-paste-env -n<ret>'                   -docstring 'paste from system (after)'
 map global user P '!wl-paste-env -n<ret>'                       -docstring 'paste from system (before)'
 map global user <a-p> '<a-o>j !wl-paste-env -n<ret>'            -docstring 'paste from system (below)'
