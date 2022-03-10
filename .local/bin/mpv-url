@@ -27,6 +27,9 @@ DESCRIPTION
         -a, --audio
             open mpv without video
 
+        -o, --keep-open
+            keep the window open
+
         --best
             use ytdl with best quality
 
@@ -43,6 +46,7 @@ EOF
 
 fullscreen=false
 audio=false
+open=false
 quality=false
 
 for param in "$@"; do
@@ -53,6 +57,8 @@ for param in "$@"; do
         fullscreen=true
     elif [ "$param" = "-a" ] || [ "$param" = "--audio" ]; then
         audio=true
+    elif [ "$param" = "-o" ] || [ "$param" = "--keep-open" ]; then
+        open=true
     elif [ "$param" = "--best" ]; then
         quality="best"
     elif [ "$param" = "--medium" ]; then
@@ -70,10 +76,16 @@ if [ "$fullscreen" = "true" ]; then
     set_fullscreen &
 fi
 
-parameters="--force-window --keep-open=no"
+parameters="--force-window"
 
 if [ "$audio" = "true" ]; then
     parameters="$parameters --video=no"
+fi
+
+if [ "$open" = "true" ]; then
+    parameters="$parameters --keep-open=yes"
+else
+    parameters="$parameters --keep-open=no"
 fi
 
 if [ "$quality" = "best" ]; then
