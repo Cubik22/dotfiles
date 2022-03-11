@@ -1,0 +1,110 @@
+#!/bin/sh
+
+print_info=$(cat << EOF
+SYNOPSIS
+        firefox-update-config [option]... [config]...
+
+DESCRIPTION
+        update firefox configs
+        specify any number of configs
+
+        chrome
+            copy userChrome.css
+
+        search
+            copy search engines file
+
+        ext
+            remove default search engines from extension files
+
+        -a, --all
+            update all configs available
+
+        -p, --print-profiles
+            print firefox profiles
+
+        -h, --help
+            print this info and exit
+EOF
+)
+
+if [ "$#" -lt 1 ]; then
+    echo "error: no parameters"
+    echo
+    echo "$print_info"
+    return 1
+fi
+
+profiles="hard soft"
+
+available_configs="chrome search ext"
+
+configs=""
+
+for param in "$@"; do
+    if [ "$param" = "-h" ] || [ "$param" = "--help" ]; then
+        echo "$print_info"
+        return 0
+    elif [ "$param" = "-p" ] || [ "$param" = "--print-profiles" ]; then
+        echo "$profiles"
+        return 0
+    elif [ "$param" = "-a" ] || [ "$param" = "--all" ]; then
+        configs="$available_configs"
+        break
+    else
+        found=false
+        for available_config in $available_configs; do
+            if [ "$param" = "$available_config" ]; then
+                found=true
+                break
+            fi
+        done
+        if [ "$found" = "true" ]; then
+            case "$configs" in
+                *"$param"*) ;;
+                *)
+                    configs="$configs $param"
+                ;;
+            esac
+        else
+            echo "wrong parameter: $param"
+            echo
+            echo "$print_info"
+            return 0
+        fi
+    fi
+done
+
+if ! command -v mozlz4 >/dev/null 2>&1; then
+    echo "error: mozlz4 not in path"
+    return 1
+fi
+
+firefox_dir="${XDG_CONFIG_HOME:-$HOME/.config}/firefox"
+
+file_tmp="$(mktemp file-XXXXXX)"
+
+for profile in $profiles; do
+    profile_dir="$HOME/.mozilla/firefox/$profile"
+    if [ ! -d "$profile_dir" ]; then
+        echo "profile $profile not created"
+        continue
+    fi
+    for config in $configs; do
+        case "$config" in
+            chrome)
+                cp "$firefox_dir/base" "$profile_dir/chrome"
+            ;;
+            search)
+                mozlz4 -z "$firefox_dir/search.json" "$profile_dir/search.json.mozlz4"
+            ;;
+            ext)
+                firefox-remove-default-search-engines exte "$profile_dir/extensions.json" > "$file_tmp"
+                cp "$file_tmp" "$profile_dir/extensions.json"
+
+                firefox-remove-default-search-engines pref "$profile_dir/extension-preferences.json" > "$file_tmp"
+                cp "$file_tmp" "$profile_dir/extension-preferences.json"
+            ;;
+        esac
+    done
+done
