@@ -269,8 +269,8 @@ user_pref("browser.newtabpage.activity-stream.showSearch", false);
 user_pref("browser.newtabpage.pinned", "[]");
 
 /* try to change default search engine, usually requires manually setting it */
-user_pref("browser.urlbar.placeholderName", "DuckDuckGo");
-user_pref("browser.urlbar.placeholderName.private", "DuckDuckGo");
+// user_pref("browser.urlbar.placeholderName", "DuckDuckGo");
+// user_pref("browser.urlbar.placeholderName.private", "DuckDuckGo");
 
 /* do not show search suggestions ahead of browsing history in address bar results */
 user_pref("browser.urlbar.showSearchSuggestionsFirst", false);

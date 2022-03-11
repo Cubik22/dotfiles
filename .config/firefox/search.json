@@ -3,9 +3,9 @@
     "engines": [
         {
             "_name": "duckduckgo",
-            "_loadPath": "[https]duckduckgo.com/duckduckgo.xml",
             "description": "DuckDuckGo Search",
             "__searchForm": "https://duckduckgo.com",
+            "_iconURL": "https://duckduckgo.com/assets/common/dax-logo.svg",
             "_metaData": {
                 "order": 1,
                 "alias": ":d"
@@ -14,7 +14,7 @@
                 {
                     "params": [],
                     "rels": [],
-                    "template": "https://duckduckgo.com/search?q={searchTerms}"
+                    "template": "https://duckduckgo.com/?q={searchTerms}"
                 }
             ],
             "_isAppProvided": false,
@@ -31,9 +31,9 @@
         },
         {
             "_name": "startpage",
-            "_loadPath": "[https]www.startpage.com/startpage.xml",
             "description": "Startpage Search",
             "__searchForm": "https://www.startpage.com",
+            "_iconURL": "https://nitter.net/pic/pbs.twimg.com%2Fprofile_images%2F1389294407740911618%2F5AP6HRY7_400x400.png",
             "_metaData": {
                 "order": 2,
                 "alias": ":s"
@@ -59,9 +59,9 @@
         },
         {
             "_name": "searx.bar",
-            "_loadPath": "[https]searx.bar/searx.xml",
             "description": "a privacy-respecting, hackable metasearch engine",
             "__searchForm": null,
+            "_iconURL": "https://avatars.githubusercontent.com/u/31791872?s=200&v=4",
             "_metaData": {
                 "order": 3,
                 "alias": ":x"
@@ -95,9 +95,9 @@
         },
         {
             "_name": "searx.be",
-            "_loadPath": "[https]searx.be/searx-belgium.xml",
             "description": "a privacy-respecting, hackable metasearch engine",
             "__searchForm": null,
+            "_iconURL": "https://avatars.githubusercontent.com/u/80454229?s=200&v=4",
             "_metaData": {
                 "order": 4,
                 "alias": ":b"
@@ -131,9 +131,9 @@
         },
         {
             "_name": "mojeek",
-            "_loadPath": "[https]www.mojeek.com/mojeek.xml",
             "description": "Search the web using Mojeek",
             "__searchForm": "https://www.mojeek.com",
+            "_iconURL": "https://nitter.net/pic/pbs.twimg.com%2Fprofile_images%2F1374299033326473218%2FXibApKmN_400x400.jpg",
             "_metaData": {
                 "order": 5,
                 "alias": ":m"
@@ -158,9 +158,9 @@
         },
         {
             "_name": "wiby",
-            "_loadPath": "[https]wiby.me/wiby.xml",
             "description": "Search engine for older style webpages, lightweight and based on a subject of interest. Building a web more reminiscent of the early internet.",
             "__searchForm": "https://wiby.me",
+            "_iconURL": "https://nitter.net/pic/pbs.twimg.com%2Fprofile_images%2F967952274147500032%2FxdxjE51-_400x400.jpg",
             "_metaData": {
                 "order": 6,
                 "alias": ":l"
@@ -185,9 +185,9 @@
         },
         {
             "_name": "gigablast",
-            "_loadPath": "[https]www.gigablast.com/gigablast.xml",
             "description": "Gigablast Search",
             "__searchForm": "https://www.gigablast.com",
+            "_iconURL": "https://gigablast.com/ric36x36.png",
             "_metaData": {
                 "order": 7,
                 "alias": ":g"
@@ -213,9 +213,9 @@
         },
         {
             "_name": "wikipedia",
-            "_loadPath": "[https]wikipedia.org/wikipedia.xml",
             "description": "Wikipedia Search",
             "__searchForm": "https://wikipedia.org",
+            "_iconURL": "https://nitter.net/pic/pbs.twimg.com%2Fprofile_images%2F1018552942670966784%2F0Zflj6Y__400x400.jpg",
             "_metaData": {
                 "order": 8,
                 "alias": ":w"
@@ -242,6 +242,6 @@
     ],
     "metaData": {
         "useSavedOrder": true,
-        "current": "Mojeek"
+        "current": "mojeek"
     }
 }

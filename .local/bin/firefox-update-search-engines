@@ -1,0 +1,42 @@
+#!/bin/sh
+
+info=$(cat << EOF
+no parameter: update both search engines and extension files
+search: just search engines
+ext: just files
+EOF
+)
+
+if [ "$#" -ge 1 ]; then
+    if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+        echo "$info"
+        return 0
+    elif [ ! "$1" = "search" ] && [ ! "$1" = "ext" ]; then
+        echo "error: wrong parameter"
+        echo "$info"
+        return 1
+    fi
+fi
+
+profiles="hard soft"
+
+if ! command -v mozlz4 >/dev/null 2>&1; then
+    echo "error: mozlz4 not in path"
+    return 1
+fi
+
+for profile in $profiles; do
+    file_tmp="$(mktemp file-XXXXXX)"
+
+    if [ "$#" -eq 0 ] || [ "$1" = "search" ]; then
+        mozlz4 -z "$HOME/.config/firefox/search.json" "$HOME/.mozilla/firefox/$profile/search.json.mozlz4"
+    fi
+
+    if [ "$#" -eq 0 ] || [ "$1" = "ext" ]; then
+        firefox-remove-default-search-engines exte "$HOME/.mozilla/firefox/$profile/extensions.json" > "$file_tmp"
+        cp "$file_tmp" "$HOME/.mozilla/firefox/$profile/extensions.json"
+
+        firefox-remove-default-search-engines pref "$HOME/.mozilla/firefox/$profile/extension-preferences.json" > "$file_tmp"
+        cp "$file_tmp" "$HOME/.mozilla/firefox/$profile/extension-preferences.json"
+    fi
+done
