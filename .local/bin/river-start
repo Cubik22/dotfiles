@@ -36,7 +36,7 @@ export SDL_VIDEODRIVER=wayland
 
 # mozilla
 export MOZ_ENABLE_WAYLAND=1
-# Open links in external applications in Firefox
+# open links in external applications in Firefox
 # export MOZ_DBUS_REMOTE=1
 
 # needed for some Java applications

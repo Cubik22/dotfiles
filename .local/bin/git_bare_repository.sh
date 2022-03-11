@@ -96,6 +96,16 @@ export RUSTUP_HOME="${XDG_LIB_HOME:-$HOME/.local/lib}/rustup"
 export CARGO_HOME="${XDG_LIB_HOME:-$HOME/.local/lib}/cargo"
 rustup-init
 
+# firefox
+doas mkdir -p /usr/lib/firefox/distribution
+doas ln -s "$HOME/.config/firefox/policies.json" /usr/lib/firefox/distribution/
+# when creating profile remember to
+# userChrome.css > [profile]/chrome/
+# mozlz4 search.json > [profile]/search.json.mozlz4
+# firefox-remove-default-search-engines exte [profile]/extensions.json
+# firefox-remove-default-search-engines pref [profile]/extension-preferences.json
+# TODO: add icons in search.json
+
 # clone packer for neovim
 # git clone --depth 1 https://github.com/wbthomason/packer.nvim "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim"
 
@@ -213,3 +223,4 @@ build-packages waybar
 build-packages fuzzel
 build-packages foot
 build-packages libinput-gestures
+build-packages mozlz4

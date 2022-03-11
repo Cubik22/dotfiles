@@ -1,0 +1,14 @@
+{
+  "policies": {
+    "Extensions": {
+      "Uninstall": [
+        "google@search.mozilla.org",
+        "amazondotcom@search.mozilla.org",
+        "wikipedia@search.mozilla.org",
+        "bing@search.mozilla.org",
+        "ddg@search.mozilla.org",
+        "ebay@search.mozilla.org"
+      ]
+    }
+  }
+}

@@ -7,9 +7,9 @@
 # chromium/firefox-soft in tag 7
 # and if chromium/firefox-soft is composed of two windows the second one in tag 6
 
-get_tags() {
-    echo "$((1 << ($1 - 1)))"
-}
+# get_tags() {
+#     echo "$((1 << ($1 - 1)))"
+# }
 
 # footclient_pos=1
 
@@ -45,9 +45,9 @@ get_tags() {
 # sleep 1
 
 # riverctl set-focused-tags "$(get_tags $footclient_pos)"
-# # just if running just footclient
-# sleep 0.5
-# footclient &
+# just if running just footclient
+sleep 0.5
+footclient &
 
 # load audio status
 # it is done here in order to wait for pipewire to load in the backgroud

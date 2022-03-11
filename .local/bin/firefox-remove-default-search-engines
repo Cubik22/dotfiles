@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# remove firefox default search engines
+# should be executed with file
+# exte -> .mozilla/firefox/[firefox-profile]/extensions.json
+# pref -> .mozilla/firefox/[firefox-profile]/extension-preferences.json
+
+info=$(cat << EOF
+two parameters
+first mode: exte or pref
+second file
+EOF
+)
+
+if [ "$#" -ne 2 ]; then
+    echo "error: wrong number of parameters"
+    echo "$info"
+    return 1
+fi
+
+mode="$1"
+file="$2"
+
+if [ "$mode" = "exte" ]; then
+    cat "$file" |
+        sed 's/{"id":"[a-zA-Z0-9]*@search\.mozilla\.org".*"location":"app-builtin"},//g' | \
+        sed 's/,{"id":"[a-zA-Z0-9]*@search\.mozilla\.org".*"location":"app-builtin"}//g'
+elif [ "$mode" = "pref" ]; then
+    cat "$file" |
+        sed 's/"[a-zA-Z0-9]*@search\.mozilla\.org".*[^}]},//g' | \
+        sed 's/,"[a-zA-Z0-9]*@search\.mozilla\.org".*[^}]}//g'
+else
+    echo "error: wrong mode"
+    echo "$info"
+    return 1
+fi

@@ -1,0 +1,247 @@
+{
+    "version": 12,
+    "engines": [
+        {
+            "_name": "duckduckgo",
+            "_loadPath": "[https]duckduckgo.com/duckduckgo.xml",
+            "description": "DuckDuckGo Search",
+            "__searchForm": "https://duckduckgo.com",
+            "_metaData": {
+                "order": 1,
+                "alias": ":d"
+            },
+            "_urls": [
+                {
+                    "params": [],
+                    "rels": [],
+                    "template": "https://duckduckgo.com/search?q={searchTerms}"
+                }
+            ],
+            "_isAppProvided": false,
+            "_orderHint": null,
+            "_telemetryId": null,
+            "_updateInterval": null,
+            "_updateURL": null,
+            "_iconUpdateURL": null,
+            "_filePath": null,
+            "_extensionID": null,
+            "_locale": null,
+            "_definedAliases": [],
+            "_hasPreferredIcon": false
+        },
+        {
+            "_name": "startpage",
+            "_loadPath": "[https]www.startpage.com/startpage.xml",
+            "description": "Startpage Search",
+            "__searchForm": "https://www.startpage.com",
+            "_metaData": {
+                "order": 2,
+                "alias": ":s"
+            },
+            "_urls": [
+                {
+                    "params": [],
+                    "rels": [],
+                    "template": "https://www.startpage.com/sp/search?query={searchTerms}"
+                }
+            ],
+            "_isAppProvided": false,
+            "_orderHint": null,
+            "_telemetryId": null,
+            "_updateInterval": null,
+            "_updateURL": null,
+            "_iconUpdateURL": null,
+            "_filePath": null,
+            "_extensionID": null,
+            "_locale": null,
+            "_definedAliases": [],
+            "_hasPreferredIcon": false
+        },
+        {
+            "_name": "searx.bar",
+            "_loadPath": "[https]searx.bar/searx.xml",
+            "description": "a privacy-respecting, hackable metasearch engine",
+            "__searchForm": null,
+            "_metaData": {
+                "order": 3,
+                "alias": ":x"
+            },
+            "_urls": [
+                {
+                    "params": [
+                        {
+                            "name": "q",
+                            "value": "{searchTerms}"
+                        }
+                    ],
+                    "rels": [
+                        "results"
+                    ],
+                    "template": "https://searx.bar/search",
+                    "method": "POST"
+                }
+            ],
+            "_isAppProvided": false,
+            "_orderHint": null,
+            "_telemetryId": null,
+            "_updateInterval": null,
+            "_updateURL": null,
+            "_iconUpdateURL": null,
+            "_filePath": null,
+            "_extensionID": null,
+            "_locale": null,
+            "_definedAliases": [],
+            "_hasPreferredIcon": false
+        },
+        {
+            "_name": "searx.be",
+            "_loadPath": "[https]searx.be/searx-belgium.xml",
+            "description": "a privacy-respecting, hackable metasearch engine",
+            "__searchForm": null,
+            "_metaData": {
+                "order": 4,
+                "alias": ":b"
+            },
+            "_urls": [
+                {
+                    "params": [
+                        {
+                            "name": "q",
+                            "value": "{searchTerms}"
+                        }
+                    ],
+                    "rels": [
+                        "results"
+                    ],
+                    "template": "https://searx.be/search",
+                    "method": "POST"
+                }
+            ],
+            "_isAppProvided": false,
+            "_orderHint": null,
+            "_telemetryId": null,
+            "_updateInterval": null,
+            "_updateURL": null,
+            "_iconUpdateURL": null,
+            "_filePath": null,
+            "_extensionID": null,
+            "_locale": null,
+            "_definedAliases": [],
+            "_hasPreferredIcon": false
+        },
+        {
+            "_name": "mojeek",
+            "_loadPath": "[https]www.mojeek.com/mojeek.xml",
+            "description": "Search the web using Mojeek",
+            "__searchForm": "https://www.mojeek.com",
+            "_metaData": {
+                "order": 5,
+                "alias": ":m"
+            },
+            "_urls": [
+                {
+                    "params": [],
+                    "rels": [],
+                    "template": "https://www.mojeek.com/search?q={searchTerms}"
+                }
+            ],
+            "_isAppProvided": false,
+            "_orderHint": null,
+            "_telemetryId": null,
+            "_updateInterval": null,
+            "_updateURL": null,
+            "_iconUpdateURL": null,
+            "_filePath": null,
+            "_extensionID": null,
+            "_locale": null,
+            "_definedAliases": []
+        },
+        {
+            "_name": "wiby",
+            "_loadPath": "[https]wiby.me/wiby.xml",
+            "description": "Search engine for older style webpages, lightweight and based on a subject of interest. Building a web more reminiscent of the early internet.",
+            "__searchForm": "https://wiby.me",
+            "_metaData": {
+                "order": 6,
+                "alias": ":l"
+            },
+            "_urls": [
+                {
+                    "params": [],
+                    "rels": [],
+                    "template": "https://wiby.me/?q={searchTerms}"
+                }
+            ],
+            "_isAppProvided": false,
+            "_orderHint": null,
+            "_telemetryId": null,
+            "_updateInterval": null,
+            "_updateURL": null,
+            "_iconUpdateURL": null,
+            "_filePath": null,
+            "_extensionID": null,
+            "_locale": null,
+            "_definedAliases": []
+        },
+        {
+            "_name": "gigablast",
+            "_loadPath": "[https]www.gigablast.com/gigablast.xml",
+            "description": "Gigablast Search",
+            "__searchForm": "https://www.gigablast.com",
+            "_metaData": {
+                "order": 7,
+                "alias": ":g"
+            },
+            "_urls": [
+                {
+                    "params": [],
+                    "rels": [],
+                    "template": "https://www.gigablast.com/search?q={searchTerms}"
+                }
+            ],
+            "_isAppProvided": false,
+            "_orderHint": null,
+            "_telemetryId": null,
+            "_updateInterval": null,
+            "_updateURL": null,
+            "_iconUpdateURL": null,
+            "_filePath": null,
+            "_extensionID": null,
+            "_locale": null,
+            "_definedAliases": [],
+            "_hasPreferredIcon": false
+        },
+        {
+            "_name": "wikipedia",
+            "_loadPath": "[https]wikipedia.org/wikipedia.xml",
+            "description": "Wikipedia Search",
+            "__searchForm": "https://wikipedia.org",
+            "_metaData": {
+                "order": 8,
+                "alias": ":w"
+            },
+            "_urls": [
+                {
+                    "params": [],
+                    "rels": [],
+                    "template": "https://wikipedia.org/w/index.php?search={searchTerms}"
+                }
+            ],
+            "_isAppProvided": false,
+            "_orderHint": null,
+            "_telemetryId": null,
+            "_updateInterval": null,
+            "_updateURL": null,
+            "_iconUpdateURL": null,
+            "_filePath": null,
+            "_extensionID": null,
+            "_locale": null,
+            "_definedAliases": [],
+            "_hasPreferredIcon": false
+        }
+    ],
+    "metaData": {
+        "useSavedOrder": true,
+        "current": "Mojeek"
+    }
+}
