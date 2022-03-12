@@ -34,6 +34,13 @@ define-command source-all-rc -docstring 'source all default settings' %{ evaluat
     done
 } }
 
+# find files
+define-command -docstring 'grep find files' find -menu -params 1 -shell-script-candidates %{
+    rg --files
+} %{
+    edit %arg{1}
+}
+
 # fzf
 define-command -docstring 'open files with fzf' fuzzy-files %{
     try %sh{

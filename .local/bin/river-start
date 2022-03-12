@@ -60,5 +60,10 @@ export XCURSOR_SIZE=16
 export WOB_PIPE="/tmp/wobpipe"
 export WOB_PIPE_CENTER="/tmp/wobpipe-center"
 
+output_dir="${XDG_CACHE_HOME:-$HOME/.cache}/river"
+
+# make sure output dir exist
+mkdir -p "$output_dir"
+
 # finally start river with a dbus-session
-exec dbus-run-session river
+exec dbus-run-session river > "$output_dir/output" 2>&1
