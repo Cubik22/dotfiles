@@ -58,7 +58,7 @@
             "_hasPreferredIcon": false
         },
         {
-            "_name": "searx.bar",
+            "_name": "searx",
             "description": "searx: a privacy-respecting, hackable metasearch engine",
             "__searchForm": null,
             "_iconURL": "https://searx.bar/favicon.ico",
@@ -94,7 +94,7 @@
             "_hasPreferredIcon": false
         },
         {
-            "_name": "searx.be",
+            "_name": "searxng",
             "description": "searxng: a privacy-respecting, hackable metasearch engine",
             "__searchForm": null,
             "_iconURL": "https://searx.be/favicon.ico",

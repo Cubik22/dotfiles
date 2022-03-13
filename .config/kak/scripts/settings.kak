@@ -37,15 +37,18 @@ set-option global grepcmd 'rg --column'
 # use foot as the terminal
 set-option global windowing_modules 'wayland'
 
-# trim trailing whitespace on the current line when leaving insert mode
+# trim trailing whitespaces on empty line when leaving insert mode
 hook global ModeChange pop:insert:.* %{
-    try %{ execute-keys -draft '<a-x>s\h+$<ret>d' }
+    try %{ execute-keys -draft <a-x>s^\h+$<ret>d }
 }
 
-# preserve indent level and trim trailing whitespace
+# preserve indent level and trim trailing whitespaces
 hook global InsertChar \n %{
-    try %{ execute-keys -draft <semicolon> K <a-&> }
-    try %{ execute-keys -draft 'k<a-x>s\h+$<ret>d' }
+    # preserve indent level
+    try %{ execute-keys -draft <semicolon>K<a-&> }
+
+    # trim trailing whitespaces
+    try %{ execute-keys -draft k<a-x>s\h+$<ret>d }
 }
 
 # run the formatcmd for the current filetype on write
