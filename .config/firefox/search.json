@@ -136,7 +136,7 @@
             "_iconURL": "https://www.mojeek.com/favicon.ico",
             "_metaData": {
                 "order": 5,
-                "alias": ":m"
+                "alias": ":j"
             },
             "_urls": [
                 {
@@ -190,7 +190,7 @@
             "_iconURL": "https://metager.org/favicon.ico",
             "_metaData": {
                 "order": 7,
-                "alias": ":e"
+                "alias": ":m"
             },
             "_urls": [
                 {
@@ -299,7 +299,7 @@
             "_iconURL": "https://wiby.me/favicon.ico",
             "_metaData": {
                 "order": 11,
-                "alias": ":l"
+                "alias": ":y"
             },
             "_urls": [
                 {
@@ -346,10 +346,66 @@
             "_locale": null,
             "_definedAliases": [],
             "_hasPreferredIcon": false
+        },
+        {
+            "_name": "archwiki",
+            "description": "the primary objective of archwiki is to provide the arch linux user community with the most comprehensive and the most accessible documentation on the web, embracing all arch linux principles, in particular with respect to simplicity",
+            "__searchForm": "https://wiki.archlinux.org",
+            "_iconURL": "https://wiki.archlinux.org/favicon.ico",
+            "_metaData": {
+                "order": 13,
+                "alias": ":a"
+            },
+            "_urls": [
+                {
+                    "params": [],
+                    "rels": [],
+                    "template": "https://wiki.archlinux.org/index.php?search={searchTerms}"
+                }
+            ],
+            "_isAppProvided": false,
+            "_orderHint": null,
+            "_telemetryId": null,
+            "_updateInterval": null,
+            "_updateURL": null,
+            "_iconUpdateURL": null,
+            "_filePath": null,
+            "_extensionID": null,
+            "_locale": null,
+            "_definedAliases": [],
+            "_hasPreferredIcon": false
+        },
+        {
+            "_name": "github",
+            "description": "provider of internet hosting for software development and version control using git, providing access control and several collaboration features such as bug tracking, feature requests, task management, continuous integration and wikis for every project",
+            "__searchForm": "https://github.com",
+            "_iconURL": "https://github.com/favicon.ico",
+            "_metaData": {
+                "order": 14,
+                "alias": ":h"
+            },
+            "_urls": [
+                {
+                    "params": [],
+                    "rels": [],
+                    "template": "https://github.com/search?q={searchTerms}"
+                }
+            ],
+            "_isAppProvided": false,
+            "_orderHint": null,
+            "_telemetryId": null,
+            "_updateInterval": null,
+            "_updateURL": null,
+            "_iconUpdateURL": null,
+            "_filePath": null,
+            "_extensionID": null,
+            "_locale": null,
+            "_definedAliases": [],
+            "_hasPreferredIcon": false
         }
     ],
     "metaData": {
         "useSavedOrder": true,
-        "current": "mojeek"
+        "current": "metager"
     }
 }

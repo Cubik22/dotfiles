@@ -173,15 +173,15 @@ riverctl map normal "$mod"+"$alt"+Control L snap    right
 # Mod+Control+{H,J,K,L} to resize views big step
 resize_pixel_big=100
 riverctl map normal "$mod"+Control H resize horizontal  "-$resize_pixel_big"
-riverctl map normal "$mod"+Control J resize vertical    "-$resize_pixel_big"
-riverctl map normal "$mod"+Control K resize vertical    "$resize_pixel_big"
+riverctl map normal "$mod"+Control J resize vertical    "$resize_pixel_big"
+riverctl map normal "$mod"+Control K resize vertical    "-$resize_pixel_big"
 riverctl map normal "$mod"+Control L resize horizontal  "$resize_pixel_big"
 
 # Mod+Control+Shift+{H,J,K,L} to resize views small step
 resize_pixel_small=10
 riverctl map normal "$mod"+Control+Shift H resize horizontal  "-$resize_pixel_small"
-riverctl map normal "$mod"+Control+Shift J resize vertical    "-$resize_pixel_small"
-riverctl map normal "$mod"+Control+Shift K resize vertical    "$resize_pixel_small"
+riverctl map normal "$mod"+Control+Shift J resize vertical    "$resize_pixel_small"
+riverctl map normal "$mod"+Control+Shift K resize vertical    "-$resize_pixel_small"
 riverctl map normal "$mod"+Control+Shift L resize horizontal  "$resize_pixel_small"
 
 # Mod+Alt+Control+Shift+{J,K,H,L} to change layout orientation
@@ -194,11 +194,13 @@ riverctl map normal "$mod"+"$alt"+Control+Shift L send-layout-cmd rivertile "mai
 riverctl map normal "$mod" N spawn "cycle-focused-tags next 9"
 riverctl map normal "$mod" P spawn "cycle-focused-tags previous 9"
 
-# Mod+{Left,Down,Up,Right} change tags
-riverctl map normal "$mod" Left     spawn "cycle-focused-tags previous 9"
-riverctl map normal "$mod" Down     spawn "cycle-focused-tags previous 9; cycle-focused-tags previous 9"
-riverctl map normal "$mod" Up       spawn "cycle-focused-tags next 9; cycle-focused-tags next 9"
-riverctl map normal "$mod" Right    spawn "cycle-focused-tags next 9"
+# Mod+{Down,Up} move between tags
+riverctl map normal "$mod" Down     spawn "cycle-focused-tags next 9"
+riverctl map normal "$mod" Up       spawn "cycle-focused-tags previous 9"
+
+# Mod+{Left,Right} move between browser windows
+riverctl map normal "$mod" Left     spawn "wtype -M ctrl -M shift -k Tab -m shift -m ctrl"
+riverctl map normal "$mod" Right    spawn "wtype -M ctrl -k Tab -m ctrl"
 
 # Mod+Left Mouse Button to move views
 riverctl map-pointer normal "$mod" BTN_LEFT move-view

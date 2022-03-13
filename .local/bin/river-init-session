@@ -45,13 +45,16 @@
 # sleep 1
 
 # riverctl set-focused-tags "$(get_tags $footclient_pos)"
-# just if running just footclient
+# if running just footclient
 sleep 0.5
 footclient &
 
 # load audio status
 # it is done here in order to wait for pipewire to load in the backgroud
 # if done before pipewire then resets audio status
+
+# if running just footclient
+sleep 2
 
 ## set audio volume
 # pactl set-sink-volume @DEFAULT_SINK@ 20%
