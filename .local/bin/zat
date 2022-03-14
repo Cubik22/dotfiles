@@ -1,38 +1,82 @@
 #!/bin/sh
 
 # spawn zathura in a specified river tag
+# fix zathura first time opening file
+
+print_info=$(cat << EOF
+SYNOPSIS
+        zat [river-tag] zathura-parameter...
+
+DESCRIPTION
+        wrapper around zathura
+        fix zathura first time opening file
+        optionally spawn in a specified river tag
+        by specifying river-tag before zathura-parameter(s)
+
+        -h, --help
+            print this info and exit
+EOF
+)
+
+# if the file-path is added to zathura history then
+# zathura is started without big page padding
+append_file_to_history() {
+    [ -f "$1" ] && printf '[%s]\n' "$1" >> "$2"
+}
+
 if [ "$#" -lt 1 ]; then
-    echo "insert at least one parameter"
-    echo "first parameter: tag (optional)"
-    echo "if no tag is specified zathura is spawn in the current focused tag"
-    echo "other parameters: arguments for zathura"
+    echo "error: insert at least one parameter"
+    echo "$print_info"
     return 1
 fi
-# check that the first parameter is a number
+
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+    echo "$print_info"
+    return 0
+fi
+
+# check if the first parameter is a number
 if [ "$#" -gt 1 ] && [ "$1" -ge 0 ] 2> /dev/null; then
     tag="$1"
-    # shift arguments by one, now 2 becomes 1
     shift 1
     riverctl set-focused-tags "$((1 << (tag - 1)))"
 fi
-current_dir="$(pwd)"
 
-# append pwd to every parameter
-# when opening multiple files
-for i do
-    set -- "$@" "${current_dir}/${i}"
-    shift
-done
+if [ "$#" -lt 1 ]; then
+    echo "error: insert at least one file"
+    echo "$print_info"
+    return 1
+fi
+
+# set dark theme
 export GTK_THEME="Adwaita:dark"
+
+current_dir="$(pwd)"
+zathura_history="${XDG_DATA_HOM:-$HOME/.local/share}/zathura/history"
+
+for parameter in "$@"; do
+    append_file_to_history "$current_dir/$parameter" "$zathura_history"
+done
+
 /bin/zathura "$@" &
 
-# append pwd to the file (last parameter)
-# i=0
-# while [ $((i+=1)) -lt "$#" ]; do
-#     set -- "$@" "$1"
-#     shift
-# done
-# file="$1"
-# shift
-# export "GTK_THEME=Adwaita:dark"
-# /bin/zathura "$@" "$current_dir/$file" &
+# if [ "$parameter" = "false" ]; then
+#     # consider all parameters as file
+#     for file in "$@"; do
+#         append_file_to_history "$current_dir/$file" "$zathura_history"
+#         set -- "$@" "$file"
+#         shift 1
+#     done
+#     /bin/zathura "$@" &
+# else
+#     # consider just the last parameter as file
+#     scroll_param=0
+#     while [ "$(( scroll_param += 1 ))" -lt "$#" ]; do
+#         set -- "$@" "$1"
+#         shift 1
+#     done
+#     file="$1"
+#     append_file_to_history "$current_dir/$file" "$zathura_history"
+#     shift 1
+#     /bin/zathura "$@" "$file" &
+# fi

@@ -75,13 +75,13 @@ evaluate-commands %sh{
         face global MenuBackground     ${fg},${bg2}
         face global MenuInfo           ${bg}
         face global Information        ${bg},${fg}
-        face global Error              ${bg},${red_nor}
-        face global DiagnosticError    ${red}
+        face global Error              ${bg},${red}
+        face global DiagnosticError    ${orange}
         face global DiagnosticWarning  ${yellow}
         face global StatusLine         ${fg},${bg}
         face global StatusLineMode     ${yellow}+b
         face global StatusLineInfo     ${purple}
-        face global StatusLineValue    ${red}
+        face global StatusLineValue    ${red_nor}
         face global StatusCursor       ${bg},${fg}
         face global Prompt             ${yellow}
         face global MatchingChar       ${fg},${bg3}+b

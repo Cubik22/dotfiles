@@ -93,6 +93,8 @@ alias nv="nvim"
 alias n3="nnn"
 alias n3p="nnn-pre"
 
+alias zathura="zat"
+
 alias xq="xbps-query"
 
 # verify signature
