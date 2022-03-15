@@ -2,68 +2,12 @@
     "version": 12,
     "engines": [
         {
-            "_name": "duckduckgo",
-            "description": "internet search engine that emphasizes protecting searchers' privacy and avoiding the filter bubble of personalized search results",
-            "__searchForm": "https://duckduckgo.com",
-            "_iconURL": "https://duckduckgo.com/favicon.ico",
-            "_metaData": {
-                "order": 1,
-                "alias": ":d"
-            },
-            "_urls": [
-                {
-                    "params": [],
-                    "rels": [],
-                    "template": "https://duckduckgo.com/?q={searchTerms}"
-                }
-            ],
-            "_isAppProvided": false,
-            "_orderHint": null,
-            "_telemetryId": null,
-            "_updateInterval": null,
-            "_updateURL": null,
-            "_iconUpdateURL": null,
-            "_filePath": null,
-            "_extensionID": null,
-            "_locale": null,
-            "_definedAliases": [],
-            "_hasPreferredIcon": false
-        },
-        {
-            "_name": "startpage",
-            "description": "search engine that allows its users to obtain google search results while protecting users' privacy by not storing personal information or search data and removing all trackers",
-            "__searchForm": "https://www.startpage.com",
-            "_iconURL": "https://www.startpage.com/sp/cdn/favicons/favicon--default.ico",
-            "_metaData": {
-                "order": 2,
-                "alias": ":s"
-            },
-            "_urls": [
-                {
-                    "params": [],
-                    "rels": [],
-                    "template": "https://www.startpage.com/sp/search?query={searchTerms}"
-                }
-            ],
-            "_isAppProvided": false,
-            "_orderHint": null,
-            "_telemetryId": null,
-            "_updateInterval": null,
-            "_updateURL": null,
-            "_iconUpdateURL": null,
-            "_filePath": null,
-            "_extensionID": null,
-            "_locale": null,
-            "_definedAliases": [],
-            "_hasPreferredIcon": false
-        },
-        {
             "_name": "searx",
             "description": "searx: a privacy-respecting, hackable metasearch engine",
             "__searchForm": null,
             "_iconURL": "https://searx.bar/favicon.ico",
             "_metaData": {
-                "order": 3,
+                "order": 1,
                 "alias": ":x"
             },
             "_urls": [
@@ -99,7 +43,7 @@
             "__searchForm": null,
             "_iconURL": "https://searx.be/favicon.ico",
             "_metaData": {
-                "order": 4,
+                "order": 2,
                 "alias": ":z"
             },
             "_urls": [
@@ -115,6 +59,62 @@
                     ],
                     "template": "https://searx.be/search",
                     "method": "POST"
+                }
+            ],
+            "_isAppProvided": false,
+            "_orderHint": null,
+            "_telemetryId": null,
+            "_updateInterval": null,
+            "_updateURL": null,
+            "_iconUpdateURL": null,
+            "_filePath": null,
+            "_extensionID": null,
+            "_locale": null,
+            "_definedAliases": [],
+            "_hasPreferredIcon": false
+        },
+        {
+            "_name": "duckduckgo",
+            "description": "internet search engine that emphasizes protecting searchers' privacy and avoiding the filter bubble of personalized search results",
+            "__searchForm": "https://duckduckgo.com",
+            "_iconURL": "https://duckduckgo.com/favicon.ico",
+            "_metaData": {
+                "order": 3,
+                "alias": ":d"
+            },
+            "_urls": [
+                {
+                    "params": [],
+                    "rels": [],
+                    "template": "https://duckduckgo.com/?q={searchTerms}"
+                }
+            ],
+            "_isAppProvided": false,
+            "_orderHint": null,
+            "_telemetryId": null,
+            "_updateInterval": null,
+            "_updateURL": null,
+            "_iconUpdateURL": null,
+            "_filePath": null,
+            "_extensionID": null,
+            "_locale": null,
+            "_definedAliases": [],
+            "_hasPreferredIcon": false
+        },
+        {
+            "_name": "startpage",
+            "description": "search engine that allows its users to obtain google search results while protecting users' privacy by not storing personal information or search data and removing all trackers",
+            "__searchForm": "https://www.startpage.com",
+            "_iconURL": "https://www.startpage.com/sp/cdn/favicons/favicon--default.ico",
+            "_metaData": {
+                "order": 4,
+                "alias": ":s"
+            },
+            "_urls": [
+                {
+                    "params": [],
+                    "rels": [],
+                    "template": "https://www.startpage.com/sp/search?query={searchTerms}"
                 }
             ],
             "_isAppProvided": false,

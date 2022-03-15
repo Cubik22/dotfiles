@@ -20,6 +20,12 @@ DESCRIPTION
         -a, --all
             update all configs available
 
+        -h, --hard
+            update just hard profile
+
+        -s, --soft
+            update just soft profile
+
         -p, --print-profiles
             print firefox profiles
 
@@ -35,9 +41,11 @@ if [ "$#" -lt 1 ]; then
     return 1
 fi
 
-profiles="hard soft"
+profiles_available="hard soft"
 
-available_configs="chrome search ext"
+configs_available="chrome search ext"
+
+profiles="$profiles_available"
 
 configs=""
 
@@ -46,15 +54,19 @@ for param in "$@"; do
         echo "$print_info"
         return 0
     elif [ "$param" = "-p" ] || [ "$param" = "--print-profiles" ]; then
-        echo "$profiles"
+        echo "$profiles_available"
         return 0
+    elif [ "$param" = "-s" ] || [ "$param" = "--soft" ]; then
+        profiles="soft"
+    elif [ "$param" = "-h" ] || [ "$param" = "--hard" ]; then
+        profiles="hard"
     elif [ "$param" = "-a" ] || [ "$param" = "--all" ]; then
-        configs="$available_configs"
+        configs="$configs_available"
         break
     else
         found=false
-        for available_config in $available_configs; do
-            if [ "$param" = "$available_config" ]; then
+        for config_available in $configs_available; do
+            if [ "$param" = "$config_available" ]; then
                 found=true
                 break
             fi

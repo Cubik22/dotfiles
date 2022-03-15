@@ -255,6 +255,7 @@ EOF
 
 util_info=$(cat << EOF
 ## util
+tee
 time
 date cal
 uname

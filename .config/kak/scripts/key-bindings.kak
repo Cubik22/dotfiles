@@ -42,6 +42,9 @@ map global insert <a-a> <home><esc> -docstring "enter normal mode start of line"
 map global insert <a-e> <end><esc>  -docstring "enter normal mode end of line"
 # map global insert <c-p> <a-semicolon>P
 
+# make
+map global normal <c-m> ": w <ret>: make<ret>ga" -docstring "make background"
+
 # custom text objects
 # map global user W 'c\s,\s<ret>' -docstring "select between whitespace"
 
@@ -97,7 +100,6 @@ declare-user-mode util
 map global user t ': enter-user-mode util<ret>'                 -docstring 'utility mode'
 map global util l ': state-save-reg-load dquote<ret>'           -docstring 'load clipboard'
 map global util s ': state-save-reg-save dquote<ret>'           -docstring 'save clipboard'
-map global util g ': grep '                                     -docstring 'grep'
 map global util t ': ctags-search<ret>'                         -docstring 'ctag def'
 map global util d ': db<ret>'                                   -docstring 'close buffer'
 map global util m ': make<ret>'                                 -docstring 'make'
