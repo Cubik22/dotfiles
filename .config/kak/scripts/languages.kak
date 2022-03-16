@@ -6,26 +6,32 @@ evaluate-commands %sh{
 # information on current buffer filetype
 # echo %opt{filetype}
 
-hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|latex|html|css|json|javascript|typescript) %{
-    # attention when a file has include if there is not a space between the # it interpret the file as a c/cpp
-
+define-command -hidden set-language-options %{
+    # expand tabs
     expandtab
+
     # highlight tabs as errors
     ui-tabs-toggle
+
+    # enable auto closing pairs
+    enable-auto-pairs
+}
+
+hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|latex|html|css|json|javascript|typescript) %{
+    # enable language options
+    set-language-options
 
     lsp-enable-window
     # lsp-auto-hover-enable
 }
 
 hook global WinSetOption filetype=kak %{
-    expandtab
-    # highlight tabs as errors
-    ui-tabs-toggle
+    # enable language options
+    set-language-options
 }
 hook global BufCreate .*newsboat/urls %{
-    expandtab
-    # highlight tabs as errors
-    ui-tabs-toggle
+    # enable language options
+    set-language-options
 }
 
 # uncomment to enable debug logging for kak-lsp
@@ -47,6 +53,51 @@ hook global BufSetOption filetype=json %{
 # waybar
 hook global BufCreate .*waybar/config %{
     set-option buffer filetype json
+}
+
+# roff
+define-command -hidden roff-insert-on-new-line %(
+    evaluate-commands -no-hooks -draft -itersel %(
+        evaluate-commands %(
+            # try %(
+            #     # check if previous line start with "\.EQ"
+            #     execute-keys -draft k<a-x><a-k>^\.EQ[\s\t\n]<ret>
+            #     # auto insert "\.EN"
+            #     execute-keys -draft o.EN<esc>
+            # )
+            try %(
+                # check if previous line start with "\.?[eE][qQ][\s\t\n]"
+                execute-keys -draft k<a-x><a-k>^\.?[eE][qQ][\s\t\n]<ret>
+                # change "\.?[eE][qQ][\s\t\n]" to "\.EQ"
+                execute-keys -draft kEc.EQ<esc>
+            )
+            try %(
+                # check if previous line start with "\.?[eE][nN][\s\t\n]"
+                execute-keys -draft k<a-x><a-k>^\.?[eE][nN][\s\t\n]<ret>
+                # change "\.?[eE][nN][\s\t\n]" to "\.EN"
+                execute-keys -draft kEc.EN<esc>
+            )
+            try %(
+                # check if previous line start with "\.?[eE]?[qQ][eE]?[nN][\s\t\n]"
+                execute-keys -draft k<a-x><a-k>^\.?[eE]?[qQ][eE]?[nN][\s\t\n]<ret>
+                # remove "\.?[eE]?[qQ][eE]?[nN][\s\t\n]" and insert "\.EQ ...\n\.EN"
+                execute-keys -draft kEc.EQ<esc>jo.EN<esc>
+            )
+            try %(
+                # check if previous line start with "\.?[eE]?[nN][eE]?[qQ][\s\t\n]"
+                execute-keys -draft k<a-x><a-k>^\.?[eE]?[nN][eE]?[qQ][\s\t\n]<ret>
+                # remove "\.?[eE]?[nN][eE]?[qQ][\s\t\n]" and insert "\.EN\n\.EQ ..."
+                execute-keys -draft kEc.EN<ret>.EQ<esc>
+            )
+        )
+    )
+)
+hook global WinSetOption filetype=roff %{
+    # disable all personal insertion and indentation hooks
+    set-option window disabled_hooks personalInsertIndent
+
+    # insert on new line hook
+    hook window InsertChar \n -group roff roff-insert-on-new-line
 }
 
 # set filetype to sh when file start with #!/usr/bin/{sh,dash}
@@ -79,6 +130,9 @@ hook global WinSetOption filetype=sh %{
 
 # c/cpp
 hook global WinSetOption filetype=(c|cpp) %{
+    # attention when a file has include if there is not a space between the # it interpret the file as a c/cpp
+
+    # clang
     set-option buffer formatcmd 'clang-format -style="{IndentWidth: 4,TabWidth: 4}"'
     clang-enable-autocomplete
     clang-enable-diagnostics

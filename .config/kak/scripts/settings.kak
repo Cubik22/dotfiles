@@ -38,12 +38,12 @@ set-option global grepcmd 'rg --column'
 set-option global windowing_modules 'wayland'
 
 # trim trailing whitespaces on empty line when leaving insert mode
-hook global ModeChange pop:insert:.* %{
+hook global ModeChange pop:insert:.* -group personalInsertIndent %{
     try %{ execute-keys -draft <a-x>s^\h+$<ret>d }
 }
 
 # preserve indent level and trim trailing whitespaces
-hook global InsertChar \n %{
+hook global InsertChar \n -group personalInsertIndent %{
     # preserve indent level
     try %{ execute-keys -draft <semicolon>K<a-&> }
 
@@ -107,7 +107,8 @@ hook global KakEnd .* %{
 
 # auto-pairing of characters without quotes
 set-option global auto_pairs ( ) { } [ ]
-enable-auto-pairs
+# done in languages.kak
+# enable-auto-pairs
 
 ## tiny.kak
 

@@ -11,7 +11,23 @@ map global normal <a-backspace> <a-space> -docstring 'remove main sel'
 map global normal i hli -docstring 'enter insert mode before cursor'
 map global normal a li -docstring 'enter insert mode after cursor'
 
-# map control i to jump forward
+# remap x to extend selection one line down
+# remap X to extend selection one line up
+define-command -params 1 extend-line-down %{
+  execute-keys "<a-:>%arg{1}X"
+}
+define-command -params 1 extend-line-up %{
+  execute-keys "<a-:><a-;>%arg{1}K<a-;>"
+  try %{
+    execute-keys -draft ';<a-K>\n<ret>'
+    execute-keys X
+  }
+  execute-keys '<a-;><a-X>'
+}
+map global normal x ':extend-line-down %val{count}<ret>'
+map global normal X ':extend-line-up %val{count}<ret>'
+
+# map control+i to jump forward
 map global normal <c-i> <tab> -docstring 'jump forward'
 
 # comments
@@ -142,6 +158,9 @@ map global spell r ': spell-replace<ret>'                       -docstring 'repl
 map global user q ': q<ret>'                                    -docstring 'quit'
 map global user w ': w<ret>'                                    -docstring 'write'
 map global user z ': wq<ret>'                                   -docstring 'write and quit'
+
+# select all occurrences of the main selection
+map global user a '*%s<ret>' -docstring 'select all'
 
 # buffer *debug*
 map global user D ': buffer *debug*<ret>'                       -docstring 'buffer *debug*'

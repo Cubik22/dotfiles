@@ -26,6 +26,7 @@ epoll-shim
 foot
 libinput-gestures
 mozlz4
+fontforge
 qrupdate
 epstool
 sundials
@@ -909,6 +910,31 @@ mozlz4_install() {
     . "/usr/local/bin/rust-set-global"
 
     cp target/release/mozlz4 "$bin_home"
+}
+
+### fontforge
+# https://github.com/fontforge/fontforge/blob/master/INSTALL.md
+fontforge_install() {
+    package_name="fontforge"
+    echo "installing package: $package_name"
+
+    package_dir="$dev/$package_name"
+
+    if [ ! -d "$package_dir" ]; then
+        git clone --recurse-submodules https://github.com/fontforge/fontforge.git "$package_dir"
+    else
+        git -C "$package_dir" pull --recurse-submodules
+    fi
+
+    cd "$package_dir" || return 1
+
+    rm -rf build && mkdir build
+
+    cd build || return 1
+
+    cmake -GNinja -DENABLE_GUI=OFF -DENABLE_X11=OFF .. &&
+    ninja &&
+    doas ninja install
 }
 
 ### qrupdate
