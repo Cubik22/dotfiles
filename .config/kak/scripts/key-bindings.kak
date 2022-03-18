@@ -11,6 +11,10 @@ map global normal <a-backspace> <a-space> -docstring 'remove main sel'
 map global normal i hli -docstring 'enter insert mode before cursor'
 map global normal a li -docstring 'enter insert mode after cursor'
 
+# switch r and R
+map global normal r R -docstring 'replace all'
+map global normal R r -docstring 'replace char'
+
 # remap x to extend selection one line down
 # remap X to extend selection one line up
 define-command -params 1 extend-line-down %{
@@ -86,6 +90,7 @@ map global user m ': enter-user-mode man<ret>'                  -docstring 'man 
 
 # surround
 map global user s ': enter-user-mode surround<ret>'             -docstring 'surround mode'
+declare-surrounding-pair 'dollar sign' d $ $
 
 # ui
 define-command -override ui -docstring 'enter ui mode' %{
@@ -176,7 +181,7 @@ map global user p '<a-!>wl-paste-env -n<ret>'                   -docstring 'past
 map global user P '!wl-paste-env -n<ret>'                       -docstring 'paste from system (before)'
 map global user <a-p> '<a-o>j !wl-paste-env -n<ret>'            -docstring 'paste from system (below)'
 map global user <a-P> '<a-O>k !wl-paste-env -n<ret>'            -docstring 'paste from system (above)'
-map global user R '!wl-paste-env -n<ret>d'                      -docstring 'replace from system'
+map global user r '!wl-paste-env -n<ret>d'                      -docstring 'replace from system'
 
 # functionality
 map global user f ': fuzzy-files<ret>'                          -docstring 'fzf files'

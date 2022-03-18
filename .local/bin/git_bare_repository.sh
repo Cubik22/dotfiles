@@ -221,3 +221,4 @@ build-packages fuzzel
 build-packages foot
 build-packages libinput-gestures
 build-packages mozlz4
+build-packages fontforge

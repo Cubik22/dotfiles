@@ -1,0 +1,70 @@
+#!/bin/sh
+
+## computer-modern
+computer_modern() {
+    computer_modern_url=$(curl -s \
+        http://www.gust.org.pl/projects/e-foundry/latin-modern/download | \
+        grep "otf.zip" | \
+        head -n 1 | \
+        sed 's/^.*href="//g' |
+        sed 's/otf\.zip.*/otf.zip/g' \
+    )
+    curl -s -o computer-modern.zip "$computer_modern_url"
+
+    mkdir computer-modern
+    unzip -d computer-modern computer-modern.zip
+    rm -rf computer-modern.zip
+
+    computer_modern_math_url=$(curl -s \
+        http://www.gust.org.pl/projects/e-foundry/lm-math/download | \
+        grep ".zip" | \
+        head -n 1 | \
+        sed 's/^.*href="//g' | \
+        sed 's/\.zip.*/.zip/g' \
+    )
+    curl -s -o computer-modern-math.zip "$computer_modern_math_url"
+
+    mkdir computer-modern-math
+    unzip -d computer-modern-math computer-modern-math.zip
+    rm -rf computer-modern-math.zip
+}
+
+## gentium
+gentium() {
+    gentium_url=$(curl -s \
+        https://api.github.com/repos/silnrsi/font-gentium/releases |\
+        grep "zip" |\
+        grep "https" |\
+        head -n 1 |\
+        sed 's/^.*"https:/https:/g' |\
+        sed 's/\.zip.*/.zip/g' \
+    )
+    curl -s -L -o gentium.zip "$gentium_url"
+
+    mkdir gentium
+    unzip -d gentium gentium.zip
+    rm -rf gentium.zip
+}
+
+## ams
+ams() {
+    ams_url="https://www.ams.org/arc/tex/amsfonts.zip"
+    curl -s -L -o ams.zip "$ams_url"
+
+    mkdir ams
+    unzip -d ams ams.zip
+    rm -rf ams.zip
+}
+
+if [ "$#" -lt 1 ]; then
+    echo "error: no parameter"
+    return 1
+fi
+
+font="$1"
+
+case "$font" in
+    cm) computer_modern ;;
+    gen) gentium ;;
+    ams) ams ;;
+esac
