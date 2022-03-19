@@ -1,0 +1,69 @@
+#!/bin/sh
+
+# dotfiles folder path
+git_dir="$HOME/.dotfiles"
+
+# email used to set bitwarden
+email="lorenzo.bianco22@protonmail.com"
+
+# add dotfiles bin to path
+PATH="$PATH:$HOME/dotfiles/.local/bin"
+
+# backup present configs
+backup-dotfiles
+
+# clone repository
+git clone --bare https://github.com/lbia/dotfiles.git "$git_dir"
+
+# create temporary alias
+config () {
+   /usr/bin/git --git-dir="$git_dir"/ --work-tree="$HOME" "$@"
+}
+
+# backup of configs while copying files in the appropiate places
+echo "checking out"
+config checkout
+
+# set to not show untracked files
+config config status.showUntrackedFiles no
+
+# remove README from HOME and set git to not track in locale
+rm -f "$HOME/README.md"
+config update-index --assume-unchanged "$HOME/README.md"
+
+# make gnupg directory secure
+chmod 700 "$HOME/.config/gnupg"
+
+# directories
+mkdir -p "$HOME/.local"
+mkdir -p "$HOME/.local/share"
+mkdir -p "$HOME/.local/lib"
+
+mkdir -p "$HOME/.local/share/bash"
+mkdir -p "$HOME/.local/share/kak"
+mkdir -p "$HOME/.local/share/nvim"
+
+mkdir -p "$HOME/.local/lib/zig"
+
+link-config-root "/root/backup-bare"
+
+# R
+# make sure directories are created otherwise there may be problems
+mkdir -p "$HOME/.local/share/R"
+mkdir -p "$HOME/.local/lib/R"
+
+# rustup cargo env
+export RUSTUP_HOME="/usr/local/lib/rustup"
+export CARGO_HOME="/usr/local/lib/cargo"
+
+# set bitwarden mail for normal user
+rbw config set email "$email"
+
+# set rbw api key user
+rbw register
+
+# unlock and prompt password
+rbw unlock
+
+# set to track upstram
+config push --set-upstream origin main

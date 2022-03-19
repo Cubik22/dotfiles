@@ -3,34 +3,13 @@
 # first clone this repository normally in order to have scripts
 # then run this script which will clone again this repository but bare
 
-# set dotfiles folder name
-git_dir="$HOME/.dotfiles"
-
-email="lorenzo.bianco22@protonmail.com"
-
 # when changing user name change
 # HOME/.config/mpv/mvp.conf (screenshot)
 # HOME/.config/mpv/script-opts/mpv_crop_script.conf (crop screenshot)
 # HOME/.rtorrent.rc
 
-# clone repository
-git clone --bare https://github.com/lbia/dotfiles.git "$git_dir"
-
-# create temporary alias
-config () {
-   /usr/bin/git --git-dir="$git_dir"/ --work-tree="$HOME" "$@"
-}
-
-# remove files if present
-rm -f "${HOME}/.bash_profile"
-rm -f "${HOME}/.bashrc"
-rm -f "${HOME}/.inputrc"
-
-# checkout and copy files in the appropiate places
-config checkout
-
-# set to not show untracked files
-config config status.showUntrackedFiles no
+# create bare repository
+git-bare-repository-create
 
 # add runtime dir
 # mkdir "${HOME}"/.local/runtime
@@ -40,29 +19,13 @@ doas mkdir -p "$runtime_dir"
 doas chown "$USER:$USER" "$runtime_dir"
 doas chmod 700 "$runtime_dir"
 
-# make gnupg directory secure
-chmod 700 .config/gnupg
-
-# directories
-mkdir -p "$HOME/.local"
-mkdir -p "$HOME/.local/share"
-mkdir -p "$HOME/.local/lib"
-
-mkdir -p "$HOME/.local/share/bash"
-mkdir -p "$HOME/.local/share/kak"
-mkdir -p "$HOME/.local/share/nvim"
-
-mkdir -p "$HOME/.local/lib/zig"
-
-link-config-root
-
 # crontab
 crontab "${XDG_CONFIG_HOME:-$HOME/.config}/crontab/file"
 
-# R
-# make sure directories are created otherwise there may be problems
-mkdir -p "$HOME/.local/share/R"
-mkdir -p "$HOME/.local/lib/R"
+# local rust
+export RUSTUP_HOME="${XDG_LIB_HOME:-$HOME/.local/lib}/rustup"
+export CARGO_HOME="${XDG_LIB_HOME:-$HOME/.local/lib}/cargo"
+rustup-init
 
 # rustup cargo env
 export RUSTUP_HOME="/usr/local/lib/rustup"
@@ -73,28 +36,6 @@ export GOPATH="/usr/local/lib/go"
 
 # add npm go and cargo to path in order to install packages in the right places
 export PATH="/usr/local/lib/npm/bin:${GOPATH}/bin:${CARGO_HOME}/bin:${PATH}"
-
-# set bitwarden mail for normal user
-rbw config set email "$email"
-# set bitwarden mail for root user
-doas rbw config set email "$email"
-
-# set rbw api key user
-rbw register
-
-rbw unlock
-
-# set to track upstram
-config push --set-upstream origin main
-
-# remove README from HOME and set git to not track in locale
-rm -f "$HOME/README.md"
-config update-index --assume-unchanged "$HOME/README.md"
-
-# local rust
-export RUSTUP_HOME="${XDG_LIB_HOME:-$HOME/.local/lib}/rustup"
-export CARGO_HOME="${XDG_LIB_HOME:-$HOME/.local/lib}/cargo"
-rustup-init
 
 # firefox
 doas mkdir -p /usr/lib/firefox/distribution

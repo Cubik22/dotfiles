@@ -1,27 +1,33 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 # symlink stuff to root
 
-doas rm -f /root/.bash_profile
-doas rm -f /root/.bashrc
-doas rm -f /root/.inputrc
-doas rm -f /root/.dir_colors
+if [ "$#" -eq 1 ]; then
+    backup_dir="$1"
+else
+    backup_dir="/root/backup-bare"
+fi
 
-doas rm -fr /root/.terminfo
+doas mv -f /root/.bash_profile "$backup_dir"
+doas mv -f /root/.bashrc "$backup_dir"
+doas mv -f /root/.inputrc "$backup_dir"
+doas mv -f /root/.dir_colors "$backup_dir"
 
-doas rm -fr /root/.config/git
-doas rm -fr /root/.config/ripgrep
-doas rm -fr /root/.config/waylock
-doas rm -fr /root/.config/swaylock
+doas mv -f /root/.terminfo "$backup_dir"
 
-doas rm -fr /root/.local/share/bash
+doas mv -f /root/.config/git "$backup_dir"
+doas mv -f /root/.config/ripgrep "$backup_dir"
+doas mv -f /root/.config/waylock "$backup_dir"
+doas mv -f /root/.config/swaylock "$backup_dir"
 
-doas rm -fr /root/.config/shell
-doas rm -fr /root/.config/kak
-doas rm -fr /root/.config/kak-lsp
-doas rm -fr /root/.local/share/kak
-doas rm -fr /root/.config/nvim
-doas rm -fr /root/.local/share/nvim
+doas mv -f /root/.local/share/bash "$backup_dir"
+
+doas mv -f /root/.config/shell "$backup_dir"
+doas mv -f /root/.config/kak "$backup_dir"
+doas mv -f /root/.config/kak-lsp "$backup_dir"
+doas mv -f /root/.local/share/kak "$backup_dir"
+doas mv -f /root/.config/nvim "$backup_dir"
+doas mv -f /root/.local/share/nvim "$backup_dir"
 
 doas ln -s "$HOME/.bash_profile" /root/.bash_profile
 doas ln -s "$HOME/.bashrc" /root/.bashrc
