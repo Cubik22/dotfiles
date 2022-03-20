@@ -12,7 +12,7 @@ riverctl resize horizontal 10000
 
 height_bar="$(height-bar)"
 
-sleep 0.02
+sleep 0.05
 
 # move below bar
 riverctl resize vertical "-$height_bar"

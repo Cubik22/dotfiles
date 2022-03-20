@@ -42,13 +42,11 @@ doas mkdir -p /usr/lib/firefox/distribution
 doas ln -s "$HOME/.config/firefox/policies.json" /usr/lib/firefox/distribution/
 # when creating profile remember to
 # userChrome.css > [profile]/chrome/
+# ln -s "$HOME/.config/firefox/user-overrides.js" "$HOME/.mozilla/firefox/{profile}/"
 # firefox-update-search-engines
 
 # clone packer for neovim
 # git clone --depth 1 https://github.com/wbthomason/packer.nvim "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim"
-
-# firefox
-# ln -s "$HOME/.config/firefox/user-overrides.js" "$HOME/.mozilla/firefox/{profile}/"
 
 # wireguard
 # cp {...}.conf /etc/wireguard/
