@@ -1,0 +1,40 @@
+#!/bin/sh
+
+info=$(cat << EOF
+error: insert 2 or 3 parameters
+first (optional): river tag
+second (or first): start
+third (or second): end
+EOF
+)
+
+if [ "$#" -ne 2 ] && [ "$#" -ne 3 ]; then
+    echo "$info"
+    return 1
+fi
+
+if [ "$#" -eq 3 ]; then
+    tag="$1"
+    shift 1
+fi
+
+program="zat"
+[ -n "$tag" ] && program="$program $tag"
+
+start="$1"
+end="$2"
+
+current="$start"
+while [ "$current" -le "$end" ]; do
+    # try without and with 0 in front of file number
+    file="${current}.pdf"
+    [ -f "$file" ] && $program "$file"
+    file="0${current}.pdf"
+    [ -f "$file" ] && $program  "$file"
+
+    sleep 0.5
+
+    riverctl-float-fullscreen
+
+    current="$(( current + 1 ))"
+done

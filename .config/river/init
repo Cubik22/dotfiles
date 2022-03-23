@@ -54,7 +54,7 @@ alt="Mod1"
 # Return Backspace Space Period Comma Minus
 # {Up,Right,Down,Left} [0-9] F7 F11
 # {H,J,K,L} Q F U N P
-# S A I B Z M
+# S Z I B M A V T
 
 # Mod+Control+Return footclient
 riverctl map normal "$mod"+Control Return spawn "footclient"
@@ -71,10 +71,10 @@ riverctl map normal "$mod"+Shift S spawn 'screenshot fullscreen; echo "100" > $W
 # old screenshot with grim and slurp
 # riverctl map normal "$mod" S spawn 'grim -g "$(slurp)" - | wl-copy-env'
 
-# Mod+A kak-fzf
-riverctl map normal "$mod" A spawn "footclient --app-id=float fzf-kak"
-# Mod+Shift+A kak-fzf from root
-riverctl map normal "$mod"+Shift A spawn "footclient --app-id=float fzf-kak --from-root"
+# Mod+Z kak-fzf
+riverctl map normal "$mod" Z spawn "footclient --app-id=float fzf-kak"
+# Mod+Shift+Z kak-fzf from root
+riverctl map normal "$mod"+Shift Z spawn "footclient --app-id=float fzf-kak --from-root"
 
 # Mod+I iwctl
 riverctl map normal "$mod" I spawn "footclient --app-id=float iwctl"
@@ -82,17 +82,19 @@ riverctl map normal "$mod" I spawn "footclient --app-id=float iwctl"
 # Mod+B iwctl
 riverctl map normal "$mod" B spawn "footclient --app-id=float bluetoothctl"
 
-# Mod+Z fuzzel
-riverctl map normal "$mod" Z spawn "fuzzel.sh"
+# Mod+M fuzzel
+riverctl map normal "$mod" M spawn "fuzzel.sh"
 
-# Mod+M play copied url with mpv
-riverctl map normal "$mod" M spawn 'mpv-url $(wl-paste-env)'
-# Mod+Shift+M play copied url with mpv with ytdl mode and medium quality
-riverctl map normal "$mod"+Shift M spawn 'mpv-url --medium $(wl-paste-env)'
-# Mod+Control+M play copied url with mpv with ytdl mode and worst quality
-riverctl map normal "$mod"+Control M spawn 'mpv-url --worst $(wl-paste-env)'
-# Mod+Control+Shift+M play copied url with mpv with ytdl mode and best quality
-riverctl map normal "$mod"+Control+Shift M spawn 'mpv-url --best $(wl-paste-env)'
+# Mod+A play copied url with mpv audio
+riverctl map normal "$mod" A spawn 'mpv-url --audio $(wl-paste-env)'
+# Mod+V play copied url with mpv
+riverctl map normal "$mod" V spawn 'mpv-url $(wl-paste-env)'
+# Mod+T play copied url with mpv with ytdl mode and medium quality
+riverctl map normal "$mod" T spawn 'mpv-url --medium $(wl-paste-env)'
+# Mod+Shift+T play copied url with mpv with ytdl mode and best quality
+riverctl map normal "$mod"+Shift T spawn 'mpv-url --best $(wl-paste-env)'
+# Mod+Control+T play copied url with mpv with ytdl mode and worst quality
+riverctl map normal "$mod"+Control T spawn 'mpv-url --worst $(wl-paste-env)'
 
 # Mod+Control+F firefox
 riverctl map normal "$mod"+Control F spawn "firefox"
