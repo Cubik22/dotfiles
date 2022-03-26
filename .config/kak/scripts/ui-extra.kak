@@ -138,6 +138,35 @@ define-command -override ui-word-under-cursor-toggle -docstring 'toggle highligh
     trigger-user-hook ui-hl-changed
 }
 
+# lsp color highlighting
+# https://github.com/kak-lsp/kak-lsp/blob/master/rc/lsp.kak
+declare-option -docstring 'add lsp highlighting' bool lsp_highlighting "false"
+define-command -override ui-lsp-highlighting-toggle -docstring 'toggle lsp color highlighting' %{
+    evaluate-commands %sh{
+        if [ "$kak_opt_lsp_highlighting" = "false" ]; then
+            printf "%s" '
+                add-highlighter -override window/lsp_semantic_tokens ranges lsp_semantic_tokens
+                hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
+                hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
+                hook window -group semantic-tokens InsertIdle .* lsp-semantic-tokens
+                hook -once -always window WinSetOption filetype=.* %{
+                    remove-hooks window semantic-tokens
+                }
+                set-option window lsp_highlighting true
+                echo -markup "{Information}lsp color highlighting enabled"
+            '
+        elif [ "$kak_opt_lsp_highlighting" = "true" ]; then
+            printf "%s" '
+                remove-hooks window semantic-tokens
+                remove-highlighter window/lsp_semantic_tokens
+                set-option window lsp_highlighting false
+                echo -markup "{Information}lsp color highlighting disabled"
+            '
+        fi
+    }
+    trigger-user-hook ui-hl-changed
+}
+
 declare-option -docstring 'current terminal assistant' str current_terminal_assistant "dilbert"
 define-command -override ui-terminal-assistant-reload -docstring 'reload terminal assistant' %{
     evaluate-commands %sh{

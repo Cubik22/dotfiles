@@ -125,6 +125,7 @@ map global ui C ': ui-cursorcolumn-toggle<ret>'                 -docstring 'curs
 map global ui f ': ui-git-diff-toggle<ret>'                     -docstring 'git diff'
 map global ui F ': ui-diff-one-trailing-space-toggle<ret>'      -docstring 'diff files'
 map global ui a ': ui-terminal-assistant-toggle<ret>'           -docstring 'terminal assistant'
+map global ui h ': ui-lsp-highlighting-toggle<ret>'             -docstring 'lsp color highlight'
 
 # utility
 declare-user-mode util

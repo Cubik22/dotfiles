@@ -22,8 +22,14 @@ hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|latex|html|
     # enable language options
     set-language-options
 
+    # enable lsp in this window
     lsp-enable-window
+
+    # automatically show hover when you move around
     # lsp-auto-hover-enable
+
+    # showing diagnostics inline after their respective line (somewhat buggy)
+    # lsp-inlay-diagnostics-enable global
 }
 
 hook global WinSetOption filetype=kak %{
@@ -105,6 +111,9 @@ hook global WinSetOption filetype=(c|cpp) %{
     clang-enable-diagnostics
     alias window lint clang-parse
     alias window lint-next-error clang-diagnostics-next
+
+    # toggle lsp color highlight
+    ui-lsp-highlighting-toggle
 }
 
 # inlay hints are a feature supported by rust-analyzer, which show inferred types,
@@ -118,6 +127,9 @@ hook global WinSetOption filetype=rust %{
     hook -once -always window WinSetOption filetype=.* %{
         remove-hooks window rust-inlay-hints
     }
+
+    # toggle lsp color highlight
+    ui-lsp-highlighting-toggle
 }
 
 # custom zig settings, basic syntax highlighting is handled by the zig.kak shipped with kakoune
@@ -130,12 +142,8 @@ hook global WinSetOption filetype=zig %{
     set-option -add global lsp_server_configuration zls.warn_style=true
     set-option -add global lsp_server_configuration zls.enable_semantic_tokens=true
 
-    hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
-    hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
-    hook window -group semantic-tokens InsertIdle .* lsp-semantic-tokens
-    hook -once -always window WinSetOption filetype=.* %{
-        remove-hooks window semantic-tokens
-    }
+    # toggle lsp color highlight
+    ui-lsp-highlighting-toggle
 }
 
 hook global WinSetOption filetype=python %{
