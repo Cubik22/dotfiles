@@ -45,7 +45,7 @@ hook global ModeChange pop:insert:.* -group personalInsertIndent %{
 # preserve indent level and trim trailing whitespaces
 hook global InsertChar \n -group personalInsertIndent %{
     # preserve indent level
-    try %{ execute-keys -draft <semicolon>K<a-&> }
+    try %{ execute-keys -draft K<a-&> }
 
     # trim trailing whitespaces
     try %{ execute-keys -draft k<a-x>s\h+$<ret>d }
@@ -90,25 +90,6 @@ hook global KakEnd .* %{
 # sync yank/paste buffer between kakoune session
 # hook global FocusOut .* %{ state-save-reg-save dquote }
 # hook global FocusIn  .* %{ state-save-reg-load dquote }
-
-## auto-pairs.kak
-
-# auto-pairing of characters with quotes
-# set-option global auto_pairs ( ) { } [ ] '"' '"' "'" "'" ` ` “ ” ‘ ’ « » ‹ ›
-# hook global WinSetOption filetype=(.*) %{
-#     set-option global auto_pairs ( ) { } [ ] '"' '"' "'" "'"
-# }
-# hook global WinSetOption filetype=(octave) %{
-#     set-option global auto_pairs ( ) { } [ ] '"' '"'
-# }
-# hook global WinSetOption filetype=(.*) %{
-#     enable-auto-pairs
-# }
-
-# auto-pairing of characters without quotes
-set-option global auto_pairs ( ) { } [ ]
-# done in languages.kak
-# enable-auto-pairs
 
 ## tiny.kak
 

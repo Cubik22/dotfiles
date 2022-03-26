@@ -62,8 +62,18 @@ map global insert <a-a> <home><esc> -docstring "enter normal mode start of line"
 map global insert <a-e> <end><esc>  -docstring "enter normal mode end of line"
 # map global insert <c-p> <a-semicolon>P
 
+# build
+define-command build -docstring 'build in current directory' %{ nop %sh{
+    if [ -f "Makefile" ]; then
+        make
+    elif [ -f "build.zig" ]; then
+        zig build
+    fi
+} }
+map global normal <c-m> ": w <ret>: build<ret>" -docstring "build background"
+
 # make
-map global normal <c-m> ": w <ret>: make<ret>ga" -docstring "make background"
+# map global normal <c-m> ": w <ret>: make<ret>ga" -docstring "make background"
 
 # custom text objects
 # map global user W 'c\s,\s<ret>' -docstring "select between whitespace"
@@ -119,11 +129,12 @@ map global ui a ': ui-terminal-assistant-toggle<ret>'           -docstring 'term
 # utility
 declare-user-mode util
 map global user t ': enter-user-mode util<ret>'                 -docstring 'utility mode'
+map global util m ': make<ret>'                                 -docstring 'make'
+map global util b ': build<ret>'                                -docstring 'build'
 map global util l ': state-save-reg-load dquote<ret>'           -docstring 'load clipboard'
 map global util s ': state-save-reg-save dquote<ret>'           -docstring 'save clipboard'
 map global util t ': ctags-search<ret>'                         -docstring 'ctag def'
 map global util d ': db<ret>'                                   -docstring 'close buffer'
-map global util m ': make<ret>'                                 -docstring 'make'
 map global util c ': palette-status<ret>'                       -docstring 'show color'
 map global util p ': palette-gutter<ret>'                       -docstring 'show palette'
 

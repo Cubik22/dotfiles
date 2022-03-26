@@ -24,6 +24,11 @@ lc() {
     done
 }
 
+# color stderr in red
+color-cmd() {
+    "$@" 2> >(sed $'s,.*,\e[31m&\e[m,' >&2)
+}
+
 # use dark theme for zathura
 # change also zat and spa
 zathura() {

@@ -15,6 +15,7 @@ evaluate-commands %sh{
     "
         # kak-crosshairs/crosshairs.kak
         # number-toggle.kak/rc/number-toggle.kak
+        # auto-pairs.kak/rc/auto-pairs.kak
     plugins_files="
         foot.kak/rc/foot.kak
         kak-ansi/rc/ansi.kak
@@ -25,7 +26,6 @@ evaluate-commands %sh{
         kakoune-state-save/state-save.kak
         kakoune-shellcheck/shellcheck.kak
         tiny.kak/rc/tiny.kak
-        auto-pairs.kak/rc/auto-pairs.kak
         surround.kak/rc/surround.kak
     "
     scripts_files="

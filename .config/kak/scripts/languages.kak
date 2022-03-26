@@ -13,8 +13,9 @@ define-command -hidden set-language-options %{
     # highlight tabs as errors
     ui-tabs-toggle
 
-    # enable auto closing pairs
-    enable-auto-pairs
+    # strange indentation bug on new line
+    # set-option global auto_pairs ( ) { } [ ]
+    # enable-auto-pairs
 }
 
 hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|latex|html|css|json|javascript|typescript) %{
@@ -124,7 +125,7 @@ hook global WinSetOption filetype=zig %{
     set-option window formatcmd 'zig fmt --stdin'
 
     # enable lsp support with semantic highlighting
-    set-option window lsp_insert_spaces true
+    # set-option window lsp_insert_spaces true
     set-option global lsp_server_configuration zls.zig_lib_path="/usr/lib/zig"
     set-option -add global lsp_server_configuration zls.warn_style=true
     set-option -add global lsp_server_configuration zls.enable_semantic_tokens=true
