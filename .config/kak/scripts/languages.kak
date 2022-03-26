@@ -25,6 +25,9 @@ hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|latex|html|
     # enable lsp in this window
     lsp-enable-window
 
+    # indent lsp with spaces rather than tabs
+    set-option window lsp_insert_spaces true
+
     # automatically show hover when you move around
     # lsp-auto-hover-enable
 
@@ -112,7 +115,7 @@ hook global WinSetOption filetype=(c|cpp) %{
     alias window lint clang-parse
     alias window lint-next-error clang-diagnostics-next
 
-    # toggle lsp color highlight
+    # enable lsp support with semantic highlighting
     ui-lsp-highlighting-toggle
 }
 
@@ -128,7 +131,7 @@ hook global WinSetOption filetype=rust %{
         remove-hooks window rust-inlay-hints
     }
 
-    # toggle lsp color highlight
+    # enable lsp support with semantic highlighting
     ui-lsp-highlighting-toggle
 }
 
@@ -136,13 +139,12 @@ hook global WinSetOption filetype=rust %{
 hook global WinSetOption filetype=zig %{
     set-option window formatcmd 'zig fmt --stdin'
 
-    # enable lsp support with semantic highlighting
-    # set-option window lsp_insert_spaces true
+    # set lsp server options
     set-option global lsp_server_configuration zls.zig_lib_path="/usr/lib/zig"
     set-option -add global lsp_server_configuration zls.warn_style=true
     set-option -add global lsp_server_configuration zls.enable_semantic_tokens=true
 
-    # toggle lsp color highlight
+    # enable lsp support with semantic highlighting
     ui-lsp-highlighting-toggle
 }
 

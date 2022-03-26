@@ -39,7 +39,7 @@ define-command -override ui-tabs-toggle -docstring 'toggle tabs' %{
 
 # to be called at the start because there is no need to reload buffer
 define-command -override ui-delimiters-highlight -docstring 'highlight delimiters' %{
-    add-highlighter -override window/delimiters_common regex (\(|\)|\[|\]|\{|\}|\;) 0:delimiter
+    try %{ add-highlighter window/delimiters_common regex (\(|\)|\[|\]|\{|\}|\;) 0:delimiter }
     set-option window delimiters_highlight true
 }
 declare-option -docstring 'highlight delimiter' bool delimiters_highlight "false"
@@ -69,7 +69,7 @@ define-command -override ui-delimiters-toggle -docstring 'toggle delimiters' %{
 
 # to be called at the start because there is no need to reload buffer
 define-command -override ui-operators-highlight -docstring 'highlight operators' %{
-    add-highlighter -override window/operators_common regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator
+    try %{ add-highlighter window/operators_common regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator }
     set-option window operators_highlight true
 }
 declare-option -docstring 'highlight operators' bool operators_highlight "false"
@@ -145,7 +145,7 @@ define-command -override ui-lsp-highlighting-toggle -docstring 'toggle lsp color
     evaluate-commands %sh{
         if [ "$kak_opt_lsp_highlighting" = "false" ]; then
             printf "%s" '
-                add-highlighter -override window/lsp_semantic_tokens ranges lsp_semantic_tokens
+                try %{ add-highlighter window/lsp_semantic_tokens ranges lsp_semantic_tokens }
                 hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
                 hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
                 hook window -group semantic-tokens InsertIdle .* lsp-semantic-tokens
