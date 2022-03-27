@@ -69,7 +69,8 @@ define-command -override ui-delimiters-toggle -docstring 'toggle delimiters' %{
 
 # to be called at the start because there is no need to reload buffer
 define-command -override ui-operators-highlight -docstring 'highlight operators' %{
-    try %{ add-highlighter window/operators_common regex (\+|-|\*|&|=|\\|\?|%|\|-|!|\||->|\.|,|<|>|:|\^|/|~) 0:operator }
+    # (\s\+|\+\s|\s-|-\s)
+    try %{ add-highlighter window/operators_common regex (\+|-|\*|/|\\|=|\?|!|&|%|\$|\||<|>|:|\^|~) 0:operator }
     set-option window operators_highlight true
 }
 declare-option -docstring 'highlight operators' bool operators_highlight "false"

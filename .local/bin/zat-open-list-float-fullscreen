@@ -32,7 +32,7 @@ while [ "$current" -le "$end" ]; do
     file="0${current}.pdf"
     [ -f "$file" ] && $program  "$file"
 
-    sleep 0.5
+    sleep 1
 
     riverctl-float-fullscreen
 

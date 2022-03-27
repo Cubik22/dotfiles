@@ -116,7 +116,7 @@ hook global WinSetOption filetype=(c|cpp) %{
     alias window lint-next-error clang-diagnostics-next
 
     # enable lsp support with semantic highlighting
-    ui-lsp-highlighting-toggle
+    # ui-lsp-highlighting-toggle
 }
 
 # inlay hints are a feature supported by rust-analyzer, which show inferred types,
@@ -132,7 +132,7 @@ hook global WinSetOption filetype=rust %{
     }
 
     # enable lsp support with semantic highlighting
-    ui-lsp-highlighting-toggle
+    # ui-lsp-highlighting-toggle
 }
 
 # custom zig settings, basic syntax highlighting is handled by the zig.kak shipped with kakoune
@@ -145,7 +145,7 @@ hook global WinSetOption filetype=zig %{
     set-option -add global lsp_server_configuration zls.enable_semantic_tokens=true
 
     # enable lsp support with semantic highlighting
-    ui-lsp-highlighting-toggle
+    # ui-lsp-highlighting-toggle
 }
 
 hook global WinSetOption filetype=python %{
