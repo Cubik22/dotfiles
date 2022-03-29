@@ -70,6 +70,8 @@ hook global WinSetOption filetype=roff %{
 hook global BufSetOption filetype=json %{
     set-option buffer comment_line '//'
 }
+require-module json
+add-highlighter shared/json/line_comment region '//' '$' fill comment
 
 # waybar
 hook global BufCreate .*waybar/config %{
