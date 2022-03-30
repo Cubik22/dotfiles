@@ -22,6 +22,7 @@ latex
 font
 log
 debug
+file
 util
 EOF
 )
@@ -253,14 +254,28 @@ ltrace
 EOF
 )
 
+file_info=$(cat << EOF
+df -h
+du -h
+rsync
+    {--human-readable} \
+    {--verbose} \
+    {--info=progress2} \
+    {--update} \
+    {--archive} \
+    {--partial} \
+    {--progress} \
+    {--no-inc-recursive} \
+    <source> <dest>
+EOF
+)
+
 util_info=$(cat << EOF
 ## util
 tee
 time
 date cal
 uname
-df -h
-du -h
 diff -u
 ps -e
 pidof
