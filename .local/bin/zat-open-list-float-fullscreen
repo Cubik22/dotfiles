@@ -27,9 +27,7 @@ end="$2"
 current="$start"
 while [ "$current" -le "$end" ]; do
     # try without and with 0 in front of file number
-    file="${current}.pdf"
-    [ -f "$file" ] && $program "$file"
-    file="0${current}.pdf"
+    file="$(fd ^0?${current}.*\.pdf --exact-depth 1)"
     [ -f "$file" ] && $program  "$file"
 
     sleep 1
