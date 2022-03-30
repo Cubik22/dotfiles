@@ -196,17 +196,19 @@ rcon() {
 # create a file and automatically add it with ucon
 # see stouch
 utouch() {
-    stouch "$@" && ucon add "$1"
+    eval file="\${$#}"
+    stouch "$@" && ucon add "$file"
 } && export -f utouch
 
 # create a file and automatically add it with rcon
 # see stouch
 rtouch() {
+    eval file="\${$#}"
     # make sure that when running as user use doas
     if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
-        stouch "$@" && rcon add "$1"
+        stouch "$@" && rcon add "$file"
     else
-        doas stouch "$@" && rcon add "$1"
+        doas stouch "$@" && rcon add "$file"
     fi
 } && export -f rtouch
 
