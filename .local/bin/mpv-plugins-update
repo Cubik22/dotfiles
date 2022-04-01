@@ -18,7 +18,7 @@ https://github.com/mpv-player/mpv.git mpv
 https://github.com/zsugabubus/mpv-fastforward.git fast-forward
 https://github.com/CogentRedTester/mpv-file-browser.git file-browser
 https://github.com/oltodosel/mpv-scripts.git oltodosel
-https://github.com/lbia/mpv-show-speed.git show-speed
+https://github.com/lbia/mpv-scripts.git lbia
 https://github.com/marzzzello/mpv_thumbnail_script.git thumbnail
 https://github.com/ekisu/mpv-webm.git webm
 https://github.com/jgreco/mpv-youtube-quality.git youtube-quality
@@ -60,7 +60,8 @@ link() {
     ln -sf "$plugins_dir/thumbnail/mpv_thumbnail_script_client_osc.lua" "$scripts_dir/thumbnail-client.lua"
     ln -sf "$plugins_dir/thumbnail/mpv_thumbnail_script_server.lua"     "$scripts_dir/thumbnail-server-1.lua"
     ln -sf "$plugins_dir/thumbnail/mpv_thumbnail_script_server.lua"     "$scripts_dir/thumbnail-server-2.lua"
-    ln -sf "$plugins_dir/show-speed/show-speed.lua"                     "$scripts_dir/show-speed.lua"
+    ln -sf "$plugins_dir/lbia/show-speed.lua"                           "$scripts_dir/show-speed.lua"
+    ln -sf "$plugins_dir/lbia/toggle-osc-visibility.lua"                "$scripts_dir/toggle-osc-visibility.lua"
     ln -sf "$plugins_dir/oltodosel/total_playtime.lua"                  "$scripts_dir/total-playtime.lua"
     ln -sf "$plugins_dir/webm/build/webm.lua"                           "$scripts_dir/webm.lua"
     ln -sf "$plugins_dir/youtube-quality/youtube-quality.lua"           "$scripts_dir/youtube-quality.lua"
