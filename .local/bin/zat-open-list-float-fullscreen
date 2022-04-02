@@ -1,38 +1,155 @@
 #!/bin/sh
 
 info=$(cat << EOF
-error: insert 2 or 3 parameters
-first (optional): river tag
-second (or first): start
-third (or second): end
+SYNOPSIS
+        zat-open-list-float-fullscreen [-s start] [-e end] [directory] [river-tag]
+
+DESCRIPTION
+        open a list of numbered files with zathura
+        in fullscreen stacked mode with river
+        directory is an optional parameter
+        if not specified current directory is considered
+        river-tag is an optional parameter
+        if not specified current river-tag is considered
+        start and finish are two numbers (finish >= start)
+        this script will open all files that start with a number
+        between start and finish (start <= number <= finish)
+        if start and finish are not specified
+        zathura tries to open all files
+
+        -s, --start=
+            start number
+
+        -e, --end=
+            end number
+
+        -h, --help
+            print this info and exit
 EOF
 )
 
-if [ "$#" -ne 2 ] && [ "$#" -ne 3 ]; then
+print_set_two_times() {
+    echo "error: $1 set two times\n"
     echo "$info"
-    return 1
-fi
+}
 
-if [ "$#" -eq 3 ]; then
-    tag="$1"
-    shift 1
-fi
+open_file() {
+    program="$1"
+    file="$2"
 
-program="zat"
-[ -n "$tag" ] && program="$program $tag"
-
-start="$1"
-end="$2"
-
-current="$start"
-while [ "$current" -le "$end" ]; do
-    # try without and with 0 in front of file number
-    file="$(fd ^0?${current}.*\.pdf --exact-depth 1)"
-    [ -f "$file" ] && $program  "$file"
+    [ -f "$file" ] && $program "$file"
 
     sleep 1
 
     riverctl-float-fullscreen
+}
 
-    current="$(( current + 1 ))"
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -h|--help)
+            echo "$info"
+            return 0
+        ;;
+        -s)
+            if [ "$#" -ge 2 ]; then
+                if [ -z "$start" ]; then
+                    start="$2"
+                else
+                    print_set_two_times start
+                    return 1
+                fi
+            else
+                echo "error: start not present\n"
+                echo "$info"
+                return 1
+            fi
+            shift 1
+        ;;
+        --start=*)
+            if [ -z "$start" ]; then
+                start=$(echo "$1" | cut -d "=" -f "2-")
+            else
+                print_set_two_times start
+                return 1
+            fi
+        ;;
+        -e)
+            if [ "$#" -ge 2 ]; then
+                if [ -z "$end" ]; then
+                    end="$2"
+                else
+                    print_set_two_times end
+                    return 1
+                fi
+            else
+                echo "error: end not present\n"
+                echo "$info"
+                return 1
+            fi
+            shift 1
+        ;;
+        --end=*)
+            if [ -z "$end" ]; then
+                end=$(echo "$1" | cut -d "=" -f "2-")
+            else
+                print_set_two_times end
+                return 1
+            fi
+        ;;
+        *)
+            if [ -d "$1" ]; then
+                if [ -z "$directory" ]; then
+                    directory="$1"
+                else
+                    print_set_two_times directory
+                    return 1
+                fi
+            # check if parameter is a number
+            elif [ "$1" -ge 0 ] > /dev/null 2>&1; then
+                if [ -z "$tag" ]; then
+                    tag="$1"
+                else
+                    print_set_two_times river-tag
+                    echo "$info"
+                    return 1
+                fi
+            else
+                echo "error: $1 not recognized\n"
+                echo "$info"
+                return 1
+            fi
+        ;;
+    esac
+    shift 1
 done
+
+[ -n "$directory" ] && cd "$directory"
+
+program="zat"
+[ -n "$tag" ] && program="$program $tag"
+
+if [ -z "$start" ] && [ -z "$end" ]; then
+    files="$(fd --type file --type symlink --exact-depth 1)"
+    for file in $files; do
+        open_file "$program" "$file"
+    done
+else
+    [ -z "$start" ] && start=0
+    [ -z "$end" ] && end=100
+
+    if [ "$start" -gt "$end" ]; then
+        echo "error: end should be greater than start\n"
+        echo "$info"
+        return 1
+    fi
+
+    current="$start"
+    while [ "$current" -le "$end" ]; do
+        # try without and with 0 in front of file number
+        file="$(fd --type file --type symlink --exact-depth 1 ^0?${current}.*\.pdf)"
+
+        open_file "$program" "$file"
+
+        current="$(( current + 1 ))"
+    done
+fi
