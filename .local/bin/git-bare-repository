@@ -5,8 +5,6 @@
 
 # when changing user name change
 # HOME/.config/mpv/mvp.conf (screenshot)
-# HOME/.config/mpv/script-opts/mpv_crop_script.conf (crop screenshot)
-# HOME/.rtorrent.rc
 
 # create bare repository
 git-bare-repository-create
