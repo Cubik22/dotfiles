@@ -88,7 +88,7 @@ open_file() {
 
     if [ -f "$file" ]; then
         case "$file" in
-            *.pdf|*.djvu|*.ps)
+            *.pdf|*.ps|*.djvu|*.djv)
                 $program "$file"
                 sleep 1
                 riverctl-float-fullscreen
