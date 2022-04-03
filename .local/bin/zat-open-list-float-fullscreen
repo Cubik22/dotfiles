@@ -92,6 +92,21 @@ open_file() {
     riverctl-float-fullscreen
 }
 
+find_open_file() {
+    current="$1"
+    program="$2"
+
+    # try without and with 0 in front of file number
+    file="$(fd --type file --type symlink --exact-depth 1 ^0?${current}[^0-9].*pdf)"
+
+    if [ -f "$file" ]; then
+        open_file "$program" "$file"
+        return 0
+    else
+        return 1
+    fi
+}
+
 while [ "$#" -gt 0 ]; do
     case "$1" in
         -h|--help)
@@ -169,12 +184,12 @@ if [ -z "$start" ] && [ -z "$end" ]; then
     for file in $files; do
         open_file "$program" "$file"
     done
-else
+elif [ -n "$end" ]; then
+    ! is_number "$end" && return 1
+
     [ -z "$start" ] && start=0
-    [ -z "$end" ] && end=100
 
     ! is_number "$start" && return 1
-    ! is_number "$end" && return 1
 
     if [ "$start" -gt "$end" ]; then
         print_error "end should be greater than start"
@@ -183,11 +198,25 @@ else
 
     current="$start"
     while [ "$current" -le "$end" ]; do
-        # try without and with 0 in front of file number
-        file="$(fd --type file --type symlink --exact-depth 1 ^0?${current}.*\.pdf)"
-
-        open_file "$program" "$file"
-
+        find_open_file "$current" "$program"
         current="$(( current + 1 ))"
     done
+elif [ -n "$start" ]; then
+    ! is_number "$start" && return 1
+
+    # when end is not set but start is, open numbered files from start
+    # until a file that starts with current number does not exist
+    # 0 may or may not exists
+    if [ "$start" -eq 0 ]; then
+        find_open_file "$start" "$program"
+        start="$(( start + 1 ))"
+    fi
+
+    current="$start"
+    while find_open_file "$current" "$program"; do
+        current="$(( current + 1 ))"
+    done
+else
+    print_error "unreachable code"
+    return 1
 fi
