@@ -13,6 +13,8 @@ zigup
 zls
 lua-language-server
 htop
+libtorrent
+rtorrent
 fontpreview
 lsix
 gn
@@ -48,7 +50,7 @@ DESCRIPTION
         -d, --dependencies
             build also dependencies (default)
 
-        -c, --no-dependencies
+        -n, --no-dependencies
             do not build dependencies
             by default it also builds dependencies
 
@@ -87,7 +89,7 @@ for param in "$@"; do
         return 0
     elif [ "$param" = "-d" ] || [ "$param" = "--dependencies" ]; then
         dep=true
-    elif [ "$param" = "-c" ] || [ "$param" = "--no-dependencies" ]; then
+    elif [ "$param" = "-n" ] || [ "$param" = "--no-dependencies" ]; then
         dep=false
     else
         found="false"
@@ -114,11 +116,13 @@ EOT
     fi
 done
 
-prefix_dir_global="/usr/local"
+local_home="${XDG_LOCAL_HOME:-$HOME/.local}"
 
-prefix_dir="${XDG_LOCAL_HOME:-$HOME/.local}"
+bin_home="${XDG_BIN_HOME:-$local_home/bin}"
 
-bin_home="${XDG_BIN_HOME:-$prefix_dir/bin}"
+prefix_dir="$local_home"
+
+# prefix_dir_global="/usr/local"
 
 dev="$HOME/dev/package"
 
@@ -451,6 +455,89 @@ EOF
     doas make -j8 install
 }
 
+### libtorrent
+# https://github.com/jesec/libtorrent
+libtorrent_install() {
+    package="libtorrent"
+    echo "installing package: $package"
+
+    package_dir="$dev/$package"
+
+    if [ ! -d "$package_dir" ]; then
+        git clone --recurse-submodules https://github.com/jesec/libtorrent.git "$package_dir"
+    else
+        git -C "$package_dir" pull --recurse-submodules
+    fi
+
+    # curl -s -o "$package_dir/fix-sysroot-handling.patch" \
+    #     https://raw.githubusercontent.com/void-linux/void-packages/master/srcpkgs/libtorrent/patches/fix-sysroot-handling.patch
+
+    cd "$package_dir" || return 1
+
+    # patch --forward --strip=1 --input="$package_dir/fix-sysroot-handling.patch"
+
+    cmake -DCMAKE_INSTALL_PREFIX="$prefix_dir" . && \
+
+    make && \
+
+    make install
+}
+
+### rtorrent
+# https://github.com/jesec/rtorrent
+# https://aur.archlinux.org/packages/rtorrent-vi-color
+rtorrent_install() {
+    if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then
+        libtorrent_install "dep"
+    fi
+
+    package="rtorrent"
+    echo "installing package: $package"
+
+    package_dir="$dev/$package"
+
+    if [ ! -d "$package_dir" ]; then
+        git clone --recurse-submodules https://github.com/jesec/rtorrent.git "$package_dir"
+    else
+        git -C "$package_dir" pull --recurse-submodules
+    fi
+
+    # curl -s -o "$package_dir/fix-sysroot-handling.patch" \
+    #     https://raw.githubusercontent.com/void-linux/void-packages/master/srcpkgs/rtorrent/patches/fix-sysroot-handling.patch
+    # curl -s -o "$package_dir/no_xmlrpc_c_compile.patch" \
+    #     https://raw.githubusercontent.com/void-linux/void-packages/master/srcpkgs/rtorrent/patches/no_xmlrpc_c_compile.patch
+
+    # package_patch_dir="$dev/rtorrent-patch"
+
+    # if [ ! -d "$package_patch_dir" ]; then
+    #     git clone --recurse-submodules https://aur.archlinux.org/rtorrent-vi-color.git "$package_patch_dir"
+    # else
+    #     git -C "$package_patch_dir" pull --recurse-submodules
+    # fi
+
+    # vi_keybinding="$(fd --type file --absolute-path 'vi_keybinding' | tail -n 1)"
+
+    vi_keybinding="$local_home/etc/rtorrent/vi-keybindings.patch"
+
+    cd "$package_dir" || return 1
+
+    # patch --forward --strip=1 --input="$package_dir/fix-sysroot-handling.patch"
+    # patch --forward --strip=1 --input="$package_dir/no_xmlrpc_c_compile.patch"
+
+    patch --forward --strip=1 --input="$vi_keybinding"
+
+    # binary available at ./rtorrent
+
+    cmake -DCMAKE_INSTALL_PREFIX="$prefix_dir" . &&
+
+    make &&
+    # make --with-xmlrpc-c &&
+
+    make install
+
+    cp "$package_dir/doc/old/rtorrent.1" "$local_home/share/man/man1/"
+}
+
 ### fontpreview
 # https://github.com/sdushantha/fontpreview
 fontpreview_install() {
@@ -619,17 +706,18 @@ river_install() {
         wlroots_install "dep"
     fi
 
-    echo "installing package: river"
+    package="river"
+    echo "installing package: $package"
 
-    if [ ! -d "$dev/river" ]; then
-        git clone --recurse-submodules https://github.com/riverwm/river.git "$dev/river"
+    package_dir="$dev/$package"
+
+    if [ ! -d "$package_dir" ]; then
+        git clone --recurse-submodules https://github.com/riverwm/river.git "$package_dir"
+    else
+        git -C "$package_dir" pull --recurse-submodules
     fi
 
     cd "$dev/river" || return 1
-
-    if [ -d "$dev/river" ]; then
-        git pull --recurse-submodules
-    fi
 
     rm -rf zig-cache
 
@@ -658,23 +746,18 @@ waybar_install() {
         wlroots_install "dep"
     fi
 
-    echo "installing package: waybar"
+    package="waybar"
+    echo "installing package: $package"
 
-    if [ ! -d "$dev/waybar" ]; then
-        action="install"
+    package_dir="$dev/$package"
+
+    if [ ! -d "$package_dir" ]; then
+        git clone --recurse-submodules https://github.com/Alexays/Waybar.git "$package_dir"
     else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/Alexays/Waybar.git "$dev/waybar"
+        git -C "$package_dir" pull --recurse-submodules
     fi
 
     cd "$dev/waybar" || return 1
-
-    if [ "$action" = "update" ]; then
-        git pull --recurse-submodules
-    fi
 
     # build options enabled/disabled
 
@@ -699,17 +782,18 @@ waybar_install() {
 
 ### fcft
 fcft_install() {
-    echo "installing package: fcft"
+    package="fcft"
+    echo "installing package: $package"
 
-    if [ ! -d "$dev/fcft" ]; then
-        git clone --recurse-submodules https://codeberg.org/dnkl/fcft.git "$dev/fcft"
+    package_dir="$dev/$package"
+
+    if [ ! -d "$package_dir" ]; then
+        git clone --recurse-submodules https://codeberg.org/dnkl/fcft.git "$package_dir"
+    else
+        git -C "$package_dir" pull --recurse-submodules
     fi
 
     cd "$dev/fcft" || return 1
-
-    if [ -d "$dev/fcft" ]; then
-        git pull --recurse-submodules
-    fi
 
     rm -rf build
 
@@ -869,9 +953,10 @@ foot_install() {
 ### libinput-gestures
 # https://github.com/bulletmark/libinput-gestures
 libinput_gestures_install() {
-    echo "installing package: libinput-gestures"
+    package="libinput-gestures"
+    echo "installing package: $package"
 
-    package_dir="$dev/libinput-gestures"
+    package_dir="$dev/$package"
 
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/bulletmark/libinput-gestures "$package_dir"
@@ -889,9 +974,10 @@ libinput_gestures_install() {
 ### mozlz4
 # https://github.com/jusw85/mozlz4
 mozlz4_install() {
-    echo "installing package: mozlz4"
+    package="mozlz4"
+    echo "installing package: $package"
 
-    package_dir="$dev/mozlz4"
+    package_dir="$dev/$package"
 
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/jusw85/mozlz4.git "$package_dir"
