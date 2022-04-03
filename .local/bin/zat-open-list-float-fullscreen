@@ -5,7 +5,7 @@ SYNOPSIS
         zat-open-list-float-fullscreen [-d directory] [-t tag] [-s start] [-e end]
 
 DESCRIPTION
-        open a list of numbered files with zathura
+        open a list of files with zathura
         in fullscreen stacked mode with river
         directory is an optional parameter
         if not specified current directory is considered
@@ -15,7 +15,8 @@ DESCRIPTION
         this script will open all files that start with a number
         between start and finish (start <= number <= finish)
         if start and finish are not specified
-        zathura tries to open all files
+        zathura tries to open all files in directory
+        specifying one between start and end is also allowed
 
         -h, --help
             print this info and exit
@@ -85,19 +86,29 @@ open_file() {
     program="$1"
     file="$2"
 
-    [ -f "$file" ] && $program "$file"
-
-    sleep 1
-
-    riverctl-float-fullscreen
+    if [ -f "$file" ]; then
+        case "$file" in
+            *.pdf|*.djvu|*.ps)
+                $program "$file"
+                sleep 1
+                riverctl-float-fullscreen
+                return 0
+            ;;
+            *)
+                return 1
+            ;;
+        esac
+    else
+        return 1
+    fi
 }
 
 find_open_file() {
     current="$1"
     program="$2"
 
-    # try without and with 0 in front of file number
-    file="$(fd --type file --type symlink --exact-depth 1 ^0?${current}[^0-9].*pdf)"
+    # try wit and without 0 in front of file number
+    file="$(fd --type file --type symlink --exact-depth 1 ^0?${current}[^0-9])"
 
     if [ -f "$file" ]; then
         open_file "$program" "$file"
