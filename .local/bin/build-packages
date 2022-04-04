@@ -4,41 +4,15 @@
 
 # add important packages to git_bare_repository.sh
 
-package_names=$(cat << EOF
-all
-llvm
-zig
-ziget
-zigup
-zls
-lua-language-server
-htop
-libtorrent
-rtorrent
-fontpreview
-lsix
-gn
-wayland
-wlroots
-river
-waybar
-fcft
-fuzzel
-epoll-shim
-foot
-libinput-gestures
-mozlz4
-fontforge
-qrupdate
-epstool
-sundials
-octave
-jna
-biglybt
-wxwidgets
-amule
-EOF
-)
+local_home="${XDG_LOCAL_HOME:-$HOME/.local}"
+
+bin_home="${XDG_BIN_HOME:-$local_home/bin}"
+
+prefix_dir="$local_home"
+
+# prefix_dir_global="/usr/local"
+
+package_names="$(cat $local_home/share/script/build-packages)"
 
 print_info=$(cat << EOF
 SYNOPSIS
@@ -115,14 +89,6 @@ EOT
         fi
     fi
 done
-
-local_home="${XDG_LOCAL_HOME:-$HOME/.local}"
-
-bin_home="${XDG_BIN_HOME:-$local_home/bin}"
-
-prefix_dir="$local_home"
-
-# prefix_dir_global="/usr/local"
 
 dev="$HOME/dev/package"
 
@@ -457,6 +423,7 @@ EOF
 
 ### libtorrent
 # https://github.com/jesec/libtorrent
+# https://github.com/rakshasa/libtorrent
 libtorrent_install() {
     package="libtorrent"
     echo "installing package: $package"
@@ -485,6 +452,7 @@ libtorrent_install() {
 
 ### rtorrent
 # https://github.com/jesec/rtorrent
+# https://github.com/rakshasa/rtorrent
 # https://aur.archlinux.org/packages/rtorrent-vi-color
 rtorrent_install() {
     if [ "$#" -eq 1 ] && [ "$1" = "dep" ]; then

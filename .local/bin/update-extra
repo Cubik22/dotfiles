@@ -2,19 +2,9 @@
 
 # update programs aside from distro package manager
 
-program_names=$(cat << EOF
-all
-plugins
-rustup
-cargo
-zigup
-go
-luarocks
-pip
-npm
-R
-EOF
-)
+local_home="${XDG_LOCAL_HOME:-$HOME/.local}"
+
+program_names="$(cat $local_home/share/script/update-extra)"
 
 print_info=$(cat << EOF
 SYNOPSIS
@@ -26,7 +16,7 @@ DESCRIPTION
         -d, --dependencies
             update also dependencies (default)
 
-        -c, --no-dependencies
+        -n, --no-dependencies
             do not update dependencies
             by default it also update dependencies
 
@@ -65,7 +55,7 @@ for param in "$@"; do
         return 0
     elif [ "$param" = "-d" ] || [ "$param" = "--dependencies" ]; then
         dep=true
-    elif [ "$param" = "-c" ] || [ "$param" = "--no-dependencies" ]; then
+    elif [ "$param" = "-n" ] || [ "$param" = "--no-dependencies" ]; then
         dep=false
     else
         found="false"

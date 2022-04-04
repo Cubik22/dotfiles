@@ -7,14 +7,23 @@
 
 ### sourcing
 
-# source functions
-[ -f "$HOME/.config/shell/functionrc" ] && . "$HOME/.config/shell/functionrc"
+shell_dir="$HOME/.config/shell"
 
-# source aliases and some small functions which work like aliases
-[ -f "$HOME/.config/shell/aliasrc" ] && . "$HOME/.config/shell/aliasrc"
+# source aliases
+alias_dir="$shell_dir/aliasrc"
+[ -f "$alias_dir" ] && . "$alias_dir"
+
+# source functions
+function_dir="$shell_dir/functionrc"
+[ -f "$function_dir" ] && . "$function_dir"
+
+# source completions
+completion_dir="$shell_dir/completionrc"
+[ -f "$completion_dir" ] && . "$completion_dir"
 
 # source fzf completions bindings and settings
-[ -f "$HOME/.config/shell/fzfrc" ] && . "$HOME/.config/shell/fzfrc"
+fzf_dir="$shell_dir/fzfrc"
+[ -f "$fzf_dir" ] && . "$fzf_dir"
 
 ### options
 
@@ -44,38 +53,6 @@ shopt -s nocaseglob
 ### gnupg
 GPG_TTY="$(tty)"
 export GPG_TTY
-
-### completion
-
-# alias config='/usr/bin/git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME"'
-
-# autocomplete alias config (git bare repository)
-# remember to sometimes check https://github.com/cykerway/complete-alias
-# complete -F _complete_alias config
-
-# in order to find how a command is completed run
-# complete -p cmd
-
-## autocomplete doas as sudo
-
-# has to be loaded here or in /etc/bash/bashrc.d/bash_completion.sh
-_completion_loader sudo
-
-complete -F _sudo doas
-complete -F _sudo d
-
-## autocomplete config as git
-
-# has to be loaded here or in /etc/bash/bashrc.d/bash_completion.sh
-_completion_loader git
-
-complete -o bashdefault -o default -o nospace -F __git_wrap__git_main ucon
-complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rcon
-
-# autocomplete xbps
-complete -F _complete_alias xi
-complete -F _complete_alias xr
-complete -F _complete_alias xq
 
 # root privileges
 # so root user can link and use this bashrc

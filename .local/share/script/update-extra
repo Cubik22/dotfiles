@@ -1,0 +1,10 @@
+all
+plugins
+rustup
+cargo
+zigup
+go
+luarocks
+pip
+npm
+R
