@@ -42,11 +42,11 @@ alias lla='ls $LS_OPTIONS -l -A'
 # alias trexa="exa --long --header --modified --git --tree --color=auto --icons --all --group-directories-first"
 
 # color stuff
-alias dir="dir --color=auto"
-alias vdir="vdir --color=auto"
-alias diff="diff --color=auto"
-alias ip="ip --color=auto"
-alias grep="grep --color=auto"
+# alias dir="dir --color=auto"
+# alias vdir="vdir --color=auto"
+# alias diff="diff --color=auto"
+# alias ip="ip --color=auto"
+# alias grep="grep --color=auto"
 
 # ignore case
 # alias grepi="grep --color=auto -i"
