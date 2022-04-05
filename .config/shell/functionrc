@@ -32,7 +32,7 @@ color-cmd() {
 # use dark theme for zathura
 # change also zat and spa
 zathura() {
-    GTK_THEME="Adwaita:dark" /bin/zathura "$@"
+    GTK_THEME="Adwaita:dark" "$(which zathura)" "$@"
 }
 
 # wrapper around kak
@@ -56,15 +56,17 @@ kak-smart() {
 
     shift 1
 
+    kak_command="$(which kak)"
+
     if [ "$#" -gt 0 ]; then
         arg="$1"
         if [ -d "$arg" ]; then
             cd "$arg" || return 1
         elif [ -f "$arg" ]; then
             if [ "$root" = "no" ]; then
-                /bin/kak "$arg"
+                "$kak_command" "$arg"
             elif [ "$root" = "yes" ]; then
-                doas /bin/kak "$arg"
+                doas "$kak_command" "$arg"
             fi
         else
             # if is not an existing directory or file
@@ -72,18 +74,18 @@ kak-smart() {
             # if it does not exists then can be opened as a file by kak
             if [ -e "$arg" ]; then
                 echo "the argument exists but is neither a directory or file"
-                /bin/ls --color=auto --human-readable -l "$arg"
-                /bin/file "$arg"
+                ls --color=auto --human-readable -l "$arg"
+                file "$arg"
             else
                 if [ "$root" = "no" ]; then
-                    /bin/kak "$arg"
+                    "$kak_command" "$arg"
                 elif [ "$root" = "yes" ]; then
-                    doas /bin/kak "$arg"
+                    doas "$kak_command" "$arg"
                 fi
             fi
         fi
     else
-        /bin/kak
+        "$kak_command"
     fi
 }
 
@@ -104,6 +106,8 @@ kak-fzf-bash() {
         return 1
     fi
 
+    kak_command="$(which kak)"
+
     # run fzf for files with preview
     file="$($FZF_DEFAULT_COMMAND --type file | fzf --preview="$FZF_DEFAULT_PREVIEW")"
     # clear last command (kak)
@@ -111,10 +115,10 @@ kak-fzf-bash() {
     history -d -1
     if [ -e "$file" ]; then
         if [ "$root" = "no" ]; then
-            /bin/kak "$file"
+            "$kak_command" "$file"
             history -ps "kak $file"
         elif [ "$root" = "yes" ]; then
-            doas /bin/kak "$file"
+            doas "$kak_command" "$file"
             history -ps "doas kak $file"
         fi
     fi
@@ -125,7 +129,7 @@ git() {
     if [ "$#" -ge 1 ] && [ "$1" = "push" ]; then
         rbw unlock
     fi
-    /usr/bin/git "$@"
+    "$(which git)" "$@"
 }
 
 # git bare repository user dotfiles
@@ -139,14 +143,15 @@ ucon() {
             rbw unlock
         fi
     fi
+    git_cmd="$(which git)"
     local work_tree="$HOME"
     local git_dir="$HOME/.dotfiles"
-    /usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
+    "$git_cmd" --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
     # when pulling remove README from work_tree and set git to not track in locale
     if [ "$#" -ge 1 ]; then
         if [ "$1" = "pull" ]; then
-            /usr/bin/rm -f "$work_tree"/README.md
-            /usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
+            rm -f "$work_tree"/README.md
+            "$git_cmd" --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
         fi
     fi
 } && export -f ucon
@@ -172,22 +177,23 @@ rcon() {
             fi
         fi
     fi
+    git_cmd="$(which git)"
     local work_tree="/"
     local git_dir="/root/config"
     if [ "$as_root" = "true" ]; then
-        /usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
+        "$git_cmd" --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
     else
-        doas /usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
+        doas "$git_cmd" --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
     fi
     # when pulling remove README from work_tree and set git to not track in locale
     if [ "$#" -ge 1 ]; then
         if [ "$1" = "pull" ]; then
             if [ "$as_root" = "true" ]; then
-                /usr/bin/rm -f "$work_tree"/README.md
-                /usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
+                rm -f "$work_tree"/README.md
+                "$git_cmd" --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
             else
-                doas /usr/bin/rm -f "$work_tree"/README.md
-                doas /usr/bin/git --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
+                doas rm -f "$work_tree"/README.md
+                doas "$git_cmd" --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
             fi
         fi
     fi
@@ -234,7 +240,7 @@ rtouch() {
 #     # stty lwrap undef
 #     # stty lnext undef
 
-#     /bin/nnn "$@"
+#     "$(which nnn)" "$@"
 
 #     # uncomment to cd on quit only on ^G
 #     # NNN_TMPFILE="$XDG_STATE_HOME"/nnn/lastd
@@ -259,7 +265,7 @@ nnn() {
     # make sure tmp file does not exists before starting nnn
     rm -f "$NNN_TMPFILE"
 
-    /bin/nnn "$@"
+    "$(which nnn)" "$@"
 
     # source tmp file which is created just when <C-g> is pressed
     [ -f "$NNN_TMPFILE" ] && . "$NNN_TMPFILE"
@@ -305,7 +311,7 @@ nnn-pre() {
     # make sure tmp file does not exists before starting nnn
     rm -f "$NNN_TMPFILE"
 
-    /bin/nnn "$@"
+    "$(which nnn)" "$@"
 
     # source tmp file which is created just when <C-g> is pressed
     [ -f "$NNN_TMPFILE" ] && . "$NNN_TMPFILE"

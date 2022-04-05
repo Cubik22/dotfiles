@@ -58,7 +58,8 @@ export GPG_TTY
 # so root user can link and use this bashrc
 # black: 30 red: 31 green: 32 yellow: 33 blue: 34 purple: 35 cyan: 36 white: 37
 if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
-    dir_color=31
+    ps1_dir_color=31
+    ps1_char="#"
 
     # PS1="\[\e[1;31m\]\w\[\e[m\]\[\e[1;34m\]#\[\e[m\] "
     # PS1="\[\e[1;31m\]\w\[\e[m\] \[\e[1;32m\]>\[\e[m\]\[\e[1;33m\]>\[\e[m\]\[\e[1;36m\]>\[\e[m\] "
@@ -66,7 +67,8 @@ if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
 
     # PS2=""
 else
-    dir_color=32
+    ps1_dir_color=32
+    ps1_char="$"
 
     # PS1="\[\e[1;32m\]\w\[\e[m\]\[\e[1;34m\]$\[\e[m\] "
     # PS1="\[\e[1;32m\]\w\[\e[m\] \[\e[1;31m\]>\[\e[m\]\[\e[1;33m\]>\[\e[m\]\[\e[1;36m\]>\[\e[m\] "
@@ -75,11 +77,11 @@ else
     # PS2=""
 fi
 # add host to PS1 just when using SSH
-host_color=34
+ps1_host_color=34
 if [ -n "$SSH_TTY" ]; then
-    host_ps1="\[\e[1;${host_color}m\]\h\[\e[m\]@"
+    ps1_host="\[\e[1;${ps1_host_color}m\]\h\[\e[m\]@"
 fi
-PS1="${host_ps1}\[\e[1;${dir_color}m\]\w\[\e[m\] "
+PS1="${ps1_host}\[\e[1;${ps1_dir_color}m\]\w\[\e[m\]${ps1_char} "
 
 ### initalize zoxide
 

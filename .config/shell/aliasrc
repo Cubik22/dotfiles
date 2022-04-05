@@ -35,10 +35,10 @@ alias cd4="cd ../../../.."
 
 # ls
 alias ls='ls $LS_OPTIONS'
-alias la='ls $LS_OPTIONS -a'
+alias la='ls $LS_OPTIONS -A'
 alias ll='ls $LS_OPTIONS -l'
-alias lal='ls $LS_OPTIONS -a -l'
-alias lla='ls $LS_OPTIONS -l -a'
+alias lal='ls $LS_OPTIONS -A -l'
+alias lla='ls $LS_OPTIONS -l -A'
 # alias trexa="exa --long --header --modified --git --tree --color=auto --icons --all --group-directories-first"
 
 # color stuff
