@@ -16,7 +16,7 @@
 # Shell: POSIX compliant
 # Author: Arun Prakash Jana, Luuk van Baal
 #
-# Consider setting NNN_PREVIEWDIR to $XDG_CACHE_HOME/nnn/previews
+# Consider setting NNN_PREVIEWDIR to ${XDG_CACHE_HOME:-$HOME/.cache}/nnn/previews
 # if you want to keep media thumbnails on disk between reboots.
 NNN_PREVIEWDIR="${NNN_PREVIEWDIR:-${TMPDIR:-/tmp}/nnn/previews}"
 

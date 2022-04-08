@@ -21,22 +21,22 @@ setopt HIST_IGNORE_SPACE
 # History in cache directory:
 HISTSIZE=10000000
 SAVEHIST=10000000
-HISTFILE="$XDG_DATA_HOME"/zhistory
+HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/zhistory"
 
 #PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
 if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
-	PS1="%B%{$fg[red]%}%~%{$reset_color%} "
-	#PS1="%B%{$fg[red]%}%~ %{$fg[green]%}>%{$fg[yellow]%}>%{$fg[blue]%}> %{$reset_color%}%b"
-else		
-	PS1="%B%{$fg[green]%}%~%{$reset_color%} "
-	#PS1="%B%{$fg[green]%}%~ %{$fg[red]%}>%{$fg[yellow]%}>%{$fg[blue]%}> %{$reset_color%}%b"
+    PS1="%B%{$fg[red]%}%~%{$reset_color%} "
+    #PS1="%B%{$fg[red]%}%~ %{$fg[green]%}>%{$fg[yellow]%}>%{$fg[blue]%}> %{$reset_color%}%b"
+else
+    PS1="%B%{$fg[green]%}%~%{$reset_color%} "
+    #PS1="%B%{$fg[green]%}%~ %{$fg[red]%}>%{$fg[yellow]%}>%{$fg[blue]%}> %{$reset_color%}%b"
 fi
 
 # Automatically cd into typed directory.
-setopt autocd		
+setopt autocd
 # Disable ctrl-s to freeze terminal.
-stty stop undef	
+stty stop undef
 # disable ctrl-S/ctrl-Q for START/STOP
 #stty -ixon -ixoff
 setopt interactive_comments

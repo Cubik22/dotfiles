@@ -199,7 +199,7 @@ EOF
 lib_info=$(cat << EOF
 ## lib
 ldconfig -v
-ldconfig -n "$XDG_LIB_HOME"
+ldconfig -n "${XDG_LIB_HOME:-$HOME/.local/lib}"
 EOF
 )
 

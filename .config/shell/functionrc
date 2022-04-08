@@ -229,10 +229,10 @@ rtouch() {
 
 #     # The behaviour is set to cd on quit (nnn checks if NNN_TMPFILE is set)
 #     # To cd on quit only on ^G, either remove the "export" as in:
-#     # NNN_TMPFILE="$XDG_STATE_HOME"/nnn/lastd
+#     # NNN_TMPFILE="${XDG_STATE_HOME:$HOME/.local/state}"/nnn/lastd
 #     # (or, to a custom path: NNN_TMPFILE=/tmp/lastd)
 #     # or, export NNN_TMPFILE after nnn invocation
-#     export NNN_TMPFILE="$XDG_STATE_HOME"/nnn/lastd
+#     export NNN_TMPFILE="${XDG_STATE_HOME:$HOME/.local/state}"/nnn/lastd
 
 #     # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
 #     # stty start undef
@@ -243,7 +243,7 @@ rtouch() {
 #     "$(which nnn)" "$@"
 
 #     # uncomment to cd on quit only on ^G
-#     # NNN_TMPFILE="$XDG_STATE_HOME"/nnn/lastd
+#     # NNN_TMPFILE="${XDG_STATE_HOME:$HOME/.local/state}"/nnn/lastd
 
 #     if [ -f "$NNN_TMPFILE" ]; then
 #         . "$NNN_TMPFILE"
@@ -260,7 +260,7 @@ nnn() {
         return 1
     fi
 
-    NNN_TMPFILE="$XDG_CONFIG_HOME"/nnn/.lastd
+    NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
 
     # make sure tmp file does not exists before starting nnn
     rm -f "$NNN_TMPFILE"
@@ -282,7 +282,7 @@ nnn-pre() {
         return 1
     fi
 
-    NNN_TMPFILE="$XDG_CONFIG_HOME"/nnn/.lastd
+    NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}"/nnn/.lastd
 
     # this will create a fifo where all nnn selections will be written to
     # NNN_FIFO="$(mktemp --suffix=-nnn -u)"
@@ -292,7 +292,7 @@ nnn-pre() {
     (umask 077; mkfifo "$NNN_FIFO")
 
     # preview command
-    preview_cmd="$XDG_CONFIG_HOME/nnn/plugins/preview-cmd"
+    preview_cmd="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/plugins/preview-cmd"
 
     exists() {
         command -v "$1" >/dev/null 2>&1

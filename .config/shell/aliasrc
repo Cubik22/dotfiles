@@ -117,7 +117,7 @@ alias nb='newsboat'
 alias nby='newsboat -u "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls-youtube" -c "${XDG_DATA_HOME:-$HOME/.local/share}/newsboat/cache-youtube.db"'
 
 # zigup
-alias zigup='zigup --install-dir "$XDG_LIB_HOME/zigup"'
+alias zigup='zigup --install-dir "${XDG_LIB_HOME:-$HOME/.local/lib}/zigup"'
 
 # rust global
 alias rust-set-global='source /usr/local/bin/rust-set-global'
