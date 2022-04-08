@@ -2,11 +2,20 @@
 
 # fzfrc
 
-# source fzf completion and key-bindings
-completion_file="/usr/share/fzf/completion.bash"
-[ -f "$completion_file" ] && . "$completion_file"
-key_bindings_file="/usr/share/fzf/key-bindings.bash"
-[ -f "$key_bindings_file" ] && . "$key_bindings_file"
+possible_base_dir="/usr/share/fzf /usr/local/share/fzf/bash"
+completion_file="completion.bash"
+key_bindings_file="key-bindings.bash"
+for base_dir in $possible_base_dir; do
+    if [ -d "$base_dir" ]; then
+        [ -f "$base_dir/$completion_file" ] && . "$base_dir/$completion_file"
+        [ -f "$base_dir/$key_bindings_file" ] && . "$base_dir/$key_bindings_file"
+        break
+    fi
+done
+unset possible_base_dir
+unset base_dir
+unset completion_file
+unset key_bindings_file
 
 # use fd (https://github.com/sharkdp/fd) instead of the default find
 # command for listing path candidates.

@@ -13,7 +13,7 @@ alias d="doas"
 # alias d="doas "
 
 # do not keep environment variables when su
-alias su="su --login --whitelist-environment=SSH_TTY,WAYLAND_DISPLAY"
+alias sul="su --login --whitelist-environment=SSH_TTY,WAYLAND_DISPLAY"
 
 # change directory
 alias ..="cd .."

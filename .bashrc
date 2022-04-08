@@ -12,18 +12,24 @@ shell_dir="$HOME/.config/shell"
 # source aliases
 alias_dir="$shell_dir/aliasrc"
 [ -f "$alias_dir" ] && . "$alias_dir"
+unset alias_dir
 
 # source functions
 function_dir="$shell_dir/functionrc"
 [ -f "$function_dir" ] && . "$function_dir"
+unset function_dir
 
 # source completions
 completion_dir="$shell_dir/completionrc"
 [ -f "$completion_dir" ] && . "$completion_dir"
+unset completion_dir
 
 # source fzf completions bindings and settings
 fzf_dir="$shell_dir/fzfrc"
 [ -f "$fzf_dir" ] && . "$fzf_dir"
+unset fzf_dir
+
+unset shell_dir
 
 ### options
 
@@ -82,8 +88,14 @@ if [ -n "$SSH_TTY" ]; then
     ps1_host="\[\e[1;${ps1_host_color}m\]\h\[\e[m\]@"
 fi
 PS1="${ps1_host}\[\e[1;${ps1_dir_color}m\]\w\[\e[m\]${ps1_char} "
+unset ps1_dir_color
+unset ps1_char
+unset ps1_host_color
+unset ps1_host
 
 ### initalize zoxide
 
-eval "$(zoxide init bash)"
-# eval "$(zoxide init --cmd y bash)"
+if command -v zoxide >/dev/null 2>&1; then
+    eval "$(zoxide init bash)"
+    # eval "$(zoxide init --cmd y bash)"
+fi

@@ -7,15 +7,19 @@
 cargo_bin="$CARGO_HOME/bin"
 [ -d "$cargo_bin" ] && \
     export PATH="$cargo_bin:$PATH"
+unset cargo_bin
 go_bin="$GOPATH/bin"
 [ -d "$go_bin" ] && \
     export PATH="$go_bin:$PATH"
+unset go_bin
 npm_bin="/usr/local/lib/npm/bin"
 [ -d "$npm_bin" ] && \
     export PATH="$npm_bin:$PATH"
+unset npm_bin
 # llvm13_bin="/usr/local/lib/llvm13-release/bin"
 # [ -d "$llvm13_bin" ] && \
 #     export PATH="$llvm13_bin:$PATH"
+# unset llvm13_bin
 
 # less
 # -F automatically exit if the entire file can be displayed on the first screen
