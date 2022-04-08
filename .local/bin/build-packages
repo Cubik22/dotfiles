@@ -6,7 +6,11 @@
 
 local_home="${XDG_LOCAL_HOME:-$HOME/.local}"
 
+data_home="${XDG_DATA_HOME:-$local_home/share}"
+
 bin_home="${XDG_BIN_HOME:-$local_home/bin}"
+
+lib_home="${XDG_LIB_HOME:-$local_home/lib}"
 
 prefix_dir="$local_home"
 
@@ -126,8 +130,8 @@ llvm_install() {
     llvm_prefix_path="/usr/lib"
     # llvm_install_prefix="/usr/local/lib/llvm13-release"
     # llvm_prefix_path="/usr/local/lib/llvm13-release"
-    # llvm_install_prefix="$XDG_LIB_HOME/llvm13-release"
-    # llvm_prefix_path="$XDG_LIB_HOME/llvm13-release"
+    # llvm_install_prefix="$lib_home/llvm13-release"
+    # llvm_prefix_path="$lib_home/llvm13-release"
 
     # LLVM
     cd llvm || return 1
@@ -267,14 +271,14 @@ zigup_install() {
 
     ## update with normal zig installed
     # set path-link to a directory that does not exist so it does not automatically link
-    # zigup --install-dir "$XDG_LIB_HOME/zig" --path-link "does-not-exist" master
+    # zigup --install-dir "$lib_home/zig" --path-link "does-not-exist" master
     # then manually link zig-master
-    # ln -s "$XDG_LIB_HOME/zig/{version}/files/zig" "$XDG_BIN_HOME/zig-master"
+    # ln -s "$lib_home/zig/{version}/files/zig" "$bin_home/zig-master"
 
     ## update without normal zig installed
-    # zigup --install-dir "$XDG_LIB_HOME/zig" --path-link "$XDG_BIN_HOME" master
+    # zigup --install-dir "$lib_home/zig" --path-link "$bin_home" master
     # then manually link zig if it fails
-    # ln -s "$XDG_LIB_HOME/zig/{version}/files/zig" "$XDG_BIN_HOME/zig"
+    # ln -s "$lib_home/zig/{version}/files/zig" "$bin_home/zig"
 }
 
 ### zls
@@ -627,7 +631,7 @@ wayland_install() {
     meson build/ --prefix="$prefix_dir"
     ninja -C build/ install
 
-    ldconfig -n "$XDG_LIB_HOME"
+    ldconfig -n "$lib_home"
 }
 
 ### wlroots
@@ -665,7 +669,7 @@ wlroots_install() {
     # ninja -C build/
     ninja -C build/ install
 
-    ldconfig -n "$XDG_LIB_HOME"
+    ldconfig -n "$lib_home"
 }
 
 ### river
@@ -693,7 +697,7 @@ river_install() {
     zig build -Drelease-safe -Dman-pages --prefix "$prefix_dir" install
     # zig build -Drelease-safe -Dman-pages -Dxwayland --prefix $prefix_dir install
 
-    python3 -m pywayland.scanner -i "$XDG_DATA_HOME/wayland/wayland.xml" protocol/river-control-unstable-v1.xml protocol/river-status-unstable-v1.xml
+    python3 -m pywayland.scanner -i "$data_home/wayland/wayland.xml" protocol/river-control-unstable-v1.xml protocol/river-status-unstable-v1.xml
 
     if [ ! -d "$dev/river-utils" ]; then
         git clone --recurse-submodules https://github.com/NickHastings/riverwm-utils.git "$dev/river-utils"

@@ -31,7 +31,7 @@ https://github.com/alexherbo2/surround.kak.git
 EOF
 )
 
-plugins_dir="$XDG_CONFIG_HOME/kak/plugins"
+plugins_dir="${XDG_CONFIG_HOME:-$HOME/.config}/kak/plugins"
 
 [ ! -d "$plugins_dir" ] && mkdir -p "$plugins_dir"
 

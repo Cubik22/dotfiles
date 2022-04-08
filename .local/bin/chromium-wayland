@@ -1,10 +1,11 @@
 #!/bin/sh
 
 # make sure 'chromium didn't shut down correctly' does not happen
+default_preferences="${XDG_CONFIG_HOME:-$HOME/.config}/chromium/Default/Preferences"
 sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' \
-    "$XDG_CONFIG_HOME/chromium/Default/Preferences"
+    "$default_preferences"
 sed -i 's/"exit_type":"Crashed"/"exit_type":"Normal"/' \
-    "$XDG_CONFIG_HOME/chromium/Default/Preferences"
+    "$default_preferences"
 
 ## launch chromium with wayland flags
 

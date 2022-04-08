@@ -43,7 +43,7 @@ export MOZ_ENABLE_WAYLAND=1
 # export _JAVA_AWT_WM_NONREPARENTING=1
 
 export BROWSER=firefox
-# export BROWSER="$XDG_BIN_HOME/ungoogled_chromium.sh"
+# export BROWSER="${XDG_BIN_HOME:-$HOME/.local/bin}/ungoogled_chromium.sh"
 
 # set GTK theme
 # export GTK_THEME=Adwaita

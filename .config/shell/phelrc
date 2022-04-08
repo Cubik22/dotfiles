@@ -257,6 +257,7 @@ EOF
 file_info=$(cat << EOF
 df -h
 du -h
+truncate
 rsync
     {--human-readable}
     {--verbose}
