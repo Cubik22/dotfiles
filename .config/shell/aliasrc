@@ -115,6 +115,7 @@ alias fzfp='fzf --preview="$FZF_DEFAULT_PREVIEW"'
 # newsboat
 alias nb='newsboat'
 alias nby='newsboat -u "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls-youtube" -c "${XDG_DATA_HOME:-$HOME/.local/share}/newsboat/cache-youtube.db"'
+alias nbo='newsboat -u "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls-odysee" -c "${XDG_DATA_HOME:-$HOME/.local/share}/newsboat/cache-odysee.db"'
 
 # zigup
 alias zigup='zigup --install-dir "${XDG_LIB_HOME:-$HOME/.local/lib}/zigup"'

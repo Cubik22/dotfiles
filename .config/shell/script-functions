@@ -1,0 +1,59 @@
+#!/bin/sh
+
+# check if parameter is a number
+is_number() {
+    if [ "$1" -ge 0 ] > /dev/null 2>&1; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+# check if parameter is a number and print
+is_number_print() {
+    if is_number "$1"; then
+        return 0
+    else
+        print_error "$1 is not a number >= 0"
+        return 1
+    fi
+}
+
+print_error() {
+    printf "error: %s\n" "$1"
+    [ -n "$info" ] && printf "\n%s\n" "$info"
+}
+
+print_set_two_times() {
+    print_error "$1 set two times"
+}
+
+# call it with: option "$@"
+set_option_one_dash() {
+    option="$1"
+    shift 1
+    if [ "$#" -ge 2 ]; then
+        if eval [ -z "\$$option" ]; then
+            eval "$option=$2"
+        else
+            print_set_two_times "$option"
+            return 1
+        fi
+    else
+        print_error "$option not present"
+        return 1
+    fi
+    return 0
+}
+
+# call it with: option "$@"
+set_option_two_dash() {
+    option="$1"
+    shift 1
+    if eval [ -z "\$$option" ]; then
+        eval "$option=$(echo "$1" | cut -d '=' -f '2-')"
+    else
+        print_set_two_times "$option"
+        return 1
+    fi
+}

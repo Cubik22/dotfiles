@@ -31,9 +31,10 @@ color-cmd() {
 
 # use dark theme for zathura
 # change also zat and spa
-zathura() {
-    GTK_THEME="Adwaita:dark" "$(which zathura)" "$@"
-}
+# not needed if using alias zathura=zat
+# zathura() {
+#     GTK_THEME="Adwaita:dark" "$(which zathura)" "$@"
+# }
 
 # wrapper around kak
 # cd if directory
