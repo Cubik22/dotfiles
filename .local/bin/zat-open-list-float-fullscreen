@@ -37,7 +37,7 @@ EOF
 
 script_functions_file="${XDG_CONFIG_HOME:-$HOME/.config}/shell/script-functions"
 [ -f "$script_functions_file" ] && . "$script_functions_file"
-unset "$script_functions_file"
+unset script_functions_file
 
 open_file() {
     program="$1"
@@ -65,7 +65,7 @@ find_open_file() {
     program="$2"
 
     # try wit and without 0 in front of file number
-    file="$(fd --type file --type symlink --exact-depth 1 ^0?${current}[^0-9])"
+    file="$(fd --type file --type symlink --exact-depth 1 "^0*${current}($|[^0-9])")"
 
     if [ -f "$file" ]; then
         open_file "$program" "$file"
