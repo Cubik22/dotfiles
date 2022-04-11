@@ -13,11 +13,11 @@ DESCRIPTION
         optionally spawn in a specified river tag
         by specifying river-tag before zathura-parameter(s)
 
-        -t, --tag
-            spawn in specific river tag
-
         -h, --help
             print this info and exit
+
+        -t, --tag
+            spawn in specific river tag
 EOF
 )
 
@@ -55,10 +55,14 @@ case "$1" in
             return 1
         fi
     ;;
+    -*)
+        print_error "$1 not recognized"
+        return 1
+    ;;
 esac
 
-# check if the first parameter is a number
 if [ -n "$tag" ]; then
+    # check if tag is a number
     if is_number_print "$tag"; then
         riverctl set-focused-tags "$((1 << (tag - 1)))"
     else

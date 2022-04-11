@@ -1,41 +1,72 @@
 #!/bin/sh
 
-if [ "$#" -lt 2 ]; then
-       echo "insert at least two parameters"
-       echo "first parameter: tag"
-       echo "second parameter: program"
-       echo "following parameters (optional): arguments of program"
-       return 1
+info=$(cat << EOF
+SYNOPSIS
+        spa [-t river-tag] program [program-options]
+
+DESCRIPTION
+        spawn program [with program-options] in specific river tag
+        from command line
+
+        -h, --help
+            print this info and exit
+
+        -t, --tag
+            spawn in specific river tag
+EOF
+)
+
+script_functions_file="${XDG_CONFIG_HOME:-$HOME/.config}/shell/script-functions"
+[ -f "$script_functions_file" ] && . "$script_functions_file"
+unset script_functions_file
+
+if [ "$#" -lt 1 ]; then
+    print_error "insert at least one parameter"
+    return 1
 fi
 
-tag="$1"
-program="$2"
-# shift arguments by two, now 3 becomes 0
-shift 2
+case "$1" in
+    -h|--help)
+        echo "$info"
+        return 0
+    ;;
+    -t)
+        if set_option_one_dash tag "$@"; then
+            shift 2
+        else
+            return 1
+        fi
+    ;;
+    --tag=*)
+        if set_option_two_dash tag "$@"; then
+            shift 1
+        else
+            return 1
+        fi
+    ;;
+    -*)
+        print_error "$1 not recognized"
+        return 1
+    ;;
+esac
 
-riverctl set-focused-tags "$((1 << (tag - 1)))"
-
-if [ "$program" = "zathura" ] || [ "$program" = "zat" ]; then
-    current_dir="$(pwd)"
-    # append pwd to every parameter
-    # when opening multiple files
-    for i do
-        set -- "$@" "${current_dir}/${i}"
-        shift
-    done
-    export GTK_THEME="Adwaita:dark"
-    /bin/zathura "$@" &
-
-    # append pwd to the file (last parameter)
-    # i=0
-    # while [ $((i+=1)) -lt "$#" ]; do
-    #     set -- "$@" "$1"
-    #     shift
-    # done
-    # file="$1"
-    # shift
-    # export GTK_THEME="Adwaita:dark"
-    # /bin/zathura "$@" "$current_dir/$file" &
-else
-    $program "$@" &
+if [ -n "$tag" ]; then
+    # check if tag is a number
+    if is_number_print "$tag"; then
+        riverctl set-focused-tags "$((1 << (tag - 1)))"
+    else
+        return 1
+    fi
 fi
+
+if [ "$#" -lt 1 ]; then
+    print_error "insert the program to start"
+    return 1
+fi
+
+program="$1"
+shift 1
+
+[ "$program" = "zathura" ] && program=zat
+
+$program "$@" &

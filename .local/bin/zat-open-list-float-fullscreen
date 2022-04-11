@@ -2,7 +2,7 @@
 
 info=$(cat << EOF
 SYNOPSIS
-        zat-open-list-float-fullscreen [-d directory] [-t tag] [-s start] [-e end]
+        zat-open-list-float-fullscreen [-t tag] [-d directory] [-s start] [-e end]
 
 DESCRIPTION
         open a list of files with zathura
@@ -21,11 +21,11 @@ DESCRIPTION
         -h, --help
             print this info and exit
 
-        -d, --directory=
-            directory that contains files
-
         -t, --tag=
             open files in specified river tag
+
+        -d, --directory=
+            directory that contains files
 
         -s, --start=
             start number
@@ -81,16 +81,6 @@ while [ "$#" -gt 0 ]; do
             echo "$info"
             return 0
         ;;
-        -d)
-            if set_option_one_dash directory "$@"; then
-                shift 1
-            else
-                return 1
-            fi
-        ;;
-        --directory=*)
-            ! set_option_two_dash directory "$@" && return 1
-        ;;
         -t)
             if set_option_one_dash tag "$@"; then
                 shift 1
@@ -100,6 +90,16 @@ while [ "$#" -gt 0 ]; do
         ;;
         --tag=*)
             ! set_option_two_dash tag "$@" && return 1
+        ;;
+        -d)
+            if set_option_one_dash directory "$@"; then
+                shift 1
+            else
+                return 1
+            fi
+        ;;
+        --directory=*)
+            ! set_option_two_dash directory "$@" && return 1
         ;;
         -s)
             if set_option_one_dash start "$@"; then
@@ -141,7 +141,7 @@ fi
 program="zat"
 if [ -n "$tag" ]; then
     if is_number_print "$tag"; then
-        program="$program $tag"
+        program="$program -t $tag"
     else
         return 1
     fi
