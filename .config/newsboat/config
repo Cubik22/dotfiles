@@ -1,25 +1,29 @@
 ### newsboat
 
-# automatically reload all feeds on startup
+# automatically reload all feeds on startup (no)
 # auto-reload yes
 
-# number of minutes between reloads when auto-reload yes
+# number of minutes between reloads when auto-reload yes (60)
 # reload-time 120
 
-# number of parallel reload threads
+# number of parallel reload threads (1)
 reload-threads 8
 
-# number of tries of downloading a feed
-# download-retries 4
+# number of tries to download a feed (1)
+download-retries 4
 
-# maximum number of articles to open in a browser
+# number of seconds to wait when downloading a feed (30)
+# download-timeout 60
+
+# maximum number of articles to open in a browser (10)
 max-browser-tabs 16
 
-# when an item is opened in the browser and marked as read jump to the next unread item
+# when an item is opened in the browser and
+# marked as read jump to the next unread item (no)
 # openbrowser-and-mark-jumps-to-next-unread yes
 
-# for all feed items with no content but with a link
-# the link is downloaded and the result used as content instead
+# for all feed items with no content but with a link the link
+# is downloaded and the result used as content instead (no)
 download-full-page yes
 
 # operations executed on startup separated by semicolons
