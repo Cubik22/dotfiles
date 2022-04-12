@@ -29,6 +29,13 @@ color-cmd() {
     "$@" 2> >(sed $'s,.*,\e[31m&\e[m,' >&2)
 }
 
+# replace tabs with 4 spaces
+tab-rep() {
+    for file in "$@"; do
+        sed -i 's/\t/    /g' "$file"
+    done
+}
+
 # use dark theme for zathura
 # change also zat and spa
 # not needed if using alias zathura=zat

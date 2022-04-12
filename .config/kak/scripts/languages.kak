@@ -26,7 +26,7 @@ hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|latex|html|
     lsp-enable-window
 
     # indent lsp with spaces rather than tabs
-    set-option window lsp_insert_spaces true
+    set-option global lsp_insert_spaces true
 
     # automatically show hover when you move around
     # lsp-auto-hover-enable
@@ -39,7 +39,13 @@ hook global WinSetOption filetype=kak %{
     # enable language options
     set-language-options
 }
-hook global BufCreate .*newsboat/urls %{
+
+# files in which to enable language options
+declare-option -hidden bool language_options false
+hook global BufCreate .*newsboat/urls.* %{
+    set-option buffer language_options true
+}
+hook global WinSetOption language_options=true %{
     # enable language options
     set-language-options
 }
@@ -59,11 +65,8 @@ hook global WinSetOption filetype=roff %{
     # disable all personal insertion and indentation hooks
     set-option window disabled_hooks personalInsertIndent
 
-    # expand tabs
-    expandtab
-
-    # highlight tabs as errors
-    ui-tabs-toggle
+    # enable language options
+    set-language-options
 }
 
 # json
@@ -111,7 +114,7 @@ hook global WinSetOption filetype=(c|cpp) %{
     # attention when a file has include if there is not a space between the # it interpret the file as a c/cpp
 
     # clang
-    set-option buffer formatcmd 'clang-format -style="{IndentWidth: 4,TabWidth: 4}"'
+    set-option window formatcmd 'clang-format -style="{IndentWidth: 4,TabWidth: 4}"'
     clang-enable-autocomplete
     clang-enable-diagnostics
     alias window lint clang-parse
@@ -124,7 +127,7 @@ hook global WinSetOption filetype=(c|cpp) %{
 # inlay hints are a feature supported by rust-analyzer, which show inferred types,
 # parameter names in function calls, and the types of chained calls inline in the code
 hook global WinSetOption filetype=rust %{
-    set-option buffer formatcmd 'rustfmt'
+    set-option window formatcmd 'rustfmt'
 
     hook window -group rust-inlay-hints BufReload .* rust-analyzer-inlay-hints
     hook window -group rust-inlay-hints NormalIdle .* rust-analyzer-inlay-hints
@@ -142,7 +145,7 @@ hook global WinSetOption filetype=zig %{
     set-option window formatcmd 'zig fmt --stdin'
 
     # set lsp server options
-    set-option global lsp_server_configuration zls.zig_lib_path="/usr/lib/zig"
+    set-option -add global lsp_server_configuration zls.zig_lib_path="/usr/lib/zig"
     set-option -add global lsp_server_configuration zls.warn_style=true
     set-option -add global lsp_server_configuration zls.enable_semantic_tokens=true
 
@@ -173,12 +176,12 @@ hook global WinSetOption filetype=python %{
 
 # assemply
 hook global WinSetOption filetype=gas %{
-    set-option window comment_line '#'
+    set-option buffer comment_line '#'
 }
 
 # ini
 hook global WinSetOption filetype=ini %{
-    set-option window comment_line '#'
+    set-option buffer comment_line '#'
 }
 
 # octave
