@@ -1,5 +1,13 @@
 #!/bin/sh
 
+command_exist() {
+    if command -v "$1" >/dev/null 2>&1; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 # check if parameter is a number
 is_number() {
     if [ "$1" -ge 0 ] > /dev/null 2>&1; then

@@ -37,25 +37,33 @@ END
     exit 1
 }
 
+_command_exist() {
+    if command -v "$1" >/dev/null 2>&1; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 # Test installed programs
 _is_grim()
 {
-    if hash grim >/dev/null 2>&1; then return 0; fi
+    if _command_exist grim; then return 0; fi
 }
 
 _is_slurp()
 {
-    if hash slurp >/dev/null 2>&1; then return 0; fi
+    if _command_exist slurp; then return 0; fi
 }
 
 _is_maim()
 {
-    if hash maim >/dev/null 2>&1; then return 0; fi
+    if _command_exist maim; then return 0; fi
 }
 
 _is_slop()
 {
-    if hash slop >/dev/null 2>&1; then return 0; fi
+    if _command_exist slop; then return 0; fi
 }
 
 # Need at least one of grim or maim
