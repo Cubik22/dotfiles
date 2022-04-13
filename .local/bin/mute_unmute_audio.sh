@@ -26,7 +26,7 @@ while read -r i; do
     else
         allsame=true
     fi
-    old=$new
+    old="$new"
 done <<EOT
 $(echo "$elements")
 EOT

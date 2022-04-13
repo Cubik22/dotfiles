@@ -4,9 +4,12 @@ dotfiles_dir="$HOME/dotfiles"
 
 backup_dir="$HOME/backup-bare"
 
+# ! instead of ^
+# https://github.com/koalaman/shellcheck/wiki/SC3026
+
 # home
 mkdir -p "$backup_dir"
-for config_dotfiles_path in "$dotfiles_dir"/* "$dotfiles_dir"/.[^.]*; do
+for config_dotfiles_path in "$dotfiles_dir"/* "$dotfiles_dir"/.[!.]*; do
     config=$(echo "$config_dotfiles_path" | rev | cut -d "/" -f 1 | rev)
     config_home_path="$HOME/$config"
     if [ -f "$config_home_path" ] || [ "$config" = ".icons" ]; then
@@ -16,7 +19,7 @@ done
 
 # config
 mkdir -p "$backup_dir/.config"
-for config_dotfiles_path in "$dotfiles_dir/.config"/* "$dotfiles_dir/.config"/.[^.]*; do
+for config_dotfiles_path in "$dotfiles_dir/.config"/* "$dotfiles_dir/.config"/.[!.]*; do
     config=$(echo "$config_dotfiles_path" | rev | cut -d "/" -f 1 | rev)
     config_home_path="$HOME/.config/$config"
     if [ -f "$config_home_path" ] || [ -d "$config_home_path" ]; then
@@ -26,10 +29,10 @@ done
 
 # local
 mkdir -p "$backup_dir/.local/bin"
-for local_dotfiles_path in "$dotfiles_dir/.local"/* "$dotfiles_dir/.local"/.[^.]*; do
+for local_dotfiles_path in "$dotfiles_dir/.local"/* "$dotfiles_dir/.local"/.[!.]*; do
     local=$(echo "$local_dotfiles_path" | rev | cut -d "/" -f 1 | rev)
     mkdir -p "$backup_dir/.local/$local"
-    for config_dotfiles_path in "$local_dotfiles_path"/* "$local_dotfiles_path"/.[^.]*; do
+    for config_dotfiles_path in "$local_dotfiles_path"/* "$local_dotfiles_path"/.[!.]*; do
         config=$(echo "$config_dotfiles_path" | rev | cut -d "/" -f 1 | rev)
         config_home_path="$HOME/.local/$local/$config"
         if [ -f "$config_home_path" ] || [ -d "$config_home_path" ]; then
