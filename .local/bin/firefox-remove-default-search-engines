@@ -22,12 +22,10 @@ mode="$1"
 file="$2"
 
 if [ "$mode" = "exte" ]; then
-    cat "$file" |
-        sed 's/{"id":"[a-zA-Z0-9]*@search\.mozilla\.org".*"location":"app-builtin"},//g' | \
+    sed 's/{"id":"[a-zA-Z0-9]*@search\.mozilla\.org".*"location":"app-builtin"},//g' "$file" | \
         sed 's/,{"id":"[a-zA-Z0-9]*@search\.mozilla\.org".*"location":"app-builtin"}//g'
 elif [ "$mode" = "pref" ]; then
-    cat "$file" |
-        sed 's/"[a-zA-Z0-9]*@search\.mozilla\.org".*[^}]},//g' | \
+    sed 's/"[a-zA-Z0-9]*@search\.mozilla\.org".*[^}]},//g' "$file" | \
         sed 's/,"[a-zA-Z0-9]*@search\.mozilla\.org".*[^}]}//g'
 else
     echo "error: wrong mode"

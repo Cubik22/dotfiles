@@ -15,7 +15,7 @@ files=$(ls --format=single-column "$substitute"*)
 
 mkdir -p "$new_folder"
 
-while read file; do
+while read -r file; do
     new_name=$(echo "$file" | sed "s/$substitute//g")
     mv "$file" "$new_folder"/"$new_name"
 done <<EOT

@@ -44,10 +44,10 @@ extuuid="extensions.webextensions.uuids"
 uicust="browser.uiCustomization.state"
 
 while read -r line; do
-    if test "${line#*$sync}" != "$line" ||
-       test "${line#*$fxaccount}" != "$line" ||
-       test "${line#*$extuuid}" != "$line" ||
-       test "${line#*$uicust}" != "$line"; then
+    if test "${line#*"$sync"}" != "$line" ||
+       test "${line#*"$fxaccount"}" != "$line" ||
+       test "${line#*"$extuuid"}" != "$line" ||
+       test "${line#*"$uicust"}" != "$line"; then
         echo "$line" >> "$new_prefs"
     fi
 done < "$prefs"

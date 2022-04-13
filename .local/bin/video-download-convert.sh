@@ -10,11 +10,11 @@ for url in "$@"; do
     cd "$dir" || return 1
 
     youtube-dl \
-    --ignore-errors \
-    --retries=infinite \
-    --add-metadata \
-    --xattrs \
-    "$url"
+        --ignore-errors \
+        --retries=infinite \
+        --add-metadata \
+        --xattrs \
+        "$url"
 
     name="$(echo *)"
     name_ext="$(echo "$name" | rev | cut -d "." -f 1 | rev)"

@@ -16,7 +16,7 @@ prefix_dir="$local_home"
 
 # prefix_dir_global="/usr/local"
 
-package_names="$(cat $local_home/share/script/build-packages)"
+package_names="$(cat "$local_home/share/script/build-packages")"
 
 print_info=$(cat << EOF
 SYNOPSIS

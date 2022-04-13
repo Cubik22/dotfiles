@@ -7,30 +7,30 @@ fi
 
 for url in "$@"; do
     # name="$(youtube-dl --get-filename "$url" \
-    # | rev | cut -d "." -f 2- | rev)"
+    #     | rev | cut -d "." -f 2- | rev)"
     # ext="$(youtube-dl --get-filename "$url" \
-    # | rev | cut -d "." -f 1 | rev)"
+    #     | rev | cut -d "." -f 1 | rev)"
     # full="${name}.${ext}"
     # youtube-dl \
-    # --ignore-errors \
-    # --retries=infinite \
-    # --extract-audio \
-    # --add-metadata \
-    # --xattrs \
-    # "$url" \
-    # -o "$full"
+    #     --ignore-errors \
+    #     --retries=infinite \
+    #     --extract-audio \
+    #     --add-metadata \
+    #     --xattrs \
+    #     "$url" \
+    #     -o "$full"
     # ffmpeg -i "$full" "${name}.opus"
 
     dir="$(mktemp -d audio-XXXXXX)"
     cd "$dir" || return 1
 
     youtube-dl \
-    --ignore-errors \
-    --retries=infinite \
-    --extract-audio \
-    --add-metadata \
-    --xattrs \
-    "$url"
+        --ignore-errors \
+        --retries=infinite \
+        --extract-audio \
+        --add-metadata \
+        --xattrs \
+        "$url"
 
     name="$(echo *)"
     name_ext="$(echo "$name" | rev | cut -d "." -f 1 | rev)"
