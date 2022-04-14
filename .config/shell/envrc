@@ -2,6 +2,9 @@
 
 # envrc
 
+KERNEL="$(uname -s)"
+export KERNEL
+
 # add programs to path
 # see also .local/bin/git_bare_repository.sh
 cargo_bin="$CARGO_HOME/bin"
@@ -21,23 +24,37 @@ unset npm_bin
 #     export PATH="$llvm13_bin:$PATH"
 # unset llvm13_bin
 
-# less
-# -F automatically exit if the entire file can be displayed on the first screen
-# may create problems with nnn
-# export LESS="-F -g -i -R -w"
-export LESS="-g -i -R -w"
+### bash history
 
-# kak as manpager
-export MANPAGER="kak-man"
+# export HISTTIMEFORMAT='%f %t '
+export HISTSIZE=
+export HISTFILESIZE=
+export HISTCONTROL="erasedups:ignoreboth"
+export HISTIGNORE="pwd:exit:clear"
+# export HISTIGNORE="cd:pwd:exit:q:c:e:ea:et::fe:clear:nnn:n3:xb*():curl"
+export HISTFILE="$XDG_DATA_HOME/bash/bash_history"
 
-# ls
-export LS_OPTIONS="--color=auto --group-directories-first --format=horizontal --human-readable"
+## sync command history across sessions
 
-# bat as manpager (set bat config)
-# export MANPAGER="bat-man"
+# this is faster since only new lines are read from the history file
+# export PROMPT_COMMAND="${PROMPT_COMMAND}${PROMPT_COMMAND:+;}history -a;history -n"
 
-# tmp dir
-export TMPDIR="/tmp"
+# append to hist file, clear local hist then read hist file and add to local hist
+# export PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
+
+# less history
+export LESSHISTFILE="$XDG_DATA_HOME/less/lesshst"
+
+# gnupg
+export GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
+
+# set client and graphical browser, when running wayland browser is changed
+export BROWSER=lynx
+export BROWSER_CLI=lynx
+
+# lynx config files
+export LYNX_CFG="$XDG_CONFIG_HOME/lynx/lynx.cfg"
+export LYNX_LSS="$XDG_CONFIG_HOME/lynx/lynx.lss"
 
 # XDG
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -49,11 +66,6 @@ export XDG_LIB_HOME="$XDG_LOCAL_HOME/lib"
 export XDG_INCLUDE_HOME="$XDG_LOCAL_HOME/include"
 export XDG_BIN_HOME="$XDG_LOCAL_HOME/bin"
 
-# runtime dir
-idu="$(id -u)"
-export XDG_RUNTIME_DIR="/run/user/$idu"
-# export XDG_RUNTIME_DIR="$XDG_LOCAL_HOME/runtime"
-
 # path
 export PATH="$XDG_BIN_HOME:$PATH"
 
@@ -62,6 +74,32 @@ export PATH="$XDG_BIN_HOME:$PATH"
 # if $MANPATH is prefixed by a colon, then the value of the variable is
 # appended to the list determined from the content of the configuration files
 export MANPATH=":$XDG_DATA_HOME/man"
+
+# if not on linux exit
+[ ! "$KERNEL" = "Linux" ] && return 0
+
+# runtime dir
+idu="$(id -u)"
+export XDG_RUNTIME_DIR="/run/user/$idu"
+# export XDG_RUNTIME_DIR="$XDG_LOCAL_HOME/runtime"
+
+# less
+# -F automatically exit if the entire file can be displayed on the first screen
+# may create problems with nnn
+# export LESS="-F -g -i -R -w"
+export LESS="-g -i -R -w"
+
+# kak as manpager
+export MANPAGER="kak-man"
+
+# bat as manpager (set bat config)
+# export MANPAGER="bat-man"
+
+# ls
+export LS_OPTIONS="--color=auto --group-directories-first --format=horizontal --human-readable"
+
+# tmp dir
+export TMPDIR="/tmp"
 
 # library path
 export LD_LIBRARY_PATH="$XDG_LOCAL_HOME/lib64:$XDG_LIB_HOME:$LD_LIBRARY_PATH"
@@ -93,9 +131,6 @@ export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
 # npm config
 # export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME"/npm/npmrc
 
-# gnupg
-export GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
-
 # gtk-2.0 config file
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/config"
 
@@ -106,33 +141,12 @@ export R_ENVIRON_USER="$XDG_CONFIG_HOME/R/renviron"
 export R_PROFILE_USER="$XDG_CONFIG_HOME/R/rprofile"
 export R_HISTFILE="$R_HOME_USER/rhistory"
 
-# less history
-export LESSHISTFILE="$XDG_DATA_HOME/less/lesshst"
-
 # ydl
 export YDL="yt-dlp"
 # export YDL="youtube-dl"
 
 # runit
 # export SVDIR="$XDG_CONFIG_HOME"/service
-
-### bash history
-
-# export HISTTIMEFORMAT='%f %t '
-export HISTSIZE=
-export HISTFILESIZE=
-export HISTCONTROL="erasedups:ignoreboth"
-export HISTIGNORE="pwd:exit:clear"
-# export HISTIGNORE="cd:pwd:exit:q:c:e:ea:et::fe:clear:nnn:n3:xb*():curl"
-export HISTFILE="$XDG_DATA_HOME/bash/bash_history"
-
-## sync command history across sessions
-
-# this is faster since only new lines are read from the history file
-# export PROMPT_COMMAND="${PROMPT_COMMAND}${PROMPT_COMMAND:+;}history -a;history -n"
-
-# append to hist file, clear local hist then read hist file and add to local hist
-# export PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
 
 ### nnn
 
@@ -190,14 +204,6 @@ export FZF_COMPLETION_OPTS='--info=inline'
 
 # string that triggers fzf completion
 # export FZF_COMPLETION_TRIGGER='**'
-
-# set client and graphical browser, when running wayland browser is changed
-export BROWSER=lynx
-export BROWSER_CLI=lynx
-
-# lynx config files
-export LYNX_CFG="$XDG_CONFIG_HOME/lynx/lynx.cfg"
-export LYNX_LSS="$XDG_CONFIG_HOME/lynx/lynx.lss"
 
 # dir_colors
 # eval "$(dircolors $HOME/.dir_colors)"

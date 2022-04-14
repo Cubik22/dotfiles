@@ -76,7 +76,8 @@ if [ "$fullscreen" = "true" ]; then
     set_fullscreen &
 fi
 
-parameters="--force-window=yes"
+parameters="--force-window=yes --ytdl=yes"
+# parameters="--force-window=yes --ytdl=yes --ytdl-raw-options=no-check-certificate="
 
 if [ "$audio" = "true" ]; then
     parameters="$parameters --video=no --script-opts=osc-visibility=always"
@@ -89,11 +90,11 @@ else
 fi
 
 if [ "$quality" = "best" ]; then
-    parameters="$parameters --ytdl=yes --ytdl-format=best"
+    parameters="$parameters --ytdl-format=best"
 elif [ "$quality" = "medium" ]; then
-    parameters="$parameters --ytdl=yes --ytdl-format=\\\"best[height<=480]\\\""
+    parameters="$parameters --ytdl-format=\\\"best[height<=480]\\\""
 elif [ "$quality" = "worst" ]; then
-    parameters="$parameters --ytdl=yes --ytdl-format=worst"
+    parameters="$parameters --ytdl-format=worst"
 fi
 
 echo "parameters passed to mpv:"
