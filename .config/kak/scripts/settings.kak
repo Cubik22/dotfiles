@@ -34,8 +34,14 @@ set-option global disabled_hooks '.*-insert.*|.*-indent.*'
 # use ripgrep for grepping
 set-option global grepcmd 'rg --column'
 
-# use foot as the terminal
-set-option global windowing_modules 'wayland'
+evaluate-commands %sh{
+    if [ "$KERNEL" = "Linux" ]; then
+        # use foot as the terminal
+        printf "%s" "
+            set-option global windowing_modules 'wayland'
+        "
+    fi
+}
 
 # trim trailing whitespaces on empty line when leaving insert mode
 hook global ModeChange pop:insert:.* -group personalInsertIndent %{

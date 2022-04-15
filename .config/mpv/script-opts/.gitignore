@@ -1,0 +1,5 @@
+*
+!.gitignore
+
+!autoload.conf
+!mpv_thumbnail_script.conf
