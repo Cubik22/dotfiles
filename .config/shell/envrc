@@ -83,6 +83,7 @@ if [ "$KERNEL" = "Linux" ]; then
     export LS_COMMAND="ls --color=auto --group-directories-first --format=horizontal --human-readable"
 else
     export LS_COMMAND="colorls -G -x -h"
+    export LSCOLORS="exfxxFDxcxegedabagacad"
 fi
 
 # if not on linux exit
