@@ -80,11 +80,10 @@ export LESS="-g -i -R -w"
 
 # ls
 if [ "$KERNEL" = "Linux" ]; then
-    LS_COMMAND="ls"
+    export LS_COMMAND="ls --color=auto --group-directories-first --format=horizontal --human-readable"
 else
-    LS_COMMAND="colorls -G"
+    export LS_COMMAND="colorls -G -x -h"
 fi
-export LS_COMMAND="$LS_COMMAND --color=auto --group-directories-first --format=horizontal --human-readable"
 
 # if not on linux exit
 if [ ! "$KERNEL" = "Linux" ]; then
