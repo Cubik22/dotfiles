@@ -4,4 +4,4 @@ state_dir="${XDG_DATA_HOME:-$HOME/.local/share}/state"
 
 [ ! -d "$state_dir" ] && mkdir -p "$state_dir"
 
-cat "$@" > "$state_dir/clipboard"
+echo "$@" > "$state_dir/clipboard"
