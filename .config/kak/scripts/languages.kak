@@ -1,6 +1,8 @@
 # enable kak-lsp for some filetypes
 evaluate-commands %sh{
-    kak-lsp --kakoune -s "$kak_session"
+    if [ "$KERNEL" = "Linux" ]; then
+        kak-lsp --kakoune -s "$kak_session"
+    fi
 }
 
 # information on current buffer filetype
@@ -22,17 +24,29 @@ hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|latex|html|
     # enable language options
     set-language-options
 
-    # enable lsp in this window
-    lsp-enable-window
+    evaluate-commands %sh{
+        if [ "$KERNEL" = "Linux" ]; then
+            # enable lsp in this window
+            printf "%s" "
+                lsp-enable-window
+            "
 
-    # indent lsp with spaces rather than tabs
-    set-option global lsp_insert_spaces true
+            # indent lsp with spaces rather than tabs
+            printf "%s" "
+                set-option global lsp_insert_spaces true
+            "
 
-    # automatically show hover when you move around
-    # lsp-auto-hover-enable
+            # automatically show hover when you move around
+            # printf "%s" "
+            #     lsp-auto-hover-enable
+            # "
 
-    # showing diagnostics inline after their respective line (somewhat buggy)
-    # lsp-inlay-diagnostics-enable global
+            # showing diagnostics inline after their respective line (somewhat buggy)
+            # printf "%s" "
+            #     lsp-inlay-diagnostics-enable global
+            # "
+        fi
+    }
 }
 
 hook global WinSetOption filetype=kak %{

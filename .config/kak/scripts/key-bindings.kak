@@ -182,18 +182,35 @@ map global user a '*%s<ret>' -docstring 'select all'
 # buffer *debug*
 map global user D ': buffer *debug*<ret>'                       -docstring 'buffer *debug*'
 
-# system clipboard (tiny.kak)
-# hook global RegisterModified '"' %{ nop %sh{
-#     printf %s "$kak_main_reg_dquote" | wl-copy-env > /dev/null 2>&1 &
-# } }
-map global user y '<a-|>wl-copy-env<ret>'                       -docstring 'copy to system'
-map global user d '<a-|>wl-copy-env<ret><a-d>'                  -docstring 'delete and copy to system'
-map global user c '<a-|>wl-copy-env<ret><a-c>'                  -docstring 'change and copy to system'
-map global user p '<a-!>wl-paste-env -n<ret>'                   -docstring 'paste from system (after)'
-map global user P '!wl-paste-env -n<ret>'                       -docstring 'paste from system (before)'
-map global user <a-p> '<a-o>j !wl-paste-env -n<ret>'            -docstring 'paste from system (below)'
-map global user <a-P> '<a-O>k !wl-paste-env -n<ret>'            -docstring 'paste from system (above)'
-map global user r '!wl-paste-env -n<ret>d'                      -docstring 'replace from system'
+evaluate-commands %sh{
+    if [ "$KERNEL" = "Linux" ]; then
+        # system clipboard (tiny.kak)
+        # hook global RegisterModified '"' %{ nop %sh{
+        #     printf %s "$kak_main_reg_dquote" | wl-copy-env > /dev/null 2>&1 &
+        # } }
+        printf "%s" "
+            map global user y '<a-|>wl-copy-env<ret>'                       -docstring 'copy to system'
+            map global user d '<a-|>wl-copy-env<ret><a-d>'                  -docstring 'delete and copy to system'
+            map global user c '<a-|>wl-copy-env<ret><a-c>'                  -docstring 'change and copy to system'
+            map global user p '<a-!>wl-paste-env -n<ret>'                   -docstring 'paste from system (after)'
+            map global user P '!wl-paste-env -n<ret>'                       -docstring 'paste from system (before)'
+            map global user <a-p> '<a-o>j !wl-paste-env -n<ret>'            -docstring 'paste from system (below)'
+            map global user <a-P> '<a-O>k !wl-paste-env -n<ret>'            -docstring 'paste from system (above)'
+            map global user r '!wl-paste-env -n<ret>d'                      -docstring 'replace from system'
+        "
+    else
+        printf "%s" "
+            map global user y '<a-|>clipboard-tty-copy<ret>'                -docstring 'copy to system'
+            map global user d '<a-|>clipboard-tty-copy<ret><a-d>'           -docstring 'delete and copy to system'
+            map global user c '<a-|>clipboard-tty-copy<ret><a-c>'           -docstring 'change and copy to system'
+            map global user p '<a-!>clipboard-tty-paste -n<ret>'            -docstring 'paste from system (after)'
+            map global user P '!clipboard-tty-paste -n<ret>'                -docstring 'paste from system (before)'
+            map global user <a-p> '<a-o>j !clipboard-tty-paste -n<ret>'     -docstring 'paste from system (below)'
+            map global user <a-P> '<a-O>k !clipboard-tty-paste -n<ret>'     -docstring 'paste from system (above)'
+            map global user r '!clipboard-tty-paste -n<ret>d'               -docstring 'replace from system'
+        "
+    fi
+}
 
 # functionality
 map global user f ': fuzzy-files<ret>'                          -docstring 'fzf files'

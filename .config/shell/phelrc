@@ -259,13 +259,13 @@ df -h
 du -h
 truncate
 rsync
-    {--human-readable}
-    {--verbose}
+    {--human-readable, -h}
+    {--verbose, -v}
+    {--update, -u}
+    {--archive, -a}
+    {--compress, -z}
+    {--partial --progress, -P}
     {--info=progress2}
-    {--update}
-    {--archive}
-    {--partial}
-    {--progress}
     {--no-inc-recursive}
     <source> <dest>
 EOF
