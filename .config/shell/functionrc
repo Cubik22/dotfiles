@@ -10,7 +10,7 @@ phelrc="$HOME/.config/shell/phelrc"
 # cd and ls
 cdl() {
     cd "$@" || return 1
-    ls $LS_OPTIONS
+    $LS_COMMAND
 }
 
 # cat files ls everything else
@@ -19,7 +19,7 @@ lc() {
         if [ -f "$obj" ]; then
             cat "$obj"
         else
-            ls $LS_OPTIONS "$obj"
+            $LS_COMMAND "$obj"
         fi
     done
 }

@@ -97,7 +97,12 @@ export MANPAGER="kak-man"
 # export MANPAGER="bat-man"
 
 # ls
-export LS_OPTIONS="--color=auto --group-directories-first --format=horizontal --human-readable"
+if [ "$KERNEL" = "Linux" ]; then
+    LS_COMMAND="ls"
+else
+    LS_COMMAND="colorls -G"
+fi
+export LS_COMMAND="$LS_COMMAND --color=auto --group-directories-first --format=horizontal --human-readable"
 
 # tmp dir
 export TMPDIR="/tmp"
