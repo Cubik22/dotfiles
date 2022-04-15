@@ -77,8 +77,8 @@ export LYNX_LSS="$XDG_CONFIG_HOME/lynx/lynx.lss"
 
 # if not on linux exit
 if [ ! "$KERNEL" = "Linux" ]; then
-    unset TERM
-    # export TERM="xterm-color"
+    export TERM="xterm-color"
+    # unset TERM
     return 0
 fi
 
