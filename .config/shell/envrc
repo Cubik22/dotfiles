@@ -72,6 +72,20 @@ export BROWSER_CLI=lynx
 export LYNX_CFG="$XDG_CONFIG_HOME/lynx/lynx.cfg"
 export LYNX_LSS="$XDG_CONFIG_HOME/lynx/lynx.lss"
 
+# less
+# -F automatically exit if the entire file can be displayed on the first screen
+# may create problems with nnn
+# export LESS="-F -g -i -R -w"
+export LESS="-g -i -R -w"
+
+# ls
+if [ "$KERNEL" = "Linux" ]; then
+    LS_COMMAND="ls"
+else
+    LS_COMMAND="colorls -G"
+fi
+export LS_COMMAND="$LS_COMMAND --color=auto --group-directories-first --format=horizontal --human-readable"
+
 # if not on linux exit
 if [ ! "$KERNEL" = "Linux" ]; then
     export TERM="xterm-color"
@@ -84,25 +98,11 @@ idu="$(id -u)"
 export XDG_RUNTIME_DIR="/run/user/$idu"
 # export XDG_RUNTIME_DIR="$XDG_LOCAL_HOME/runtime"
 
-# less
-# -F automatically exit if the entire file can be displayed on the first screen
-# may create problems with nnn
-# export LESS="-F -g -i -R -w"
-export LESS="-g -i -R -w"
-
 # kak as manpager
 export MANPAGER="kak-man"
 
 # bat as manpager (set bat config)
 # export MANPAGER="bat-man"
-
-# ls
-if [ "$KERNEL" = "Linux" ]; then
-    LS_COMMAND="ls"
-else
-    LS_COMMAND="colorls -G"
-fi
-export LS_COMMAND="$LS_COMMAND --color=auto --group-directories-first --format=horizontal --human-readable"
 
 # tmp dir
 export TMPDIR="/tmp"
