@@ -34,7 +34,12 @@ export XDG_BIN_HOME="$XDG_LOCAL_HOME/bin"
 # path
 export PATH="$XDG_BIN_HOME:$PATH"
 if [ ! "$KERNEL" = "Linux" ]; then
-    export PATH="$HOME/dotfiles/.local/bin:$HOME/config/usr/local/bin:$PATH"
+    config_bin_dir="$HOME/config/usr/local/bin"
+    [ -d "$config_bin_dir" ] && export PATH="$config_bin_dir:$PATH"
+    unset config_bin_dir
+    dotfiles_bin_dir="$HOME/dotfiles/.local/bin"
+    [ -d "$dotfiles_bin_dir" ] && export PATH="$dotfiles_bin_dir:$PATH"
+    unset dotfiles_bin_dir
 fi
 
 # manpath
