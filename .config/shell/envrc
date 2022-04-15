@@ -33,6 +33,9 @@ export XDG_BIN_HOME="$XDG_LOCAL_HOME/bin"
 
 # path
 export PATH="$XDG_BIN_HOME:$PATH"
+if [ ! "$KERNEL" = "Linux" ]; then
+    export PATH="$HOME/dotfiles/.local/bin:$HOME/config/usr/local/bin:$PATH"
+fi
 
 # manpath
 # if $MANPATH is set, manpath displays its value rather than determining it on the fly
