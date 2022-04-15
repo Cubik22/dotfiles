@@ -3,29 +3,7 @@
 # print informations
 phel() {
 
-subject_names=$(cat << EOF
-wifi
-bluez
-audio
-runit
-device
-compression
-update
-git
-permission
-man
-lib
-kernel
-terminal
-pdf
-latex
-font
-log
-debug
-file
-util
-EOF
-)
+subject_names="$(cat "${XDG_DATA_HOME:-$HOME/.local/share}/script/phelrc")"
 
 print_info=$(cat << EOF
 SYNOPSIS

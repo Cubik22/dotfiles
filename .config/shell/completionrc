@@ -32,8 +32,22 @@ complete -F _complete_alias xi
 complete -F _complete_alias xr
 complete -F _complete_alias xq
 
+__phel_completion() {
+    subject_names="$(cat "${XDG_DATA_HOME:-$HOME/.local/share}/script/phelrc" | sed 's/\n/ /g')"
+
+    OPTS="\
+        $subject_names \
+        -a --all \
+        -l --list \
+        -h --help \
+    "
+
+    COMPREPLY=($(compgen -W "${OPTS}" -- "${COMP_WORDS[$COMP_CWORD]}"))
+}
+complete -F __phel_completion phel
+
 __build_packages_completion() {
-    package_names="$(cat "${XDG_LOCAL_HOME:-$HOME/.local}/share/script/build-packages | sed 's/\n/ /g'")"
+    package_names="$(cat "${XDG_DATA_HOME:-$HOME/.local/share}/script/build-packages" | sed 's/\n/ /g')"
 
     OPTS="\
         $package_names \
@@ -48,7 +62,7 @@ __build_packages_completion() {
 complete -F __build_packages_completion build-packages
 
 __update_extra_completion() {
-    program_names="$(cat "${XDG_LOCAL_HOME:-$HOME/.local}/share/script/update-extra | sed 's/\n/ /g'")"
+    program_names="$(cat "${XDG_DATA_HOME:-$HOME/.local/share}/script/update-extra" | sed 's/\n/ /g')"
 
     OPTS="\
         $program_names \

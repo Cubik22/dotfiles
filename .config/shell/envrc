@@ -2,9 +2,6 @@
 
 # envrc
 
-KERNEL="$(uname -s)"
-export KERNEL
-
 # add programs to path
 # see also .local/bin/git_bare_repository.sh
 cargo_bin="$CARGO_HOME/bin"
