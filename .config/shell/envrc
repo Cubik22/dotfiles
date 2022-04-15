@@ -24,6 +24,25 @@ unset npm_bin
 #     export PATH="$llvm13_bin:$PATH"
 # unset llvm13_bin
 
+# XDG
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_LOCAL_HOME="$HOME/.local"
+export XDG_DATA_HOME="$XDG_LOCAL_HOME/share"
+export XDG_STATE_HOME="$XDG_LOCAL_HOME/state"
+export XDG_LIB_HOME="$XDG_LOCAL_HOME/lib"
+export XDG_INCLUDE_HOME="$XDG_LOCAL_HOME/include"
+export XDG_BIN_HOME="$XDG_LOCAL_HOME/bin"
+
+# path
+export PATH="$XDG_BIN_HOME:$PATH"
+
+# manpath
+# if $MANPATH is set, manpath displays its value rather than determining it on the fly
+# if $MANPATH is prefixed by a colon, then the value of the variable is
+# appended to the list determined from the content of the configuration files
+export MANPATH=":$XDG_DATA_HOME/man"
+
 ### bash history
 
 # export HISTTIMEFORMAT='%f %t '
@@ -56,27 +75,12 @@ export BROWSER_CLI=lynx
 export LYNX_CFG="$XDG_CONFIG_HOME/lynx/lynx.cfg"
 export LYNX_LSS="$XDG_CONFIG_HOME/lynx/lynx.lss"
 
-# XDG
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_LOCAL_HOME="$HOME/.local"
-export XDG_DATA_HOME="$XDG_LOCAL_HOME/share"
-export XDG_STATE_HOME="$XDG_LOCAL_HOME/state"
-export XDG_LIB_HOME="$XDG_LOCAL_HOME/lib"
-export XDG_INCLUDE_HOME="$XDG_LOCAL_HOME/include"
-export XDG_BIN_HOME="$XDG_LOCAL_HOME/bin"
-
-# path
-export PATH="$XDG_BIN_HOME:$PATH"
-
-# manpath
-# if $MANPATH is set, manpath displays its value rather than determining it on the fly
-# if $MANPATH is prefixed by a colon, then the value of the variable is
-# appended to the list determined from the content of the configuration files
-export MANPATH=":$XDG_DATA_HOME/man"
-
 # if not on linux exit
-[ ! "$KERNEL" = "Linux" ] && return 0
+if [ ! "$KERNEL" = "Linux" ]; then
+    return 0
+else
+    export TERM="xterm-color"
+fi
 
 # runtime dir
 idu="$(id -u)"
