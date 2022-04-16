@@ -2,222 +2,233 @@
 # define environment variable LS_COLORS
 
 # COLOR needs one of these arguments: 'tty' colorizes output to ttys, but not
-# pipes. 'all' adds color characters to all output. 'none' shuts colorization off.
-# COLOR tty
+# pipes. 'all' adds color characters to all output. 'none' shuts colorization
+# off.
+COLOR tty
 
-# TERM used
+# Extra command line options for ls go here.
+# Basically these ones are:
+#  -F = show '/' for dirs, '*' for executables, etc.
+#  -T 0 = don't trust tab spacing when formatting ls output.
+OPTIONS -F -T 0
+
+# Below, there should be one TERM entry for each termtype that is colorizable
 # TERM foot
 
-# below are the color init strings for the basic file types. A color init string
-# consists of one or more of the following numeric codes:
+# EIGHTBIT, followed by '1' for on, '0' for off. (8-bit output)
+# EIGHTBIT 1
 
-# attribute codes:
+# Below are the color init strings for the basic file types. A color init
+# string consists of one or more of the following numeric codes:
+# Attribute codes:
 # 00=none 01=bold 04=underscore 05=blink 07=reverse 08=concealed
 
-# text color codes normal:
+# Text color codes normal:
 # 30=black 31=red 32=green 33=yellow 34=blue 35=magenta 36=cyan 37=white/orange
-# text color codes bright:
+# Text color codes bright:
 # 90=black 91=red 92=green 93=yellow 94=blue 95=magenta 96=cyan 97=white/orange
-
-# background color codes normal:
+# Background color codes normal:
 # 40=black 41=red 42=green 43=yellow 44=blue 45=magenta 46=cyan 47=white
-# background color codes bright:
+# Background color codes bright:
 # 100=black 101=red 102=green 103=yellow 104=blue 105=magenta 106=cyan 107=white
 
-NORMAL 0;38;15               	# no color code at all
-FILE 00                        	# regular file: use no color at all
-RESET 0                         # reset to "normal" color
-DIR 1;34                        # directory
-LINK 01;35                 		# symbolic link. (If you set this to 'target' instead of a
-                                # numerical value, the color is as for the file pointed to.)
-MULTIHARDLINK 00                # regular file with more than one link
-FIFO 40;33                      # pipe
-SOCK 1;38;105                 	# socket
-DOOR 01;35                      # door
-BLK 40;33;01                    # block device driver
-CHR 40;33;01                    # character device driver
-ORPHAN 40;91;01                 # symlink to nonexistent file, or non-stat'able file
-SETUID 37;41                    # file that is setuid (u+s)
-SETGID 30;43                    # file that is setgid (g+s)
-CAPABILITY 30;41                # file with capability
-STICKY_OTHER_WRITABLE 30;42     # dir that is sticky and other-writable (+t,o+w)
-OTHER_WRITABLE 30;42            # dir that is other-writable (o+w) and not sticky
-STICKY 37;44                    # dir with the sticky bit set (+t) and not other-writable
+NORMAL 00	# global default, although everything should be something.
+FILE 00 	# normal file
+DIR 01;34 	# directory
+LINK 01;35 	# symbolic link (If you set this to 'target' instead of a
+		# numerical value, the color is as for the file pointed to.)
+FIFO 40;33	# pipe
+SOCK 01;36	# socket
+DOOR 01;36	# door
+BLK 44;33;01	# block device driver
+CHR 44;33;01 	# character device driver
+ORPHAN 40;31;01  # symlink to nonexistent file, or non-stat'able file
+MISSING 01;33;40 # ... and the files they point to
+SETUID 37;41	# file that is setuid (u+s)
+SETGID 37;43	# file that is setgid (g+s)
+CAPABILITY 30;41	# file with capability
+STICKY_OTHER_WRITABLE 30;42 # dir that is sticky and other-writable (+t,o+w)
+OTHER_WRITABLE 34;42 # dir that is other-writable (o+w) and not sticky
+STICKY 37;44	# dir with the sticky bit set (+t) and not other-writable
+
+RESET 0	# reset to "normal" color
+MULTIHARDLINK 00	# regular file with more than one link
 
 # This is for files with execute permission:
-EXEC  1;30;32
+EXEC 01;32
 
 # source
-.h 01;36
-.hh 01;36
-.hpp 01;36
-.c 01;36
-.C 01;36
-.cc 01;36
-.cxx 01;36
-.cpp 01;36
-.objc 01;36
-.rs 01;36
-.zig 01;36
-.go 01;36
-.sh 01;36
-.bash 01;36
-.csh 01;36
-.zsh 01;36
-.fish 01;36
-.el 01;36
-.vim 01;36
-.java 01;36
-.pl 01;36
-.pm 01;36
-.py 01;36
-.rb 01;36
-.hs 01;36
-.php 01;36
-.htm 01;36
-.html 01;36
-.shtml 01;36
-.xml 01;36
-.rdf 01;36
-.css 01;36
-.js 01;36
-.ts 01;36
-.groff 01;36
-.roff 01;36
-.ms 01;36
-.me 01;36
-.mm 01;36
-.man 01;36
-.0 01;36
-.1 01;36
-.2 01;36
-.3 01;36
-.4 01;36
-.5 01;36
-.6 01;36
-.7 01;36
-.8 01;36
-.9 01;36
-.l 01;36
-.n 01;36
-.p 01;36
-.pod 01;36
-.tex 01;36
-.lua 01;36
-.tex 01;36
-.r 01;36
-.m 01;36
-.kak 01;36
-.sol 01;36
+.h 01;92
+.hh 01;92
+.hpp 01;92
+.c 01;92
+.C 01;92
+.cc 01;92
+.cxx 01;92
+.cpp 01;92
+.objc 01;92
+.rs 01;92
+.zig 01;92
+.go 01;92
+.sh 01;92
+.ksh 01;92
+.bash 01;92
+.csh 01;92
+.zsh 01;92
+.fish 01;92
+.el 01;92
+.vim 01;92
+.java 01;92
+.pl 01;92
+.pm 01;92
+.py 01;92
+.rb 01;92
+.hs 01;92
+.php 01;92
+.htm 01;92
+.html 01;92
+.shtml 01;92
+.xml 01;92
+.rdf 01;92
+.css 01;92
+.js 01;92
+.ts 01;92
+.groff 01;92
+.roff 01;92
+.ms 01;92
+.me 01;92
+.mm 01;92
+.man 01;92
+.0 01;92
+.1 01;92
+.2 01;92
+.3 01;92
+.4 01;92
+.5 01;92
+.6 01;92
+.7 01;92
+.8 01;92
+.9 01;92
+.l 01;92
+.n 01;92
+.p 01;92
+.pod 01;92
+.tex 01;92
+.lua 01;92
+.tex 01;92
+.r 01;92
+.m 01;92
+.kak 01;92
+.sol 01;92
 
 # archives or compressed
-.tar 01;31
-.tgz 01;31
-.arj 01;31
-.taz 01;31
-.lzh 01;31
-.lzma 01;31
-.tlz 01;31
-.txz 01;31
-.zip 01;31
-.z 01;31
-.Z 01;31
-.dz 01;31
-.gz 01;31
-.lz 01;31
-.xz 01;31
-.bz2 01;31
-.bz 01;31
-.tbz 01;31
-.tbz2 01;31
-.tz 01;31
-.deb 01;31
-.rpm 01;31
-.jar 01;31
-.war 01;31
-.ear 01;31
-.sar 01;31
-.rar 01;31
-.ace 01;31
-.zoo 01;31
-.cpio 01;31
-.7z 01;31
-.rz 01;31
-.apk 01;31
-.bin 1;31
+.tar 01;91
+.tgz 01;91
+.svgz 01;91
+.arj 01;91
+.taz 01;91
+.lzh 01;91
+.lzma 01;91
+.tlz 01;91
+.txz 01;91
+.zip 01;91
+.z 01;91
+.Z 01;91
+.dz 01;91
+.gz 01;91
+.lz 01;91
+.xz 01;91
+.bz2 01;91
+.bz 01;91
+.tbz 01;91
+.tbz2 01;91
+.tz 01;91
+.deb 01;91
+.rpm 01;91
+.jar 01;91
+.war 01;91
+.ear 01;91
+.sar 01;91
+.rar 01;91
+.ace 01;91
+.zoo 01;91
+.cpio 01;91
+.7z 01;91
+.rz 01;91
+.apk 01;91
+.bin 1;91
 
 # image
-.jpg 01;35
-.jpeg 01;35
-.jpe 01;35
-.gif 01;35
-.bmp 01;35
-.pbm 01;35
-.pgm 01;35
-.ppm 01;35
-.tga 01;35
-.xbm 01;35
-.xpm 01;35
-.tif 01;35
-.tiff 01;35
-.png 01;35
-.svg 01;35
-.svgz 01;35
-.mng 01;35
-.pcx 01;35
-.dl 01;35
-.xcf 01;35
-.xwd 01;35
-.yuv 01;35
-.cgm 01;35
-.emf 01;35
+.jpg 01;95
+.jpeg 01;95
+.jpe 01;95
+.gif 01;95
+.bmp 01;95
+.pbm 01;95
+.pgm 01;95
+.ppm 01;95
+.tga 01;95
+.xbm 01;95
+.xpm 01;95
+.tif 01;95
+.tiff 01;95
+.png 01;95
+.svg 01;95
+.mng 01;95
+.pcx 01;95
+.dl 01;95
+.xcf 01;95
+.xwd 01;95
+.yuv 01;95
+.cgm 01;95
+.emf 01;95
 
 # audio
-.aac 01;93
-.au 01;93
-.flac 01;93
-.mid 01;93
-.midi 01;93
-.mka 01;93
-.mp3 01;93
-.mpc 01;93
-.ra 01;93
-.wav 01;93
-.axa 01;93
-.oga 01;93
-.opus 01;93
-.spx 01;93
-.xspf 01;93
+.aac 01;96
+.au 01;96
+.flac 01;96
+.mid 01;96
+.midi 01;96
+.mka 01;96
+.mp3 01;96
+.mpc 01;96
+.ra 01;96
+.wav 01;96
+.axa 01;96
+.oga 01;96
+.opus 01;96
+.spx 01;96
+.xspf 01;96
 
 # video
-.anx 01;33
-.asf 01;33
-.avi 01;33
-.axv 01;33
-.flc 01;33
-.fli 01;33
-.flv 01;33
-.gl 01;33
-.m2v 01;33
-.m4v 01;33
-.mkv 01;33
-.mov 01;33
-.mp4 01;33
-.mp4v 01;33
-.mpeg 01;33
-.mpg 01;33
-.nuv 01;33
-.ogg 01;33
-.ogv 01;33
-.ogm 01;33
-.ogx 01;33
-.qt 01;33
-.rm 01;33
-.rmvb 01;33
-.swf 01;33
-.vob 01;33
-.wmv 01;33
-.webm 01;33
+.anx 01;93
+.asf 01;93
+.avi 01;93
+.axv 01;93
+.flc 01;93
+.fli 01;93
+.flv 01;93
+.gl 01;93
+.m2v 01;93
+.m4v 01;93
+.mkv 01;93
+.mov 01;93
+.mp4 01;93
+.mp4v 01;93
+.mpeg 01;93
+.mpg 01;93
+.nuv 01;93
+.ogg 01;93
+.ogv 01;93
+.ogm 01;93
+.ogx 01;93
+.qt 01;93
+.rm 01;93
+.rmvb 01;93
+.swf 01;93
+.vob 01;93
+.wmv 01;93
+.webm 01;93
 
 # documents
 .doc 01;97

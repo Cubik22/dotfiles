@@ -88,7 +88,7 @@ export LESS="-g -i -R -w"
 
 # ls
 if [ "$KERNEL" = "Linux" ]; then
-    export LS_COMMAND="ls --color=auto --tabsize=4 --group-directories-first --format=horizontal --human-readable"
+    export LS_COMMAND="ls --color=auto --group-directories-first --format=horizontal --human-readable"
 else
     export LS_COMMAND="colorls -G -x -h"
     export LSCOLORS="exfxgxdxcxegedabagacad"
