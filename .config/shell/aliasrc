@@ -186,6 +186,28 @@ if [ "$KERNEL" = "Linux" ]; then
     export mirror2="https://repo-fi.voidlinux.org/current"
     export mirror3="https://mirrors.servercentral.com/voidlinux/current"
     export mirror4="https://repo-us.voidlinux.org/current"
+else
+    # git config
+    dotfiles_dir="$HOME/dotfiles"
+    alias ust="git -C $dotfiles_dir status"
+    alias uad="git -C $dotfiles_dir add"
+    alias urs="git -C $dotfiles_dir restore"
+    alias ucm="git -C $dotfiles_dir commit"
+    alias udf="git -C $dotfiles_dir diff"
+    alias ulg="git -C $dotfiles_dir log"
+    alias upl="git -C $dotfiles_dir pull"
+    alias ups="git -C $dotfiles_dir push"
+    unset dotfiles_dir
+    config_dir="$HOME/config"
+    alias rst="git -C $config_dir status"
+    alias rad="git -C $config_dir add"
+    alias rrs="git -C $config_dir restore"
+    alias rcm="git -C $config_dir commit"
+    alias rdf="git -C $config_dir diff"
+    alias rlg="git -C $config_dir log"
+    alias rpl="git -C $config_dir pull"
+    alias rps="git -C $config_dir push"
+    unset config
 fi
 
 # so the root user can link and use bash config
