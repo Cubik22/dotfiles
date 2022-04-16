@@ -96,8 +96,8 @@ fi
 
 # if not on linux exit
 if [ ! "$KERNEL" = "Linux" ]; then
-    export TERM="xterm-color"
-    # unset TERM
+    # build foot terminfo or set TERM
+    # export TERM="xterm-256color"
 
     # exit also return scripts where this is sourced return no
     return 0
