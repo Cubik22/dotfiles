@@ -88,15 +88,15 @@ export LESS="-g -i -R -w"
 
 # ls
 if [ "$KERNEL" = "Linux" ]; then
-    export LS_COMMAND="ls --color=auto --group-directories-first --format=horizontal --human-readable"
+    export LS_COMMAND="ls --color=auto --tabsize=4 --group-directories-first --format=horizontal --human-readable"
 else
     export LS_COMMAND="colorls -G -x -h"
-    export LSCOLORS="exfxxFDxcxegedabagacad"
+    export LSCOLORS="exfxgxdxcxegedabagacad"
 fi
 
 # if not on linux exit
 if [ ! "$KERNEL" = "Linux" ]; then
-    # build foot terminfo or set TERM
+    # build foot terminfo/termcap or set TERM
     # export TERM="xterm-256color"
 
     # exit also return scripts where this is sourced return no

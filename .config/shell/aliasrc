@@ -42,9 +42,13 @@ alias lla='$LS_COMMAND -l -A'
 # alias trexa="exa --long --header --modified --git --tree --color=auto --icons --all --group-directories-first"
 
 # color stuff
+if [ "$KERNEL" = "Linux" ]; then
+    alias diff="diff --color=auto"
+else
+    alias diff="colordiff"
+fi
 # alias dir="dir --color=auto"
 # alias vdir="vdir --color=auto"
-# alias diff="diff --color=auto"
 # alias ip="ip --color=auto"
 # alias grep="grep --color=auto"
 
