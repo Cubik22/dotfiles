@@ -98,6 +98,8 @@ fi
 if [ ! "$KERNEL" = "Linux" ]; then
     export TERM="xterm-color"
     # unset TERM
+
+    # exit also return scripts where this is sourced return no
     return 0
 fi
 
