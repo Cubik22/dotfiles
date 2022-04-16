@@ -78,9 +78,11 @@ alias lla='$LS_COMMAND -l -A'
 # alias psmem='ps auxf | sort -nr -k 4'
 # alias pscpu='ps auxf | sort -nr -k 3'
 
-# wayland
-# alias imv="imv-wayland"
-# alias firefox="firefox-wayland"
+# if [ "$KERNEL" = "Linux" ]; then
+    # wayland
+    # alias imv="imv-wayland"
+    # alias firefox="firefox-wayland"
+# fi
 
 # kak
 alias kak="kak-smart no"
@@ -95,7 +97,9 @@ alias n3p="nnn-pre"
 
 alias zathura="zat"
 
-alias xq="xbps-query"
+if [ "$KERNEL" = "Linux" ]; then
+    alias xq="xbps-query"
+fi
 
 # verify signature
 alias gpg-verify="gpg --keyserver-options auto-key-retrieve --verify"
@@ -157,57 +161,63 @@ alias gps="git push"
 alias grb="git rebase"
 alias gsa="git stash"
 
-# git config
-alias ust="ucon status"
-alias uad="ucon add"
-alias urs="ucon restore"
-alias ucm="ucon commit"
-alias udf="ucon diff"
-alias ulg="ucon log"
-alias upl="ucon pull"
-alias ups="ucon push"
-alias rst="rcon status"
-alias rad="rcon add"
-alias rrs="rcon restore"
-alias rcm="rcon commit"
-alias rdf="rcon diff"
-alias rlg="rcon log"
-alias rpl="rcon pull"
-alias rps="rcon push"
+if [ "$KERNEL" = "Linux" ]; then
+    # git config
+    alias ust="ucon status"
+    alias uad="ucon add"
+    alias urs="ucon restore"
+    alias ucm="ucon commit"
+    alias udf="ucon diff"
+    alias ulg="ucon log"
+    alias upl="ucon pull"
+    alias ups="ucon push"
+    alias rst="rcon status"
+    alias rad="rcon add"
+    alias rrs="rcon restore"
+    alias rcm="rcon commit"
+    alias rdf="rcon diff"
+    alias rlg="rcon log"
+    alias rpl="rcon pull"
+    alias rps="rcon push"
 
-# void mirrors in order to quickly change when one is slow (-R flag)
-# https://docs.voidlinux.org/xbps/repositories/mirrors/index.html#mirrors
-export mirror1="https://alpha.de.repo.voidlinux.org/current"
-export mirror2="https://repo-fi.voidlinux.org/current"
-export mirror3="https://mirrors.servercentral.com/voidlinux/current"
-export mirror4="https://repo-us.voidlinux.org/current"
+    # void mirrors in order to quickly change when one is slow (-R flag)
+    # https://docs.voidlinux.org/xbps/repositories/mirrors/index.html#mirrors
+    export mirror1="https://alpha.de.repo.voidlinux.org/current"
+    export mirror2="https://repo-fi.voidlinux.org/current"
+    export mirror3="https://mirrors.servercentral.com/voidlinux/current"
+    export mirror4="https://repo-us.voidlinux.org/current"
+fi
 
 # so the root user can link and use bash config
 # remember to add package to /etc/config/xbps-packages
 if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
-    alias xi="xbps-install"
-    alias xr="xbps-remove"
+    if [ "$KERNEL" = "Linux" ]; then
+        alias xi="xbps-install"
+        alias xr="xbps-remove"
 
-    alias blueon="sv up bluetoothd; bluetoothctl power on;"
-    alias blueoff="bluetoothctl power off; sv down bluetoothd;"
+        alias blueon="sv up bluetoothd; bluetoothctl power on;"
+        alias blueoff="bluetoothctl power off; sv down bluetoothd;"
 
-    # alias servstat="sv status /var/service/*"
+        # alias servstat="sv status /var/service/*"
+    fi
 else
-    alias xbps-install="doas xbps-install"
-    alias xbps-remove="doas xbps-remove"
-    alias xi="doas xbps-install"
-    alias xr="doas xbps-remove"
+    if [ "$KERNEL" = "Linux" ]; then
+        alias xbps-install="doas xbps-install"
+        alias xbps-remove="doas xbps-remove"
+        alias xi="doas xbps-install"
+        alias xr="doas xbps-remove"
 
-    alias blueon="doas sv up bluetoothd; bluetoothctl power on;"
-    alias blueoff="bluetoothctl power off; doas sv down bluetoothd;"
+        alias blueon="doas sv up bluetoothd; bluetoothctl power on;"
+        alias blueoff="bluetoothctl power off; doas sv down bluetoothd;"
 
-    # alias servstat="doas sv status /var/service/*"
+        # alias servstat="doas sv status /var/service/*"
 
-    alias poweroff="doas poweroff"
-    alias reboot="doas reboot"
+        alias poweroff="doas poweroff"
+        alias reboot="doas reboot"
 
-    alias zzz="doas zzz"
-    alias ZZZ="doas ZZZ"
+        alias zzz="doas zzz"
+        alias ZZZ="doas ZZZ"
+    fi
 
     alias powertop="doas powertop"
 

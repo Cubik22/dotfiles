@@ -24,13 +24,17 @@ complete -F _sudo d
 # has to be loaded here or in /etc/bash/bashrc.d/bash_completion.sh
 _completion_loader git
 
-complete -o bashdefault -o default -o nospace -F __git_wrap__git_main ucon
-complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rcon
+if [ "$KERNEL" = "Linux" ]; then
+    complete -o bashdefault -o default -o nospace -F __git_wrap__git_main ucon
+    complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rcon
 
-# autocomplete xbps
-complete -F _complete_alias xi
-complete -F _complete_alias xr
-complete -F _complete_alias xq
+    # autocomplete xbps
+    complete -F _complete_alias xi
+    complete -F _complete_alias xr
+    complete -F _complete_alias xq
+else
+    complete -o bashdefault -o default -o nospace -F __git_wrap__git_main git
+fi
 
 __phel_completion() {
     subject_names="$(cat "${XDG_DATA_HOME:-$HOME/.local/share}/script/phelrc" | sed 's/\n/ /g')"

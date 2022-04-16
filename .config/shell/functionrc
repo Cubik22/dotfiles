@@ -132,99 +132,101 @@ kak-fzf-bash() {
     fi
 }
 
-# wrapper around git that before push, unlock bitwarden
-git() {
-    if [ "$#" -ge 1 ] && [ "$1" = "push" ]; then
-        rbw unlock
-    fi
-    "$(which git)" "$@"
-}
-
-# git bare repository user dotfiles
-ucon() {
-    # when adding echo to remember to pull before commit
-    if [ "$#" -ge 1 ]; then
-        # if [ "$1" = "add" ]; then
-        #     echo "remember to pull before commit"
-        # fi
-        if [ "$1" = "push" ]; then
+if [ "$KERNEL" = "Linux" ]; then
+    # wrapper around git that before push, unlock bitwarden
+    git() {
+        if [ "$#" -ge 1 ] && [ "$1" = "push" ]; then
             rbw unlock
         fi
-    fi
-    git_cmd="$(which git)"
-    local work_tree="$HOME"
-    local git_dir="$HOME/.dotfiles"
-    "$git_cmd" --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
-    # when pulling remove README from work_tree and set git to not track in locale
-    if [ "$#" -ge 1 ]; then
-        if [ "$1" = "pull" ]; then
-            rm -f "$work_tree"/README.md
-            "$git_cmd" --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
-        fi
-    fi
-} && export -f ucon
+        "$(which git)" "$@"
+    }
 
-# git bare repository root config files
-rcon() {
-    # make sure that when running as user use doas
-    if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
-        local as_root="true"
-    else
-        local as_root="false"
-    fi
-    # when adding echo to remember to pull before commit
-    if [ "$#" -ge 1 ]; then
-        # if [ "$1" = "add" ]; then
-        #     echo "remember to pull before commit"
-        # fi
-        if [ "$1" = "push" ]; then
-            if [ "$as_root" = "true" ]; then
+    # git bare repository user dotfiles
+    ucon() {
+        # when adding echo to remember to pull before commit
+        if [ "$#" -ge 1 ]; then
+            # if [ "$1" = "add" ]; then
+            #     echo "remember to pull before commit"
+            # fi
+            if [ "$1" = "push" ]; then
                 rbw unlock
-            else
-                doas rbw unlock
             fi
         fi
-    fi
-    git_cmd="$(which git)"
-    local work_tree="/"
-    local git_dir="/root/config"
-    if [ "$as_root" = "true" ]; then
+        git_cmd="$(which git)"
+        local work_tree="$HOME"
+        local git_dir="$HOME/.dotfiles"
         "$git_cmd" --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
-    else
-        doas "$git_cmd" --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
-    fi
-    # when pulling remove README from work_tree and set git to not track in locale
-    if [ "$#" -ge 1 ]; then
-        if [ "$1" = "pull" ]; then
-            if [ "$as_root" = "true" ]; then
+        # when pulling remove README from work_tree and set git to not track in locale
+        if [ "$#" -ge 1 ]; then
+            if [ "$1" = "pull" ]; then
                 rm -f "$work_tree"/README.md
                 "$git_cmd" --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
-            else
-                doas rm -f "$work_tree"/README.md
-                doas "$git_cmd" --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
             fi
         fi
-    fi
-} && export -f rcon
+    } && export -f ucon
 
-# create a file and automatically add it with ucon
-# see stouch
-utouch() {
-    eval file="\${$#}"
-    stouch "$@" && ucon add "$file"
-} && export -f utouch
+    # git bare repository root config files
+    rcon() {
+        # make sure that when running as user use doas
+        if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
+            local as_root="true"
+        else
+            local as_root="false"
+        fi
+        # when adding echo to remember to pull before commit
+        if [ "$#" -ge 1 ]; then
+            # if [ "$1" = "add" ]; then
+            #     echo "remember to pull before commit"
+            # fi
+            if [ "$1" = "push" ]; then
+                if [ "$as_root" = "true" ]; then
+                    rbw unlock
+                else
+                    doas rbw unlock
+                fi
+            fi
+        fi
+        git_cmd="$(which git)"
+        local work_tree="/"
+        local git_dir="/root/config"
+        if [ "$as_root" = "true" ]; then
+            "$git_cmd" --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
+        else
+            doas "$git_cmd" --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
+        fi
+        # when pulling remove README from work_tree and set git to not track in locale
+        if [ "$#" -ge 1 ]; then
+            if [ "$1" = "pull" ]; then
+                if [ "$as_root" = "true" ]; then
+                    rm -f "$work_tree"/README.md
+                    "$git_cmd" --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
+                else
+                    doas rm -f "$work_tree"/README.md
+                    doas "$git_cmd" --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
+                fi
+            fi
+        fi
+    } && export -f rcon
 
-# create a file and automatically add it with rcon
-# see stouch
-rtouch() {
-    eval file="\${$#}"
-    # make sure that when running as user use doas
-    if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
-        stouch "$@" && rcon add "$file"
-    else
-        doas stouch "$@" && rcon add "$file"
-    fi
-} && export -f rtouch
+    # create a file and automatically add it with ucon
+    # see stouch
+    utouch() {
+        eval file="\${$#}"
+        stouch "$@" && ucon add "$file"
+    } && export -f utouch
+
+    # create a file and automatically add it with rcon
+    # see stouch
+    rtouch() {
+        eval file="\${$#}"
+        # make sure that when running as user use doas
+        if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
+            stouch "$@" && rcon add "$file"
+        else
+            doas stouch "$@" && rcon add "$file"
+        fi
+    } && export -f rtouch
+fi
 
 # old
 # audocd when pressing ^G
