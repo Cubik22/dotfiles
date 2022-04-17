@@ -57,9 +57,17 @@ doas ln -s "$HOME/.local/share/kak" /root/.local/share/
 doas ln -s "$HOME/.config/nvim" /root/.config/
 doas ln -s "$HOME/.local/share/nvim" /root/.local/share/
 
-# link kak scripts
+# link scripts
 doas mkdir -p /root/.local/bin
-doas ln -s "$HOME"/.local/bin/kak* /root/.local/bin/
-
-# link global scripts
-doas ln -s "$HOME"/.local/bin/global/* /usr/local/bin/
+bin_dir="${XDG_BIN_HOME:-$HOME/.local/bin}"
+directories_path="$(find "$bin_dir" -type d)"
+for dir in $directories_path; do
+    if [ ! "$dir" = "$bin_dir" ]; then
+        local_dir="$(printf "%s" "$dir" | cut -d "/" -f 4-)"
+        doas ln -sf "$HOME/$local_dir" "/root/$local_dir"
+    fi
+done
+unset dir
+unset directories_path
+unset bin_dir
+unset local_dir
