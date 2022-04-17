@@ -60,3 +60,6 @@ doas ln -s "$HOME/.local/share/nvim" /root/.local/share/
 # link kak scripts
 doas mkdir -p /root/.local/bin
 doas ln -s "$HOME"/.local/bin/kak* /root/.local/bin/
+
+# link global scripts
+doas ln -s "$HOME"/.local/bin/global/* /usr/local/bin/

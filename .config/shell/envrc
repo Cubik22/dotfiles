@@ -32,7 +32,6 @@ export XDG_INCLUDE_HOME="$XDG_LOCAL_HOME/include"
 export XDG_BIN_HOME="$XDG_LOCAL_HOME/bin"
 
 # path
-export PATH="$XDG_BIN_HOME:$PATH"
 if [ ! "$KERNEL" = "Linux" ]; then
     config_bin_dir="$HOME/config/usr/local/bin"
     [ -d "$config_bin_dir" ] && export PATH="$config_bin_dir:$PATH"
@@ -41,6 +40,10 @@ if [ ! "$KERNEL" = "Linux" ]; then
     [ -d "$dotfiles_bin_dir" ] && export PATH="$dotfiles_bin_dir:$PATH"
     unset dotfiles_bin_dir
 fi
+# export PATH="$XDG_BIN_HOME:$PATH"
+directories_path="$(find $XDG_BIN_HOME -type d -printf %p:)"
+export PATH="${directories_path}${PATH}"
+unset directories_path
 
 # manpath
 # if $MANPATH is set, manpath displays its value rather than determining it on the fly

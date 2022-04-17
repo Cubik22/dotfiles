@@ -7,7 +7,9 @@ git_dir="$HOME/.dotfiles"
 email="lorenzo.bianco22@protonmail.com"
 
 # add dotfiles bin to path
-PATH="$PATH:$HOME/dotfiles/.local/bin"
+directories_path="$(find $HOME/dotfiles/.local/bin -type d -printf %p:)"
+export PATH="${directories_path}${PATH}"
+unset directories_path
 
 # backup present configs
 backup-dotfiles

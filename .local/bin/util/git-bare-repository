@@ -35,6 +35,11 @@ export GOPATH="/usr/local/lib/go"
 # add npm go and cargo to path in order to install packages in the right places
 export PATH="/usr/local/lib/npm/bin:${GOPATH}/bin:${CARGO_HOME}/bin:${PATH}"
 
+# add bin directories to path
+directories_path="$(find ${XDG_BIN_HOME:-$HOME/.local/bin} -type d -printf %p:)"
+export PATH="${directories_path}${PATH}"
+unset directories_path
+
 # firefox
 doas mkdir -p /usr/lib/firefox/distribution
 doas ln -s "$HOME/.config/firefox/policies.json" /usr/lib/firefox/distribution/
