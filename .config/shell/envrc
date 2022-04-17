@@ -83,7 +83,7 @@ if [ ! "$KERNEL" = "Linux" ]; then
     unset dotfiles_bin_dir
 fi
 # export PATH="$XDG_BIN_HOME:$PATH"
-directories_path="$(find "$XDG_BIN_HOME" -type d -printf %p:)"
+directories_path="$(find -L "$XDG_BIN_HOME" -type d -printf %p:)"
 export PATH="${directories_path}${PATH}"
 unset directories_path
 

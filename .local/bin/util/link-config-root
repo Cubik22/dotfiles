@@ -60,7 +60,7 @@ doas ln -s "$HOME/.local/share/nvim" /root/.local/share/
 # link scripts
 doas mkdir -p /root/.local/bin
 bin_dir="${XDG_BIN_HOME:-$HOME/.local/bin}"
-directories_path="$(find "$bin_dir" -type d)"
+directories_path="$(find -L "$bin_dir" -type d)"
 for dir in $directories_path; do
     if [ ! "$dir" = "$bin_dir" ]; then
         local_dir="$(printf "%s" "$dir" | cut -d "/" -f 4-)"
