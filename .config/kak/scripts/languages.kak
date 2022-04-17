@@ -1,7 +1,11 @@
 # enable kak-lsp for some filetypes
+declare-option -docstring 'lsp available' bool lsp_available "false"
 evaluate-commands %sh{
-    if [ "$KERNEL" = "Linux" ]; then
+    if command -v kak-lsp >/dev/null 2>&1; then
         kak-lsp --kakoune -s "$kak_session"
+        printf "%s" "
+            set-option global lsp_available true
+        "
     fi
 }
 
@@ -25,7 +29,7 @@ hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|latex|html|
     set-language-options
 
     evaluate-commands %sh{
-        if [ "$KERNEL" = "Linux" ]; then
+        if [ "$kak_lsp_available" = "true" ]; then
             # enable lsp in this window
             printf "%s" "
                 lsp-enable-window
