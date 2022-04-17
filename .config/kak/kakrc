@@ -53,7 +53,7 @@ evaluate-commands %sh{
         for file in $files; do
             printf "%s" "
                 try %{
-                    source %{${kak_config:?}/$prefix/$file}
+                    source %{${kak_config:-$HOME/.config/kak}/$prefix/$file}
                 } catch %{
                     echo -debug %val{error}
                 }
