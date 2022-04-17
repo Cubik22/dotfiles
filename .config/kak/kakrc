@@ -9,6 +9,7 @@ evaluate-commands %sh{
     scripts="scripts"
 
     filetype_files="
+        gitignore.kak
         roff.kak
         octave.kak
         solidity.kak
