@@ -34,6 +34,10 @@ map global normal X ':extend-line-up %val{count}<ret>'
 # map control+i to jump forward
 map global normal <c-i> <tab> -docstring 'jump forward'
 
+# vim
+map global normal D '<a-l>d' -docstring 'delete to end of line'
+map global normal Y '<a-l>y' -docstring 'copy to end of line'
+
 # comments
 map global normal '#' :comment-line<ret> -docstring 'comment line'
 map global normal '<a-#>' :comment-block<ret> -docstring 'comment block'
@@ -177,10 +181,15 @@ map global user w ': w<ret>'                                    -docstring 'writ
 map global user z ': wq<ret>'                                   -docstring 'write and quit'
 
 # select all occurrences of the main selection
-map global user a '*%s<ret>' -docstring 'select all'
+map global user a '*%s<ret>'                                    -docstring 'select all'
+
+## goto
+
+# matching char
+map global goto m '<esc>m;' -docstring 'matching char'
 
 # buffer *debug*
-map global user D ': buffer *debug*<ret>'                       -docstring 'buffer *debug*'
+map global goto d '<esc>: buffer *debug*<ret>' -docstring 'buffer *debug*'
 
 evaluate-commands %sh{
     if [ "$KERNEL" = "Linux" ]; then
@@ -189,25 +198,29 @@ evaluate-commands %sh{
         #     printf %s "$kak_main_reg_dquote" | wl-copy-env > /dev/null 2>&1 &
         # } }
         printf "%s" "
-            map global user y '<a-|>wl-copy-env<ret>'                       -docstring 'copy to system'
-            map global user d '<a-|>wl-copy-env<ret><a-d>'                  -docstring 'delete and copy to system'
-            map global user c '<a-|>wl-copy-env<ret><a-c>'                  -docstring 'change and copy to system'
-            map global user p '<a-!>wl-paste-env -n<ret>'                   -docstring 'paste from system (after)'
-            map global user P '!wl-paste-env -n<ret>'                       -docstring 'paste from system (before)'
-            map global user <a-p> '<a-o>j !wl-paste-env -n<ret>'            -docstring 'paste from system (below)'
-            map global user <a-P> '<a-O>k !wl-paste-env -n<ret>'            -docstring 'paste from system (above)'
-            map global user r '!wl-paste-env -n<ret>d'                      -docstring 'replace from system'
+            map global user y '<a-|>wl-copy-env<ret>'                       -docstring 'copy to wl-clipboard'
+            map global user Y '<a-l><a-|>wl-copy-env<ret>'                  -docstring 'copy to end of line to wl-clipboard'
+            map global user d '<a-|>wl-copy-env<ret><a-d>'                  -docstring 'delete and copy to wl-clipboard'
+            map global user D '<a-l><a-|>wl-copy-env<ret><a-d>'             -docstring 'delete to end of line and copy to wl-clipboard'
+            map global user c '<a-|>wl-copy-env<ret><a-c>'                  -docstring 'change and copy to wl-clipboard'
+            map global user p '<a-!>wl-paste-env -n<ret>'                   -docstring 'paste from wl-clipboard (after)'
+            map global user P '!wl-paste-env -n<ret>'                       -docstring 'paste from wl-clipboard (before)'
+            map global user <a-p> '<a-o>j !wl-paste-env -n<ret>'            -docstring 'paste from wl-clipboard (below)'
+            map global user <a-P> '<a-O>k !wl-paste-env -n<ret>'            -docstring 'paste from wl-clipboard (above)'
+            map global user r '!wl-paste-env -n<ret>d'                      -docstring 'replace from wl-clipboard'
         "
     else
         printf "%s" "
-            map global user y '<a-|>clipboard-tty-copy<ret>'                -docstring 'copy to system'
-            map global user d '<a-|>clipboard-tty-copy<ret><a-d>'           -docstring 'delete and copy to system'
-            map global user c '<a-|>clipboard-tty-copy<ret><a-c>'           -docstring 'change and copy to system'
-            map global user p '<a-!>clipboard-tty-paste -n<ret>'            -docstring 'paste from system (after)'
-            map global user P '!clipboard-tty-paste -n<ret>'                -docstring 'paste from system (before)'
-            map global user <a-p> '<a-o>j !clipboard-tty-paste -n<ret>'     -docstring 'paste from system (below)'
-            map global user <a-P> '<a-O>k !clipboard-tty-paste -n<ret>'     -docstring 'paste from system (above)'
-            map global user r '!clipboard-tty-paste -n<ret>d'               -docstring 'replace from system'
+            map global user y '<a-|>clipboard-tty-copy<ret>'                -docstring 'copy to clipboard-tty'
+            map global user Y '<a-l><a-|>clipboard-tty-copy<ret>'           -docstring 'copy to end of line to clipboard-tty'
+            map global user d '<a-|>clipboard-tty-copy<ret><a-d>'           -docstring 'delete and copy to clipboard-tty'
+            map global user D '<a-l><a-|>clipboard-tty-copy<ret><a-d>'      -docstring 'delete to end of line and copy to clipboard-tty'
+            map global user c '<a-|>clipboard-tty-copy<ret><a-c>'           -docstring 'change and copy to clipboard-tty'
+            map global user p '<a-!>clipboard-tty-paste -n<ret>'            -docstring 'paste from clipboard-tty (after)'
+            map global user P '!clipboard-tty-paste -n<ret>'                -docstring 'paste from clipboard-tty (before)'
+            map global user <a-p> '<a-o>j !clipboard-tty-paste -n<ret>'     -docstring 'paste from clipboard-tty (below)'
+            map global user <a-P> '<a-O>k !clipboard-tty-paste -n<ret>'     -docstring 'paste from clipboard-tty (above)'
+            map global user r '!clipboard-tty-paste -n<ret>d'               -docstring 'replace from clipboard-tty'
         "
     fi
 }

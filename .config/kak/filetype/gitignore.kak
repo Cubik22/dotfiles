@@ -23,7 +23,7 @@ hook global BufSetOption filetype=gitignore %{
     set-option buffer comment_line '#'
 }
 
-provide-module gitignore {
+provide-module gitignore %{
 
 ## highlighters
 
