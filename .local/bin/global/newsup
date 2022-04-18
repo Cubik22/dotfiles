@@ -2,6 +2,13 @@
 
 # reload newsboat in the backgroud
 
+# what_reload can be: all, normal or other
+if [ "$#" -eq 0 ]; then
+    what_reload="all"
+else
+    what_reload="$1"
+fi
+
 # if an instance of newsup is already running return
 if [ "$(pidof -x -o "$$" newsup | wc -w)" -gt 1 ]; then
     # echo "newsup already running"
@@ -29,28 +36,44 @@ nb_video_end=false
 # can not run two process of newsboat with same cache at the same time
 while true; do
     # normal
-    if [ "$nb_normal_end" = "false" ]; then
-        if nb_normal -x reload; then
-            nb_normal_end=true
+    if [ "$what_reload" = "all" ] || [ "$what_reload" = "normal" ]; then
+        if [ "$nb_normal_end" = "false" ]; then
+            if nb_normal -x reload; then
+                nb_normal_end=true
+            fi
         fi
+    else
+        nb_normal_end=true
     fi
     # podcast
-    if [ "$nb_podcast_end" = "false" ]; then
-        if nb_podcast -x reload; then
-            nb_podcast_end=true
+    if [ "$what_reload" = "all" ] || [ "$what_reload" = "other" ]; then
+        if [ "$nb_podcast_end" = "false" ]; then
+            if nb_podcast -x reload; then
+                nb_podcast_end=true
+            fi
         fi
+    else
+        nb_podcast_end=true
     fi
     # social
-    if [ "$nb_social_end" = "false" ]; then
-        if nb_social -x reload; then
-            nb_social_end=true
+    if [ "$what_reload" = "all" ] || [ "$what_reload" = "other" ]; then
+        if [ "$nb_social_end" = "false" ]; then
+            if nb_social -x reload; then
+                nb_social_end=true
+            fi
         fi
+    else
+        nb_social_end=true
     fi
     # video
-    if [ "$nb_video_end" = "false" ]; then
-        if nb_video -x reload; then
-            nb_video_end=true
+    if [ "$what_reload" = "all" ] || [ "$what_reload" = "other" ]; then
+        if [ "$nb_video_end" = "false" ]; then
+            if nb_video -x reload; then
+                nb_video_end=true
+            fi
         fi
+    else
+        nb_video_end=true
     fi
 
     if [ "$nb_normal_end" = "true" ] &&
