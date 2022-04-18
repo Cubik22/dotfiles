@@ -194,7 +194,7 @@ map global goto d '<esc>: buffer *debug*<ret>' -docstring 'buffer *debug*'
 evaluate-commands %sh{
     if [ "$KERNEL" = "Linux" ]; then
         copy_program="wl-copy-env"
-        paste_program="wl-past-env"
+        paste_program="wl-paste-env"
         info_program="wl-clipboard"
     else
         copy_program="clipboard-tty-copy"

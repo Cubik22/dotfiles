@@ -8,14 +8,58 @@ if [ "$(pidof -x -o "$$" newsup | wc -w)" -gt 1 ]; then
     return 1
 fi
 
-# every 5 minutes try to reload newsboat
-# can not run two process of newsboat at the same time
+alias nb_normal="/usr/bin/newsboat"
+alias nb_podcast='/usr/bin/newsboat \
+    -u "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls-podcast" \
+    -c "${XDG_DATA_HOME:-$HOME/.local/share}/newsboat/cache-podcast.db"'
+alias nb_social='/usr/bin/newsboat \
+    -u "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls-social" \
+    -c "${XDG_DATA_HOME:-$HOME/.local/share}/newsboat/cache-social.db"'
+alias nb_video='/usr/bin/newsboat \
+    -u "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls-video" \
+    -c "${XDG_DATA_HOME:-$HOME/.local/share}/newsboat/cache-video.db"'
+
+nb_normal_end=false
+nb_podcast_end=false
+nb_social_end=false
+nb_video_end=false
+
+# every 5 minutes try to reload all newsboat databases
+# when all are completed stop
+# can not run two process of newsboat with same cache at the same time
 while true; do
-    if ! pidof -x "newsboat" >/dev/null; then
-        /usr/bin/newsboat -x reload
+    # normal
+    if [ "$nb_normal_end" = "false" ]; then
+        if nb_normal -x reload; then
+            nb_normal_end=true
+        fi
+    fi
+    # podcast
+    if [ "$nb_podcast_end" = "false" ]; then
+        if nb_podcast -x reload; then
+            nb_podcast_end=true
+        fi
+    fi
+    # social
+    if [ "$nb_social_end" = "false" ]; then
+        if nb_social -x reload; then
+            nb_social_end=true
+        fi
+    fi
+    # video
+    if [ "$nb_video_end" = "false" ]; then
+        if nb_video -x reload; then
+            nb_video_end=true
+        fi
+    fi
+
+    if [ "$nb_normal_end" = "true" ] &&
+        [ "$nb_podcast_end" = "true" ] &&
+        [ "$nb_social_end" = "true" ] &&
+        [ "$nb_video_end" = "true" ]; then
         return 0
     fi
-    # echo "newsboat already running"
 
+    # wait 5 minutes
     sleep 300
 done
