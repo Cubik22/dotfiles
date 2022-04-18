@@ -41,6 +41,7 @@ mkdir -p "$HOME/.local"
 mkdir -p "$HOME/.local/share"
 mkdir -p "$HOME/.local/lib"
 
+mkdir -p "$HOME/.local/share/script"
 mkdir -p "$HOME/.local/share/bash"
 mkdir -p "$HOME/.local/share/kak"
 mkdir -p "$HOME/.local/share/nvim"

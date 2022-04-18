@@ -12,11 +12,13 @@ bin_home="${XDG_BIN_HOME:-$local_home/bin}"
 
 lib_home="${XDG_LIB_HOME:-$local_home/lib}"
 
+etc_home="$local_home/etc"
+
 prefix_dir="$local_home"
 
 # prefix_dir_global="/usr/local"
 
-package_names="$(cat "$local_home/share/script/build-packages")"
+package_names="$(cat "$etc_home/script/build-packages")"
 
 print_info=$(cat << EOF
 SYNOPSIS

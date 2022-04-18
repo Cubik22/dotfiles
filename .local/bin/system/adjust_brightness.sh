@@ -20,7 +20,7 @@ Max_Brightness_Path="/sys/class/backlight/intel_backlight/max_brightness"
 
 number_steps=20
 
-State_Dir="${XDG_DATA_HOME:-$HOME/.local/share}/state"
+State_Dir="${XDG_DATA_HOME:-$HOME/.local/share}/script"
 Level_Path="$State_Dir/brightness_level"
 
 if [ ! -e "$Level_Path" ]; then

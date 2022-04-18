@@ -6,7 +6,7 @@ local_home="${XDG_LOCAL_HOME:-$HOME/.local}"
 
 lib_home="${XDG_LIB_HOME:-$local_home/lib}"
 
-program_names="$(cat "$local_home/share/script/update-extra")"
+program_names="$(cat "$local_home/etc/script/update-extra")"
 
 print_info=$(cat << EOF
 SYNOPSIS

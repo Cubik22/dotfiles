@@ -9,10 +9,19 @@ else
     what_reload="$1"
 fi
 
+state_dir="${XDG_DATA_HOME:-$HOME/.local/share}/script"
+[ ! -d "$state_dir" ] && mkdir -p "$state_dir"
+state_file="$state_dir/newsup-$what_reload"
+[ ! -f "$state_file" ] && touch "$state_file"
+current_status="$(cat "$state_file")"
+
 # if an instance of newsup is already running return
-if [ "$(pidof -x -o "$$" newsup | wc -w)" -gt 1 ]; then
+if [ "$current_status" = "running" ]; then
+# if [ "$(pidof -x newsup | wc -w)" -gt 1 ]; then
     # echo "newsup already running"
     return 1
+else
+    echo "running" > "$state_file"
 fi
 
 alias nb_normal="/usr/bin/newsboat"
@@ -80,6 +89,7 @@ while true; do
         [ "$nb_podcast_end" = "true" ] &&
         [ "$nb_social_end" = "true" ] &&
         [ "$nb_video_end" = "true" ]; then
+        echo "stop" > "$state_file"
         return 0
     fi
 

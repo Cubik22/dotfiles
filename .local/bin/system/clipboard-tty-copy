@@ -1,6 +1,6 @@
 #!/bin/sh
 
-state_dir="${XDG_DATA_HOME:-$HOME/.local/share}/state"
+state_dir="${XDG_DATA_HOME:-$HOME/.local/share}/script"
 
 [ ! -d "$state_dir" ] && mkdir -p "$state_dir"
 

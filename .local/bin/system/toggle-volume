@@ -36,7 +36,7 @@ if [ "$mode" != "on" ] && [ "$mode" != "off" ] && [ "$mode" != "toggle" ] && [ "
     return 1
 fi
 
-state_dir="${XDG_DATA_HOME:-$HOME/.local/share}/state"
+state_dir="${XDG_DATA_HOME:-$HOME/.local/share}/script"
 if [ "$volume" = "audio" ]; then
     status_path="$state_dir/audio_status"
 elif [ "$volume" = "microphone" ]; then
