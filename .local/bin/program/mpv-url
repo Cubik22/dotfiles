@@ -79,7 +79,8 @@ if [ "$fullscreen" = "true" ]; then
 fi
 
 ytdl_program="${YTDL:-yt-dlp}"
-parameters="--force-window=yes --ytdl=yes --script-opts=ytdl_hook-ytdl_path=$ytdl_program"
+parameters="--force-window=yes --ytdl=yes \
+    --script-opts=osc-visibility=never,ytdl_hook-ytdl_path=$ytdl_program"
 # parameters="--ytdl-raw-options=no-check-certificate="
 
 if [ "$audio" = "true" ]; then
