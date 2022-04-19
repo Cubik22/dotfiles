@@ -42,7 +42,7 @@ _fzf_file_completion() {
 }
 
 # programs to be completed by file always
-file_cmds_always="kak ka"
+file_cmds_always="kak ka shellcheck checkbashisms"
 
 for cmd in $file_cmds_always; do
     __fzf_defc "$cmd" _fzf_file_completion "-o default -o bashdefault"

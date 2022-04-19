@@ -110,12 +110,12 @@ alias gpg-verify="gpg --keyserver-options auto-key-retrieve --verify"
 # receive signature
 alias gpg-receive="gpg --keyserver-options auto-key-retrieve --receive-keys"
 
-# youtube-dl
-alias ydl='$YDL'
-alias ydlv='$YDL --ignore-errors --retries=infinite'
-alias ydlvm='$YDL --ignore-errors --retries=infinite --add-metadata --xattrs'
-alias ydla='$YDL --ignore-errors --retries=infinite --extract-audio'
-alias ydlam='$YDL --ignore-errors --retries=infinite --extract-audio --add-metadata --xattrs'
+# yt-dl
+alias ydl='$YTDL'
+alias ydlv='$YTDL --ignore-errors --retries=infinite'
+alias ydlvm='$YTDL --ignore-errors --retries=infinite --add-metadata --xattrs'
+alias ydla='$YTDL --ignore-errors --retries=infinite --extract-audio'
+alias ydlam='$YTDL --ignore-errors --retries=infinite --extract-audio --add-metadata --xattrs'
 
 # fzf with preview
 alias fzfp='fzf --preview="$FZF_DEFAULT_PREVIEW"'

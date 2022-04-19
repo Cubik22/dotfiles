@@ -17,6 +17,8 @@ SYNOPSIS
 DESCRIPTION
         play url with mpv
         optionally specifying quality
+        if quality is not available play
+        with default quality
 
         -h, --help
             print this info and exit
@@ -76,8 +78,9 @@ if [ "$fullscreen" = "true" ]; then
     set_fullscreen &
 fi
 
-parameters="--force-window=yes --ytdl=yes"
-# parameters="--force-window=yes --ytdl=yes --ytdl-raw-options=no-check-certificate="
+ytdl_program="${YTDL:-yt-dlp}"
+parameters="--force-window=yes --ytdl=yes --script-opts=ytdl_hook-ytdl_path=$ytdl_program"
+# parameters="--ytdl-raw-options=no-check-certificate="
 
 if [ "$audio" = "true" ]; then
     parameters="$parameters --video=no --script-opts=osc-visibility=always"
@@ -90,11 +93,18 @@ else
 fi
 
 if [ "$quality" = "best" ]; then
-    parameters="$parameters --ytdl-format=best"
+    ytdl_format="best"
 elif [ "$quality" = "medium" ]; then
-    parameters="$parameters --ytdl-format=\\\"best[height<=480]\\\""
+    ytdl_format="best[height<=480]"
 elif [ "$quality" = "worst" ]; then
-    parameters="$parameters --ytdl-format=worst"
+    ytdl_format="worst"
+fi
+
+# check if format is available
+if [ -n "$ytdl_format" ]; then
+    if $ytdl_program --simulate --format="$ytdl_format" "$url" >/dev/null 2>&1; then
+        parameters="$parameters --ytdl-format=\\\"$ytdl_format\\\""
+    fi
 fi
 
 echo "parameters passed to mpv:"

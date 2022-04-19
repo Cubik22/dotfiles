@@ -244,13 +244,16 @@ hook global WinCreate .* %{
     ui-todos-toggle
     ui-wrap-toggle
     ui-cursorline-toggle
-    ui-trailing-spaces-toggle
     ui-word-under-cursor-toggle
     # ui-git-diff-toggle
     # ui-diff-one-trailing-space-toggle
     # ui-matching-toggle
     # ui-search-toggle
     ui-terminal-assistant-reload
+}
+
+hook global WinSetOption filetype=.*(?!man).* %{
+    ui-trailing-spaces-toggle
 }
 
 ## highlight operators and delimiters in known filetypes

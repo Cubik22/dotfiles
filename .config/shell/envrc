@@ -131,6 +131,9 @@ export LYNX_LSS="$XDG_CONFIG_HOME/lynx/lynx.lss"
 # export LESS="-F -g -i -R -w"
 export LESS="-g -i -R -w"
 
+# password
+export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
+
 # ls
 if [ "$KERNEL" = "Linux" ]; then
     export LS_COMMAND="ls --color=auto --group-directories-first --format=horizontal --human-readable"
@@ -186,9 +189,6 @@ export WEECHAT_HOME="$XDG_CONFIG_HOME/weechat"
 # notmuch
 # export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch-config"
 
-# password
-export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
-
 # npm config
 # export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME"/npm/npmrc
 
@@ -202,9 +202,9 @@ export R_ENVIRON_USER="$XDG_CONFIG_HOME/R/renviron"
 export R_PROFILE_USER="$XDG_CONFIG_HOME/R/rprofile"
 export R_HISTFILE="$R_HOME_USER/rhistory"
 
-# ydl
-export YDL="yt-dlp"
-# export YDL="youtube-dl"
+# yt-dl
+export YTDL="yt-dlp"
+# export YTDL="youtube-dl"
 
 # runit
 # export SVDIR="$XDG_CONFIG_HOME"/service
