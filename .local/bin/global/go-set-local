@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# set go local
+
+export GOPATH="${XDG_LIB_HOME:-$HOME/.local/lib}/go"

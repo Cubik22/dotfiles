@@ -125,7 +125,12 @@ zigup_update() {
 
 ## go
 go_update() {
+    # global
     doas go install golang.org/x/tools/gopls@latest
+
+    # local
+    # export GOPATH="$lib_home/go"
+    # go install golang.org/x/tools/gopls@latest
 }
 
 ## luarocks

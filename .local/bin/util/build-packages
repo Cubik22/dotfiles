@@ -5,18 +5,15 @@
 # add important packages to git_bare_repository.sh
 
 local_home="${XDG_LOCAL_HOME:-$HOME/.local}"
-
 data_home="${XDG_DATA_HOME:-$local_home/share}"
-
 bin_home="${XDG_BIN_HOME:-$local_home/bin}"
-
 lib_home="${XDG_LIB_HOME:-$local_home/lib}"
-
 etc_home="$local_home/etc"
-
 prefix_dir="$local_home"
-
 # prefix_dir_global="/usr/local"
+
+dev="$HOME/dev/package"
+[ ! -d "$dev" ] && mkdir -p "$dev"
 
 package_names="$(cat "$etc_home/script/build-packages")"
 
@@ -95,10 +92,6 @@ EOT
         fi
     fi
 done
-
-dev="$HOME/dev/package"
-
-mkdir -p "$dev"
 
 #### build functions
 

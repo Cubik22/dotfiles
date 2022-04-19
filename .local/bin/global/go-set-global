@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# set go global
+
+export GOPATH="/usr/local/lib/go"
