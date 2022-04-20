@@ -43,6 +43,7 @@ map global normal '#' :comment-line<ret> -docstring 'comment line'
 map global normal '<a-#>' :comment-block<ret> -docstring 'comment block'
 
 # wrap
+set-option global autowrap_column 76
 map global normal = '|fmt -w $kak_opt_autowrap_column<ret>' -docstring 'wrap lines'
 
 # wrap to 80 characters
