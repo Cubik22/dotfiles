@@ -1,8 +1,17 @@
 #!/bin/sh
 
+# used because for some reason wl-clipboard does not work when run in a
+# script started with footclient <script>
+
 if [ "$1" = "-o" ]; then
     footclient_opts="$2"
     shift 2
+elif [ "$1" = "--fzf" ]; then
+    footclient_opts="--window-size-pixels=${FZF_RG_WIDTH}x${FZF_RG_HEIGHT} --app-id=float"
+    shift 1
+elif [ "$1" = "--foot" ]; then
+    footclient_opts="--window-size-pixels=${FOOT_FLOAT_WIDTH}x${FOOT_FLOAT_HEIGHT} --app-id=float"
+    shift 1
 fi
 
 wl-paste-env -n | clipboard-tty-copy

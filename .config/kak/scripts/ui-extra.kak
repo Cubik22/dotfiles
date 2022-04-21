@@ -245,6 +245,7 @@ hook global WinCreate .* %{
     ui-wrap-toggle
     ui-cursorline-toggle
     ui-word-under-cursor-toggle
+    ui-trailing-spaces-toggle
     # ui-git-diff-toggle
     # ui-diff-one-trailing-space-toggle
     # ui-matching-toggle
@@ -252,9 +253,12 @@ hook global WinCreate .* %{
     ui-terminal-assistant-reload
 }
 
-# every filetype except man
-hook global WinSetOption filetype=(^.{0,2}$|^.{4,}$|[^m]..|.[^a].|..[^n]) %{
+# every filetype except man (kak does not accept ^ and $)
+# hook global WinSetOption filetype=^(.{0,2}|.{4,}|[^m]..|.[^a].|..[^n])$ %{
+hook global WinSetOption filetype=man %{
     ui-trailing-spaces-toggle
+    # suppress info message
+    echo ""
 }
 
 ## highlight operators and delimiters in known filetypes

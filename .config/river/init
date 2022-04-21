@@ -54,7 +54,7 @@ alt="Mod1"
 # Return Backspace Space Period Comma Minus
 # {Up,Right,Down,Left} [0-9] F7 F11
 # {H,J,K,L} Q F U N P
-# S Z B I M A V T
+# S Z B I C M A V T
 
 # Mod+Control+Return footclient
 riverctl map normal "$mod"+Control Return spawn "footclient"
@@ -72,20 +72,22 @@ riverctl map normal "$mod"+Shift S spawn 'screenshot fullscreen; echo "100" > $W
 # riverctl map normal "$mod" S spawn 'grim -g "$(slurp)" - | wl-copy-env'
 
 # Mod+Z kak-fzf
-riverctl map normal "$mod" Z spawn "footclient-run -o \"--window-size-pixels=${FZF_RG_WIDTH}x${FZF_RG_HEIGHT} --app-id=float\" fzf-kak"
+riverctl map normal "$mod" Z spawn "footclient-run --fzf fzf-kak"
 # Mod+Shift+Z kak-fzf from root
-riverctl map normal "$mod"+Shift Z spawn "footclient-run -o \"--window-size-pixels=${FZF_RG_WIDTH}x${FZF_RG_HEIGHT} --app-id=float\" fzf-kak --from-root"
+riverctl map normal "$mod"+Shift Z spawn "footclient-run --fzf fzf-kak --from-root"
 
 # Mod+B copy bookmark
-riverctl map normal "$mod" B spawn "footclient-run -o \"--window-size-pixels=${FZF_RG_WIDTH}x${FZF_RG_HEIGHT} --app-id=float\" bookmark-copy"
-# Mod+Control+B add bookmark
-riverctl map normal "$mod"+Control B spawn "footclient-run -o \"--app-id=float\" bookmark-add"
+riverctl map normal "$mod" B spawn "footclient-run --fzf bookmark-copy"
+# Mod+Control+B edit bookmark
+riverctl map normal "$mod"+Control B spawn "footclient-run --fzf bookmark-edit"
+# Mod+Shift+B add bookmark
+riverctl map normal "$mod"+Shift B spawn "footclient-run --fzf bookmark-add"
 
 # Mod+I iwctl
 riverctl map normal "$mod" I spawn "footclient-float iwctl"
 
-# Mod+Shift+B bluetoothctl
-riverctl map normal "$mod"+Shift B spawn "footclient-float bluetoothctl"
+# Mod+C bluetoothctl
+riverctl map normal "$mod" C spawn "footclient-float bluetoothctl"
 
 # Mod+M fuzzel
 riverctl map normal "$mod" M spawn "fuzzel.sh"

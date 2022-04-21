@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# edit a bookmark
+
+bookmarks_dir="${XDG_LOCAL_HOME:=$HOME/.local}/etc/bookmarks"
+cd "$bookmarks_dir" || return 1
+
+export FZF_DEFAULT_COMMAND="$FZF_DEFAULT_COMMAND --type file"
+file="$(fzf)"
+
+number_line="$(wc -l "$file" | cut -d " " -f 1)"
+
+echo "$number_line" >> "$HOME/output"
+
+kak "$file" "+$number_line"
