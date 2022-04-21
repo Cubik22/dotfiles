@@ -5,10 +5,14 @@
 bookmarks_dir="${XDG_LOCAL_HOME:=$HOME/.local}/etc/bookmarks"
 cd "$bookmarks_dir" || return 1
 
+printf "%s" "bookmark name: "
+read -r name
+
 export FZF_DEFAULT_COMMAND="$FZF_DEFAULT_COMMAND --type file"
 file="$(fzf)"
 
 "$PASTE_CMD" -n >> "$file"
+echo " $name" >> "$file"
 
 # make sure file ends with newline
-test "$(tail -c 1 "$file" | wc -l)" -eq 0 && printf "\n" >> "$file"
+# test "$(tail -c 1 "$file" | wc -l)" -eq 0 && printf "\n" >> "$file"
