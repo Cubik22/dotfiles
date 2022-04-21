@@ -364,7 +364,8 @@ user_pref("pdfjs.viewerCssTheme", 2);
 user_pref("pdfjs.sidebarViewOnLoad", 0);
 
 /* always show bookmarks */
-user_pref("browser.toolbars.bookmarks.visibility", "always");
+user_pref("browser.toolbars.bookmarks.visibility", "never");
+// user_pref("browser.toolbars.bookmarks.visibility", "always");
 
 /* show mobile bookmarks */
 user_pref("browser.bookmarks.showMobileBookmarks", true);
