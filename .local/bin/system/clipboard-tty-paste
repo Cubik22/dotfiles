@@ -1,7 +1,45 @@
 #!/bin/sh
 
+info=$(cat << EOF
+SYNOPSIS
+        clipboard-tty-paste [options]
+
+DESCRIPTION
+        paste to stdout
+        work in every tty
+        clipboard-tty-copy to copy
+
+        -h, --help
+            print this info and exit
+
+        -n, --no-newline
+            do not append a newline character after
+            the pasted clipboard content
+EOF
+)
+
 state_dir="${XDG_DATA_HOME:-$HOME/.local/share}/script"
 
 [ ! -d "$state_dir" ] && mkdir -p "$state_dir"
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -h|--help)
+            echo "$info"
+            return 0
+        ;;
+        # TODO
+        -n)
+            shift 1
+        ;;
+        # TODO
+        --no-newline)
+            shift 1
+        ;;
+        *)
+            break
+        ;;
+    esac
+done
 
 cat "$state_dir/clipboard"

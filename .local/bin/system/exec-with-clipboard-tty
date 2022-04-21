@@ -1,0 +1,6 @@
+#!/bin/sh
+
+export COPY_CMD="clipboard-tty-copy"
+export PASTE_CMD="clipboard-tty-paste"
+
+"$@"

@@ -17,18 +17,33 @@
 
 # see https://github.com/junegunn/fzf#3-interactive-ripgrep-integration
 
-rg_prefix="rg --column --line-number --no-heading --color=always --smart-case "
-initial_query=""
+RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+INITIAL_QUERY=""
 
+# switch between rg and fzf
 IFS=: read -ra selected < <(
-    FZF_DEFAULT_COMMAND="${rg_prefix} $(printf %q "${initial_query}")" \
-        fzf --layout=reverse --delimiter : \
-        --bind "change:reload:sleep 0.1; ${rg_prefix} {q} || true" \
-        --ansi --disabled --query "${initial_query}" \
+    FZF_DEFAULT_COMMAND="$RG_PREFIX $(printf %q "$INITIAL_QUERY")" \
+    fzf \
+        --ansi \
+        --disabled \
+        --query "$INITIAL_QUERY" \
+        --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
+        --bind "ctrl-f:unbind(change,ctrl-f)+change-prompt(fzf> )+enable-search+clear-query+rebind(ctrl-r)" \
+        --bind "ctrl-r:unbind(ctrl-r)+change-prompt(ripgrep> )+disable-search+reload($RG_PREFIX {q} || true)+rebind(change,ctrl-f)" \
+        --prompt 'ripgrep> ' \
+        --delimiter : \
         --preview 'bat --color=always --paging=never --theme=gruvbox-dark --style="numbers,changes" {1} --highlight-line {2}'
-        # \
-        # --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'
 )
+
+# use just rg
+# IFS=: read -ra selected < <(
+#     FZF_DEFAULT_COMMAND="$RG_PREFIX $(printf %q "$INITIAL_QUERY")" \
+#         fzf --layout=reverse --delimiter : \
+#         --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
+#         --ansi --disabled --query "$INITIAL_QUERY" \
+#         --preview 'bat --color=always --paging=never --theme=gruvbox-dark --style="numbers,changes" {1} --highlight-line {2}'
+#         # --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'
+# )
 
 session_id="$1"
 client_id="$2"

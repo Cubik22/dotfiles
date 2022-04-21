@@ -58,6 +58,6 @@ define-command -docstring 'open file with nnn' nnn-open %{
 # ripgrep
 define-command -docstring 'search with ripgrep and fzf' fuzzy-grep %{
     try %sh{
-        footclient --app-id 'float' -w 1840x1000 sh -c "kak-fuzzy-grep $kak_session $kak_client"
+        footclient --app-id 'float' -w "${FZF_RG_WIDTH}x${FZF_RG_HEIGHT}" sh -c "kak-fuzzy-grep $kak_session $kak_client"
     }
 }

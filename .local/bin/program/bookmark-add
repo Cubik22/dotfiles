@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# add a bookmarks
+
+bookmarks_dir="${XDG_LOCAL_HOME:=$HOME/.local}/etc/bookmarks"
+cd "$bookmarks_dir" || return 1
+
+export FZF_DEFAULT_COMMAND="$FZF_DEFAULT_COMMAND --type file"
+file="$(fzf)"
+
+"$PASTE_CMD" -n >> "$file"
+
+# make sure file ends with newline
+test "$(tail -c 1 "$file" | wc -l)" -eq 0 && printf "\n" >> "$file"

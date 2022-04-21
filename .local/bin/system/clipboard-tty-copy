@@ -1,8 +1,46 @@
 #!/bin/sh
 
+info=$(cat << EOF
+SYNOPSIS
+        clipboard-tty-copy [options] [text...]
+
+DESCRIPTION
+        copy from stdin or from text
+        work in every tty
+        clipboard-tty-paste to paste
+
+        -h, --help
+            print this info and exit
+
+        -n, --trim-newline
+            do not copy the trailing newline character
+            if it is present in the input file
+EOF
+)
+
 state_dir="${XDG_DATA_HOME:-$HOME/.local/share}/script"
 
 [ ! -d "$state_dir" ] && mkdir -p "$state_dir"
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -h|--help)
+            echo "$info"
+            return 0
+        ;;
+        # TODO
+        -n)
+            shift 1
+        ;;
+        # TODO
+        --trim-newline)
+            shift 1
+        ;;
+        *)
+            break
+        ;;
+    esac
+done
 
 if [ "$#" -eq 0 ]; then
     cat

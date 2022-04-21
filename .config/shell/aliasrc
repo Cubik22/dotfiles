@@ -89,8 +89,9 @@ fi
 # fi
 
 # kak
-alias kak="kak-smart no"
-alias ka="kak-smart no"
+alias ka="kak"
+# alias kak="kak-smart no"
+# alias ka="kak-smart no"
 alias kakf="kak-fzf-bash no"
 alias kaf="kak-fzf-bash no"
 
@@ -262,8 +263,10 @@ else
     alias powertop="doas powertop"
 
     # kak
-    alias dkak="kak-smart yes"
-    alias dka="kak-smart yes"
+    alias dkak="doas kak"
+    alias dka="doas kak"
+    # alias dkak="kak-smart yes"
+    # alias dka="kak-smart yes"
     alias dkakf="kak-fzf-bash yes"
     alias dkaf="kak-fzf-bash yes"
 

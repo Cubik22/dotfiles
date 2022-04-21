@@ -144,11 +144,16 @@ fi
 
 # if not on linux exit
 if [ ! "$KERNEL" = "Linux" ]; then
+    export COPY_CMD="clipboard-tty-copy"
+    export PASTE_CMD="clipboard-tty-paste"
     # build foot terminfo/termcap or set TERM
     # export TERM="xterm-256color"
 
     # exit also return scripts where this is sourced return no
     return 0
+else
+    export COPY_CMD="wl-copy-env"
+    export PASTE_CMD="wl-paste-env"
 fi
 
 # runtime dir
@@ -244,7 +249,9 @@ export NNN_PLUG="$NNN_PLUG_EDIT;$NNN_PLUG_FUZZY;$NNN_PLUG_OPEN;$NNN_PLUG_GIT"
 export FZF_DEFAULT_COMMAND='fd --hidden --follow --exclude ".git" --exclude ".hg" --exclude ".svn" --color=always --full-path --strip-cwd-prefix'
 # gruvbox hard dark color and other default options
 # --multi --cycle
-export FZF_DEFAULT_OPTS='--no-mouse --bind="ctrl-i:accept-non-empty" --bind="ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline)+accept" --layout=reverse --prompt="  " --ansi --tabstop=4 --color=bg+:#1d2021,bg:#1d2021,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934'
+# --color "hl:-1:underline,hl+:-1:underline:reverse"
+export FZF_DEFAULT_COLORS='bg+:#1d2021,bg:#1d2021,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934'
+export FZF_DEFAULT_OPTS="--no-mouse --bind='ctrl-i:accept-non-empty' --bind='ctrl-y:execute-silent(printf {} | cut -f 2- | '\$COPY_CMD' -n)' --layout=reverse --prompt='  ' --ansi --tabstop=4 --color="$FZF_DEFAULT_COLORS""
 
 # command when running <c-t>
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND --type file --type directory --type symlink"
@@ -262,6 +269,10 @@ export FZF_ALT_C_OPTS='--info=inline'
 
 # options to fzf command completion
 export FZF_COMPLETION_OPTS='--info=inline'
+
+# 7/8
+export FZF_RG_WIDTH="1680"
+export FZF_RG_HEIGHT="945"
 
 # string that triggers fzf completion
 # export FZF_COMPLETION_TRIGGER='**'

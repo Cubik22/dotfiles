@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [ "$1" = "-o" ]; then
+    footclient_opts="$2"
+    shift 2
+fi
+
+wl-paste-env -n | clipboard-tty-copy
+
+footclient $footclient_opts exec-with-clipboard-tty "$@"
+
+clipboard-tty-paste | wl-copy-env -n
