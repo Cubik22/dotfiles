@@ -96,7 +96,7 @@
             "warning": 70,
             "critical": 90
         },
-        "on-click": "footclient --app-id=float htop --sort-key=PERCENT_CPU"
+        "on-click": "footclient-float htop --sort-key=PERCENT_CPU"
     },
 
     "memory": {
@@ -107,7 +107,7 @@
             "warning": 70,
             "critical": 90
         },
-        "on-click": "footclient --app-id=float htop --sort-key=PERCENT_MEM"
+        "on-click": "footclient-float htop --sort-key=PERCENT_MEM"
     },
 
     "battery": {
@@ -129,7 +129,7 @@
             ""  // Icon: battery-full
         ],
         // TODO: create script using "upower -d"
-        "on-click": "footclient --app-id=float doas powertop"
+        "on-click": "footclient-float doas powertop"
     },
 
     "backlight": {
@@ -154,6 +154,6 @@
         // "format-wifi": " {essid}",          // Icon: wifi
         // "format-ethernet": " {ifname}",     // Icon: ethernet
         // "format-disconnected": "Disconnected",
-        "on-click": "footclient --app-id=float iwctl"
+        "on-click": "footclient-float iwctl"
     }
 }

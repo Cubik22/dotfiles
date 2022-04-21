@@ -252,7 +252,8 @@ hook global WinCreate .* %{
     ui-terminal-assistant-reload
 }
 
-hook global WinSetOption filetype=.*(?!man).* %{
+# every filetype except man
+hook global WinSetOption filetype=(^.{0,2}$|^.{4,}$|[^m]..|.[^a].|..[^n]) %{
     ui-trailing-spaces-toggle
 }
 

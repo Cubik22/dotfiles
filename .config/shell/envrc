@@ -274,6 +274,10 @@ export FZF_COMPLETION_OPTS='--info=inline'
 export FZF_RG_WIDTH="1680"
 export FZF_RG_HEIGHT="945"
 
+# 5/8
+export FOOT_FLOAT_WIDTH="1200"
+export FOOT_FLOAT_HEIGHT="675"
+
 # string that triggers fzf completion
 # export FZF_COMPLETION_TRIGGER='**'
 

@@ -59,10 +59,10 @@ alt="Mod1"
 # Mod+Control+Return footclient
 riverctl map normal "$mod"+Control Return spawn "footclient"
 # Mod+Control+Backspace footclient float
-riverctl map normal "$mod"+Control Backspace spawn "footclient --app-id=float"
+riverctl map normal "$mod"+Control Backspace spawn "footclient-float"
 # Mod+Control+Equal footclient float fullscreen
 # TODO: currently not working
-# riverctl map normal "$mod"+Control Equal spawn "footclient riverctl-float-fullscreen"
+# riverctl map normal "$mod"+Control Equal spawn "footclient-float riverctl-float-fullscreen"
 
 # Mod+S screenshot selection with grim and slurp
 riverctl map normal "$mod" S spawn 'screenshot selection; echo "100" > $WOB_PIPE_CENTER'
@@ -82,10 +82,10 @@ riverctl map normal "$mod" B spawn "footclient-run -o \"--window-size-pixels=${F
 riverctl map normal "$mod"+Control B spawn "footclient-run -o \"--app-id=float\" bookmark-add"
 
 # Mod+I iwctl
-riverctl map normal "$mod" I spawn "footclient --app-id=float iwctl"
+riverctl map normal "$mod" I spawn "footclient-float iwctl"
 
 # Mod+Shift+B bluetoothctl
-riverctl map normal "$mod"+Shift B spawn "footclient --app-id=float bluetoothctl"
+riverctl map normal "$mod"+Shift B spawn "footclient-float bluetoothctl"
 
 # Mod+M fuzzel
 riverctl map normal "$mod" M spawn "fuzzel.sh"
