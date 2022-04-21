@@ -4,10 +4,10 @@
 #    <minute> <hour> <day> <month> <dow> <tags and command>
 #    <@freq> <tags and command>
 
-# reload normal newsboat two times a day
+# reload normal newsboat once every 12 hours
 0 */12 * * * /usr/local/bin/newsup normal
 
-# reload other newsboat once every hour
-0 * * * * /usr/local/bin/newsup other
+# reload other newsboat once every 4 hours
+0 */4 * * * /usr/local/bin/newsup other
 
 # end

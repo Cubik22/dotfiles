@@ -263,6 +263,7 @@ ip {address}
 crontab
 croc
 xbps-alternatives
+wev
 EOF
 )
 
