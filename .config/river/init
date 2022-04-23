@@ -347,7 +347,7 @@ riverctl focus-follows-cursor disabled
 # riverctl focus-follows-cursor normal
 
 # set repeat rate
-riverctl set-repeat 60 300
+riverctl set-repeat 80 300
 
 # cursor theme
 # remember to change also .config/shell/envrc

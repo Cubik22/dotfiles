@@ -16,6 +16,12 @@ export DESKTOP_SESSION=river
 export LIBSEAT_BACKEND=seatd
 # export LIBSEAT_BACKEND=logind
 
+# input method
+export GTK_IM_MODULE=wayland
+export QT_IM_MODULE=wayland
+# export GTK_IM_MODULE=fcitx
+# export QT_IM_MODULE=fcitx
+
 # QT
 export QT_QPA_PLATFORM=wayland-egl
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1

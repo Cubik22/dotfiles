@@ -13,7 +13,7 @@ export XKB_DEFAULT_LAYOUT="us"
 # export XKB_DEFAULT_VARIANT="altgr-intl"
 
 # Dell Precision or XPS
-export XKB_DEFAULT_MODEL="precision_m"
+# export XKB_DEFAULT_MODEL="precision_m"
 
 # map caps lock to escape and shift + caps lock to caps lock
 # remap "< >" key which is extra in us iso layout
