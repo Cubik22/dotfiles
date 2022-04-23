@@ -10,6 +10,4 @@ file="$(fzf)"
 
 number_line="$(wc -l "$file" | cut -d " " -f 1)"
 
-echo "$number_line" >> "$HOME/output"
-
 kak "$file" "+$number_line"

@@ -51,8 +51,8 @@ alt="Mod1"
 ### Programs
 
 # mod + key used
-# Return Backspace Space Period Comma Minus
-# {Up,Right,Down,Left} [0-9] F7 F11
+# Delete Return Backspace Space Period Comma
+# {Up,Right,Down,Left} [0-9] F11
 # {H,J,K,L} Q F U N P
 # S Z B I C M A V T
 
@@ -78,10 +78,10 @@ riverctl map normal "$mod"+Shift Z spawn "footclient-run --fzf fzf-kak --from-ro
 
 # Mod+B copy bookmark
 riverctl map normal "$mod" B spawn "footclient-run --fzf bookmark-copy"
-# Mod+Control+B edit bookmark
-riverctl map normal "$mod"+Control B spawn "footclient-run --fzf bookmark-edit"
-# Mod+Shift+B add bookmark
-riverctl map normal "$mod"+Shift B spawn "footclient-run --fzf bookmark-add"
+# Mod+Shift+B edit bookmark
+riverctl map normal "$mod"+Shift B spawn "footclient-run --fzf bookmark-edit"
+# Mod+Control+B add bookmark
+riverctl map normal "$mod"+Control B spawn "footclient-run --fzf bookmark-add"
 
 # Mod+I iwctl
 riverctl map normal "$mod" I spawn "footclient-float iwctl"
@@ -243,11 +243,11 @@ riverctl map normal "$mod"+Shift 0 set-view-tags "$all_tags"
 # https://github.com/ifreund/river/wiki/Scratchpad
 scratch_tag="$((1 << 20 ))"
 
-# toggle the scratchpad with Mod+Minus
-riverctl map normal "$mod" Minus toggle-focused-tags "$scratch_tag"
+# toggle the scratchpad with Mod+Delete
+riverctl map normal "$mod" Delete toggle-focused-tags "$scratch_tag"
 
-# send windows to the scratchpad with Mod+Shift+Minus
-riverctl map normal "$mod"+Shift Minus set-view-tags "$scratch_tag"
+# send windows to the scratchpad with Mod+Shift+Delete
+riverctl map normal "$mod"+Shift Delete set-view-tags "$scratch_tag"
 
 # set spawn tagmask to ensure new windows does not have the scratchpad tag unless explicitly set
 all_but_scratch_tag="$(( ((1 << 32) - 1) ^ scratch_tag ))"
@@ -300,27 +300,22 @@ for mode in normal locked; do
     riverctl map "$mode" Shift XF86AudioMute spawn "pactl set-source-mute @DEFAULT_SOURCE@ toggle; print-volume-mute-status-pactl microphone > $WOB_PIPE"
 
     # control MPRIS aware media players with playerctl
-    riverctl map "$mode" None XF86AudioMedia spawn 'playerctl play-pause'
-    riverctl map "$mode" None XF86AudioPlay  spawn 'playerctl play-pause'
     riverctl map "$mode" None XF86AudioPrev  spawn 'playerctl previous'
     riverctl map "$mode" None XF86AudioNext  spawn 'playerctl next'
+    riverctl map "$mode" None XF86AudioPlay  spawn 'playerctl play-pause'
+    riverctl map "$mode" None XF86AudioStop  spawn 'playerctl stop'
 
     # brightness
     riverctl map "$mode" None XF86MonBrightnessUp   spawn "adjust_brightness.sh up > $WOB_PIPE"
     riverctl map "$mode" None XF86MonBrightnessDown spawn "adjust_brightness.sh down > $WOB_PIPE"
-
-    # map power off key to lock system
-    # done with acpi
-    # riverctl map normal None XF86PowerOff spawn ""
-    # riverctl map "$mode" None XF86PowerOff spawn ""
 done
 
-# Mod+F7 poweroff
-riverctl map normal "$mod" F7 spawn "doas poweroff"
-# Mod+Shift+F7 reboot
-riverctl map normal "$mod"+Shift F7 spawn "doas reboot"
-# Mod+Control+F7 zzz
-riverctl map normal "$mod"+Control F7 spawn "doas zzz"
+# Mod+Shift+PowerOff poweroff
+riverctl map normal "$mod"+Shift XF86PowerOff spawn "doas poweroff"
+# Mod+Shift+Sleep reboot
+riverctl map normal "$mod"+Shift XF86Sleep spawn "doas reboot"
+# Mod+Shift+WakeUp zzz
+riverctl map normal "$mod"+Shift XF86WakeUp spawn "doas zzz"
 
 # spawn new window in less important part
 riverctl attach-mode bottom
@@ -347,7 +342,7 @@ riverctl focus-follows-cursor disabled
 # riverctl focus-follows-cursor normal
 
 # set repeat rate
-riverctl set-repeat 80 300
+riverctl set-repeat 100 250
 
 # cursor theme
 # remember to change also .config/shell/envrc
