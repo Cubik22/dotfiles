@@ -82,6 +82,8 @@ riverctl map normal "$mod" B spawn "footclient-run --fzf bookmark-copy"
 riverctl map normal "$mod"+Shift B spawn "footclient-run --fzf bookmark-edit"
 # Mod+Control+B add bookmark
 riverctl map normal "$mod"+Control B spawn "footclient-run --fzf bookmark-add"
+# Mod+Control+Shift+B create bookmark directory
+riverctl map normal "$mod"+Control+Shift B spawn "footclient-run --fzf bookmark-create-directory"
 
 # Mod+I iwctl
 riverctl map normal "$mod" I spawn "footclient-float iwctl"
