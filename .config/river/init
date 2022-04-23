@@ -82,6 +82,10 @@ riverctl map normal "$mod" B spawn "footclient-run --fzf bookmark-copy"
 riverctl map normal "$mod"+Shift B spawn "footclient-run --fzf bookmark-edit"
 # Mod+Control+B add bookmark
 riverctl map normal "$mod"+Control B spawn "footclient-run --fzf bookmark-add"
+# Mod+Alt+Shift+B add copy bookmark
+riverctl map normal "$mod"+"$alt"+Shift B spawn "footclient-run --fzf bookmark-add --copy"
+# Mod+Alt+Control+B add repository bookmark
+riverctl map normal "$mod"+"$alt"+Control B spawn "footclient-run --fzf bookmark-add --repository"
 # Mod+Control+Shift+B create bookmark directory
 riverctl map normal "$mod"+Control+Shift B spawn "footclient-run --fzf bookmark-create-directory"
 
