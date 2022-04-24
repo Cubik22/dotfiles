@@ -42,241 +42,241 @@ adjust_brightness.sh load
 # scale everything (problems with partial scaling)
 # wlr-randr --output eDP-1 --scale 1.25
 
-# use the "logo" key as the primary modifier
-mod="Mod4"
+# use the "logo" gui key as the primary modifier
+gui="Mod4"
 
 # alt key
 alt="Mod1"
 
 ### Programs
 
-# mod + key used
+# Gui + key used
 # Delete Return Backspace Space Period Comma
 # {Up,Right,Down,Left} [0-9] F11
 # {H,J,K,L} Q F U N P
 # S Z B I C M A V T
 
-# Mod+Control+Return footclient
-riverctl map normal "$mod"+Control Return spawn "footclient"
-# Mod+Control+Backspace footclient float
-riverctl map normal "$mod"+Control Backspace spawn "footclient-float"
-# Mod+Control+Equal footclient float fullscreen
+# Gui+Control+Return footclient
+riverctl map normal "$gui"+Control Return spawn "footclient"
+# Gui+Control+Backspace footclient float
+riverctl map normal "$gui"+Control Backspace spawn "footclient-float"
+# Gui+Control+Equal footclient float fullscreen
 # TODO: currently not working
-# riverctl map normal "$mod"+Control Equal spawn "footclient-float riverctl-float-fullscreen"
+# riverctl map normal "$gui"+Control Equal spawn "footclient-float riverctl-float-fullscreen"
 
-# Mod+S screenshot selection with grim and slurp
-riverctl map normal "$mod" S spawn 'screenshot selection; echo "100" > $WOB_PIPE_CENTER'
-# Mod+Shift+S screenshot fullscreen with grim and slurp
-riverctl map normal "$mod"+Shift S spawn 'screenshot fullscreen; echo "100" > $WOB_PIPE_CENTER'
+# Gui+S screenshot selection with grim and slurp
+riverctl map normal "$gui" S spawn 'screenshot selection; echo "100" > $WOB_PIPE_CENTER'
+# Gui+Shift+S screenshot fullscreen with grim and slurp
+riverctl map normal "$gui"+Shift S spawn 'screenshot fullscreen; echo "100" > $WOB_PIPE_CENTER'
 # old screenshot with grim and slurp
-# riverctl map normal "$mod" S spawn 'grim -g "$(slurp)" - | wl-copy-env'
+# riverctl map normal "$gui" S spawn 'grim -g "$(slurp)" - | wl-copy-env'
 
-# Mod+Z kak-fzf
-riverctl map normal "$mod" Z spawn "footclient-run --fzf fzf-kak"
-# Mod+Shift+Z kak-fzf from root
-riverctl map normal "$mod"+Shift Z spawn "footclient-run --fzf fzf-kak --from-root"
+# Gui+Z kak-fzf
+riverctl map normal "$gui" Z spawn "footclient-run --fzf fzf-kak"
+# Gui+Shift+Z kak-fzf from root
+riverctl map normal "$gui"+Shift Z spawn "footclient-run --fzf fzf-kak --from-root"
 
-# Mod+B copy bookmark
-riverctl map normal "$mod" B spawn "footclient-run --fzf bookmark-copy"
-# Mod+Shift+B edit bookmark
-riverctl map normal "$mod"+Shift B spawn "footclient-run --fzf bookmark-edit"
-# Mod+Control+B add bookmark
-riverctl map normal "$mod"+Control B spawn "footclient-run --fzf bookmark-add"
-# Mod+Alt+Shift+B add copy bookmark
-riverctl map normal "$mod"+"$alt"+Shift B spawn "footclient-run --fzf bookmark-add --copy"
-# Mod+Alt+Control+B add repository bookmark
-riverctl map normal "$mod"+"$alt"+Control B spawn "footclient-run --fzf bookmark-add --repository"
-# Mod+Control+Shift+B create bookmark directory
-riverctl map normal "$mod"+Control+Shift B spawn "footclient-run --fzf bookmark-create-directory"
+# Gui+B copy bookmark
+riverctl map normal "$gui" B spawn "footclient-run --fzf bookmark-copy"
+# Gui+Shift+B edit bookmark
+riverctl map normal "$gui"+Shift B spawn "footclient-run --fzf bookmark-edit"
+# Gui+Control+B add bookmark
+riverctl map normal "$gui"+Control B spawn "footclient-run --fzf bookmark-add"
+# Gui+Alt+Shift+B add copy bookmark
+riverctl map normal "$gui"+"$alt"+Shift B spawn "footclient-run --fzf bookmark-add --copy"
+# Gui+Alt+Control+B add repository bookmark
+riverctl map normal "$gui"+"$alt"+Control B spawn "footclient-run --fzf bookmark-add --repository"
+# Gui+Control+Shift+B create bookmark directory
+riverctl map normal "$gui"+Control+Shift B spawn "footclient-run --fzf bookmark-create-directory"
 
-# Mod+I iwctl
-riverctl map normal "$mod" I spawn "footclient-float iwctl"
+# Gui+I iwctl
+riverctl map normal "$gui" I spawn "footclient-float iwctl"
 
-# Mod+C bluetoothctl
-riverctl map normal "$mod" C spawn "footclient-float bluetoothctl"
+# Gui+C bluetoothctl
+riverctl map normal "$gui" C spawn "footclient-float bluetoothctl"
 
-# Mod+M fuzzel
-riverctl map normal "$mod" M spawn "fuzzel.sh"
+# Gui+M fuzzel
+riverctl map normal "$gui" M spawn "fuzzel.sh"
 
-# Mod+A play copied url with mpv audio
-riverctl map normal "$mod" A spawn 'mpv-url --audio $(wl-paste-env)'
-# Mod+V play copied url with mpv
-riverctl map normal "$mod" V spawn 'mpv-url $(wl-paste-env)'
-# Mod+T play copied url with mpv with ytdl mode and medium quality
-riverctl map normal "$mod" T spawn 'mpv-url --medium $(wl-paste-env)'
-# Mod+Shift+T play copied url with mpv with ytdl mode and best quality
-riverctl map normal "$mod"+Shift T spawn 'mpv-url --best $(wl-paste-env)'
-# Mod+Control+T play copied url with mpv with ytdl mode and worst quality
-riverctl map normal "$mod"+Control T spawn 'mpv-url --worst $(wl-paste-env)'
+# Gui+A play copied url with mpv audio
+riverctl map normal "$gui" A spawn 'mpv-url --audio $(wl-paste-env)'
+# Gui+V play copied url with mpv
+riverctl map normal "$gui" V spawn 'mpv-url $(wl-paste-env)'
+# Gui+T play copied url with mpv with ytdl mode and medium quality
+riverctl map normal "$gui" T spawn 'mpv-url --medium $(wl-paste-env)'
+# Gui+Shift+T play copied url with mpv with ytdl mode and best quality
+riverctl map normal "$gui"+Shift T spawn 'mpv-url --best $(wl-paste-env)'
+# Gui+Control+T play copied url with mpv with ytdl mode and worst quality
+riverctl map normal "$gui"+Control T spawn 'mpv-url --worst $(wl-paste-env)'
 
-# Mod+Control+F firefox
-riverctl map normal "$mod"+Control F spawn "firefox"
-# Mod+Control+Shift+F firefox incognito mode
-riverctl map normal "$mod"+Control+Shift F spawn "firefox -private-window"
-# Mod+Shift+F firefox soft profile
-riverctl map normal "$mod"+Shift F spawn "firefox -P soft"
+# Gui+Control+F firefox
+riverctl map normal "$gui"+Control F spawn "firefox"
+# Gui+Control+Shift+F firefox incognito mode
+riverctl map normal "$gui"+Control+Shift F spawn "firefox -private-window"
+# Gui+Shift+F firefox soft profile
+riverctl map normal "$gui"+Shift F spawn "firefox -P soft"
 
-# Mod+Control+F chromium
-riverctl map normal "$mod"+Control C spawn "chromium-wayland"
-# Mod+Control+Shift C chromium incognito mode
-riverctl map normal "$mod"+Control+Shift C spawn "chromium-wayland --incognito"
+# Gui+Control+F chromium
+riverctl map normal "$gui"+Control C spawn "chromium-wayland"
+# Gui+Control+Shift C chromium incognito mode
+riverctl map normal "$gui"+Control+Shift C spawn "chromium-wayland --incognito"
 
 ### Windows
 
-# Mod+Q to close the focused view
-riverctl map normal "$mod" Q close
+# Gui+Q to close the focused view
+riverctl map normal "$gui" Q close
 
-# Mod+Shift+E to exit river
-riverctl map normal "$mod"+Shift E exit
+# Gui+Shift+E to exit river
+riverctl map normal "$gui"+Shift E exit
 
-# Mod+J and Mod+K to focus the next/previous view in the layout stack
-riverctl map normal "$mod" J focus-view next
-riverctl map normal "$mod" K focus-view previous
+# Gui+J and Gui+K to focus the next/previous view in the layout stack
+riverctl map normal "$gui" J focus-view next
+riverctl map normal "$gui" K focus-view previous
 
-# Mod+Shift+J and Mod+Shift+K to swap the focused view with the next/previous
+# Gui+Shift+J and Gui+Shift+K to swap the focused view with the next/previous
 # view in the layout stack
-riverctl map normal "$mod"+Shift J swap next
-riverctl map normal "$mod"+Shift K swap previous
+riverctl map normal "$gui"+Shift J swap next
+riverctl map normal "$gui"+Shift K swap previous
 
-# Mod+Period and Mod+Comma to focus the next/previous output
-riverctl map normal "$mod" Period focus-output next
-riverctl map normal "$mod" Comma focus-output previous
+# Gui+Period and Gui+Comma to focus the next/previous output
+riverctl map normal "$gui" Period focus-output next
+riverctl map normal "$gui" Comma focus-output previous
 
-# Mod+Shift+{Period,Comma} to send the focused view to the next/previous output
-riverctl map normal "$mod"+Shift Period send-to-output next
-riverctl map normal "$mod"+Shift Comma send-to-output previous
+# Gui+Shift+{Period,Comma} to send the focused view to the next/previous output
+riverctl map normal "$gui"+Shift Period send-to-output next
+riverctl map normal "$gui"+Shift Comma send-to-output previous
 
-# Mod+Backspace focus previous tags
-riverctl map normal "$mod" Backspace focus-previous-tags
+# Gui+Backspace focus previous tags
+riverctl map normal "$gui" Backspace focus-previous-tags
 
-# Mod+Shift+Backspace tag focused view with previous tags
-riverctl map normal "$mod"+Shift Backspace send-to-previous-tags
+# Gui+Shift+Backspace tag focused view with previous tags
+riverctl map normal "$gui"+Shift Backspace send-to-previous-tags
 
-# Mod+Return to bump the focused view to the top of the layout stack
-riverctl map normal "$mod" Return zoom
+# Gui+Return to bump the focused view to the top of the layout stack
+riverctl map normal "$gui" Return zoom
 
-# Mod+H and Mod+L to decrease/increase the main ratio of rivertile(1)
-riverctl map normal "$mod" H send-layout-cmd rivertile "main-ratio -0.025"
-riverctl map normal "$mod" L send-layout-cmd rivertile "main-ratio +0.025"
+# Gui+H and Gui+L to decrease/increase the main ratio of rivertile(1)
+riverctl map normal "$gui" H send-layout-cmd rivertile "main-ratio -0.025"
+riverctl map normal "$gui" L send-layout-cmd rivertile "main-ratio +0.025"
 
-# Mod+Shift+H and Mod+Shift+L to increment/decrement the main count of rivertile(1)
-riverctl map normal "$mod"+Shift H send-layout-cmd rivertile "main-count +1"
-riverctl map normal "$mod"+Shift L send-layout-cmd rivertile "main-count -1"
+# Gui+Shift+H and Gui+Shift+L to increment/decrement the main count of rivertile(1)
+riverctl map normal "$gui"+Shift H send-layout-cmd rivertile "main-count +1"
+riverctl map normal "$gui"+Shift L send-layout-cmd rivertile "main-count -1"
 
-# Mod+Alt+{H,J,K,L} to move views big step
+# Gui+Alt+{H,J,K,L} to move views big step
 # TODO: when moving to top move below bar
 move_pixel_big=200
-riverctl map normal "$mod"+"$alt" H move left   "$move_pixel_big"
-riverctl map normal "$mod"+"$alt" J move down   "$move_pixel_big"
-riverctl map normal "$mod"+"$alt" K move up     "$move_pixel_big"
-riverctl map normal "$mod"+"$alt" L move right  "$move_pixel_big"
+riverctl map normal "$gui"+"$alt" H move left   "$move_pixel_big"
+riverctl map normal "$gui"+"$alt" J move down   "$move_pixel_big"
+riverctl map normal "$gui"+"$alt" K move up     "$move_pixel_big"
+riverctl map normal "$gui"+"$alt" L move right  "$move_pixel_big"
 
-# Mod+Alt+Shift+{H,J,K,L} to move views small step
+# Gui+Alt+Shift+{H,J,K,L} to move views small step
 move_pixel_small=20
-riverctl map normal "$mod"+"$alt"+Shift H move left     "$move_pixel_small"
-riverctl map normal "$mod"+"$alt"+Shift J move down     "$move_pixel_small"
-riverctl map normal "$mod"+"$alt"+Shift K move up       "$move_pixel_small"
-riverctl map normal "$mod"+"$alt"+Shift L move right    "$move_pixel_small"
+riverctl map normal "$gui"+"$alt"+Shift H move left     "$move_pixel_small"
+riverctl map normal "$gui"+"$alt"+Shift J move down     "$move_pixel_small"
+riverctl map normal "$gui"+"$alt"+Shift K move up       "$move_pixel_small"
+riverctl map normal "$gui"+"$alt"+Shift L move right    "$move_pixel_small"
 
-# Mod+Alt+Control+{H,J,K,L} to snap views to screen edges
+# Gui+Alt+Control+{H,J,K,L} to snap views to screen edges
 # when snapping to top move below bar
-riverctl map normal "$mod"+"$alt"+Control H snap    left
-riverctl map normal "$mod"+"$alt"+Control J snap    down
-riverctl map normal "$mod"+"$alt"+Control K spawn   riverctl-snap-up-bar
-riverctl map normal "$mod"+"$alt"+Control L snap    right
+riverctl map normal "$gui"+"$alt"+Control H snap    left
+riverctl map normal "$gui"+"$alt"+Control J snap    down
+riverctl map normal "$gui"+"$alt"+Control K spawn   riverctl-snap-up-bar
+riverctl map normal "$gui"+"$alt"+Control L snap    right
 
-# Mod+Control+{H,J,K,L} to resize views big step
+# Gui+Control+{H,J,K,L} to resize views big step
 resize_pixel_big=100
-riverctl map normal "$mod"+Control H resize horizontal  "-$resize_pixel_big"
-riverctl map normal "$mod"+Control J resize vertical    "$resize_pixel_big"
-riverctl map normal "$mod"+Control K resize vertical    "-$resize_pixel_big"
-riverctl map normal "$mod"+Control L resize horizontal  "$resize_pixel_big"
+riverctl map normal "$gui"+Control H resize horizontal  "-$resize_pixel_big"
+riverctl map normal "$gui"+Control J resize vertical    "$resize_pixel_big"
+riverctl map normal "$gui"+Control K resize vertical    "-$resize_pixel_big"
+riverctl map normal "$gui"+Control L resize horizontal  "$resize_pixel_big"
 
-# Mod+Control+Shift+{H,J,K,L} to resize views small step
+# Gui+Control+Shift+{H,J,K,L} to resize views small step
 resize_pixel_small=10
-riverctl map normal "$mod"+Control+Shift H resize horizontal  "-$resize_pixel_small"
-riverctl map normal "$mod"+Control+Shift J resize vertical    "$resize_pixel_small"
-riverctl map normal "$mod"+Control+Shift K resize vertical    "-$resize_pixel_small"
-riverctl map normal "$mod"+Control+Shift L resize horizontal  "$resize_pixel_small"
+riverctl map normal "$gui"+Control+Shift H resize horizontal  "-$resize_pixel_small"
+riverctl map normal "$gui"+Control+Shift J resize vertical    "$resize_pixel_small"
+riverctl map normal "$gui"+Control+Shift K resize vertical    "-$resize_pixel_small"
+riverctl map normal "$gui"+Control+Shift L resize horizontal  "$resize_pixel_small"
 
-# Mod+Alt+Control+Shift+{J,K,H,L} to change layout orientation
-riverctl map normal "$mod"+"$alt"+Control+Shift H send-layout-cmd rivertile "main-location left"
-riverctl map normal "$mod"+"$alt"+Control+Shift J send-layout-cmd rivertile "main-location bottom"
-riverctl map normal "$mod"+"$alt"+Control+Shift K send-layout-cmd rivertile "main-location top"
-riverctl map normal "$mod"+"$alt"+Control+Shift L send-layout-cmd rivertile "main-location right"
+# Gui+Alt+Control+Shift+{J,K,H,L} to change layout orientation
+riverctl map normal "$gui"+"$alt"+Control+Shift H send-layout-cmd rivertile "main-location left"
+riverctl map normal "$gui"+"$alt"+Control+Shift J send-layout-cmd rivertile "main-location bottom"
+riverctl map normal "$gui"+"$alt"+Control+Shift K send-layout-cmd rivertile "main-location top"
+riverctl map normal "$gui"+"$alt"+Control+Shift L send-layout-cmd rivertile "main-location right"
 
-# Mod+{N,P} change tags
-riverctl map normal "$mod" N spawn "cycle-focused-tags next 9"
-riverctl map normal "$mod" P spawn "cycle-focused-tags previous 9"
+# Gui+{N,P} change tags
+riverctl map normal "$gui" N spawn "cycle-focused-tags next 9"
+riverctl map normal "$gui" P spawn "cycle-focused-tags previous 9"
 
-# Mod+{Down,Up} move between tags
-riverctl map normal "$mod" Down     spawn "cycle-focused-tags next 9"
-riverctl map normal "$mod" Up       spawn "cycle-focused-tags previous 9"
+# Gui+{Down,Up} move between tags
+riverctl map normal "$gui" Down     spawn "cycle-focused-tags next 9"
+riverctl map normal "$gui" Up       spawn "cycle-focused-tags previous 9"
 
-# Mod+{Left,Right} move between browser windows
-riverctl map normal "$mod" Left     spawn "wtype -M ctrl -M shift -k Tab -m shift -m ctrl"
-riverctl map normal "$mod" Right    spawn "wtype -M ctrl -k Tab -m ctrl"
+# Gui+{Left,Right} move between browser windows
+riverctl map normal "$gui" Left     spawn "wtype -M ctrl -M shift -k Tab -m shift -m ctrl"
+riverctl map normal "$gui" Right    spawn "wtype -M ctrl -k Tab -m ctrl"
 
-# Mod+Left Mouse Button to move views
-riverctl map-pointer normal "$mod" BTN_LEFT move-view
+# Gui+Left Mouse Button to move views
+riverctl map-pointer normal "$gui" BTN_LEFT move-view
 
-# Mod+Right Mouse Button to resize views
-riverctl map-pointer normal "$mod" BTN_RIGHT resize-view
+# Gui+Right Mouse Button to resize views
+riverctl map-pointer normal "$gui" BTN_RIGHT resize-view
 
 for i in $(seq 1 9); do
     tags="$((1 << (i - 1)))"
 
-    # Mod+[1-9] to focus tag [1-9]
-    riverctl map normal "$mod" "$i" set-focused-tags "$tags"
+    # Gui+[1-9] to focus tag [1-9]
+    riverctl map normal "$gui" "$i" set-focused-tags "$tags"
 
-    # Mod+Shift+[1-9] to tag focused view with tag [1-9]
-    riverctl map normal "$mod"+Shift "$i" set-view-tags "$tags"
+    # Gui+Shift+[1-9] to tag focused view with tag [1-9]
+    riverctl map normal "$gui"+Shift "$i" set-view-tags "$tags"
 
-    # Mod+Control+[1-9] to toggle focus of tag [1-9]
-    riverctl map normal "$mod"+Control "$i" toggle-focused-tags "$tags"
+    # Gui+Control+[1-9] to toggle focus of tag [1-9]
+    riverctl map normal "$gui"+Control "$i" toggle-focused-tags "$tags"
 
-    # Mod+Control+Shift+[1-9] to toggle tag [1-9] of focused view
-    riverctl map normal "$mod"+Control+Shift "$i" toggle-view-tags "$tags"
+    # Gui+Control+Shift+[1-9] to toggle tag [1-9] of focused view
+    riverctl map normal "$gui"+Control+Shift "$i" toggle-view-tags "$tags"
 done
 
-# Mod+0 to focus all tags
-# Mod+Shift+0 to tag focused view with all tags
+# Gui+0 to focus all tags
+# Gui+Shift+0 to tag focused view with all tags
 all_tags="$(((1 << 32) - 1))"
-riverctl map normal "$mod" 0 set-focused-tags "$all_tags"
-riverctl map normal "$mod"+Shift 0 set-view-tags "$all_tags"
+riverctl map normal "$gui" 0 set-focused-tags "$all_tags"
+riverctl map normal "$gui"+Shift 0 set-view-tags "$all_tags"
 
 # scratchpad
 # https://github.com/ifreund/river/wiki/Scratchpad
 scratch_tag="$((1 << 20 ))"
 
-# toggle the scratchpad with Mod+Delete
-riverctl map normal "$mod" Delete toggle-focused-tags "$scratch_tag"
+# Gui+Delete toggle the scratchpad
+riverctl map normal "$gui" Delete toggle-focused-tags "$scratch_tag"
 
-# send windows to the scratchpad with Mod+Shift+Delete
-riverctl map normal "$mod"+Shift Delete set-view-tags "$scratch_tag"
+# Gui+Shift+Delete send windows to the scratchpad
+riverctl map normal "$gui"+Shift Delete set-view-tags "$scratch_tag"
 
 # set spawn tagmask to ensure new windows does not have the scratchpad tag unless explicitly set
 all_but_scratch_tag="$(( ((1 << 32) - 1) ^ scratch_tag ))"
 riverctl spawn-tagmask "$all_but_scratch_tag"
 
-# Mod+Space to toggle float
-riverctl map normal "$mod" Space toggle-float
+# Gui+Space to toggle float
+riverctl map normal "$gui" Space toggle-float
 
-# Mod+F to toggle fullscreen
-riverctl map normal "$mod" F toggle-fullscreen
+# Gui+F to toggle fullscreen
+riverctl map normal "$gui" F toggle-fullscreen
 
-# Mod+U set window float fullscreen (stacking mode)
-riverctl map normal "$mod" U spawn riverctl-float-fullscreen
+# Gui+U set window float fullscreen (stacking mode)
+riverctl map normal "$gui" U spawn riverctl-float-fullscreen
 
 # Declare a passthrough mode. This mode has only a single mapping to return to
 # normal mode. This makes it useful for testing a nested wayland compositor
 riverctl declare-mode passthrough
 
-# Mod+F11 to enter passthrough mode
-riverctl map normal "$mod" F11 enter-mode passthrough
+# Gui+F11 to enter passthrough mode
+riverctl map normal "$gui" F11 enter-mode passthrough
 
-# Mod+F11 to return to normal mode
-riverctl map passthrough "$mod" F11 enter-mode normal
+# Gui+F11 to return to normal mode
+riverctl map passthrough "$gui" F11 enter-mode normal
 
 # various media key mapping
 for mode in normal locked; do
@@ -314,14 +314,14 @@ for mode in normal locked; do
     # brightness
     riverctl map "$mode" None XF86MonBrightnessUp   spawn "adjust_brightness.sh up > $WOB_PIPE"
     riverctl map "$mode" None XF86MonBrightnessDown spawn "adjust_brightness.sh down > $WOB_PIPE"
-done
 
-# Mod+Shift+PowerOff poweroff
-riverctl map normal "$mod"+Shift XF86PowerOff spawn "doas poweroff"
-# Mod+Shift+Sleep reboot
-riverctl map normal "$mod"+Shift XF86Sleep spawn "doas reboot"
-# Mod+Shift+WakeUp zzz
-riverctl map normal "$mod"+Shift XF86WakeUp spawn "doas zzz"
+    # Gui+F12 poweroff
+    riverctl map "$mode" "$gui" F12 spawn "doas poweroff"
+    # Gui+F10 reboot
+    riverctl map "$mode" "$gui" F10 spawn "doas reboot"
+    # Gui+F9 zzz
+    riverctl map "$mode" "$gui" F9 spawn "doas zzz"
+done
 
 # spawn new window in less important part
 riverctl attach-mode bottom
