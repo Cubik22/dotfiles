@@ -24,7 +24,8 @@ file="$(fzf)"
 
 [ ! -f "$file" ] && return 1
 
-url="$("$PASTE_CMD" -n)"
+# remove / from end of url
+url="$("$PASTE_CMD" -n | sed 's/\/$//')"
 
 if [ "$mode" = "normal" ]; then
     # ask name to user
