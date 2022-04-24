@@ -121,8 +121,9 @@ user_pref("signon.rememberSignons", false);
 /* 5010: disable location bar suggestion types
  * [SETTING] Privacy & Security>Address Bar>When using the address bar, suggest ***/
 user_pref("browser.urlbar.suggest.history", false);
-// user_pref("browser.urlbar.suggest.bookmark", false);
+user_pref("browser.urlbar.suggest.bookmark", false);
 // user_pref("browser.urlbar.suggest.openpage", false);
+// user_pref("browser.urlbar.suggest.remotetab", false);
 user_pref("browser.urlbar.suggest.topsites", false); // [FF78+]
 
 /* 5013: disable browsing and download history

@@ -10,7 +10,8 @@ if [ "$#" -eq 0 ]; then
 else
     case "$1" in
         --from-clipboard)
-            initial_query="$(wl-paste-env -n)"
+            # remove / from end of url
+            initial_query="$("$PASTE_CMD" -n | sed 's/\/$//')"
         ;;
         *)
             echo "error: argument not recognized"
