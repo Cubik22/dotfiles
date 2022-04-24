@@ -67,6 +67,14 @@ map global insert <a-a> <home><esc> -docstring "enter normal mode start of line"
 map global insert <a-e> <end><esc>  -docstring "enter normal mode end of line"
 # map global insert <c-p> <a-semicolon>P
 
+# repeat last command
+map global normal . <a-.>
+map global normal <a-.> .
+
+# select paragraphs
+map global normal \' ]p
+map global normal <a-'> [p
+
 # build
 define-command build -docstring 'build in current directory' %{ nop %sh{
     if [ -f "Makefile" ]; then
@@ -82,6 +90,9 @@ map global normal <c-m> ": w <ret>: build<ret>" -docstring "build background"
 
 # custom text objects
 # map global user W 'c\s,\s<ret>' -docstring "select between whitespace"
+
+# clear highlight
+map global normal <c-s-c> ': clear-ansi<ret>'                   -docstring 'clear highlight'
 
 # lint
 map global normal <c-l> ': ui-lint-toggle<ret>'                 -docstring 'toggle lint'

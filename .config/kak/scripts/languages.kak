@@ -17,7 +17,7 @@ define-command -hidden set-language-options %{
     expandtab
 
     # highlight tabs as errors
-    ui-tabs-toggle
+    # ui-tabs-toggle
 
     # strange indentation bug on new line
     # set-option global auto_pairs ( ) { } [ ]
