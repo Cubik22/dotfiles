@@ -78,6 +78,8 @@ riverctl map normal "$gui"+Shift Z spawn "footclient-run --fzf fzf-kak --from-ro
 
 # Gui+B copy bookmark
 riverctl map normal "$gui" B spawn "footclient-run --fzf bookmark-copy"
+# Gui+Atl+B search bookmark
+riverctl map normal "$gui"+Alt B spawn "footclient-run --fzf bookmark-copy --from-clipboard"
 # Gui+Shift+B edit bookmark
 riverctl map normal "$gui"+Shift B spawn "footclient-run --fzf bookmark-edit"
 # Gui+Control+B add bookmark

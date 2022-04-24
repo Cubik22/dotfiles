@@ -5,10 +5,25 @@
 bookmarks_dir="${XDG_LOCAL_HOME:=$HOME/.local}/etc/bookmarks"
 cd "$bookmarks_dir" || return 1
 
+if [ "$#" -eq 0 ]; then
+    initial_query="${*:-}"
+else
+    case "$1" in
+        --from-clipboard)
+            initial_query="$(wl-paste-env -n)"
+        ;;
+        *)
+            echo "error: argument not recognized"
+            return 1
+        ;;
+    esac
+fi
+
 IFS=: read -ra selected < <(
-    rg --color=always --line-number --no-heading --smart-case "${*:-}" |
+    rg --color=always --line-number --no-heading --smart-case "" |
     fzf \
         --ansi \
+        --query "$initial_query" \
         --color "hl:-1:underline,hl+:-1:underline:reverse" \
         --delimiter :
 )
