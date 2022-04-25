@@ -44,6 +44,18 @@ map global normal <a-D> <a-l><a-d>
 map global normal C <a-l>c
 map global normal <a-C> <a-l><a-c>
 
+# repeat last command
+map global normal . <a-.>
+map global normal <a-.> .
+
+# select paragraphs
+map global normal \' ]p
+map global normal <a-'> [p
+map global normal \" }p
+map global normal <a-"> {p
+
+map global normal 0 \"
+
 # comments
 map global normal '#' :comment-line<ret> -docstring 'comment line'
 map global normal '<a-#>' :comment-block<ret> -docstring 'comment block'
@@ -55,8 +67,8 @@ map global normal = '|fmt -w $kak_opt_autowrap_column<ret>' -docstring 'wrap lin
 # wrap to 80 characters
 # map global user f '|fmt -w 80<ret>' -docstring 'wrap to 80'
 
-# wrap to 80 with comments and shit
-# map global user F '<a-x>Z<a-;>;Wyzs^<c-r>"<ret>dz|fmt -w 77<ret><a-s>ghP<space>' -docstring 'wrap to 80 and shit'
+# wrap to 80 with comments
+# map global user F '<a-x>Z<a-;>;Wyzs^<c-r>"<ret>dz|fmt -w 77<ret><a-s>ghP<space>' -docstring 'wrap to 80 with comments'
 
 # case-insensitive search
 map global normal /     '/(?i)'
@@ -71,15 +83,9 @@ map global insert <c-e> <end>       -docstring "goto end of line"
 # insert mode enter normal mode start/end line
 map global insert <a-a> <home><esc> -docstring "enter normal mode start of line"
 map global insert <a-e> <end><esc>  -docstring "enter normal mode end of line"
-# map global insert <c-p> <a-semicolon>P
 
-# repeat last command
-map global normal . <a-.>
-map global normal <a-.> .
-
-# select paragraphs
-map global normal \' ]p
-map global normal <a-'> [p
+# paste in insert mode
+map global insert <c-p> <a-semicolon>P
 
 # build
 define-command build -docstring 'build in current directory' %{ nop %sh{
@@ -98,11 +104,11 @@ map global normal <c-m> ": w <ret>: build<ret>" -docstring "build background"
 # map global user W 'c\s,\s<ret>' -docstring "select between whitespace"
 
 # clear highlight
-map global normal <c-s-c> ': clear-ansi<ret>'                   -docstring 'clear highlight'
+map global normal <c-"> ': clear-ansi<ret>'                     -docstring 'clear highlight'
 
 # lint
 map global normal <c-l> ': ui-lint-toggle<ret>'                 -docstring 'toggle lint'
-map global normal <c-s-l> ': lint<ret>'                         -docstring 'lint'
+map global normal <c-h> ': lint<ret>'                           -docstring 'lint'
 map global normal <c-j> ': lint-next-message<ret>'              -docstring 'lint next message'
 map global normal <c-k> ': lint-previous-message<ret>'          -docstring 'lint previous message'
 
@@ -210,15 +216,9 @@ map global goto m '<esc>m;' -docstring 'matching char'
 map global goto d '<esc>: buffer *debug*<ret>' -docstring 'buffer *debug*'
 
 evaluate-commands %sh{
-    if [ "$KERNEL" = "Linux" ]; then
-        copy_program="wl-copy-env"
-        paste_program="wl-paste-env -n"
-        info_program="wl-clipboard"
-    else
-        copy_program="clipboard-tty-copy"
-        paste_program="clipboard-tty-paste"
-        info_program="clipboard-tty"
-    fi
+    copy_program="$COPY_CMD -n"
+    paste_program="$PASTE_CMD -n"
+    info_program="system clipboard"
     printf "%s" "
         map global user y '<a-|>$copy_program<ret>'                     -docstring 'copy to $info_program'
         map global user Y '<a-l><a-|>$copy_program<ret>'                -docstring 'copy to end of line to $info_program'
