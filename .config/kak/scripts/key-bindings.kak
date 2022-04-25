@@ -34,9 +34,15 @@ map global normal X ':extend-line-up %val{count}<ret>'
 # map control+i to jump forward
 map global normal <c-i> <tab> -docstring 'jump forward'
 
+map global normal <minus> C
+map global normal <a-minus> <a-C>
+
 # vim
-map global normal D '<a-l>d' -docstring 'delete to end of line'
-map global normal Y '<a-l>y' -docstring 'copy to end of line'
+map global normal Y <a-l>y
+map global normal D <a-l>d
+map global normal <a-D> <a-l><a-d>
+map global normal C <a-l>c
+map global normal <a-C> <a-l><a-c>
 
 # comments
 map global normal '#' :comment-line<ret> -docstring 'comment line'
@@ -168,7 +174,7 @@ map global git n ': git next-hunk<ret>'                         -docstring 'next
 
 # spell checking
 declare-user-mode spell
-map global user C ': enter-user-mode spell<ret>'                -docstring 'spell checking mode'
+map global user S ': enter-user-mode spell<ret>'                -docstring 'spell checking mode'
 map global spell s ': spell<ret>'                               -docstring 'spell'
 map global spell c ': spell-clear<ret>'                         -docstring 'clear'
 map global spell n ': spell-next<ret>'                          -docstring 'next'
@@ -219,6 +225,7 @@ evaluate-commands %sh{
         map global user d '<a-|>$copy_program<ret><a-d>'                -docstring 'delete and copy to $info_program'
         map global user D '<a-l><a-|>$copy_program<ret><a-d>'           -docstring 'delete to end of line and copy to $info_program'
         map global user c '<a-|>$copy_program<ret><a-c>'                -docstring 'change and copy to $info_program'
+        map global user C '<a-l><a-|>$copy_program<ret><a-c>'           -docstring 'change to end of line and copy to $info_program'
         map global user p '<a-!>$paste_program<ret>'                    -docstring 'paste from $info_program (after)'
         map global user P '!$paste_program<ret>'                        -docstring 'paste from $info_program (before)'
         map global user <a-p> '<a-o>j !$paste_program<ret>'             -docstring 'paste from $info_program (below)'
