@@ -165,6 +165,10 @@ alias listlib="scanelf --ldpath -BF '%f'"
 export weather="wttr.in"
 # curl wttr.in/:help
 
+# river
+export gui="Mod4"
+export alt="Mod1"
+
 # git related
 alias gst="git status"
 alias gad="git add"

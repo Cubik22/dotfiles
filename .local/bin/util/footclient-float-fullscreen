@@ -1,0 +1,9 @@
+#!/bin/sh
+
+footclient \
+    --app-id=float \
+    "$@" \
+    &
+
+sleep 0.1
+riverctl-float-fullscreen

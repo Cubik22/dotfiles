@@ -7,8 +7,8 @@
 # riverctl toggle-float
 
 # maximize window
-riverctl resize vertical 10000
-riverctl resize horizontal 10000
+riverctl resize horizontal "$WINDOW_WIDTH"
+riverctl resize vertical "$WINDOW_HEIGHT"
 
 height_bar="$(height-bar)"
 

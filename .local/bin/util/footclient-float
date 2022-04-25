@@ -1,6 +1,10 @@
 #!/bin/sh
 
+width="$FOOT_FLOAT_WIDTH"
+height="$FOOT_FLOAT_HEIGHT"
+
 footclient \
-    --window-size-pixels="${FOOT_FLOAT_WIDTH}x${FOOT_FLOAT_HEIGHT}" \
+    --window-size-pixels="${width}x${height}" \
     --app-id=float \
-    "$@"
+    "$@" \
+    &

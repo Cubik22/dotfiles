@@ -56,13 +56,12 @@ alt="Mod1"
 # {H,J,K,L} Q F U N P
 # S Z B I C M A V T
 
-# Gui+Control+Return footclient
-riverctl map normal "$gui"+Control Return spawn "footclient"
+# Gui+Control+Space footclient
+riverctl map normal "$gui"+Control Space spawn "footclient"
 # Gui+Control+Backspace footclient float
 riverctl map normal "$gui"+Control Backspace spawn "footclient-float"
-# Gui+Control+Equal footclient float fullscreen
-# TODO: currently not working
-# riverctl map normal "$gui"+Control Equal spawn "footclient-float riverctl-float-fullscreen"
+# Gui+Control+Return footclient float fullscreen
+riverctl map normal "$gui"+Control Return spawn "footclient-float-fullscreen"
 
 # Gui+S screenshot selection with grim and slurp
 riverctl map normal "$gui" S spawn 'screenshot selection; echo "100" > $WOB_PIPE_CENTER'
