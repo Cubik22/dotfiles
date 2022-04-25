@@ -2,10 +2,11 @@
 
 # use space as leader
 map global normal <space> , -docstring 'leader'
+map global normal <a-space> <backspace> -docstring 'remove count'
 
 # use backspace to do what space used to do
-map global normal <backspace> <space> -docstring 'remove all sels except main'
-map global normal <a-backspace> <a-space> -docstring 'remove main sel'
+map global normal <backspace> <space> -docstring 'remove all selections except main'
+map global normal <a-backspace> <a-space> -docstring 'remove main selection'
 
 # remap 'i' and 'a' to enter insert mode without keeping selection
 map global normal i hli -docstring 'enter insert mode before cursor'
@@ -34,6 +35,7 @@ map global normal X ':extend-line-up %val{count}<ret>'
 # map control+i to jump forward
 map global normal <c-i> <tab> -docstring 'jump forward'
 
+# switch selction line from C to -
 map global normal <minus> C
 map global normal <a-minus> <a-C>
 
@@ -54,6 +56,7 @@ map global normal <a-'> [p
 map global normal \" }p
 map global normal <a-"> {p
 
+# registers
 map global normal 0 \"
 
 # comments
@@ -220,17 +223,17 @@ evaluate-commands %sh{
     paste_program="$PASTE_CMD -n"
     info_program="system clipboard"
     printf "%s" "
-        map global user y '<a-|>$copy_program<ret>'                     -docstring 'copy to $info_program'
-        map global user Y '<a-l><a-|>$copy_program<ret>'                -docstring 'copy to end of line to $info_program'
-        map global user d '<a-|>$copy_program<ret><a-d>'                -docstring 'delete and copy to $info_program'
-        map global user D '<a-l><a-|>$copy_program<ret><a-d>'           -docstring 'delete to end of line and copy to $info_program'
-        map global user c '<a-|>$copy_program<ret><a-c>'                -docstring 'change and copy to $info_program'
-        map global user C '<a-l><a-|>$copy_program<ret><a-c>'           -docstring 'change to end of line and copy to $info_program'
-        map global user p '<a-!>$paste_program<ret>'                    -docstring 'paste from $info_program (after)'
-        map global user P '!$paste_program<ret>'                        -docstring 'paste from $info_program (before)'
-        map global user <a-p> '<a-o>j !$paste_program<ret>'             -docstring 'paste from $info_program (below)'
-        map global user <a-P> '<a-O>k !$paste_program<ret>'             -docstring 'paste from $info_program (above)'
-        map global user r '!$paste_program<ret>d'                       -docstring 'replace from $info_program'
+        map global user y '<a-|>$copy_program<ret>'             -docstring 'copy to $info_program'
+        map global user Y '<a-l><a-|>$copy_program<ret>'        -docstring 'copy to end of line to $info_program'
+        map global user d '<a-|>$copy_program<ret><a-d>'        -docstring 'delete and copy to $info_program'
+        map global user D '<a-l><a-|>$copy_program<ret><a-d>'   -docstring 'delete to end of line and copy to $info_program'
+        map global user c '<a-|>$copy_program<ret><a-c>'        -docstring 'change and copy to $info_program'
+        map global user C '<a-l><a-|>$copy_program<ret><a-c>'   -docstring 'change to end of line and copy to $info_program'
+        map global user p '<a-!>$paste_program<ret>'            -docstring 'paste from $info_program (after)'
+        map global user P '!$paste_program<ret>'                -docstring 'paste from $info_program (before)'
+        map global user <a-p> '<a-o>j !$paste_program<ret>'     -docstring 'paste from $info_program (below)'
+        map global user <a-P> '<a-O>k !$paste_program<ret>'     -docstring 'paste from $info_program (above)'
+        map global user r '!$paste_program<ret>d'               -docstring 'replace from $info_program'
     "
     # system clipboard (tiny.kak)
     # hook global RegisterModified '"' %{ nop %sh{
