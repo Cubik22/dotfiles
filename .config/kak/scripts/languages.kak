@@ -1,3 +1,6 @@
+# information on current buffer filetype
+# echo %opt{filetype}
+
 # enable kak-lsp for some filetypes
 declare-option -docstring 'lsp available' bool lsp_available "false"
 evaluate-commands %sh{
@@ -8,9 +11,6 @@ evaluate-commands %sh{
         "
     fi
 }
-
-# information on current buffer filetype
-# echo %opt{filetype}
 
 define-command -hidden set-language-options %{
     # expand tabs
@@ -122,7 +122,7 @@ hook global BufCreate .*waybar/config %{
 # set filetype to sh when file start with #!/usr/bin/{sh,dash}
 # for #!/usr/bin/{bash,zsh} is already working
 define-command -hidden sh-additional-file-detection %{ evaluate-commands %sh{
-    if [ -z "${kak_opt_filetype}" ]; then
+    if [ -z "$kak_opt_filetype" ]; then
         first_line="$(head -n 1 "$kak_buffile")"
         if [ "$first_line" = "#!/usr/bin/sh" ] || \
             [ "$first_line" = "#!/usr/bin/dash" ]; then
