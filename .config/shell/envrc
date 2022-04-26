@@ -119,7 +119,7 @@ export FZF_DEFAULT_COMMAND='fd --hidden --follow --exclude ".git" --exclude ".hg
 # --multi --cycle
 # --color "hl:-1:underline,hl+:-1:underline:reverse"
 export FZF_DEFAULT_COLORS='bg+:#1d2021,bg:#1d2021,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934'
-export FZF_DEFAULT_OPTS="--no-mouse --bind='ctrl-i:accept-non-empty' --bind='ctrl-y:execute-silent(printf {} | cut -f 2- | '\$COPY_CMD' -n)' --layout=reverse --prompt='  ' --ansi --tabstop=4 --color="$FZF_DEFAULT_COLORS""
+export FZF_DEFAULT_OPTS="--no-mouse --bind='ctrl-i:accept-non-empty' --bind='ctrl-y:execute-silent(printf {} | cut -f 2- | '\$COPY_CMD' -n)' --layout=reverse --prompt='  ' --ansi --tabstop=4 --color=\"$FZF_DEFAULT_COLORS\""
 
 # command when running <c-t>
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND --type file --type directory --type symlink"

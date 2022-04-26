@@ -16,7 +16,8 @@ elements=$(echo "$getMaster" | grep 'Playback channels' | awk -F "Playback chann
 allsame=false
 
 while read -r i; do
-    string="echo \"\$getMaster\" | awk '/^ *"$i"/ {print \$0}' | awk -F '\\\[|]' '{print \$(NF - 1)}'"
+    string="echo \"\$getMaster\" | awk '/^ *$i/ {print \$0}' | awk -F '\\\[|]' '{print \$(NF - 1)}'"
+    new=""
     eval "new=\$($string)"
     if [ -n "$old" ]; then
         if [ ! "$new" = "$old" ]; then
@@ -27,9 +28,9 @@ while read -r i; do
         allsame=true
     fi
     old="$new"
-done <<EOT
-$(echo "$elements")
-EOT
+done <<EOF
+$elements
+EOF
 
 if [ "$allsame" = "false" ]; then
     echo "ERROR: not every channel is on/off"

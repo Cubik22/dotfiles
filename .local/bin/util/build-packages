@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# shellcheck disable=SC1091
+
 # build packages from source
 
 # add important packages to git_bare_repository.sh

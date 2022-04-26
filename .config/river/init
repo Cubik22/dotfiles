@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# shellcheck disable=SC2016
+
 ### start all program/services in the background
 
 ## starting services with runsvdir

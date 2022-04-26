@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# shellcheck disable=SC2015
+
 # feed script a url or file location.
 # image: imv
 # video: mpv

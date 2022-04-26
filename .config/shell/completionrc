@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# shellcheck disable=SC2207
+
 ### completionrc
 
 # alias config='/usr/bin/git --git-dir="$HOME"/.dotfiles/ --work-tree="$HOME"'
@@ -39,7 +41,7 @@ fi
 home_script="${XDG_LOCAL_HOME:-$HOME/.local}/etc/script"
 
 __phel_completion() {
-    subject_names="$(cat "$home_script/phelrc" | sed 's/\n/ /g')"
+    subject_names="$(sed 's/\n/ /g' "$home_script/phelrc")"
 
     OPTS="\
         $subject_names \
@@ -53,7 +55,7 @@ __phel_completion() {
 complete -F __phel_completion phel
 
 __build_packages_completion() {
-    package_names="$(cat "$home_script/build-packages" | sed 's/\n/ /g')"
+    package_names="$(sed 's/\n/ /g' "$home_script/build-packages")"
 
     OPTS="\
         $package_names \
@@ -68,7 +70,7 @@ __build_packages_completion() {
 complete -F __build_packages_completion build-packages
 
 __update_extra_completion() {
-    program_names="$(cat "$home_script/update-extra" | sed 's/\n/ /g')"
+    program_names="$(sed 's/\n/ /g' "$home_script/update-extra")"
 
     OPTS="\
         $program_names \

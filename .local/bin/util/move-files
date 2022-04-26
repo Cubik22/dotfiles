@@ -18,6 +18,6 @@ mkdir -p "$new_folder"
 while read -r file; do
     new_name=$(echo "$file" | sed "s/$substitute//g")
     mv "$file" "$new_folder"/"$new_name"
-done <<EOT
-$(echo "$files")
-EOT
+done <<EOF
+$files
+EOF

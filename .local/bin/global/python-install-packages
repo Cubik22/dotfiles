@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# shellcheck disable=SC2046
+
 # install and build python packages
 
 xbps-install $(cat /etc/config/xbps-packages/python)

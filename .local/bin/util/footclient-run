@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# shellcheck disable=SC2086
+
 # used because for some reason wl-clipboard does not work when run in a
 # script started with footclient <script>
 

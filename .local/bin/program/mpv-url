@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# shellcheck disable=SC2089
+# shellcheck disable=SC2090
+# shellcheck disable=SC2086
+
 # play url with mpv
 # optional: use ytdl mode and pass quality
 
