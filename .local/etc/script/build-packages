@@ -1,4 +1,6 @@
 all
+kakoune
+kak-lsp
 llvm
 zig
 ziget

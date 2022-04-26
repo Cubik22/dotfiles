@@ -22,7 +22,7 @@ args = ["start"]
 filetypes = ["c", "cpp"]
 roots = ["compile_commands.json", ".clangd", ".git", ".hg"]
 command = "clangd"
-# args = [ "--background-index", "--suggest-missing-includes", "--clang-tidy", "--fallback-style=LLVM"]
+args = [ "--background-index", "--suggest-missing-includes", "--clang-tidy", "--fallback-style=LLVM"]
 offset_encoding = "utf-8"
 
 [language.rust]

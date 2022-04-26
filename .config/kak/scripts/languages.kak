@@ -24,31 +24,54 @@ define-command -hidden set-language-options %{
     # enable-auto-pairs
 }
 
+define-command -hidden enable-lsp-options %{
+    # enable lsp in this window
+    lsp-enable-window
+
+    # enable debug logging for kak-lsp
+    # set-option global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
+
+    # automatically show hover when you move around
+    # lsp-auto-hover-enable
+    # exclude diagnostics
+    # set-option global lsp_show_hover_format 'printf %s "${lsp_info}"'
+
+    # show hover anchored to hovered position
+    set-option global lsp_hover_anchor true
+    # indent lsp with spaces rather than tabs
+    set-option global lsp_insert_spaces true
+    # execute lsp-highlight-references every time the user pauses in normal mode
+    # set-option global lsp_auto_highlight_references true
+    # execute lsp-code-actions every time the user pauses in normal mode
+    set-option global lsp_auto_show_code_actions true
+
+    # show inferred types, parameter names in function calls, and the types
+    # of chained calls inline in the code
+    # currently rust-analyzer needs a different request
+    evaluate-commands %sh{
+        if [ ! "$kak_opt_filetype" = "rust" ]; then
+            printf "%s" "
+                lsp-inlay-hints-enable global
+            "
+        else
+            printf "%s" "
+                lsp-experimental-inlay-hints-enable global
+            "
+        fi
+    }
+    # showing diagnostics inline after their respective line (somewhat buggy)
+    lsp-inlay-diagnostics-enable global
+}
+
 hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|latex|html|css|json|javascript|typescript) %{
     # enable language options
     set-language-options
 
     evaluate-commands %sh{
-        if [ "$kak_lsp_available" = "true" ]; then
-            # enable lsp in this window
+        if [ "$kak_opt_lsp_available" = "true" ]; then
             printf "%s" "
-                lsp-enable-window
+                enable-lsp-options
             "
-
-            # indent lsp with spaces rather than tabs
-            printf "%s" "
-                set-option global lsp_insert_spaces true
-            "
-
-            # automatically show hover when you move around
-            # printf "%s" "
-            #     lsp-auto-hover-enable
-            # "
-
-            # showing diagnostics inline after their respective line (somewhat buggy)
-            # printf "%s" "
-            #     lsp-inlay-diagnostics-enable global
-            # "
         fi
     }
 }
@@ -67,9 +90,6 @@ hook global WinSetOption language_options=true %{
     # enable language options
     set-language-options
 }
-
-# uncomment to enable debug logging for kak-lsp
-# set-option global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
 
 # shell settings
 hook global BufCreate .*[.](inputrc|octaverc) %{
@@ -133,8 +153,8 @@ hook global WinSetOption filetype=(c|cpp) %{
 
     # clang
     set-option window formatcmd 'clang-format -style="{IndentWidth: 4,TabWidth: 4}"'
-    clang-enable-autocomplete
-    clang-enable-diagnostics
+    # clang-enable-autocomplete
+    # clang-enable-diagnostics
     alias window lint clang-parse
     alias window lint-next-error clang-diagnostics-next
 

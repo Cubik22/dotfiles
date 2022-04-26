@@ -1,0 +1,4 @@
+CompileFlags:
+  Add:
+    - "--include-directory=/usr/local/lib/llvm13-release/lib/clang/13.0.1/include"
+    - "--include-directory=/usr/lib/gcc/x86_64-unknown-linux-gnu/10.2/include"

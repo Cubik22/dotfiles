@@ -97,29 +97,59 @@ done
 
 #### build functions
 
+### kakoune
+# https://github.com/mawww/kakoune
+kakoune_install() {
+    package="kakoune"
+    echo "installing package: $package"
+    package_dir="$dev/$package"
+    if [ ! -d "$package_dir" ]; then
+        git clone --recurse-submodules https://github.com/mawww/kakoune.git "$package_dir"
+    else
+        git -C "$package_dir" pull --recurse-submodules
+    fi
+
+    cd "$package_dir" || return 1
+
+    export CXX=clang++
+    make -j8 || return 1
+    make man || return 1
+    doas make install
+}
+
+### kak-lsp
+# https://github.com/kak-lsp/kak-lsp
+kak_lsp_install() {
+    package="kak-lsp"
+    echo "installing package: $package"
+    package_dir="$dev/$package"
+    if [ ! -d "$package_dir" ]; then
+        git clone --recurse-submodules https://github.com/kak-lsp/kak-lsp.git "$package_dir"
+    else
+        git -C "$package_dir" pull --recurse-submodules
+    fi
+
+    cd "$package_dir" || return 1
+
+    doas cargo install --locked --force --path .
+}
+
 ### llvm
 # https://github.com/ziglang/zig/wiki/How-to-build-LLVM,-libclang,-and-liblld-from-source#posix
 llvm_install() {
-    echo "installing package: llvm"
-
-    if [ ! -d "$dev/llvm" ]; then
-        action="install"
+    package="llvm"
+    echo "installing package: $package"
+    package_dir="$dev/$package"
+    if [ ! -d "$package_dir" ]; then
+        git clone --recurse-submodules https://github.com/llvm/llvm-project "$package_dir"
     else
-        action="update"
+        rm -rf "$package_dir/llvm/build-release"
+        rm -rf "$package_dir/lld/build-release"
+        rm -rf "$package_dir/clang/build-release"
+        git -C "$package_dir" pull --recurse-submodules
     fi
 
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/llvm/llvm-project "$dev/llvm"
-    fi
-
-    cd "$dev/llvm" || return 1
-
-    if [ "$action" = "update" ]; then
-        rm -rf llvm/build-release
-        rm -rf lld/build-release
-        rm -rf clang/build-release
-        git pull --recurse-submodules
-    fi
+    cd "$package_dir" || return 1
 
     git checkout release/13.x
 
@@ -175,24 +205,17 @@ zig_install() {
         llvm_install "dep"
     fi
 
-    echo "installing package: zig"
-
-    if [ ! -d "$dev/zig" ]; then
-        action="install"
+    package="zig"
+    echo "installing package: $package"
+    package_dir="$dev/$package"
+    if [ ! -d "$package_dir" ]; then
+        git clone --recurse-submodules https://github.com/ziglang/zig.git  "$package_dir"
     else
-        action="update"
+        rm -rf "$package_dir/build"
+        git -C "$package_dir" pull --recurse-submodules
     fi
 
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/ziglang/zig.git "$dev/zig"
-    fi
-
-    cd "$dev/zig" || return 1
-
-    if [ "$action" = "update" ]; then
-        rm -rf build
-        git pull --recurse-submodules
-    fi
+    cd "$package_dir" || return 1
 
     mkdir build
 
@@ -205,23 +228,16 @@ zig_install() {
 
 ### ziget
 ziget_install() {
-    echo "installing package: ziget"
-
-    if [ ! -d "$dev/ziget" ]; then
-        action="install"
+    package="ziget"
+    echo "installing package: $package"
+    package_dir="$dev/$package"
+    if [ ! -d "$package_dir" ]; then
+        git clone --recurse-submodules https://github.com/marler8997/ziget.git "$package_dir"
     else
-        action="update"
+        git -C "$package_dir" pull --recurse-submodules
     fi
 
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/marler8997/ziget.git "$dev/ziget"
-    fi
-
-    cd "$dev/ziget" || return 1
-
-    if [ "$action" = "update" ]; then
-        git pull --recurse-submodules
-    fi
+    cd "$package_dir" || return 1
 
     rm -rf zig-cache
 
@@ -234,19 +250,16 @@ zigup_install() {
         ziget_install "dep"
     fi
 
-    echo "installing package: zigup"
-
-    if [ ! -d "$dev/zigup" ]; then
-        action="install"
+    package="zigup"
+    echo "installing package: $package"
+    package_dir="$dev/$package"
+    if [ ! -d "$package_dir" ]; then
+        git clone --recurse-submodules https://github.com/marler8997/zigup.git "$package_dir"
     else
-        action="update"
+        git -C "$package_dir" pull --recurse-submodules
     fi
 
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/marler8997/zigup.git "$dev/zigup"
-    fi
-
-    cd "$dev/zigup" || return 1
+    cd "$package_dir" || return 1
 
     # zig_version=$(curl -s https://api.github.com/repos/ziglang/zig/releases | grep -i tag_name | head -n 1 | sed 's/^.*\"tag_name\": \"//' | sed 's/\",.*$//')
 
@@ -257,10 +270,6 @@ zigup_install() {
     # mkdir "$zig_bootstrap"
 
     # tar -x --xz --strip-components=1 -f "$zig_bootstrap.tar.xz" -C "$zig_bootstrap"
-
-    if [ "$action" = "update" ]; then
-        git pull --recurse-submodules
-    fi
 
     rm -rf zig-cache
 
@@ -284,23 +293,16 @@ zls_install() {
         zigup_install "dep"
     fi
 
-    echo "installing package: zls"
-
-    if [ ! -d "$dev/zls" ]; then
-        action="install"
+    package="zls"
+    echo "installing package: $package"
+    package_dir="$dev/$package"
+    if [ ! -d "$package_dir" ]; then
+        git clone --recurse-submodules https://github.com/zigtools/zls.git "$package_dir"
     else
-        action="update"
+        git -C "$package_dir" pull --recurse-submodules
     fi
 
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/zigtools/zls.git "$dev/zls"
-    fi
-
-    cd "$dev/zls" || return 1
-
-    if [ "$action" = "update" ]; then
-        git pull --recurse-submodules
-    fi
+    cd "$package_dir" || return 1
 
     rm -rf zig-cache
 
@@ -428,9 +430,7 @@ EOF
 libtorrent_install() {
     package="libtorrent"
     echo "installing package: $package"
-
     package_dir="$dev/$package"
-
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/jesec/libtorrent.git "$package_dir"
     else
@@ -462,9 +462,7 @@ rtorrent_install() {
 
     package="rtorrent"
     echo "installing package: $package"
-
     package_dir="$dev/$package"
-
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/jesec/rtorrent.git "$package_dir"
     else
@@ -677,9 +675,7 @@ river_install() {
 
     package="river"
     echo "installing package: $package"
-
     package_dir="$dev/$package"
-
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/riverwm/river.git "$package_dir"
     else
@@ -717,9 +713,7 @@ waybar_install() {
 
     package="waybar"
     echo "installing package: $package"
-
     package_dir="$dev/$package"
-
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/Alexays/Waybar.git "$package_dir"
     else
@@ -753,9 +747,7 @@ waybar_install() {
 fcft_install() {
     package="fcft"
     echo "installing package: $package"
-
     package_dir="$dev/$package"
-
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://codeberg.org/dnkl/fcft.git "$package_dir"
     else
@@ -924,9 +916,7 @@ foot_install() {
 libinput_gestures_install() {
     package="libinput-gestures"
     echo "installing package: $package"
-
     package_dir="$dev/$package"
-
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/bulletmark/libinput-gestures "$package_dir"
     else
@@ -945,9 +935,7 @@ libinput_gestures_install() {
 mozlz4_install() {
     package="mozlz4"
     echo "installing package: $package"
-
     package_dir="$dev/$package"
-
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/jusw85/mozlz4.git "$package_dir"
     else
