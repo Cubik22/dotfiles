@@ -28,6 +28,7 @@ _completion_loader git
 
 if [ "$KERNEL" = "Linux" ]; then
     complete -o bashdefault -o default -o nospace -F __git_wrap__git_main ucon
+    complete -o bashdefault -o default -o nospace -F __git_wrap__git_main pcon
     complete -o bashdefault -o default -o nospace -F __git_wrap__git_main rcon
 
     # autocomplete xbps

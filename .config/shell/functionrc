@@ -145,11 +145,7 @@ if [ "$KERNEL" = "Linux" ]; then
 
     # git bare repository user dotfiles
     ucon() {
-        # when adding echo to remember to pull before commit
         if [ "$#" -ge 1 ]; then
-            # if [ "$1" = "add" ]; then
-            #     echo "remember to pull before commit"
-            # fi
             if [ "$1" = "push" ]; then
                 rbw unlock
             fi
@@ -167,6 +163,14 @@ if [ "$KERNEL" = "Linux" ]; then
         fi
     } && export -f ucon
 
+    # git bare repository private config
+    pcon() {
+        git_cmd="$(which git)"
+        local work_tree="$HOME"
+        local git_dir="$HOME/.private"
+        "$git_cmd" --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
+    } && export -f pcon
+
     # git bare repository root config files
     rcon() {
         # make sure that when running as user use doas
@@ -175,11 +179,7 @@ if [ "$KERNEL" = "Linux" ]; then
         else
             local as_root="false"
         fi
-        # when adding echo to remember to pull before commit
         if [ "$#" -ge 1 ]; then
-            # if [ "$1" = "add" ]; then
-            #     echo "remember to pull before commit"
-            # fi
             if [ "$1" = "push" ]; then
                 if [ "$as_root" = "true" ]; then
                     rbw unlock
@@ -216,6 +216,13 @@ if [ "$KERNEL" = "Linux" ]; then
         eval file="\${$#}"
         stouch "$@" && ucon add "$file"
     } && export -f utouch
+
+    # create a file and automatically add it with pcon
+    # see stouch
+    ptouch() {
+        eval file="\${$#}"
+        stouch "$@" && pcon add "$file"
+    } && export -f ptouch
 
     # create a file and automatically add it with rcon
     # see stouch

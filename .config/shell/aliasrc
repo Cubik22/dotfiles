@@ -187,7 +187,7 @@ alias grb="git rebase"
 alias gsa="git stash"
 
 if [ "$KERNEL" = "Linux" ]; then
-    # git config
+    # ucon
     alias ust="ucon status"
     alias uad="ucon add"
     alias urs="ucon restore"
@@ -196,6 +196,18 @@ if [ "$KERNEL" = "Linux" ]; then
     alias ulg="ucon log"
     alias upl="ucon pull"
     alias ups="ucon push"
+
+    # pcon
+    alias pst="pcon status"
+    alias pad="pcon add"
+    alias prs="pcon restore"
+    alias pcm="pcon commit"
+    alias pdf="pcon diff"
+    alias plg="pcon log"
+    alias ppl="pcon pull"
+    alias pps="pcon push"
+
+    # rcon
     alias rst="rcon status"
     alias rad="rcon add"
     alias rrs="rcon restore"
@@ -212,7 +224,7 @@ if [ "$KERNEL" = "Linux" ]; then
     export mirror3="https://mirrors.servercentral.com/voidlinux/current"
     export mirror4="https://repo-us.voidlinux.org/current"
 else
-    # git config
+    # ucon
     dotfiles_dir="$HOME/dotfiles"
     alias ust="git -C $dotfiles_dir status"
     alias uad="git -C $dotfiles_dir add"
@@ -223,6 +235,18 @@ else
     alias upl="git -C $dotfiles_dir pull"
     alias ups="git -C $dotfiles_dir push"
     unset dotfiles_dir
+    # pcon
+    private_dir="$HOME/private"
+    alias ust="git -C $private_dir status"
+    alias uad="git -C $private_dir add"
+    alias urs="git -C $private_dir restore"
+    alias ucm="git -C $private_dir commit"
+    alias udf="git -C $private_dir diff"
+    alias ulg="git -C $private_dir log"
+    alias upl="git -C $private_dir pull"
+    alias ups="git -C $private_dir push"
+    unset private_dir
+    # rcon
     config_dir="$HOME/config"
     alias rst="git -C $config_dir status"
     alias rad="git -C $config_dir add"
