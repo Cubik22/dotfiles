@@ -9,8 +9,7 @@
 # exit session if no requests were received during given period in seconds
 # works only in unix sockets mode (-s/--session)
 # set to 0 to disable
-# 1800 seconds = 30 minutes
-timeout = 1800
+timeout = 0
 
 [language.bash]
 filetypes = ["sh"]
