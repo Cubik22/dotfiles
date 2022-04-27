@@ -57,7 +57,7 @@ map global normal \" }p
 map global normal <a-"> {p
 
 # registers
-map global normal 0 \"
+map global normal ^ \"
 
 # comments
 map global normal '#' :comment-line<ret> -docstring 'comment line'
@@ -124,7 +124,9 @@ map global selectors V ': vertical-selection-up-and-down<ret>'  -docstring 'vert
 # map global selectors s s                                      -docstring 'sub-selection'
 
 # lsp mode
-map global user l ': enter-user-mode lsp<ret>'                  -docstring 'lsp mode'
+map global normal <tab> ': enter-user-mode lsp<ret>'            -docstring 'lsp mode'
+# map global user l ': enter-user-mode lsp<ret>'                -docstring 'lsp mode'
+# map global user <space> ': enter-user-mode lsp<ret>'          -docstring 'lsp mode'
 
 # man (defined in tools/man.kak)
 map global user m ': enter-user-mode man<ret>'                  -docstring 'man mode'
