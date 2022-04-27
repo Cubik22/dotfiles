@@ -243,6 +243,9 @@ user_pref("browser.tabs.tabMinWidth", 0);
 /* 0 normal density (default), 1 compact density, 2 touch density */
 user_pref("browser.uidensity", 1);
 
+/* disable quick find with / and ' */
+// user_pref("accessibility.typeaheadfind.manual", false);
+
 /* dark theme */
 user_pref("browser.theme.content-theme", 0);
 user_pref("browser.theme.toolbar-theme", 0);
@@ -257,7 +260,7 @@ user_pref("browser.toolbars.bookmarks.visibility", "never");
 // user_pref("browser.toolbars.bookmarks.visibility", "always");
 
 /* show mobile bookmarks */
-user_pref("browser.bookmarks.showMobileBookmarks", true);
+// user_pref("browser.bookmarks.showMobileBookmarks", true);
 
 /* clear new tab and home */
 user_pref("browser.newtabpage.activity-stream.feeds.topsites", false);

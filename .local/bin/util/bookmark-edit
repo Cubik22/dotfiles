@@ -8,6 +8,8 @@ cd "$bookmarks_dir" || return 1
 export FZF_DEFAULT_COMMAND="$FZF_DEFAULT_COMMAND --type file"
 file="$(fzf)"
 
+[ ! -f "$file" ] && return 1
+
 number_line="$(wc -l "$file" | cut -d " " -f 1)"
 
 kak "$file" "+$number_line"
