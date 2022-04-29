@@ -34,6 +34,9 @@ DESCRIPTION
 
         -e, --end=
             end number
+
+        -n, --no-order
+            open all files without considering order
 EOF
 )
 
@@ -76,6 +79,8 @@ find_open_file() {
         return 1
     fi
 }
+
+order=true
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
@@ -123,6 +128,9 @@ while [ "$#" -gt 0 ]; do
         --end=*)
             ! set_option_two_dash end "$@" && return 1
         ;;
+        -n|--no-order)
+            order=false
+        ;;
         *)
             print_error "$1 not recognized"
             return 1
@@ -149,17 +157,16 @@ if [ -n "$tag" ]; then
     fi
 fi
 
-if [ -z "$start" ] && [ -z "$end" ]; then
-    files="$(fd --type file --type symlink --exact-depth 1)"
+files="$(fd --type file --type symlink --exact-depth 1)"
+if [ "$order" = "false" ]; then
     for file in $files; do
         open_file "$program" "$file"
     done
-elif [ -n "$end" ]; then
-    ! is_number_print "$end" && return 1
-
+else
     [ -z "$start" ] && start=0
-
+    [ -z "$end" ] && end="$(echo "$files" | find-number-max-files)"
     ! is_number_print "$start" && return 1
+    ! is_number_print "$end" && return 1
 
     if [ "$start" -gt "$end" ]; then
         print_error "end should be greater than start"
@@ -171,22 +178,4 @@ elif [ -n "$end" ]; then
         find_open_file "$current" "$program"
         current="$(( current + 1 ))"
     done
-elif [ -n "$start" ]; then
-    ! is_number_print "$start" && return 1
-
-    # when end is not set but start is, open numbered files from start
-    # until a file that starts with current number does not exist
-    # 0 may or may not exists
-    if [ "$start" -eq 0 ]; then
-        find_open_file "$start" "$program"
-        start="$(( start + 1 ))"
-    fi
-
-    current="$start"
-    while find_open_file "$current" "$program"; do
-        current="$(( current + 1 ))"
-    done
-else
-    print_error "unreachable code"
-    return 1
 fi

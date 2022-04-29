@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# shellcheck disable=SC2068
+
+# find max number in list of files that start with numbers
+
+set -- "${@:-$(cat /dev/stdin)}"
+
+max=0
+for name in $@; do
+    number_start="$(\
+        echo "$name" |\
+        rev |\
+        cut -d '/' -f 1 |\
+        rev |\
+        sed 's/[^0-9].*//'\
+    )"
+    case "$number_start" in
+        ''|*[!0-9]*) ;;
+        *)
+            if [ "$number_start" -gt "$max" ]; then
+                max="$number_start"
+            fi
+        ;;
+    esac
+done
+echo "$max"
