@@ -37,6 +37,11 @@ DESCRIPTION
 
         -n, --no-order
             open all files without considering order
+
+        -w, --wait=
+            time to wait between opening file with zat
+            and setting it float-fullscreen with river
+            default 0.5
 EOF
 )
 
@@ -52,7 +57,11 @@ open_file() {
         case "$file" in
             *.pdf|*.ps|*.djvu|*.djv)
                 $program "$file"
-                sleep 1
+                if [ -n "$wait_time" ]; then
+                    sleep "$wait_time"
+                else
+                    sleep 0.5
+                fi
                 riverctl-float-fullscreen
                 return 0
             ;;
@@ -130,6 +139,16 @@ while [ "$#" -gt 0 ]; do
         ;;
         -n|--no-order)
             order=false
+        ;;
+        -w)
+            if set_option_one_dash wait_time "$@"; then
+                shift 1
+            else
+                return 1
+            fi
+        ;;
+        --wait=*)
+            ! set_option_two_dash wait_time "$@" && return 1
         ;;
         *)
             print_error "$1 not recognized"
