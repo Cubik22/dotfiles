@@ -160,6 +160,10 @@ map global ui F ': ui-diff-one-trailing-space-toggle<ret>'      -docstring 'diff
 map global ui a ': ui-terminal-assistant-toggle<ret>'           -docstring 'terminal assistant'
 map global ui h ': ui-lsp-highlighting-toggle<ret>'             -docstring 'lsp color highlight'
 
+# yank
+map global normal <a-p> <a-o>jP -docstring 'paste below'
+map global normal <a-P> <a-O>kP -docstring 'paste above'
+
 # utility
 declare-user-mode util
 map global user t ': enter-user-mode util<ret>'                 -docstring 'utility mode'
@@ -169,8 +173,10 @@ map global util l ': state-save-reg-load dquote<ret>'           -docstring 'load
 map global util s ': state-save-reg-save dquote<ret>'           -docstring 'save clipboard'
 map global util t ': ctags-search<ret>'                         -docstring 'ctag def'
 map global util d ': db<ret>'                                   -docstring 'close buffer'
-map global util c ': palette-status<ret>'                       -docstring 'show color'
-map global util p ': palette-gutter<ret>'                       -docstring 'show palette'
+map global util c ': palette-status<ret>'                       -docstring 'show color status'
+map global util g ': palette-gutter<ret>'                       -docstring 'show palette gutter'
+map global util p <a-p>                                         -docstring 'paste all after'
+map global util P <a-P>                                         -docstring 'paste all before'
 
 # git
 declare-user-mode git
