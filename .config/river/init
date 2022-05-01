@@ -77,20 +77,8 @@ riverctl map normal "$gui" Z spawn "footclient-run --fzf fzf-kak"
 # Gui+Shift+Z kak-fzf from root
 riverctl map normal "$gui"+Shift Z spawn "footclient-run --fzf fzf-kak --from-root"
 
-# Gui+B copy bookmark
-riverctl map normal "$gui" B spawn "footclient-run --fzf bookmark-copy"
-# Gui+Atl+B search bookmark
-riverctl map normal "$gui"+Alt B spawn "footclient-run --fzf bookmark-copy --from-clipboard"
-# Gui+Shift+B add bookmark
-riverctl map normal "$gui"+Shift B spawn "footclient-run --fzf bookmark-add"
-# Gui+Control+B edit bookmark
-riverctl map normal "$gui"+Control B spawn "footclient-run --fzf bookmark-edit"
-# Gui+Alt+Shift+B add copy bookmark
-riverctl map normal "$gui"+"$alt"+Shift B spawn "footclient-run --fzf bookmark-add --copy"
-# Gui+Alt+Control+B add repository bookmark
-riverctl map normal "$gui"+"$alt"+Control B spawn "footclient-run --fzf bookmark-add --repository"
-# Gui+Control+Shift+B create bookmark directory
-riverctl map normal "$gui"+Control+Shift B spawn "footclient-run --fzf bookmark-create-directory"
+# Gui+B menu bookmark options
+riverctl map normal "$gui" B spawn "footclient-run --fzf bookmark-menu"
 
 # Gui+I iwctl
 riverctl map normal "$gui" I spawn "footclient-float iwctl"

@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# menu with fzf in order to interact with bookmarks
+
+actions=$(cat << EOF
+copy
+search
+make-dir
+edit
+add-normal
+add-copy
+add-repo
+add-wiki
+EOF
+)
+
+result="$(echo "$actions" | fzf)"
+
+case "$result" in
+    copy) bookmark-copy ;;
+    search) bookmark-copy --from-clipboard ;;
+    make-dir) bookmark-create-directory ;;
+    edit) bookmark-edit ;;
+    add-normal) bookmark-add ;;
+    add-copy) bookmark-add --copy ;;
+    add-repo) bookmark-add --repo ;;
+    add-wiki) bookmark-add --wiki ;;
+esac

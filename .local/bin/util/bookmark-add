@@ -9,6 +9,7 @@ else
         --normal) mode="normal" ;;
         --copy) mode="copy" ;;
         --repository) mode="repo" ;;
+        --wiki) mode="wiki" ;;
         *)
             echo "error: wrong parameter"
             return 1
@@ -37,6 +38,9 @@ elif [ "$mode" = "copy" ]; then
 elif [ "$mode" = "repo" ]; then
     # name is <user>/<project>
     name="$(echo "$url" | rev | cut -d "/" -f 1-2 | rev)"
+elif [ "$mode" = "wiki" ]; then
+    # url/wiki/stf/<name>
+    name="$(echo "$url" | rev | cut -d "/" -f 1 | rev)"
 fi
 
 printf "%s" "$url" >> "$file"
