@@ -225,8 +225,10 @@ evaluate-commands %sh{
     paste_program="$PASTE_CMD -n"
     info_program="system clipboard"
     printf "%s" "
-        map global user y '<a-|>$copy_program<ret>'             -docstring 'copy to $info_program'
-        map global user Y '<a-l><a-|>$copy_program<ret>'        -docstring 'copy to end of line to $info_program'
+        map global user y '<a-|>$copy_program<ret>: echo -markup {Information}yanked to $info_program<ret>' \
+            -docstring 'copy to $info_program'
+        map global user Y '<a-l><a-|>$copy_program<ret>: echo -markup {Information}yanked to $info_program<ret>' \
+            -docstring 'copy to end of line to $info_program'
         map global user d '<a-|>$copy_program<ret><a-d>'        -docstring 'delete and copy to $info_program'
         map global user D '<a-l><a-|>$copy_program<ret><a-d>'   -docstring 'delete to end of line and copy to $info_program'
         map global user c '<a-|>$copy_program<ret><a-c>'        -docstring 'change and copy to $info_program'
