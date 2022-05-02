@@ -2,6 +2,18 @@
 
 # edit a bookmark
 
+if [ "$#" -eq 0 ]; then
+    mode="normal"
+else
+    case "$1" in
+        --normal) mode="normal" ;;
+        --paste) mode="paste" ;;
+        *)
+            echo "error: wrong parameter"
+            return 1
+        ;;
+    esac
+fi
 bookmarks_dir="${XDG_LOCAL_HOME:=$HOME/.local}/etc/bookmarks"
 cd "$bookmarks_dir" || return 1
 
@@ -9,6 +21,12 @@ export FZF_DEFAULT_COMMAND="$FZF_DEFAULT_COMMAND --type file"
 file="$(fzf)"
 
 [ ! -f "$file" ] && return 1
+
+if [ "$mode" = "paste" ]; then
+    # remove / from end of url and add it to file
+    "$PASTE_CMD" -n | sed 's/\/$//' >> "$file"
+    printf "\n"  >> "$file"
+fi
 
 number_line="$(wc -l "$file" | cut -d " " -f 1)"
 

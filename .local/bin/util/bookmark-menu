@@ -3,10 +3,11 @@
 # menu with fzf in order to interact with bookmarks
 
 actions=$(cat << EOF
-copy
-search
+copy-normal
+copy-search
 make-dir
-edit
+edit-normal
+edit-paste
 add-normal
 add-copy
 add-repo
@@ -17,10 +18,11 @@ EOF
 result="$(echo "$actions" | fzf)"
 
 case "$result" in
-    copy) bookmark-copy ;;
-    search) bookmark-copy --from-clipboard ;;
+    copy-normal) bookmark-copy ;;
+    copy-search) bookmark-copy --from-clipboard ;;
     make-dir) bookmark-create-directory ;;
-    edit) bookmark-edit ;;
+    edit-normal) bookmark-edit ;;
+    edit-paste) bookmark-edit --paste ;;
     add-normal) bookmark-add ;;
     add-copy) bookmark-add --copy ;;
     add-repo) bookmark-add --repo ;;
