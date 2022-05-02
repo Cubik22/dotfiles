@@ -33,8 +33,8 @@ if [ "$mode" = "normal" ]; then
     printf "%s" "bookmark name: "
     read -r name
 elif [ "$mode" = "copy" ]; then
-    # name is the same as url without https?
-    name="$(echo "$url" | sed 's/^http\(s\|\):\/\///')"
+    # name is the same as url without http(s)://(www.)
+    name="$(echo "$url" | sed 's/^http\(s\|\):\/\/\(www\.\|\)//')"
 elif [ "$mode" = "repo" ]; then
     # name is <user>/<project>
     name="$(echo "$url" | rev | cut -d "/" -f 1-2 | rev)"
