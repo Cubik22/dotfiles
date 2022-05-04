@@ -4,11 +4,19 @@
 
 info_path="$HOME/.local/etc/info"
 
-OPERATING_SYSTEM="$(cat "$info_path/operating-system")"
-export OPERATING_SYSTEM
+operating_system_file="$info_path/operating-system"
+if [ -f "$operating_system_file" ]; then
+    OPERATING_SYSTEM="$(cat "$operating_system_file")"
+    export OPERATING_SYSTEM
+fi
+unset operating_system_file
 
-OS_TYPE="$(cat "$info_path/os-type")"
-export OS_TYPE
+os_type_file="$info_path/os-type"
+if [ -f "$os_type_file" ]; then
+    OS_TYPE="$(cat "$os_type_file")"
+    export OS_TYPE
+fi
+unset os_type_file
 
 unset info_path
 
