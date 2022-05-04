@@ -44,7 +44,7 @@ alias lla='$LS_COMMAND -l -A'
 # alias trexa="exa --long --header --modified --git --tree --color=auto --icons --all --group-directories-first"
 
 # color stuff
-if [ "$KERNEL" = "Linux" ]; then
+if [ ! "$OPERATING_SYSTEM" = "openbsd" ]; then
     alias diff="diff --color=auto"
 else
     alias diff="colordiff"
@@ -84,7 +84,7 @@ fi
 # alias psmem='ps auxf | sort -nr -k 4'
 # alias pscpu='ps auxf | sort -nr -k 3'
 
-# if [ "$KERNEL" = "Linux" ]; then
+# if [ "$OS_TYPE" = "desktop" ]; then
     # wayland
     # alias imv="imv-wayland"
     # alias firefox="firefox-wayland"
@@ -104,7 +104,7 @@ alias n3p="nnn-pre"
 
 alias zathura="zat"
 
-if [ "$KERNEL" = "Linux" ]; then
+if [ "$OPERATING_SYSTEM" = "void" ]; then
     alias xq="xbps-query"
 fi
 
@@ -186,7 +186,7 @@ alias gps="git push"
 alias grb="git rebase"
 alias gsa="git stash"
 
-if [ "$KERNEL" = "Linux" ]; then
+if [ "$OS_TYPE" = "desktop" ]; then
     # ucon
     alias ust="ucon status"
     alias uad="ucon add"
@@ -216,13 +216,6 @@ if [ "$KERNEL" = "Linux" ]; then
     alias rlg="rcon log"
     alias rpl="rcon pull"
     alias rps="rcon push"
-
-    # void mirrors in order to quickly change when one is slow (-R flag)
-    # https://docs.voidlinux.org/xbps/repositories/mirrors/index.html#mirrors
-    export mirror1="https://alpha.de.repo.voidlinux.org/current"
-    export mirror2="https://repo-fi.voidlinux.org/current"
-    export mirror3="https://mirrors.servercentral.com/voidlinux/current"
-    export mirror4="https://repo-us.voidlinux.org/current"
 else
     # ucon
     dotfiles_dir="$HOME/dotfiles"
@@ -258,11 +251,19 @@ else
     alias rps="git -C $config_dir push"
     unset config
 fi
+if [ "$OPERATING_SYSTEM" = "void" ]; then
+    # void mirrors in order to quickly change when one is slow (-R flag)
+    # https://docs.voidlinux.org/xbps/repositories/mirrors/index.html#mirrors
+    export mirror1="https://alpha.de.repo.voidlinux.org/current"
+    export mirror2="https://repo-fi.voidlinux.org/current"
+    export mirror3="https://mirrors.servercentral.com/voidlinux/current"
+    export mirror4="https://repo-us.voidlinux.org/current"
+fi
 
 # so the root user can link and use bash config
 # remember to add package to /etc/config/xbps-packages
 if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
-    if [ "$KERNEL" = "Linux" ]; then
+    if [ "$OPERATING_SYSTEM" = "void" ]; then
         alias xi="xbps-install"
         alias xr="xbps-remove"
 
@@ -270,9 +271,11 @@ if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
         alias blueoff="bluetoothctl power off; sv down bluetoothd;"
 
         # alias servstat="sv status /var/service/*"
+    elif [ "$OPERATING_SYSTEM" = "debian" ]; then
+        alias apt-get="sudo apt-get"
     fi
 else
-    if [ "$KERNEL" = "Linux" ]; then
+    if [ "$OPERATING_SYSTEM" = "void" ]; then
         alias xbps-install="doas xbps-install"
         alias xbps-remove="doas xbps-remove"
         alias xi="doas xbps-install"

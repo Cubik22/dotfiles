@@ -1,0 +1,18 @@
+#!/bin/sh
+
+command_exists() {
+    if command -v "$@" >/dev/null 2>&1; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+if command_exists doas; then
+    doas "$@"
+elif command_exists sudo; then
+    sudo "$@"
+else
+    echo "error: doas and sudo are not available"
+    return 1
+fi

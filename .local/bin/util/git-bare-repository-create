@@ -70,3 +70,13 @@ rbw unlock
 
 # set to track upstram
 config push --set-upstream origin main
+
+# set info
+info_home="$HOME/.local/etc/info"
+mkdir -p "$info_home"
+printf "operating system: "
+read -r operating_system
+echo "$operating_system" > "$info_home/operating-system"
+printf "os type (desktop or server): "
+read -r os_type
+echo "$os_type" > "$info_home/os-type"

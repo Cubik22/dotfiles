@@ -74,12 +74,16 @@ export XDG_INCLUDE_HOME="$XDG_LOCAL_HOME/include"
 export XDG_BIN_HOME="$XDG_LOCAL_HOME/bin"
 
 # path
-if [ ! "$KERNEL" = "Linux" ]; then
+if [ "$OS_TYPE" = "server" ]; then
     config_bin_dir="$HOME/config/usr/local/bin"
     [ -d "$config_bin_dir" ] && export PATH="$config_bin_dir:$PATH"
     unset config_bin_dir
     dotfiles_bin_dir="$HOME/dotfiles/.local/bin"
-    [ -d "$dotfiles_bin_dir" ] && export PATH="$dotfiles_bin_dir:$PATH"
+    if [ -d "$dotfiles_bin_dir" ]; then
+        directories_path="$(find -L "$dotfiles_bin_dir" -type d -printf %p:)"
+        export PATH="${directories_path}${PATH}"
+        unset directories_path
+    fi
     unset dotfiles_bin_dir
 fi
 # export PATH="$XDG_BIN_HOME:$PATH"
@@ -176,15 +180,15 @@ export LESS="-g -i -R -w"
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
 
 # ls
-if [ "$KERNEL" = "Linux" ]; then
+if [ ! "$OPERATING_SYSTEM" = "openbsd" ]; then
     export LS_COMMAND="ls --color=auto --group-directories-first --format=horizontal --human-readable"
 else
     export LS_COMMAND="colorls -G -x -h"
     export LSCOLORS="ExFxGxDxCxegedabagacad"
 fi
 
-# if not on linux exit
-if [ ! "$KERNEL" = "Linux" ]; then
+# if on server exit
+if [ "$OS_TYPE" = "server" ]; then
     export COPY_CMD="clipboard-tty-copy"
     export PASTE_CMD="clipboard-tty-paste"
     # build foot terminfo/termcap or set TERM
@@ -289,6 +293,8 @@ export NNN_PLUG="$NNN_PLUG_EDIT;$NNN_PLUG_FUZZY;$NNN_PLUG_OPEN;$NNN_PLUG_GIT"
 
 # start river
 if [ "$(id -u)" -ne 0 ] && [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
-    river-start
-    exit
+    if [ command -v river >/dev/null 2>&1 ]; then
+        river-start
+        exit
+    fi
 fi

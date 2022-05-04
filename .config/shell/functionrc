@@ -134,7 +134,7 @@ kak-fzf-bash() {
     fi
 }
 
-if [ "$KERNEL" = "Linux" ]; then
+if [ "$OS_TYPE" = "desktop" ]; then
     # wrapper around git that before push, unlock bitwarden
     git() {
         if [ "$#" -ge 1 ] && [ "$1" = "push" ]; then
