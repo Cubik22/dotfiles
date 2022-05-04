@@ -79,11 +79,7 @@ if [ "$OS_TYPE" = "server" ]; then
     [ -d "$config_bin_dir" ] && export PATH="$config_bin_dir:$PATH"
     unset config_bin_dir
     dotfiles_bin_dir="$HOME/dotfiles/.local/bin"
-    if [ -d "$dotfiles_bin_dir" ]; then
-        directories_path="$(find -L "$dotfiles_bin_dir" -type d -printf %p:)"
-        export PATH="${directories_path}${PATH}"
-        unset directories_path
-    fi
+    [ -d "$dotfiles_bin_dir" ] && export PATH="$dotfiles_bin_dir:$PATH"
     unset dotfiles_bin_dir
 fi
 # export PATH="$XDG_BIN_HOME:$PATH"
