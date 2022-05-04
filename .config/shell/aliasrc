@@ -123,27 +123,6 @@ alias ydlam='$YTDL --ignore-errors --retries=infinite --extract-audio --add-meta
 # fzf with preview
 alias fzfp='fzf --preview="$FZF_DEFAULT_PREVIEW"'
 
-# newsboat
-alias nb='newsboat'
-alias nbp='newsboat \
-    -u "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls-podcast" \
-    -c "${XDG_DATA_HOME:-$HOME/.local/share}/newsboat/cache-podcast.db"'
-alias nbs='newsboat \
-    -u "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls-social" \
-    -c "${XDG_DATA_HOME:-$HOME/.local/share}/newsboat/cache-social.db"'
-alias nbv='newsboat \
-    -u "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls-video" \
-    -c "${XDG_DATA_HOME:-$HOME/.local/share}/newsboat/cache-video.db"'
-alias nbvn='newsboat \
-    -u "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls-video-no-youtube" \
-    -c "${XDG_DATA_HOME:-$HOME/.local/share}/newsboat/cache-video-no-youtube.db"'
-alias nby='newsboat \
-    -u "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls-youtube" \
-    -c "${XDG_DATA_HOME:-$HOME/.local/share}/newsboat/cache-youtube.db"'
-alias nbyn='newsboat \
-    -u "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls-youtube-no-odysee" \
-    -c "${XDG_DATA_HOME:-$HOME/.local/share}/newsboat/cache-youtube-no-odysee.db"'
-
 # zigup
 alias zigup='zigup --install-dir "${XDG_LIB_HOME:-$HOME/.local/lib}/zigup"'
 
@@ -167,9 +146,32 @@ alias listlib="scanelf --ldpath -BF '%f'"
 export weather="wttr.in"
 # curl wttr.in/:help
 
-# river
-export gui="Mod4"
-export alt="Mod1"
+if [ "$OS_TYPE" = "desktop" ]; then
+    # river
+    export gui="Mod4"
+    export alt="Mod1"
+
+    # newsboat
+    alias nb='newsboat'
+    alias nbp='newsboat \
+        -u "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls-podcast" \
+        -c "${XDG_DATA_HOME:-$HOME/.local/share}/newsboat/cache-podcast.db"'
+    alias nbs='newsboat \
+        -u "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls-social" \
+        -c "${XDG_DATA_HOME:-$HOME/.local/share}/newsboat/cache-social.db"'
+    alias nbv='newsboat \
+        -u "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls-video" \
+        -c "${XDG_DATA_HOME:-$HOME/.local/share}/newsboat/cache-video.db"'
+    alias nbvn='newsboat \
+        -u "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls-video-no-youtube" \
+        -c "${XDG_DATA_HOME:-$HOME/.local/share}/newsboat/cache-video-no-youtube.db"'
+    alias nby='newsboat \
+        -u "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls-youtube" \
+        -c "${XDG_DATA_HOME:-$HOME/.local/share}/newsboat/cache-youtube.db"'
+    alias nbyn='newsboat \
+        -u "${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls-youtube-no-odysee" \
+        -c "${XDG_DATA_HOME:-$HOME/.local/share}/newsboat/cache-youtube-no-odysee.db"'
+fi
 
 # git related
 alias gst="git status"
@@ -271,8 +273,6 @@ if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
         alias blueoff="bluetoothctl power off; sv down bluetoothd;"
 
         # alias servstat="sv status /var/service/*"
-    elif [ "$OPERATING_SYSTEM" = "debian" ]; then
-        alias apt-get="sudo apt-get"
     fi
 else
     if [ "$OPERATING_SYSTEM" = "void" ]; then
@@ -291,6 +291,8 @@ else
 
         alias zzz="doas zzz"
         alias ZZZ="doas ZZZ"
+    elif [ "$OPERATING_SYSTEM" = "debian" ]; then
+        alias apt-get="sudo apt-get"
     fi
 
     alias powertop="doas powertop"
