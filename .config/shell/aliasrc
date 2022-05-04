@@ -232,14 +232,14 @@ else
     unset dotfiles_dir
     # pcon
     private_dir="$HOME/private"
-    alias ust="git -C $private_dir status"
-    alias uad="git -C $private_dir add"
-    alias urs="git -C $private_dir restore"
-    alias ucm="git -C $private_dir commit"
-    alias udf="git -C $private_dir diff"
-    alias ulg="git -C $private_dir log"
-    alias upl="git -C $private_dir pull"
-    alias ups="git -C $private_dir push"
+    alias pst="git -C $private_dir status"
+    alias pad="git -C $private_dir add"
+    alias prs="git -C $private_dir restore"
+    alias pcm="git -C $private_dir commit"
+    alias pdf="git -C $private_dir diff"
+    alias plg="git -C $private_dir log"
+    alias ppl="git -C $private_dir pull"
+    alias pps="git -C $private_dir push"
     unset private_dir
     # rcon
     config_dir="$HOME/config"
