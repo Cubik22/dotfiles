@@ -1,6 +1,10 @@
+#!/bin/bash
+
 #
 # ~/.bash_profile
 #
+
+# shellcheck disable=SC1090
 
 info_path="$HOME/.local/etc/info"
 

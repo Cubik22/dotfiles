@@ -293,7 +293,7 @@ export NNN_PLUG="$NNN_PLUG_EDIT;$NNN_PLUG_FUZZY;$NNN_PLUG_OPEN;$NNN_PLUG_GIT"
 
 # start river
 if [ "$(id -u)" -ne 0 ] && [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
-    if [ command -v river >/dev/null 2>&1 ]; then
+    if command -v river >/dev/null 2>&1; then
         river-start
         exit
     fi
