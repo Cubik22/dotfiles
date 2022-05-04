@@ -8,6 +8,7 @@ command_exists() {
     fi
 }
 
+unset PATH
 if command_exists doas; then
     doas "$@"
 elif command_exists sudo; then

@@ -293,6 +293,8 @@ else
         alias ZZZ="doas ZZZ"
     elif [ "$OPERATING_SYSTEM" = "debian" ]; then
         alias apt-get="sudo apt-get"
+
+        alias systemctl="sudo systemctl"
     fi
 
     alias powertop="doas powertop"
