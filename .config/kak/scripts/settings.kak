@@ -35,7 +35,7 @@ set-option global disabled_hooks '.*-insert.*|.*-indent.*'
 set-option global grepcmd 'rg --column'
 
 evaluate-commands %sh{
-    if [ "$KERNEL" = "Linux" ]; then
+    if [ "$OS_TYPE" = "desktop" ]; then
         # use foot as the terminal
         printf "%s" "
             set-option global windowing_modules 'wayland'

@@ -17,7 +17,7 @@ evaluate-commands %sh{
         # kak-crosshairs/crosshairs.kak
         # number-toggle.kak/rc/number-toggle.kak
         # auto-pairs.kak/rc/auto-pairs.kak
-        if [ "$KERNEL" = "Linux" ]; then
+        if [ "$OS_TYPE" = "desktop" ]; then
             plugins_files="
                 foot.kak/rc/foot.kak
                 kak-ansi/rc/ansi.kak
