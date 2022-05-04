@@ -8,7 +8,7 @@ else
     case "$1" in
         --normal) mode="normal" ;;
         --copy) mode="copy" ;;
-        --repository) mode="repo" ;;
+        --repo) mode="repo" ;;
         --wiki) mode="wiki" ;;
         *)
             echo "error: wrong parameter"
