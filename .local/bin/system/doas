@@ -8,7 +8,7 @@ command_exists() {
     fi
 }
 
-unset PATH
+PATH="/usr/local/bin:/usr/bin:/bin"
 if command_exists doas; then
     doas "$@"
 elif command_exists sudo; then
