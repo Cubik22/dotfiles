@@ -243,6 +243,12 @@ user_pref("network.http.referer.XOriginPolicy", 2);
  * 0=send full URI (default), 1=scheme+host+port+path, 2=scheme+host+port ***/
 user_pref("network.http.referer.XOriginTrimmingPolicy", 1);
 
+/* 2030: disable autoplay of HTML5 media [FF63+]
+ * 0=Allow all, 1=Block non-muted media (default), 5=Block all
+ * [NOTE] You can set exceptions under site permissions
+ * [SETTING] Privacy & Security>Permissions>Autoplay>Settings>Default for all websites ***/
+user_pref("media.autoplay.default", 5);
+
 /* 2651: enable user interaction for security by always asking where to download
  * [SETUP-CHROME] On Android this blocks longtapping and saving images
  * [SETTING] General>Downloads>Always ask you where to save files ***/

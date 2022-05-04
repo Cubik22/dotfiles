@@ -14,8 +14,10 @@ alias d="doas"
 # alias doas="doas "
 # alias d="doas "
 
-# do not keep environment variables when su
-alias sul="su --login --whitelist-environment=SSH_TTY,WAYLAND_DISPLAY"
+if [ "$OS_TYPE" = "desktop" ]; then
+    # do not keep environment variables when su
+    alias su="su --login --whitelist-environment=SSH_TTY,WAYLAND_DISPLAY"
+fi
 
 # change directory
 alias ..="cd .."
