@@ -27,6 +27,13 @@ if [ ! "$OPERATING_SYSTEM" = "void" ]; then
     # shellcheck disable=SC1090
     [ -f "$bashrc_global" ] && . "$bashrc_global"
     unset bashrc_global
+else
+    dir_colors_file="$HOME/.dir_colors"
+    if [ -f "$dir_colors_file" ]; then
+        eval "$(dircolors --sh "$dir_colors_file")"
+    else
+        eval "$(dircolors --sh)"
+    fi
 fi
 
 envrc="${XDG_CONFIG_HOME:-$HOME/.config}/shell/envrc"

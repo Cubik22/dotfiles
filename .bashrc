@@ -113,12 +113,3 @@ if command -v zoxide >/dev/null 2>&1; then
     eval "$(zoxide init bash)"
     # eval "$(zoxide init --cmd y bash)"
 fi
-
-if [ "$OPERATING_SYSTEM" = "debian" ]; then
-    dir_colors_file="$HOME/.dir_colors"
-    if [ -f "$dir_colors_file" ]; then
-        eval "$(dircolors -b "$dir_colors_file")"
-    else
-        eval "$(dircolors -b)"
-    fi
-fi
