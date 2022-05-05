@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# shellcheck disable=SC1090
-
 # fzfrc
 
 possible_base_dir="/usr/share/fzf /usr/local/share/fzf/bash"
@@ -9,7 +7,9 @@ completion_file="completion.bash"
 key_bindings_file="key-bindings.bash"
 for base_dir in $possible_base_dir; do
     if [ -d "$base_dir" ]; then
+        # shellcheck disable=SC1090
         [ -f "$base_dir/$completion_file" ] && . "$base_dir/$completion_file"
+        # shellcheck disable=SC1090
         [ -f "$base_dir/$key_bindings_file" ] && . "$base_dir/$key_bindings_file"
         break
     fi

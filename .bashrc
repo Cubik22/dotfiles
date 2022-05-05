@@ -1,10 +1,8 @@
 #!/bin/bash
 
 #
-# /etc/bash.bashrc
+# ~/.bashrc
 #
-
-# shellcheck disable=SC1090
 
 # if not running interactively, don't do anything
 case $- in
@@ -18,21 +16,25 @@ shell_dir="$HOME/.config/shell"
 
 # source aliases
 alias_dir="$shell_dir/aliasrc"
+# shellcheck disable=SC1090
 [ -f "$alias_dir" ] && . "$alias_dir"
 unset alias_dir
 
 # source functions
 function_dir="$shell_dir/functionrc"
+# shellcheck disable=SC1090
 [ -f "$function_dir" ] && . "$function_dir"
 unset function_dir
 
 # source completions
 completion_dir="$shell_dir/completionrc"
+# shellcheck disable=SC1090
 [ -f "$completion_dir" ] && . "$completion_dir"
 unset completion_dir
 
 # source fzf completions bindings and settings
 fzf_dir="$shell_dir/fzfrc"
+# shellcheck disable=SC1090
 [ -f "$fzf_dir" ] && . "$fzf_dir"
 unset fzf_dir
 

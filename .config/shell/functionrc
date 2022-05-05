@@ -1,12 +1,11 @@
 #!/bin/bash
 
-# shellcheck disable=SC1090
-
 # functionrc
 # functions for bash
 
 # source phel
 phelrc="$HOME/.config/shell/phelrc"
+# shellcheck disable=SC1090
 [ -f "$phelrc" ] && . "$phelrc"
 
 # cd and ls
@@ -265,6 +264,7 @@ fi
 #     # NNN_TMPFILE="${XDG_STATE_HOME:$HOME/.local/state}"/nnn/lastd
 
 #     if [ -f "$NNN_TMPFILE" ]; then
+#         # shellcheck disable=SC1090
 #         . "$NNN_TMPFILE"
 #         rm -f "$NNN_TMPFILE"
 #     fi
@@ -287,6 +287,7 @@ nnn() {
     "$(which nnn)" "$@"
 
     # source tmp file which is created just when <C-g> is pressed
+    # shellcheck disable=SC1090
     [ -f "$NNN_TMPFILE" ] && . "$NNN_TMPFILE"
 
     rm -f "$NNN_TMPFILE"
@@ -333,6 +334,7 @@ nnn-pre() {
     "$(which nnn)" "$@"
 
     # source tmp file which is created just when <C-g> is pressed
+    # shellcheck disable=SC1090
     [ -f "$NNN_TMPFILE" ] && . "$NNN_TMPFILE"
 
     rm -f "$NNN_TMPFILE"

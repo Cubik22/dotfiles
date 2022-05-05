@@ -4,8 +4,6 @@
 # ~/.bash_profile
 #
 
-# shellcheck disable=SC1090
-
 info_path="$HOME/.local/etc/info"
 
 operating_system_file="$info_path/operating-system"
@@ -26,14 +24,17 @@ unset info_path
 
 if [ ! "$OPERATING_SYSTEM" = "void" ]; then
     bashrc_global="/etc/bash/bashrc"
+    # shellcheck disable=SC1090
     [ -f "$bashrc_global" ] && . "$bashrc_global"
     unset bashrc_global
 fi
 
 envrc="${XDG_CONFIG_HOME:-$HOME/.config}/shell/envrc"
+# shellcheck disable=SC1090
 [ -f "$envrc" ] && . "$envrc"
 unset envrc
 
 bashrc="$HOME/.bashrc"
+# shellcheck disable=SC1090
 [ -f "$bashrc" ] && . "$bashrc"
 unset bashrc

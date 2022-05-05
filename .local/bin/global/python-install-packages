@@ -1,9 +1,8 @@
 #!/bin/sh
 
-# shellcheck disable=SC2046
-
 # install and build python packages
 
+# shellcheck disable=SC2046
 xbps-install $(cat /etc/config/xbps-packages/python)
 
 jupyter-lab build

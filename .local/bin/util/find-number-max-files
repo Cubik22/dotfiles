@@ -1,12 +1,11 @@
 #!/bin/sh
 
-# shellcheck disable=SC2068
-
 # find max number in list of files that start with numbers
 
 set -- "${@:-$(cat /dev/stdin)}"
 
 max=0
+# shellcheck disable=SC2068
 for name in $@; do
     number_start="$(\
         echo "$name" |\

@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# shellcheck disable=SC2016
-
 ### start all program/services in the background
 
 ## starting services with runsvdir
@@ -66,10 +64,13 @@ riverctl map normal "$gui"+Control Backspace spawn "footclient-float"
 riverctl map normal "$gui"+Control Return spawn "footclient-float-fullscreen"
 
 # Gui+S screenshot selection with grim and slurp
+# shellcheck disable=SC2016
 riverctl map normal "$gui" S spawn 'screenshot selection; echo "100" > $WOB_PIPE_CENTER'
 # Gui+Shift+S screenshot fullscreen with grim and slurp
+# shellcheck disable=SC2016
 riverctl map normal "$gui"+Shift S spawn 'screenshot fullscreen; echo "100" > $WOB_PIPE_CENTER'
 # old screenshot with grim and slurp
+# shellcheck disable=SC2016
 # riverctl map normal "$gui" S spawn 'grim -g "$(slurp)" - | wl-copy-env'
 
 # Gui+Z kak-fzf
@@ -90,14 +91,19 @@ riverctl map normal "$gui" C spawn "footclient-float bluetoothctl"
 riverctl map normal "$gui" M spawn "fuzzel.sh"
 
 # Gui+A play copied url with mpv audio
+# shellcheck disable=SC2016
 riverctl map normal "$gui" A spawn 'mpv-url --audio $(wl-paste-env)'
 # Gui+V play copied url with mpv
+# shellcheck disable=SC2016
 riverctl map normal "$gui" V spawn 'mpv-url $(wl-paste-env)'
 # Gui+T play copied url with mpv with ytdl mode and medium quality
+# shellcheck disable=SC2016
 riverctl map normal "$gui" T spawn 'mpv-url --medium $(wl-paste-env)'
 # Gui+Shift+T play copied url with mpv with ytdl mode and best quality
+# shellcheck disable=SC2016
 riverctl map normal "$gui"+Shift T spawn 'mpv-url --best $(wl-paste-env)'
 # Gui+Control+T play copied url with mpv with ytdl mode and worst quality
+# shellcheck disable=SC2016
 riverctl map normal "$gui"+Control T spawn 'mpv-url --worst $(wl-paste-env)'
 
 # Gui+Control+F firefox

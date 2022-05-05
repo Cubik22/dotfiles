@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# shellcheck disable=SC2139
-
 # aliasrc
 # aliases for bash
 
@@ -223,35 +221,59 @@ if [ "$OS_TYPE" = "desktop" ]; then
 else
     # ucon
     dotfiles_dir="$HOME/dotfiles"
+    # shellcheck disable=SC2139
     alias ust="git -C $dotfiles_dir status"
+    # shellcheck disable=SC2139
     alias uad="git -C $dotfiles_dir add"
+    # shellcheck disable=SC2139
     alias urs="git -C $dotfiles_dir restore"
+    # shellcheck disable=SC2139
     alias ucm="git -C $dotfiles_dir commit"
+    # shellcheck disable=SC2139
     alias udf="git -C $dotfiles_dir diff"
+    # shellcheck disable=SC2139
     alias ulg="git -C $dotfiles_dir log"
+    # shellcheck disable=SC2139
     alias upl="git -C $dotfiles_dir pull"
+    # shellcheck disable=SC2139
     alias ups="git -C $dotfiles_dir push"
     unset dotfiles_dir
     # pcon
     private_dir="$HOME/private"
+    # shellcheck disable=SC2139
     alias pst="git -C $private_dir status"
+    # shellcheck disable=SC2139
     alias pad="git -C $private_dir add"
+    # shellcheck disable=SC2139
     alias prs="git -C $private_dir restore"
+    # shellcheck disable=SC2139
     alias pcm="git -C $private_dir commit"
+    # shellcheck disable=SC2139
     alias pdf="git -C $private_dir diff"
+    # shellcheck disable=SC2139
     alias plg="git -C $private_dir log"
+    # shellcheck disable=SC2139
     alias ppl="git -C $private_dir pull"
+    # shellcheck disable=SC2139
     alias pps="git -C $private_dir push"
     unset private_dir
     # rcon
     config_dir="$HOME/config"
+    # shellcheck disable=SC2139
     alias rst="git -C $config_dir status"
+    # shellcheck disable=SC2139
     alias rad="git -C $config_dir add"
+    # shellcheck disable=SC2139
     alias rrs="git -C $config_dir restore"
+    # shellcheck disable=SC2139
     alias rcm="git -C $config_dir commit"
+    # shellcheck disable=SC2139
     alias rdf="git -C $config_dir diff"
+    # shellcheck disable=SC2139
     alias rlg="git -C $config_dir log"
+    # shellcheck disable=SC2139
     alias rpl="git -C $config_dir pull"
+    # shellcheck disable=SC2139
     alias rps="git -C $config_dir push"
     unset config
 fi

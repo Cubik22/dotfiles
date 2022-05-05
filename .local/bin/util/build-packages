@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# shellcheck disable=SC1091
-
 # build packages from source
 
 # add important packages to git_bare_repository.sh
@@ -945,11 +943,13 @@ mozlz4_install() {
     cd "$package_dir" || return 1
 
     # set rust local
+    # shellcheck disable=SC1091
     . "/usr/local/bin/rust-set-local"
 
     cargo build --release
 
     # reset rust global
+    # shellcheck disable=SC1091
     . "/usr/local/bin/rust-set-global"
 
     cp target/release/mozlz4 "$bin_home"

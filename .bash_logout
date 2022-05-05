@@ -1,2 +1,5 @@
-# ~/.bash_logout
+#!/bin/bash
 
+#
+# ~/.bash_logout
+#

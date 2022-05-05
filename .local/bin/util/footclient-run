@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# shellcheck disable=SC2086
-
 # used because for some reason wl-clipboard does not work when run in a
 # script started with footclient <script>
 
@@ -18,6 +16,7 @@ fi
 
 wl-paste-env -n | clipboard-tty-copy
 
+# shellcheck disable=SC2086
 footclient $footclient_opts exec-with-clipboard-tty "$@"
 
 clipboard-tty-paste | wl-copy-env -n

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# shellcheck disable=SC2034
-
 # print informations
 phel() {
 
@@ -70,6 +68,7 @@ EOT
     fi
 done
 
+# shellcheck disable=SC2034
 wifi_info=$(cat << EOF
 ## wifi
 iwscan
@@ -77,6 +76,7 @@ iwctl station wlan0 show/scan/get-networks/(dis)connect
 EOF
 )
 
+# shellcheck disable=SC2034
 bluez_info=$(cat << EOF
 ## bluez
 blueon blueoff bluescan
@@ -86,6 +86,7 @@ riverctl-set-input mouse
 EOF
 )
 
+# shellcheck disable=SC2034
 audio_info=$(cat << EOF
 ## audio
 amixer/alsamixer (alsa)
@@ -106,6 +107,7 @@ ydlam
 EOF
 )
 
+# shellcheck disable=SC2034
 runit_info=$(cat << EOF
 ## runit
 ln -s /etc/sv/<service> /var/service/
@@ -115,6 +117,7 @@ sv status /var/service/*
 EOF
 )
 
+# shellcheck disable=SC2034
 device_info=$(cat << EOF
 ## drive and device
 mount (list mounted drives and devices)
@@ -125,6 +128,7 @@ findmnt
 EOF
 )
 
+# shellcheck disable=SC2034
 compression_info=$(cat << EOF
 ## (de)compression
 aunpack (atool)
@@ -133,6 +137,7 @@ tar -c -<compression options (-z)> -f "<archived.tar.gz>" "<to-archive>"
 EOF
 )
 
+# shellcheck disable=SC2034
 update_info=$(cat << EOF
 ## update
 xi -Su
@@ -141,6 +146,7 @@ build-packages all
 EOF
 )
 
+# shellcheck disable=SC2034
 git_info=$(cat << EOF
 ## git
 git clone --recurse-submodules
@@ -152,6 +158,7 @@ git config --get remote.origin.url
 EOF
 )
 
+# shellcheck disable=SC2034
 permission_info=$(cat << EOF
 ## permission
 stat
@@ -164,6 +171,7 @@ executable all: 755
 EOF
 )
 
+# shellcheck disable=SC2034
 man_info=$(cat << EOF
 ## man
 man {character} search
@@ -176,6 +184,7 @@ tldr
 EOF
 )
 
+# shellcheck disable=SC2034
 lib_info=$(cat << EOF
 ## lib
 ldconfig -v
@@ -183,6 +192,7 @@ ldconfig -n "${XDG_LIB_HOME:-$HOME/.local/lib}"
 EOF
 )
 
+# shellcheck disable=SC2034
 kernel_info=$(cat << EOF
 ## kernel
 vkpurge list
@@ -190,6 +200,7 @@ vkpurge rm <kernel>
 EOF
 )
 
+# shellcheck disable=SC2034
 terminal_info=$(cat << EOF
 ## terminal
 terminfo
@@ -197,6 +208,7 @@ stty
 EOF
 )
 
+# shellcheck disable=SC2034
 pdf_info=$(cat << EOF
 ## pdf
 pdfunite <inputs>.pdf <output>.pdf
@@ -205,12 +217,14 @@ pdftocairo -pdf <input>.pdf <output>.pdf
 EOF
 )
 
+# shellcheck disable=SC2034
 latex_info=$(cat << EOF
 ## latex
 lualatex <...>.tex
 EOF
 )
 
+# shellcheck disable=SC2034
 font_info=$(cat << EOF
 ## font
 fc-list
@@ -220,6 +234,7 @@ ttx <font-name>.<ttx>
 EOF
 )
 
+# shellcheck disable=SC2034
 log_info=$(cat << EOF
 ## log
 dmesg
@@ -227,6 +242,7 @@ svlogd
 EOF
 )
 
+# shellcheck disable=SC2034
 debug_info=$(cat << EOF
 ## debug
 strace
@@ -234,6 +250,7 @@ ltrace
 EOF
 )
 
+# shellcheck disable=SC2034
 file_info=$(cat << EOF
 df -h
 du -h
@@ -251,6 +268,7 @@ rsync
 EOF
 )
 
+# shellcheck disable=SC2034
 util_info=$(cat << EOF
 ## util
 tee
