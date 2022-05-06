@@ -319,6 +319,7 @@ else
         alias apt-get="sudo apt-get"
 
         alias systemctl="sudo systemctl"
+        alias journalctl="sudo journalctl"
     fi
 
     alias powertop="doas powertop"

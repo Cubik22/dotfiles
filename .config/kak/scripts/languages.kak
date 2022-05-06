@@ -16,6 +16,9 @@ define-command -hidden set-language-options %{
     # expand tabs
     expandtab
 
+    # highlight trailing spaces
+    ui-trailing-spaces-toggle
+
     # highlight tabs as errors
     # ui-tabs-toggle
 
