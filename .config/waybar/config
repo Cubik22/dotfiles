@@ -32,7 +32,8 @@
     "clock#date": {
         "interval": 60,
         "tooltip": false,
-        "format": "{:%d/%m/%Y}"
+        "format": "{:%Y/%m/%d}"
+        // "format": "{:%d/%m/%Y}"
         // "format": " {:%d/%m/%Y}" // Icon: calendar-alt
         // "tooltip-format": "{:%e %B %Y}"
     },

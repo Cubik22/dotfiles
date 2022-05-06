@@ -2,6 +2,26 @@
 
 # copy a bookmark
 
+# TODO: not working
+# remove_file_name() {
+#     input="$(cat)"
+#     first_part="$(
+#         printf "%s" "$input" |
+#         cut -d ":" -f "1"
+#     )"
+#     second_part="$(
+#         printf "%s" "$input" |
+#         cut -d ":" -f "2-"
+#     )"
+#     cutted_first_part="$(
+#         printf "%s" "$first_part" |
+#         rev |
+#         cut -d "/" -f "2-" |
+#         rev
+#     )"
+#     echo "$cutted_first_part:$second_part"
+# }
+
 bookmarks_dir="${XDG_LOCAL_HOME:=$HOME/.local}/etc/bookmarks"
 cd "$bookmarks_dir" || return 1
 
@@ -11,10 +31,10 @@ else
     case "$1" in
         --from-clipboard)
             # remove http(s)://(www.) and / from end of url
-            initial_query="$(\
-                "$PASTE_CMD" -n |\
-                sed 's/^http\(s\|\):\/\/\(www\.\|\)//' |\
-                sed 's/\/$//'\
+            initial_query="$(
+                "$PASTE_CMD" -n |
+                sed 's/^http\(s\|\):\/\/\(www\.\|\)//' |
+                sed 's/\/$//'
             )"
         ;;
         *)
@@ -25,11 +45,11 @@ else
 fi
 
 IFS=: read -ra selected < <(
-    rg --color=always --line-number --no-heading --smart-case "" |
-    fzf \
-        --ansi \
-        --query "$initial_query" \
-        --color "hl:-1:underline,hl+:-1:underline:reverse" \
-        --delimiter :
+    rg --color=always --no-heading --smart-case "" |
+        fzf \
+            --ansi \
+            --query "$initial_query" \
+            --color "hl:-1:underline,hl+:-1:underline:reverse" \
+            --delimiter :
 )
 [ -n "${selected[0]}" ] && sed -n "${selected[1]}p" "${selected[0]}" | cut -d " " -f 1 | "$COPY_CMD"
