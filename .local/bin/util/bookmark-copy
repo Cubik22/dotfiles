@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # copy a bookmark
 
@@ -44,12 +44,25 @@ else
     esac
 fi
 
-IFS=: read -ra selected < <(
+link_bookmark="$(
     rg --color=always --no-heading --smart-case "" |
-        fzf \
-            --ansi \
-            --query "$initial_query" \
-            --color "hl:-1:underline,hl+:-1:underline:reverse" \
-            --delimiter :
-)
-[ -n "${selected[0]}" ] && sed -n "${selected[1]}p" "${selected[0]}" | cut -d " " -f 1 | "$COPY_CMD"
+    fzf \
+        --ansi \
+        --query "$initial_query" \
+        --color "hl:-1:underline,hl+:-1:underline:reverse" \
+        --delimiter : |
+    cut -d ":" -f "2-" |
+    cut -d " " -f 1
+)"
+[ -n "$link_bookmark" ] && "$COPY_CMD" "$link_bookmark"
+
+#!/usr/bin/env bash
+# IFS=: read -ra selected < <(
+#     rg --color=always --line-number --no-heading --smart-case "" |
+#         fzf \
+#             --ansi \
+#             --query "$initial_query" \
+#             --color "hl:-1:underline,hl+:-1:underline:reverse" \
+#             --delimiter :
+# )
+# [ -n "${selected[0]}" ] && sed -n "${selected[1]}p" "${selected[0]}" | cut -d " " -f 1 | "$COPY_CMD"
