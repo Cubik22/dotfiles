@@ -1,11 +1,10 @@
 #!/bin/sh
 
 # this script is usually run in river/init
+
 # it spawns foot in tag 1
-# firefox in tag 9
-# and if firefox is composed of two windows the second one in tag 8
-# chromium/firefox-soft in tag 7
-# and if chromium/firefox-soft is composed of two windows the second one in tag 6
+# firefox profiles in tag 7 8 9
+# chromium in tag 5 6
 
 # get_tags() {
 #     echo "$((1 << ($1 - 1)))"
@@ -13,13 +12,8 @@
 
 # footclient_pos=1
 
-# firefox_hard_first_pos=9
-# firefox_hard_second_pos=8
-
-# firefox_soft_pos=7
-
-# chromium_first_pos=7
-# chromium_second_pos=6
+# chromium_first_pos=6
+# chromium_second_pos=5
 
 # sleep before setting view tags otherwise window is not focused
 # sleep again for some time, river has to change the tag assigned to the window
@@ -32,17 +26,8 @@
 #     sleep 1
 # fi
 
-# if [ -d "$HOME/.mozilla/firefox/soft" ]; then
-#     riverctl set-focused-tags "$(get_tags $firefox_soft_pos)"
-#     firefox -P soft &
-#     sleep 2
-# fi
-
-# riverctl set-focused-tags "$(get_tags $firefox_hard_second_pos)"
-# firefox &
+# firefox-spawn-all
 # sleep 2
-# riverctl set-view-tags "$(get_tags $firefox_hard_first_pos)"
-# sleep 1
 
 # riverctl set-focused-tags "$(get_tags $footclient_pos)"
 # if running just footclient

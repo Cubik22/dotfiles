@@ -35,6 +35,7 @@ fi
 
 # updater.sh look for user-overrides.js
 cat "$firefox_config/user-overrides-arkenfox.js" > "$hard_dir/user-overrides.js"
+# shellcheck disable=SC2129
 printf "\n" >> "$hard_dir/user-overrides.js"
 cat "$firefox_config/user-hard-arkenfox.js" >> "$hard_dir/user-overrides.js"
 printf "\n" >> "$hard_dir/user-overrides.js"
@@ -68,6 +69,7 @@ if [ ! -d "$soft_dir" ]; then
 fi
 
 cat "$firefox_config/user-soft-arkenfox.js" > "$soft_dir/user.js"
+# shellcheck disable=SC2129
 printf "\n" >> "$soft_dir/user.js"
 cat "$firefox_config/user-extra.js" >> "$soft_dir/user.js"
 printf "\n" >> "$soft_dir/user.js"

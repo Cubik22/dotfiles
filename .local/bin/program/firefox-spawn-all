@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# hard profile in tag 9
+# normal profile in tag 8
+# soft profile in tag 7
+
+get_tags() {
+    echo "$((1 << ($1 - 1)))"
+}
+
+firefox_home="$HOME/.mozilla/firefox"
+
+hard_pos=9
+normal_pos=8
+soft_pos=7
+
+# sleep before setting view tags otherwise window is not focused
+
+if [ -d "$firefox_home/hard" ]; then
+    riverctl set-focused-tags "$(get_tags "$hard_pos")"
+    firefox -P hard &
+fi
+if [ -d "$firefox_home/normal" ]; then
+    sleep 2
+    riverctl set-focused-tags "$(get_tags "$normal_pos")"
+    firefox -P normal &
+fi
+if [ -d "$firefox_home/soft" ]; then
+    sleep 2
+    riverctl set-focused-tags "$(get_tags "$soft_pos")"
+    firefox -P soft &
+fi
