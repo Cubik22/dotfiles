@@ -46,13 +46,14 @@ alias lla='$LS_COMMAND -l -A'
 # color stuff
 if [ ! "$OPERATING_SYSTEM" = "openbsd" ]; then
     alias diff="diff --color=auto"
+
+    alias grep="grep --color=auto"
 else
     alias diff="colordiff"
 fi
 # alias dir="dir --color=auto"
 # alias vdir="vdir --color=auto"
 # alias ip="ip --color=auto"
-# alias grep="grep --color=auto"
 
 # ignore case
 # alias grepi="grep --color=auto -i"

@@ -106,12 +106,14 @@ riverctl map normal "$gui"+Shift T spawn 'mpv-url --best $(wl-paste-env)'
 # shellcheck disable=SC2016
 riverctl map normal "$gui"+Control T spawn 'mpv-url --worst $(wl-paste-env)'
 
-# Gui+Control+F firefox
-riverctl map normal "$gui"+Control F spawn "firefox"
+# Gui+Shift+F firefox normal profile
+riverctl map normal "$gui"+Shift F spawn "firefox -P normal"
+# Gui+Control+F firefox hard profile
+riverctl map normal "$gui"+Control F spawn "firefox -P hard"
+# Gui+Alt+F firefox soft profile
+riverctl map normal "$gui"+"$alt" F spawn "firefox -P soft"
 # Gui+Control+Shift+F firefox incognito mode
-riverctl map normal "$gui"+Control+Shift F spawn "firefox -private-window"
-# Gui+Shift+F firefox soft profile
-riverctl map normal "$gui"+Shift F spawn "firefox -P soft"
+riverctl map normal "$gui"+Control+Shift F spawn "firefox --private-window"
 
 # Gui+Control+F chromium
 riverctl map normal "$gui"+Control C spawn "chromium-wayland"

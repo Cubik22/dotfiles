@@ -1,0 +1,74 @@
+#!/bin/sh
+
+info=$(cat << EOF
+update firefox profiles configs
+for hard use arkenfox with overrides and hard, and extra
+for normal use arkenfox with overrides, and extra
+for soft use soft arkenfox, extra and sync
+EOF
+)
+
+if [ "$#" -ne 0 ]; then
+    case "$1" in
+        -h|--help)
+            echo "$info"
+            return 0
+        ;;
+        *)
+            echo "error: parameter not recognized"
+            return 1
+        ;;
+    esac
+fi
+
+firefox_config="${XDG_CONFIG_HOME:-$HOME/.config}/firefox"
+firefox_home="$HOME/.mozilla/firefox"
+
+# hard profile
+
+hard_dir="$firefox_home/hard"
+
+if [ ! -d "$hard_dir" ]; then
+    mkdir -p "$hard_dir"
+    echo "hard profile was not present, created directory"
+fi
+
+# updater.sh look for user-overrides.js
+cat "$firefox_config/user-overrides-arkenfox.js" > "$hard_dir/user-overrides.js"
+printf "\n" >> "$hard_dir/user-overrides.js"
+cat "$firefox_config/user-hard-arkenfox.js" >> "$hard_dir/user-overrides.js"
+printf "\n" >> "$hard_dir/user-overrides.js"
+cat "$firefox_config/user-extra.js" >> "$hard_dir/user-overrides.js"
+cd "$hard_dir" || return 1
+"$hard_dir/updater.sh"
+
+# normal profile
+
+normal_dir="$firefox_home/normal"
+
+if [ ! -d "$normal_dir" ]; then
+    mkdir -p "$normal_dir"
+    echo "normal profile was not present, created directory"
+fi
+
+# updater.sh look for user-overrides.js
+cat "$firefox_config/user-overrides-arkenfox.js" > "$normal_dir/user-overrides.js"
+printf "\n" >> "$normal_dir/user-overrides.js"
+cat "$firefox_config/user-extra.js" >> "$normal_dir/user-overrides.js"
+cd "$normal_dir" || return 1
+"$normal_dir/updater.sh"
+
+# soft profile
+
+soft_dir="$firefox_home/soft"
+
+if [ ! -d "$soft_dir" ]; then
+    mkdir -p "$soft_dir"
+    echo "soft profile was not present, created directory"
+fi
+
+cat "$firefox_config/user-soft-arkenfox.js" > "$soft_dir/user.js"
+printf "\n" >> "$soft_dir/user.js"
+cat "$firefox_config/user-extra.js" >> "$soft_dir/user.js"
+printf "\n" >> "$soft_dir/user.js"
+cat "$firefox_config/user-sync.js" >> "$soft_dir/user.js"
