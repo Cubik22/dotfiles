@@ -88,7 +88,7 @@ map global insert <a-a> <home><esc> -docstring "enter normal mode start of line"
 map global insert <a-e> <end><esc>  -docstring "enter normal mode end of line"
 
 # paste in insert mode
-map global insert <c-p> <a-semicolon>P
+map global insert <a-p> <a-semicolon>P
 
 # build
 define-command build -docstring 'build in current directory' %{ nop %sh{

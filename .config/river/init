@@ -115,8 +115,8 @@ riverctl map normal "$gui"+"$alt" F spawn "firefox -P soft"
 # Gui+Control+Shift+F firefox incognito mode
 riverctl map normal "$gui"+Control+Shift F spawn "firefox --private-window"
 
-# Gui+Control+F chromium
-riverctl map normal "$gui"+Control C spawn "chromium-wayland"
+# Gui+Shift+F chromium
+riverctl map normal "$gui"+Shift C spawn "chromium-wayland"
 # Gui+Control+Shift C chromium incognito mode
 riverctl map normal "$gui"+Control+Shift C spawn "chromium-wayland --incognito"
 
