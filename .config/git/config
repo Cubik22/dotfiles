@@ -1,23 +1,26 @@
 [user]
-	email = lorenzo.bianco22@protonmail.com
-	name = Lorenzo Bianco
-	signingkey = 684CA4D079BE5028F25EC33FF2518EE8F2C2066F
+	email = mail@lbia.xyz
+	signingkey = 2E7F280CC82DA30DCB5A89A0B216B851FA3FCEE0
 [core]
 	editor = kak
 	pager = less --tabs=1,5
 [init]
 	defaultBranch = main
 [commit]
-#	gpgSign = true
+	gpgSign = true
+[tag]
+	gpgSign = true
 [gpg]
 	program = gpg2
 [pull]
 	rebase = false
 # [credential]
 # 	helper = bitwarden
-#	helper = store
+# 	helper = store
 [submodule]
 	recurse = true
+[advice]
+	detachedHead = false
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
