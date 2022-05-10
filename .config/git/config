@@ -1,6 +1,7 @@
 [user]
 	email = mail@lbia.xyz
-	signingkey = 2E7F280CC82DA30DCB5A89A0B216B851FA3FCEE0
+	name = lbia.xyz
+	signingkey = 21504F76544CD52D76DAF7DC6774C7B38E986DF1
 [core]
 	editor = kak
 	pager = less --tabs=1,5
