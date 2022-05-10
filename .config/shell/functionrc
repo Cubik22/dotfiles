@@ -136,19 +136,21 @@ kak-fzf-bash() {
 if [ "$OS_TYPE" = "desktop" ]; then
     # wrapper around git that before push, unlock bitwarden
     git() {
-        if [ "$#" -ge 1 ] && [ "$1" = "push" ]; then
-            rbw unlock
-        fi
+        # if [ "$#" -ge 1 ]; then
+        #     if [ "$1" = "push" ]; then
+        #         rbw unlock
+        #     fi
+        # fi
         "$(which git)" "$@"
     }
 
     # git bare repository user dotfiles
     ucon() {
-        if [ "$#" -ge 1 ]; then
-            if [ "$1" = "push" ]; then
-                rbw unlock
-            fi
-        fi
+        # if [ "$#" -ge 1 ]; then
+        #     if [ "$1" = "push" ]; then
+        #         rbw unlock
+        #     fi
+        # fi
         git_cmd="$(which git)"
         local work_tree="$HOME"
         local git_dir="$HOME/.dotfiles"
@@ -178,15 +180,15 @@ if [ "$OS_TYPE" = "desktop" ]; then
         else
             local as_root="false"
         fi
-        if [ "$#" -ge 1 ]; then
-            if [ "$1" = "push" ]; then
-                if [ "$as_root" = "true" ]; then
-                    rbw unlock
-                else
-                    doas rbw unlock
-                fi
-            fi
-        fi
+        # if [ "$#" -ge 1 ]; then
+        #     if [ "$1" = "push" ]; then
+        #         if [ "$as_root" = "true" ]; then
+        #             rbw unlock
+        #         else
+        #             doas rbw unlock
+        #         fi
+        #     fi
+        # fi
         git_cmd="$(which git)"
         local work_tree="/"
         local git_dir="/root/config"
