@@ -33,8 +33,17 @@ config config status.showUntrackedFiles no
 rm -f "$HOME/README.md"
 config update-index --assume-unchanged "$HOME/README.md"
 
-# make gnupg directory secure
-chmod 700 "$HOME/.config/gnupg"
+# ssh directory
+ssh_dir="$HOME/.ssh"
+[ ! -d "$ssh_dir" ] && mkdir -p "$ssh_dir"
+chmod 700 "$ssh_dir"
+unset ssh_dir
+
+# gnupg directory
+gnupg_dir="$HOME/.config/gnupg"
+[ ! -d "$gnupg_dir" ] && mkdir -p "$gnupg_dir"
+chmod 700 "$gnupg_dir"
+unset gnupg_dir
 
 # directories
 mkdir -p "$HOME/.local"

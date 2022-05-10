@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# git bare repository private config
+
+work_tree="$HOME"
+git_dir="$HOME/.private"
+git --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"

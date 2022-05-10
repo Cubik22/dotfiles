@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# git bare repository user dotfiles
+
+work_tree="$HOME"
+git_dir="$HOME/.dotfiles"
+git --git-dir="$git_dir"/ --work-tree="$work_tree" "$@"
+# when pulling remove README from work_tree and set git to not track in locale
+if [ "$#" -ge 1 ]; then
+    if [ "$1" = "pull" ]; then
+        rm -f "$work_tree"/README.md
+        git --git-dir="$git_dir"/ --work-tree="$work_tree" update-index --assume-unchanged "$work_tree"/README.md
+    fi
+fi

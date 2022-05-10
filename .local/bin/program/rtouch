@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# create a file and automatically add it with rcon
+# see stouch
+
+eval file="\${$#}"
+# shellcheck disable=SC2154
+stouch "$@" && rcon add "$file"

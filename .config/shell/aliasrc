@@ -211,14 +211,25 @@ if [ "$OS_TYPE" = "desktop" ]; then
     alias pps="pcon push"
 
     # rcon
-    alias rst="rcon status"
-    alias rad="rcon add"
-    alias rrs="rcon restore"
-    alias rcm="rcon commit"
-    alias rdf="rcon diff"
-    alias rlg="rcon log"
-    alias rpl="rcon pull"
-    alias rps="rcon push"
+    if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
+        alias rst="rcon status"
+        alias rad="rcon add"
+        alias rrs="rcon restore"
+        alias rcm="rcon commit"
+        alias rdf="rcon diff"
+        alias rlg="rcon log"
+        alias rpl="rcon pull"
+        alias rps="rcon push"
+    else
+        alias rst="doas rcon status"
+        alias rad="doas rcon add"
+        alias rrs="doas rcon restore"
+        alias rcm="doas rcon commit"
+        alias rdf="doas rcon diff"
+        alias rlg="doas rcon log"
+        alias rpl="doas rcon pull"
+        alias rps="doas rcon push"
+    fi
 else
     # ucon
     dotfiles_dir="$HOME/dotfiles"
