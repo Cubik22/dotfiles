@@ -26,8 +26,8 @@ file="$(fzf)"
 [ ! -f "$file" ] && return 1
 
 if [ "$mode" = "paste" ]; then
-    # remove / from end of url and add it to file
-    "$PASTE_CMD" -n | sed 's/\/$//' >> "$file"
+    # remove / or /# from end of url and add it to file
+    "$PASTE_CMD" -n | sed 's/\/\(#\|\)$//' >> "$file"
     printf "\n"  >> "$file"
 fi
 

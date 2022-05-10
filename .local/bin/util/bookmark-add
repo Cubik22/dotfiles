@@ -27,8 +27,8 @@ file="$(fzf)"
 
 [ ! -f "$file" ] && return 1
 
-# remove / from end of url
-url="$("$PASTE_CMD" -n | sed 's/\/$//')"
+# remove / or /# from end of url
+url="$("$PASTE_CMD" -n | sed 's/\/\(#\|\)$//')"
 
 if [ "$mode" = "normal" ]; then
     # ask name to user
@@ -42,7 +42,8 @@ elif [ "$mode" = "repo" ]; then
     name="$(echo "$url" | rev | cut -d "/" -f 1-2 | rev)"
 elif [ "$mode" = "wiki" ]; then
     # url/wiki/stf/<name>
-    name="$(echo "$url" | rev | cut -d "/" -f 1 | rev)"
+    # remove # from start
+    name="$(echo "$url" | rev | cut -d "/" -f 1 | rev | sed 's/^#//')"
 fi
 
 printf "%s" "$url" >> "$file"
