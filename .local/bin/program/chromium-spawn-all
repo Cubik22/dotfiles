@@ -11,10 +11,10 @@ second_pos=5
 # sleep again for some time, river has to change the tag assigned to the window
 
 if command -v "chromium" >/dev/null 2>&1; then
-    riverctl set-focused-tags "$(get_tags "$chromium_second_pos")"
+    riverctl set-focused-tags "$(get_tags "$second_pos")"
     chromium-wayland &
     sleep 2
-    riverctl set-view-tags "$(get_tags "$chromium_first_pos")"
+    riverctl set-view-tags "$(get_tags "$first_pos")"
 else
     echo "error: chromium is not installed"
     return 1
