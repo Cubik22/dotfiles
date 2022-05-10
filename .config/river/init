@@ -112,13 +112,21 @@ riverctl map normal "$gui"+Shift F spawn "firefox -P normal"
 riverctl map normal "$gui"+Control F spawn "firefox -P hard"
 # Gui+Alt+F firefox soft profile
 riverctl map normal "$gui"+"$alt" F spawn "firefox -P soft"
+# Gui+Alt+Shift+F firefox spawn all profiles
+riverctl map normal "$gui"+"$alt"+Shift F spawn "firefox-spawn-all"
 # Gui+Control+Shift+F firefox incognito mode
 riverctl map normal "$gui"+Control+Shift F spawn "firefox --private-window"
+# Gui+Alt+Control+F killall firefox
+riverctl map normal "$gui"+"$alt"+Control F spawn "killall firefox"
 
-# Gui+Shift+F chromium
+# Gui+Shift+C chromium
 riverctl map normal "$gui"+Shift C spawn "chromium-wayland"
-# Gui+Control+Shift C chromium incognito mode
+# Gui+Alt+Shift+C chromium spawn all profiles
+riverctl map normal "$gui"+"$alt"+Shift C spawn "chromium-spawn-all"
+# Gui+Control+Shift+C chromium incognito mode
 riverctl map normal "$gui"+Control+Shift C spawn "chromium-wayland --incognito"
+# Gui+Alt+Control+C killall chromium
+riverctl map normal "$gui"+"$alt"+Control C spawn "killall chromium"
 
 ### Windows
 

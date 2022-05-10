@@ -1,0 +1,21 @@
+#!/bin/sh
+
+get_tags() {
+    echo "$((1 << ($1 - 1)))"
+}
+
+first_pos=6
+second_pos=5
+
+# sleep before setting view tags otherwise window is not focused
+# sleep again for some time, river has to change the tag assigned to the window
+
+if command -v "chromium" >/dev/null 2>&1; then
+    riverctl set-focused-tags "$(get_tags "$chromium_second_pos")"
+    chromium-wayland &
+    sleep 2
+    riverctl set-view-tags "$(get_tags "$chromium_first_pos")"
+else
+    echo "error: chromium is not installed"
+    return 1
+fi

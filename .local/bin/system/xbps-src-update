@@ -1,0 +1,22 @@
+#!/bin/sh
+
+dev_home="$HOME/dev"
+void_packages_dir="$dev_home/void-packages"
+xbps_src_bin="$void_packages_dir/xbps-src"
+
+if [ ! -d "$void_packages_dir" ]; then
+    git clone --recurse-submodules https://github.com/void-linux/void-packages.git "$void_packages_dir"
+    "$xbps_src_bin" binary-bootstrap
+else
+    git -C "$void_packages_dir" pull
+fi
+
+if [ "$#" -eq 0 ]; then
+    return 0
+fi
+
+package="$1"
+
+"$xbps_src_bin" pkg "$package" || return 1
+
+doas xbps-install --force --repository "$void_packages_dir/binpkgs" "$package"
