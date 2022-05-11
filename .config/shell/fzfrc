@@ -67,7 +67,13 @@ fi
 # alt+s search scripts
 _fzf_script() {
     local bin_home="${XDG_BIN_HOME:-$HOME/.local/bin}"
-    script="$($FZF_DEFAULT_COMMAND --type file --type symlink --min-depth 2 --base-directory "$bin_home" | fzf)"
+    local min_depth
+    if [ ! "$OS_TYPE" = "server" ]; then
+        min_depth=2
+    else
+        min_depth=1
+    fi
+    script="$($FZF_DEFAULT_COMMAND --type file --type symlink --min-depth "$min_depth" --base-directory "$bin_home" | fzf)"
     [ -z "$script" ] && return 1
     # shellcheck disable=SC2088
     path="~/.local/bin/$script"
