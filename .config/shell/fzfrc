@@ -64,18 +64,38 @@ if [ ! "$LOGNAME" = "root" ] && [ "$(id -u)" -ne 0 ]; then
     # _fzf_setup_completion path dka
 fi
 
-# remap fzf <a-c> to <c-f>
+# alt+s search scripts
+_fzf_script() {
+    local bin_home="${XDG_BIN_HOME:-$HOME/.local/bin}"
+    script="$($FZF_DEFAULT_COMMAND --type file --type symlink --min-depth 2 --base-directory "$bin_home" | fzf)"
+    [ -z "$script" ] && return 1
+    # shellcheck disable=SC2088
+    path="~/.local/bin/$script"
+    total_lenght="$(( ${#path} + ${#READLINE_LINE} ))"
+    READLINE_LINE="${READLINE_LINE}${path}"
+    READLINE_POINT="$total_lenght"
+}
+bind -m emacs-standard -x '"\es": _fzf_script'
+bind -m vi-command -x '"\es": _fzf_script'
+bind -m vi-insert -x '"\es": _fzf_script'
+
 # not really working with bash version > 4
-# writes to prompt cd {directory}, user has to press ender
+# writes to prompt {directory}
 # at least it is saved in bash history, with standard no
 
 # see /usr/share/fzf/key-bindings.bash
 _fzf_cd_widget() {
-    local cd_selected
-    cd_selected="$(__fzf_cd__)"
-    READLINE_LINE="${cd_selected}"
-    READLINE_POINT=$(( ${#cd_selected} ))
+    local directory
+    directory="$(__fzf_cd__ | sed 's/^cd -- //')"
+    total_lenght="$(( ${#directory} + ${#READLINE_LINE} ))"
+    READLINE_LINE="${READLINE_LINE}${directory}"
+    READLINE_POINT="$total_lenght"
 }
+
+# rebind alt+c
+bind -m emacs-standard -x '"\ec": _fzf_cd_widget'
+bind -m vi-command -x '"\ec": _fzf_cd_widget'
+bind -m vi-insert -x '"\ec": _fzf_cd_widget'
 
 # https://github.com/junegunn/fzf/pull/2674
 # https://unix.stackexchange.com/questions/573269/bash-is-there-a-way-to-invoke-bind-commands-e-g-redraw-current-line-programm
@@ -92,9 +112,12 @@ _fzf_cd_widget() {
 #     # READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
 # }
 
-bind -m emacs-standard '"\ec":'
-bind -m vi-command '"\ec":'
-bind -m vi-insert '"\ec":'
+# remap fzf <a-c> to <c-f>
+
+# unmap alt+c
+# bind -m emacs-standard '"\ec":'
+# bind -m vi-command '"\ec":'
+# bind -m vi-insert '"\ec":'
 
 # bind -m emacs-standard '"\er": redraw-current-line'
 # bind -m vi-command '"\er": redraw-current-line'
@@ -112,6 +135,7 @@ bind -m vi-insert '"\ec":'
 # bind -m vi-command -x '"\C-f": $(__fzf_cd__)'
 # bind -m vi-insert -x '"\C-f": $(__fzf_cd__)'
 
-bind -m emacs-standard -x '"\C-f": _fzf_cd_widget'
-bind -m vi-command -x '"\C-f": _fzf_cd_widget'
-bind -m vi-insert -x '"\C-f": _fzf_cd_widget'
+# map control+f
+# bind -m emacs-standard -x '"\C-f": _fzf_cd_widget'
+# bind -m vi-command -x '"\C-f": _fzf_cd_widget'
+# bind -m vi-insert -x '"\C-f": _fzf_cd_widget'
