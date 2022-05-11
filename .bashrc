@@ -72,6 +72,7 @@ export GPG_TTY
 # root privileges
 # so root user can link and use this bashrc
 # black: 30 red: 31 green: 32 yellow: 33 blue: 34 purple: 35 cyan: 36 white: 37
+# \u username \h computer name \H hostname \w current working dir \W last part of cwd
 if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
     ps1_dir_color=31
     ps1_char="#"
@@ -91,14 +92,16 @@ else
 
     # PS2=""
 fi
-# add host to PS1 just when using SSH
+# add username and host to PS1 just when using SSH
+ps1_username_color=33
 ps1_host_color=34
 if [ -n "$SSH_TTY" ]; then
-    ps1_host="\[\e[1;${ps1_host_color}m\]\h\[\e[m\]@"
+    ps1_host="\[\e[1;${ps1_username_color}m\]\u\[\e[m\]@\[\e[1;${ps1_host_color}m\]\h\[\e[m\]"
 fi
 PS1="${ps1_host}\[\e[1;${ps1_dir_color}m\]\w\[\e[m\]${ps1_char} "
 unset ps1_dir_color
 unset ps1_char
+unset ps1_username_color
 unset ps1_host_color
 unset ps1_host
 
