@@ -16,7 +16,6 @@
 [pull]
 	rebase = false
 # [credential]
-# 	helper = bitwarden
 # 	helper = store
 [submodule]
 	recurse = true

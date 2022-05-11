@@ -1,11 +1,5 @@
 #!/bin/sh
 
-# dotfiles folder path
-git_dir="$HOME/.dotfiles"
-
-# email used to set bitwarden
-email="lorenzo.bianco22@protonmail.com"
-
 # add dotfiles bin to path
 directories_path="$(find -L "$HOME/dotfiles/.local/bin" -type d -printf %p:)"
 export PATH="${directories_path}${PATH}"
@@ -14,24 +8,43 @@ unset directories_path
 # backup present configs
 backup-dotfiles
 
-# clone repository
-git clone --bare https://github.com/lbia/dotfiles.git "$git_dir"
+# dotfiles
+dotfiles_dir="$HOME/.dotfiles"
+dotfiles_link="git@lbia.xyz:/var/www/git/dotfiles.git"
+git clone --bare "$dotfiles_link" "$dotfiles_dir"
+unset dotfiles_link
+
+# private
+private_dir="$HOME/.private"
+private_link="git@lbia.xyz:/srv/git/private.git"
+git clone --bare "$private_link" "$private_dir"
+unset dotfiles_link
 
 # create temporary alias
-config () {
-   /usr/bin/git --git-dir="$git_dir"/ --work-tree="$HOME" "$@"
+ucon () {
+   /usr/bin/git --git-dir="$dotfiles_dir"/ --work-tree="$HOME" "$@"
+}
+pcon () {
+   /usr/bin/git --git-dir="$private_dir"/ --work-tree="$HOME" "$@"
 }
 
 # backup of configs while copying files in the appropiate places
-echo "checking out"
-config checkout
+echo "checking out dotfiles"
+ucon checkout
 
-# set to not show untracked files
-config config status.showUntrackedFiles no
+ucon config status.showUntrackedFiles no
+ucon push --set-upstream origin main
 
 # remove README from HOME and set git to not track in locale
 rm -f "$HOME/README.md"
-config update-index --assume-unchanged "$HOME/README.md"
+ucon update-index --assume-unchanged "$HOME/README.md"
+
+echo "checking out private"
+pcon checkout
+
+pcon config status.showUntrackedFiles no
+pcon config advice.addIgnoredFile false
+pcon push --set-upstream origin main
 
 # ssh directory
 ssh_dir="$HOME/.ssh"
@@ -59,26 +72,13 @@ mkdir -p "$HOME/.local/lib/zig"
 
 link-config-root "/root/backup-bare"
 
-# R
-# make sure directories are created otherwise there may be problems
+# make sure R directories are created otherwise there may be problems
 mkdir -p "$HOME/.local/share/R"
 mkdir -p "$HOME/.local/lib/R"
 
 # rustup cargo env
 export RUSTUP_HOME="/usr/local/lib/rustup"
 export CARGO_HOME="/usr/local/lib/cargo"
-
-# set bitwarden mail for normal user
-rbw config set email "$email"
-
-# set rbw api key user
-rbw register
-
-# unlock and prompt password
-rbw unlock
-
-# set to track upstram
-config push --set-upstream origin main
 
 # set info
 info_home="$HOME/.local/etc/info"
