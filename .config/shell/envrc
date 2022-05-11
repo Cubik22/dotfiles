@@ -105,7 +105,10 @@ export HISTFILESIZE=
 export HISTCONTROL="erasedups:ignoreboth"
 export HISTIGNORE="pwd:exit:clear"
 # export HISTIGNORE="cd:pwd:exit:q:c:e:ea:et::fe:clear:nnn:n3:xb*():curl"
-export HISTFILE="$XDG_DATA_HOME/bash/bash_history"
+bash_data="$XDG_DATA_HOME/bash"
+[ ! -d "$bash_data" ] && mkdir -p "$bash_data"
+export HISTFILE="$bash_data/bash_history"
+unset bash_data
 
 ## sync command history across sessions
 
@@ -157,7 +160,10 @@ export FOOT_FLOAT_HEIGHT="675"
 # export FZF_COMPLETION_TRIGGER='**'
 
 # less history
-export LESSHISTFILE="$XDG_DATA_HOME/less/lesshst"
+less_data="$XDG_DATA_HOME/less"
+[ ! -d "$less_data" ] && mkdir -p "$less_data"
+export LESSHISTFILE="$less_data/lesshst"
+unset less_data
 
 # gnupg
 export GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
