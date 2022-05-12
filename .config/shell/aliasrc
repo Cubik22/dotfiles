@@ -93,8 +93,8 @@ fi
 
 # kak
 alias ka="kak"
-# alias kak="kak-smart no"
-# alias ka="kak-smart no"
+alias kaks="kak-smart no"
+alias kas="kak-smart no"
 alias kakf="kak-fzf-bash no"
 alias kaf="kak-fzf-bash no"
 
@@ -341,8 +341,8 @@ else
     # kak
     alias dkak="doas kak"
     alias dka="doas kak"
-    # alias dkak="kak-smart yes"
-    # alias dka="kak-smart yes"
+    alias dkaks="kak-smart yes"
+    alias dkas="kak-smart yes"
     alias dkakf="kak-fzf-bash yes"
     alias dkaf="kak-fzf-bash yes"
 

@@ -50,6 +50,10 @@ pcon push --set-upstream origin main
 ssh_dir="$HOME/.ssh"
 [ ! -d "$ssh_dir" ] && mkdir -p "$ssh_dir"
 chmod 700 "$ssh_dir"
+ssh_sockets="$ssh_dir/sockets"
+[ ! -d "$ssh_sockets" ] && mkdir -p "$ssh_sockets"
+chmod 700 "$ssh_sockets"
+unset ssh_sockets
 unset ssh_dir
 
 # gnupg directory

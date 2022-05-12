@@ -129,7 +129,8 @@ export FZF_DEFAULT_COLORS='bg+:#1d2021,bg:#1d2021,spinner:#fb4934,hl:#928374,fg:
 export FZF_DEFAULT_OPTS="--no-mouse --bind='ctrl-i:accept-non-empty' --bind='ctrl-y:execute-silent(printf {} | cut -f 2- | '\$COPY_CMD' -n)' --layout=reverse --prompt='  ' --ansi --tabstop=4 --color=\"$FZF_DEFAULT_COLORS\""
 
 # command when running <c-t>
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND --type file --type directory --type symlink"
+# search files and symlinks
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND --type file --type symlink"
 # uses bat command to show the entries of the directory
 export FZF_DEFAULT_PREVIEW='bat --color=always --paging=never --theme=gruvbox-dark --style="numbers,changes" --line-range :500 {}'
 # uses tree command to show the entries of the directory
@@ -138,6 +139,7 @@ export FZF_DEFAULT_PREVIEW='bat --color=always --paging=never --theme=gruvbox-da
 export FZF_CTRL_T_OPTS="--multi --info=inline --preview=\"$FZF_DEFAULT_PREVIEW\""
 
 # command when running <a-c>
+# remapped in fzfrc to just print directories without cd in front
 export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type directory"
 # inline
 export FZF_ALT_C_OPTS='--info=inline'
@@ -151,6 +153,8 @@ export WINDOW_HEIGHT="1080"
 # 7/8
 export FZF_RG_WIDTH="1680"
 export FZF_RG_HEIGHT="945"
+
+export FZF_TMUX_HEIGHT="60%"
 
 # 5/8
 export FOOT_FLOAT_WIDTH="1200"

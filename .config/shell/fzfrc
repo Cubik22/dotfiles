@@ -73,7 +73,13 @@ _fzf_script() {
     else
         min_depth=1
     fi
-    script="$($FZF_DEFAULT_COMMAND --type file --type symlink --min-depth "$min_depth" --base-directory "$bin_home" | fzf)"
+    script="$( \
+        $FZF_DEFAULT_COMMAND \
+        --type file --type symlink \
+        --min-depth "$min_depth" \
+        --base-directory "$bin_home" | \
+        fzf --height ${FZF_TMUX_HEIGHT:-40%} \
+    )"
     [ -z "$script" ] && return 1
     # shellcheck disable=SC2088
     path="~/.local/bin/$script"
