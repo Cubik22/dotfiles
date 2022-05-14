@@ -108,6 +108,14 @@ user_pref("browser.newtabpage.pinned", "[]");
 /* do not show search suggestions ahead of browsing history in address bar results */
 user_pref("browser.urlbar.showSearchSuggestionsFirst", false);
 
+/* remove more from mozilla page in preferences */
+user_pref("browser.preferences.moreFromMozilla", false);
+
+/* fully disable autoplay */
+user_pref("media.autoplay.block-webaudio", true);
+user_pref("media.autoplay.block-event.enabled", true);
+user_pref("media.autoplay.allow-extension-background-pages", true);
+
 /*** other ***/
 
 /* allow installation of unsigned extensions */

@@ -246,6 +246,12 @@ user_pref("network.http.referer.XOriginTrimmingPolicy", 1);
  * [NOTE] You can set exceptions under site permissions
  * [SETTING] Privacy & Security>Permissions>Autoplay>Settings>Default for all websites ***/
 user_pref("media.autoplay.default", 5);
+/* 2031: disable autoplay of HTML5 media if you interacted with the site [FF78+]
+ * 0=sticky (default), 1=transient, 2=user
+ * Firefox's Autoplay Policy Documentation (PDF) is linked below via SUMO
+ * [NOTE] If you have trouble with some video sites, then add an exception (2030)
+ * [1] https://support.mozilla.org/questions/1293231 ***/
+user_pref("media.autoplay.blocking_policy", 2);
 
 /* 2651: enable user interaction for security by always asking where to download
  * [SETUP-CHROME] On Android this blocks longtapping and saving images
