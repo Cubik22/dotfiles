@@ -142,11 +142,12 @@ for profile in $profiles; do
                 cp -r "$firefox_dir/base" "$profile_dir/chrome"
             ;;
             search)
-                if [ ! "$profile" = "hard" ]; then
-                    mozlz4 -z "$firefox_dir/search.json" "$profile_dir/search.json.mozlz4"
-                else
-                    mozlz4 -z "$firefox_dir/search-post.json" "$profile_dir/search.json.mozlz4"
-                fi
+                mozlz4 -z "$firefox_dir/search.json" "$profile_dir/search.json.mozlz4"
+                # if [ ! "$profile" = "hard" ]; then
+                #     mozlz4 -z "$firefox_dir/search.json" "$profile_dir/search.json.mozlz4"
+                # else
+                #     mozlz4 -z "$firefox_dir/search-post.json" "$profile_dir/search.json.mozlz4"
+                # fi
             ;;
             ext)
                 firefox-remove-default-search-engines exte "$profile_dir/extensions.json" > "$file_tmp"

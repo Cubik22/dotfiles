@@ -78,7 +78,7 @@ _fzf_script() {
         --type file --type symlink \
         --min-depth "$min_depth" \
         --base-directory "$bin_home" | \
-        fzf --height ${FZF_TMUX_HEIGHT:-40%} \
+        fzf --height "${FZF_TMUX_HEIGHT:-40%}" \
     )"
     [ -z "$script" ] && return 1
     # shellcheck disable=SC2088
