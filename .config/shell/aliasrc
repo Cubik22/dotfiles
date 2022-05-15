@@ -221,6 +221,8 @@ if [ "$OS_TYPE" = "desktop" ]; then
         alias rpl="rcon pull"
         alias rps="rcon push"
     else
+        alias rcon="doas rcon"
+
         alias rst="doas rcon status"
         alias rad="doas rcon add"
         alias rrs="doas rcon restore"

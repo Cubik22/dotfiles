@@ -1,0 +1,7 @@
+#!/bin/sh
+
+file="$(mktemp wl-clipboard-XXXXXX)"
+"$PASTE_CMD" > "$file"
+kak "$file"
+cat "$file" | "$COPY_CMD" -n
+rm -f "$file"

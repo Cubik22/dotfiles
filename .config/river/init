@@ -54,7 +54,7 @@ alt="Mod1"
 # Delete Return Backspace Space Period Comma
 # {Up,Right,Down,Left} [0-9] F11
 # {H,J,K,L} Q F U N P
-# S Z B I C M A V T
+# S E Z B I C M A V T
 
 # Gui+Control+Space footclient
 riverctl map normal "$gui"+Control Space spawn "footclient"
@@ -72,6 +72,9 @@ riverctl map normal "$gui"+Shift S spawn 'screenshot fullscreen; echo "100" > $W
 # old screenshot with grim and slurp
 # shellcheck disable=SC2016
 # riverctl map normal "$gui" S spawn 'grim -g "$(slurp)" - | wl-copy-env'
+
+# Gui+E edit clipboard
+riverctl map normal "$gui" E spawn "footclient-run --foot clipboard-edit"
 
 # Gui+Z kak-fzf
 riverctl map normal "$gui" Z spawn "footclient-run --fzf fzf-kak"
