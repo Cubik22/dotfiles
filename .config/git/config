@@ -4,7 +4,7 @@
 	signingkey = 21504F76544CD52D76DAF7DC6774C7B38E986DF1
 [core]
 	editor = kak
-	pager = less --tabs=1,5
+	pager = less -R --tabs=1,5
 [init]
 	defaultBranch = main
 [commit]
