@@ -42,8 +42,9 @@ EOT
 # build/generate files
 build() {
     cd "$plugins_cloned_dir/matrix" || return 1
-    export RUSTUP_HOME="${XDG_LIB_HOME:-$HOME/.local/lib}/rustup"
-    export CARGO_HOME="${XDG_LIB_HOME:-$HOME/.local/lib}/cargo"
+    # rust local
+    # shellcheck disable=SC1091
+    . "/usr/local/bin/rust-set-local"
     export WEECHAT_PLUGIN_FILE="$plugins_cloned_dir/weechat/src/plugins/weechat-plugin.h"
     # rm -rf target
     make install

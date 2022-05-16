@@ -2,5 +2,5 @@
 
 # set rust global
 
-export RUSTUP_HOME="/usr/local/lib/rustup"
-export CARGO_HOME="/usr/local/lib/cargo"
+export RUSTUP_HOME="${RUSTUP_HOME_GLOBAL:-/usr/local/lib/rustup}"
+export CARGO_HOME="${CARGO_HOME_GLOBAL:-/usr/local/lib/cargo}"

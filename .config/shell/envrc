@@ -34,9 +34,11 @@ export VISUAL="kak"
 # pager
 export PAGER="less"
 
-# home for the installation of rust and cargo packages
-export RUSTUP_HOME="/usr/local/lib/rustup"
-export CARGO_HOME="/usr/local/lib/cargo"
+# rust global
+export RUSTUP_HOME_GLOBAL="/usr/local/lib/rustup"
+export CARGO_HOME_GLOBAL="/usr/local/lib/cargo"
+export RUSTUP_HOME="$RUSTUP_HOME_GLOBAL"
+export CARGO_HOME="$CARGO_HOME_GLOBAL"
 
 # go
 export GOPATH="/usr/local/lib/go"
@@ -73,7 +75,15 @@ export XDG_LIB_HOME="$XDG_LOCAL_HOME/lib"
 export XDG_INCLUDE_HOME="$XDG_LOCAL_HOME/include"
 export XDG_BIN_HOME="$XDG_LOCAL_HOME/bin"
 
+# rust local
+export RUSTUP_HOME_LOCAL="$XDG_LIB_HOME/rustup"
+export CARGO_HOME_LOCAL="$XDG_LIB_HOME/cargo"
+
 # path
+cargo_local_lib_bin="$CARGO_HOME_LOCAL/bin"
+if [ -d "$cargo_local_lib_bin" ]; then
+    export PATH="${cargo_local_lib_bin}:${PATH}"
+fi
 if [ "$OS_TYPE" = "server" ]; then
     config_bin_dir="$HOME/config/usr/local/bin"
     [ -d "$config_bin_dir" ] && export PATH="$config_bin_dir:$PATH"

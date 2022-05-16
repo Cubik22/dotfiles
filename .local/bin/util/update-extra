@@ -97,24 +97,36 @@ plugins_update() {
 ## rustup
 # stable toolchain
 rustup_update() {
-    # global
+    # rust global
+    # shellcheck disable=SC1091
+    . "/usr/local/bin/rust-set-global"
     doas rustup update
 
-    # local
-    export RUSTUP_HOME="$lib_home/rustup"
-    export CARGO_HOME="$lib_home/cargo"
+    # rust local
+    # shellcheck disable=SC1091
+    . "/usr/local/bin/rust-set-local"
     rustup update
+
+    # reset rust global
+    # shellcheck disable=SC1091
+    . "/usr/local/bin/rust-set-global"
 }
 
 ## cargo
 cargo_update() {
-    # global
+    # rust global
+    # shellcheck disable=SC1091
+    . "/usr/local/bin/rust-set-global"
     doas cargo install-update --all
 
-    # local
-    export RUSTUP_HOME="$lib_home/rustup"
-    export CARGO_HOME="$lib_home/cargo"
+    # rust local
+    # shellcheck disable=SC1091
+    . "/usr/local/bin/rust-set-local"
     cargo install-update --all
+
+    # reset rust global
+    # shellcheck disable=SC1091
+    . "/usr/local/bin/rust-set-global"
 }
 
 ## zigup
