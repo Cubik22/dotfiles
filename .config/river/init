@@ -109,27 +109,11 @@ riverctl map normal "$gui"+Shift T spawn 'mpv-url --best $(wl-paste-env)'
 # shellcheck disable=SC2016
 riverctl map normal "$gui"+Control T spawn 'mpv-url --worst $(wl-paste-env)'
 
-# Gui+Shift+F firefox normal profile
-riverctl map normal "$gui"+Shift F spawn "firefox -P normal"
-# Gui+Control+F firefox hard profile
-riverctl map normal "$gui"+Control F spawn "firefox -P hard"
-# Gui+Alt+F firefox soft profile
-riverctl map normal "$gui"+"$alt" F spawn "firefox -P soft"
-# Gui+Alt+Shift+F firefox spawn all profiles
-riverctl map normal "$gui"+"$alt"+Shift F spawn "firefox-spawn-all"
-# Gui+Control+Shift+F firefox incognito mode
-riverctl map normal "$gui"+Control+Shift F spawn "firefox --private-window"
-# Gui+Alt+Control+F killall firefox
-riverctl map normal "$gui"+"$alt"+Control F spawn "killall firefox"
+# Gui+Shift+F firefox menu
+riverctl map normal "$gui"+Shift F spawn "footclient-float firefox-menu"
 
-# Gui+Shift+C chromium
-riverctl map normal "$gui"+Shift C spawn "chromium-wayland"
-# Gui+Alt+Shift+C chromium spawn all profiles
-riverctl map normal "$gui"+"$alt"+Shift C spawn "chromium-spawn-all"
-# Gui+Control+Shift+C chromium incognito mode
-riverctl map normal "$gui"+Control+Shift C spawn "chromium-wayland --incognito"
-# Gui+Alt+Control+C killall chromium
-riverctl map normal "$gui"+"$alt"+Control C spawn "killall chromium"
+# Gui+Shift+C chromium menu
+riverctl map normal "$gui"+Shift C spawn "footclient-float chromium-menu"
 
 ### Windows
 

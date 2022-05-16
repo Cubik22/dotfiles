@@ -18,15 +18,15 @@ soft_pos=7
 
 if [ -d "$firefox_home/soft" ]; then
     riverctl set-focused-tags "$(get_tags "$soft_pos")"
-    firefox -P soft &
+    riverctl spawn "firefox -P soft"
 fi
 if [ -d "$firefox_home/normal" ]; then
     sleep 2
     riverctl set-focused-tags "$(get_tags "$normal_pos")"
-    firefox -P normal &
+    riverctl spawn "firefox -P normal"
 fi
 if [ -d "$firefox_home/hard" ]; then
     sleep 2
     riverctl set-focused-tags "$(get_tags "$hard_pos")"
-    firefox -P hard &
+    riverctl spawn "firefox -P hard"
 fi

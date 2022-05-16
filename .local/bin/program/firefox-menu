@@ -1,0 +1,43 @@
+#!/bin/sh
+
+# menu with fzf in order to interact with firefox
+
+actions=$(cat << EOF
+normal
+hard
+soft
+normal-private
+hard-private
+soft-private
+start-all
+kill-all
+restart-all
+EOF
+)
+
+result="$(echo "$actions" | fzf --prompt 'firefox: ')"
+[ -z "$result" ] && return 0
+
+firefox_data="${XDG_DATA_HOME:-$HOME/.local/share}/firefox"
+[ ! -d "$firefox_data" ] && mkdir -p "$firefox_data"
+
+case "$result" in
+    normal|hard|soft|normal-private|hard-private|soft-private)
+        riverctl spawn "firefox-spawn $result"
+        # nohup firefox-spawn "$result" >"$firefox_data/$result.log" 2>&1
+    ;;
+    start-all)
+        riverctl spawn "firefox-spawn-all"
+        # nohup firefox-spawn-all >"$firefox_data/start-all.log" 2>&1
+    ;;
+    kill-all)
+        killall firefox
+        # nohup killall firefox >"$firefox_data/kill-all.log" 2>&1
+    ;;
+    restart-all)
+        killall firefox
+        riverctl spawn "firefox-spawn-all"
+        # nohup killall firefox >"$firefox_data/kill-all.log" 2>&1
+        # nohup firefox-spawn-all >"$firefox_data/start-all.log" 2>&1
+    ;;
+esac

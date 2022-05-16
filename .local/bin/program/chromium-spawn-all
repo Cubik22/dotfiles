@@ -12,7 +12,7 @@ second_pos=5
 
 if command -v "chromium" >/dev/null 2>&1; then
     riverctl set-focused-tags "$(get_tags "$second_pos")"
-    chromium-wayland &
+    riverctl spawn chromium-wayland
     sleep 3
     riverctl set-view-tags "$(get_tags "$first_pos")"
 else

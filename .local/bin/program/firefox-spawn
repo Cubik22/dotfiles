@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# start firefox with river
+
+if [ "$#" -eq 0 ]; then
+    riverctl spawn "firefox"
+else
+    case "$1" in
+        normal)
+            riverctl spawn "firefox -P normal"
+        ;;
+        hard)
+            riverctl spawn "firefox -P hard"
+        ;;
+        soft)
+            riverctl spawn "firefox -P soft"
+        ;;
+        normal-private)
+            riverctl spawn "firefox -P normal --private-window"
+        ;;
+        hard-private)
+            riverctl spawn "firefox -P hard --private-window"
+        ;;
+        soft-private)
+            riverctl spawn "firefox -P soft --private-window"
+        ;;
+        *)
+            echo "error: wrong parameter"
+            return 1
+        ;;
+    esac
+fi

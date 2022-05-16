@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# start chromium with river
+
+if [ "$#" -eq 0 ]; then
+    riverctl spawn "chromium-wayland"
+else
+    case "$1" in
+        normal)
+            riverctl spawn "chromium-wayland"
+        ;;
+        private)
+            riverctl spawn "chromium-wayland --incognito"
+        ;;
+        *)
+            echo "error: wrong parameter"
+            return 1
+        ;;
+    esac
+fi

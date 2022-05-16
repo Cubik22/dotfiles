@@ -1,0 +1,39 @@
+#!/bin/sh
+
+# menu with fzf in order to interact with chromium
+
+actions=$(cat << EOF
+normal
+private
+start-all
+kill-all
+restart-all
+EOF
+)
+
+result="$(echo "$actions" | fzf --prompt 'chromium: ')"
+[ -z "$result" ] && return 0
+
+chromium_data="${XDG_DATA_HOME:-$HOME/.local/share}/chromium"
+[ ! -d "$chromium_data" ] && mkdir -p "$chromium_data"
+
+case "$result" in
+    normal|private)
+        riverctl spawn "chromium-spawn $result"
+        # nohup chromium-spawn "$result" >"$chromium_data/$result.log" 2>&1
+    ;;
+    start-all)
+        riverctl spawn "chromium-spawn-all"
+        # nohup chromium-spawn-all >"$chromium_data/start-all.log" 2>&1
+    ;;
+    kill-all)
+        killall chromium
+        # nohup killall chromium >"$chromium_data/kill-all.log" 2>&1
+    ;;
+    restart-all)
+        killall chromium
+        riverctl spawn "chromium-spawn-all"
+        # nohup killall chromium >"$chromium_data/kill-all.log" 2>&1
+        # nohup chromium-spawn-all >"$chromium_data/start-all.log" 2>&1
+    ;;
+esac

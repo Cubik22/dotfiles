@@ -15,7 +15,8 @@ add-wiki
 EOF
 )
 
-result="$(echo "$actions" | fzf)"
+result="$(echo "$actions" | fzf --prompt 'bookmark: ')"
+[ -z "$result" ] && return 0
 
 case "$result" in
     copy-normal) bookmark-copy ;;
