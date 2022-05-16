@@ -4,7 +4,7 @@
 # ~/.bash_profile
 #
 
-info_path="$HOME/.local/etc/info"
+info_path="/etc/info"
 
 operating_system_file="$info_path/operating-system"
 if [ -f "$operating_system_file" ]; then

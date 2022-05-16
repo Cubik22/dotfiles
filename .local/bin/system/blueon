@@ -1,0 +1,4 @@
+#!/bin/sh
+
+doas sv up bluetoothd
+bluetoothctl power on

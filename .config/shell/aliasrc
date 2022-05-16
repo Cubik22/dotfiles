@@ -307,9 +307,6 @@ if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
         alias xi="xbps-install"
         alias xr="xbps-remove"
 
-        alias blueon="sv up bluetoothd; bluetoothctl power on;"
-        alias blueoff="bluetoothctl power off; sv down bluetoothd;"
-
         # alias servstat="sv status /var/service/*"
     fi
 else
@@ -318,9 +315,6 @@ else
         alias xbps-remove="doas xbps-remove"
         alias xi="doas xbps-install"
         alias xr="doas xbps-remove"
-
-        alias blueon="doas sv up bluetoothd; bluetoothctl power on;"
-        alias blueoff="bluetoothctl power off; doas sv down bluetoothd;"
 
         # alias servstat="doas sv status /var/service/*"
 

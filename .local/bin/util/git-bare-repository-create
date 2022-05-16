@@ -85,11 +85,11 @@ export RUSTUP_HOME="/usr/local/lib/rustup"
 export CARGO_HOME="/usr/local/lib/cargo"
 
 # set info
-info_home="$HOME/.local/etc/info"
-mkdir -p "$info_home"
+info_home="/etc/info"
+doas mkdir -p "$info_home"
 printf "operating system: "
 read -r operating_system
-echo "$operating_system" > "$info_home/operating-system"
+echo "$operating_system" | doas tee "$info_home/operating-system" >/dev/null
 printf "os type (desktop or server): "
 read -r os_type
-echo "$os_type" > "$info_home/os-type"
+echo "$os_type" | doas tee "$info_home/os-type" >/dev/null

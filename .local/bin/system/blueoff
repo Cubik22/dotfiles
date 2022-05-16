@@ -1,0 +1,4 @@
+#!/bin/sh
+
+bluetoothctl power off
+doas sv down bluetoothd

@@ -191,7 +191,7 @@ export LYNX_CFG="$XDG_CONFIG_HOME/lynx/lynx.cfg"
 export LYNX_LSS="$XDG_CONFIG_HOME/lynx/lynx.lss"
 
 # less
-export LESS="-g -i -j -4 --tabs=1,5"
+export LESS="-g -i -M -j -4 --tabs=1,5"
 # additional parameters
 # export LESS="-R -w -F -N"
 
@@ -226,13 +226,13 @@ export XDG_RUNTIME_DIR="/run/user/$idu"
 # export XDG_RUNTIME_DIR="$XDG_LOCAL_HOME/runtime"
 
 # less as manpager
-export MANPAGER=less
+# export MANPAGER=less
 
 # bat as manpager (set bat config)
 # export MANPAGER="bat-man"
 
 # kak as manpager
-# export MANPAGER="kak-man"
+export MANPAGER="kak-man"
 
 # tmp dir
 export TMPDIR="/tmp"
