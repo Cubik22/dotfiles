@@ -32,6 +32,7 @@ case "$result" in
     ;;
     restart-all)
         killall chromium
+        sleep 2
         riverctl spawn "chromium-spawn-all"
         # nohup killall chromium >"$chromium_data/kill-all.log" 2>&1
         # nohup chromium-spawn-all >"$chromium_data/start-all.log" 2>&1

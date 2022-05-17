@@ -148,7 +148,7 @@ export FZF_DEFAULT_PREVIEW='bat --color=always --paging=never --theme=gruvbox-da
 # select multiple files/directories, inline and preview
 export FZF_CTRL_T_OPTS="--multi --info=inline --preview=\"$FZF_DEFAULT_PREVIEW\""
 
-# command when running <a-c>
+# command when running <a-c> remapped to <a-d>
 # remapped in fzfrc to just print directories without cd in front
 export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type directory"
 # inline
@@ -164,7 +164,7 @@ export WINDOW_HEIGHT="1080"
 export FZF_RG_WIDTH="1680"
 export FZF_RG_HEIGHT="945"
 
-export FZF_TMUX_HEIGHT="60%"
+export FZF_TMUX_HEIGHT="100%"
 
 # 5/8
 export FOOT_FLOAT_WIDTH="1200"

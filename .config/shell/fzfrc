@@ -73,12 +73,14 @@ _fzf_script() {
     else
         min_depth=1
     fi
+        # --height="${FZF_TMUX_HEIGHT:-40%}" \
+        # --layout=default \
     script="$( \
         $FZF_DEFAULT_COMMAND \
         --type file --type symlink \
-        --min-depth "$min_depth" \
-        --base-directory "$bin_home" | \
-        fzf --height "${FZF_TMUX_HEIGHT:-40%}" \
+        --min-depth="$min_depth" \
+        --base-directory="$bin_home" | \
+        fzf \
     )"
     [ -z "$script" ] && return 1
     # shellcheck disable=SC2088
@@ -91,11 +93,34 @@ bind -m emacs-standard -x '"\es": _fzf_script'
 bind -m vi-command -x '"\es": _fzf_script'
 bind -m vi-insert -x '"\es": _fzf_script'
 
+# alt+c search configs
+_fzf_config() {
+    local config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
+    local min_depth=1
+        # --height="${FZF_TMUX_HEIGHT:-40%}" \
+        # --layout=default \
+    config="$( \
+        $FZF_DEFAULT_COMMAND \
+        --type file --type symlink \
+        --min-depth="$min_depth" \
+        --base-directory="$config_home" | \
+        fzf \
+    )"
+    [ -z "$config" ] && return 1
+    # shellcheck disable=SC2088
+    path="~/.config/$config"
+    total_lenght="$(( ${#path} + ${#READLINE_LINE} ))"
+    READLINE_LINE="${READLINE_LINE}${path}"
+    READLINE_POINT="$total_lenght"
+}
+bind -m emacs-standard -x '"\ec": _fzf_config'
+bind -m vi-command -x '"\ec": _fzf_config'
+bind -m vi-insert -x '"\ec": _fzf_config'
+
+# see /usr/share/fzf/key-bindings.bash
 # not really working with bash version > 4
 # writes to prompt {directory}
 # at least it is saved in bash history, with standard no
-
-# see /usr/share/fzf/key-bindings.bash
 _fzf_cd_widget() {
     local directory
     directory="$(__fzf_cd__ | sed 's/^cd -- //')"
@@ -103,11 +128,10 @@ _fzf_cd_widget() {
     READLINE_LINE="${READLINE_LINE}${directory}"
     READLINE_POINT="$total_lenght"
 }
-
-# rebind alt+c
-bind -m emacs-standard -x '"\ec": _fzf_cd_widget'
-bind -m vi-command -x '"\ec": _fzf_cd_widget'
-bind -m vi-insert -x '"\ec": _fzf_cd_widget'
+# rebind to alt+d
+bind -m emacs-standard -x '"\ed": _fzf_cd_widget'
+bind -m vi-command -x '"\ed": _fzf_cd_widget'
+bind -m vi-insert -x '"\ed": _fzf_cd_widget'
 
 # https://github.com/junegunn/fzf/pull/2674
 # https://unix.stackexchange.com/questions/573269/bash-is-there-a-way-to-invoke-bind-commands-e-g-redraw-current-line-programm

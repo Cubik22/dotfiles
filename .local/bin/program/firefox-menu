@@ -36,6 +36,7 @@ case "$result" in
     ;;
     restart-all)
         killall firefox
+        sleep 2
         riverctl spawn "firefox-spawn-all"
         # nohup killall firefox >"$firefox_data/kill-all.log" 2>&1
         # nohup firefox-spawn-all >"$firefox_data/start-all.log" 2>&1
