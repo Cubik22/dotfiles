@@ -51,12 +51,12 @@ TAB: menu-complete
 "\C-e": end-of-line
 
 # unbind left and right key
-"\e[C":""
-"\e[D":""
+# "\e[C":""
+# "\e[D":""
 
 # when command is half complete search command that complete it
-"\e[A": history-search-backward
-"\e[B": history-search-forward
+# "\e[A": history-search-backward
+# "\e[B": history-search-forward
 
 # bind also vim/kak movements
 "\C-k": history-search-backward

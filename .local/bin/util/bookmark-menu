@@ -10,8 +10,8 @@ edit-normal
 edit-paste
 add-normal
 add-copy
+add-article
 add-repo
-add-wiki
 EOF
 )
 
@@ -24,8 +24,8 @@ case "$result" in
     make-dir) bookmark-create-directory ;;
     edit-normal) bookmark-edit ;;
     edit-paste) bookmark-edit --paste ;;
-    add-normal) bookmark-add ;;
-    add-copy) bookmark-add --copy ;;
-    add-repo) bookmark-add --repo ;;
-    add-wiki) bookmark-add --wiki ;;
+    add-normal) bookmark-add normal;;
+    add-copy) bookmark-add copy ;;
+    add-article) bookmark-add article ;;
+    add-repo) bookmark-add repo ;;
 esac

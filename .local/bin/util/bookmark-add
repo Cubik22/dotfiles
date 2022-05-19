@@ -6,10 +6,9 @@ if [ "$#" -eq 0 ]; then
     mode="normal"
 else
     case "$1" in
-        --normal) mode="normal" ;;
-        --copy) mode="copy" ;;
-        --repo) mode="repo" ;;
-        --wiki) mode="wiki" ;;
+        normal|copy|repo|article)
+            mode="$1"
+        ;;
         *)
             echo "error: wrong parameter"
             return 1
@@ -30,21 +29,26 @@ file="$(fzf)"
 # remove / or /# from end of url
 url="$("$PASTE_CMD" -n | sed 's/\/\(#\|\)$//')"
 
-if [ "$mode" = "normal" ]; then
-    # ask name to user
-    printf "%s" "bookmark name: "
-    read -r name
-elif [ "$mode" = "copy" ]; then
-    # name is the same as url without http(s)://(www.)
-    name="$(echo "$url" | sed 's/^http\(s\|\):\/\/\(www\.\|\)//')"
-elif [ "$mode" = "repo" ]; then
-    # name is <user>/<project>
-    name="$(echo "$url" | rev | cut -d "/" -f 1-2 | rev)"
-elif [ "$mode" = "wiki" ]; then
-    # url/wiki/stf/<name>
-    # remove # from start
-    name="$(echo "$url" | rev | cut -d "/" -f 1 | rev | sed 's/^#//')"
-fi
+case "$mode" in
+    normal)
+        # ask name to user
+        printf "%s" "bookmark name: "
+        read -r name
+    ;;
+    copy)
+        # name is the same as url without http(s)://(www.)
+        name="$(echo "$url" | sed 's/^http\(s\|\):\/\/\(www\.\|\)//')"
+    ;;
+    article)
+        # url/wiki/stf/<name>
+        # remove # from start
+        name="$(echo "$url" | rev | cut -d "/" -f 1 | rev | sed 's/^#//')"
+    ;;
+    repo)
+        # name is <user>/<project>
+        name="$(echo "$url" | rev | cut -d "/" -f 1-2 | rev)"
+    ;;
+esac
 
 printf "%s" "$url" >> "$file"
 printf " %s\n" "$name" >> "$file"
