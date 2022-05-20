@@ -26,6 +26,9 @@ max-browser-tabs 16
 # is downloaded and the result used as content instead (no)
 download-full-page yes
 
+# sortfield specifies which feed property shall be used for sorting
+# feed-sort-order lastupdated
+
 # operations executed on startup separated by semicolons
 run-on-startup next-unread
 

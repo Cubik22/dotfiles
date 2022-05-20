@@ -9,7 +9,7 @@ else
         normal)
             riverctl spawn "chromium-wayland"
         ;;
-        private)
+        private-incognito)
             riverctl spawn "chromium-wayland --incognito"
         ;;
         *)

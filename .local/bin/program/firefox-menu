@@ -6,9 +6,9 @@ actions=$(cat << EOF
 normal
 hard
 soft
-normal-private
-hard-private
-soft-private
+normal-private-incognito
+hard-private-incognito
+soft-private-incognito
 start-all
 kill-all
 restart-all
@@ -22,7 +22,7 @@ firefox_data="${XDG_DATA_HOME:-$HOME/.local/share}/firefox"
 [ ! -d "$firefox_data" ] && mkdir -p "$firefox_data"
 
 case "$result" in
-    normal|hard|soft|normal-private|hard-private|soft-private)
+    normal|hard|soft|normal-private-incognito|hard-private-incognito|soft-private-incognito)
         riverctl spawn "firefox-spawn $result"
         # nohup firefox-spawn "$result" >"$firefox_data/$result.log" 2>&1
     ;;

@@ -4,7 +4,7 @@
 
 actions=$(cat << EOF
 normal
-private
+private-incognito
 start-all
 kill-all
 restart-all
@@ -18,7 +18,7 @@ chromium_data="${XDG_DATA_HOME:-$HOME/.local/share}/chromium"
 [ ! -d "$chromium_data" ] && mkdir -p "$chromium_data"
 
 case "$result" in
-    normal|private)
+    normal|private-incognito)
         riverctl spawn "chromium-spawn $result"
         # nohup chromium-spawn "$result" >"$chromium_data/$result.log" 2>&1
     ;;

@@ -15,13 +15,13 @@ else
         soft)
             riverctl spawn "firefox -P soft"
         ;;
-        normal-private)
+        normal-private-incognito)
             riverctl spawn "firefox -P normal --private-window"
         ;;
-        hard-private)
+        hard-private-incognito)
             riverctl spawn "firefox -P hard --private-window"
         ;;
-        soft-private)
+        soft-private-incognito)
             riverctl spawn "firefox -P soft --private-window"
         ;;
         *)

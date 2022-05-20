@@ -52,26 +52,36 @@ open=false
 quality=false
 
 for param in "$@"; do
-    if [ "$param" = "-h" ] || [ "$param" = "--help" ]; then
-        echo "$print_info"
-        return 0
-    elif [ "$param" = "-f" ] || [ "$param" = "--fullscreen" ]; then
-        fullscreen=true
-    elif [ "$param" = "-a" ] || [ "$param" = "--audio" ]; then
-        audio=true
-    elif [ "$param" = "-o" ] || [ "$param" = "--keep-open" ]; then
-        open=true
-    elif [ "$param" = "--best" ]; then
-        quality="best"
-    elif [ "$param" = "--medium" ]; then
-        quality="medium"
-    elif [ "$param" = "--worst" ]; then
-        quality="worst"
-    elif [ "$param" = "--no-ytdl" ]; then
-        quality=false
-    else
-        url="$param"
-    fi
+    case "$param" in
+        -h|--help)
+            echo "$print_info"
+            return 0
+        ;;
+        -f|--fullscreen)
+            fullscreen=true
+        ;;
+        -a|--audio)
+            audio=true
+        ;;
+        -o|--keep-open)
+            open=true
+        ;;
+        --best)
+            quality="best"
+        ;;
+        --medium)
+            quality="medium"
+        ;;
+        --worst)
+            quality="worst"
+        ;;
+        --no-ytdl)
+            quality=false
+        ;;
+        *)
+            url="$param"
+        ;;
+    esac
 done
 
 if [ "$fullscreen" = "true" ]; then
@@ -93,13 +103,17 @@ else
     parameters="$parameters --keep-open=no"
 fi
 
-if [ "$quality" = "best" ]; then
-    ytdl_format="best"
-elif [ "$quality" = "medium" ]; then
-    ytdl_format="best[height<=480]"
-elif [ "$quality" = "worst" ]; then
-    ytdl_format="worst"
-fi
+case "$quality" in
+    best)
+        ytdl_format="best"
+    ;;
+    medium)
+        ytdl_format="best[height<=480]"
+    ;;
+    worst)
+        ytdl_format="worst"
+    ;;
+esac
 
 # check if format is available
 if [ -n "$ytdl_format" ]; then
