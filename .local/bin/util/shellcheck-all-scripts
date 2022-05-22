@@ -1,8 +1,23 @@
 #!/bin/sh
 
-directories_path="$(find -L "${XDG_BIN_HOME:-$HOME/.local/bin}" -mindepth 1 -type d)"
-for directory in $directories_path; do
-    relative="$(echo "$directory" | cut -d "/" -f "4-")"
-    printf "\nshellcheck directory: %s\n" "$relative"
-    shellcheck "$directory"/*
+scripts_path="$(find -L "${XDG_BIN_HOME:-$HOME/.local/bin}" -mindepth 1 -type d)"
+for script_dir in $scripts_path; do
+    script_relative="$(echo "$script_dir" | cut -d "/" -f "4-")"
+    printf "\nshellcheck directory: %s\n" "$script_relative"
+    shellcheck "$script_dir"/*
 done
+
+shell_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/shell"
+shell_relative="$(echo "$shell_config_dir" | cut -d "/" -f "4-")"
+printf "\nshellcheck directory: %s\n" "$shell_relative"
+shellcheck "$shell_config_dir"/*
+
+river_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/river"
+river_relative="$(echo "$river_config_dir" | cut -d "/" -f "4-")"
+printf "\nshellcheck directory: %s\n" "$river_relative"
+shellcheck "$river_config_dir"/*
+
+nnn_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/plugins"
+nnn_relative="$(echo "$nnn_config_dir" | cut -d "/" -f "4-")"
+printf "\nshellcheck directory: %s\n" "$nnn_relative"
+shellcheck "$nnn_config_dir"/*
