@@ -2,6 +2,8 @@
 
 # adapted from: https://www.schaffter.ca/mom/momdoc/appendices.html#install-font
 
+# shellcheck disable=SC1000-SC9999
+
 set -e
 set -o posix
 

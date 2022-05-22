@@ -3,5 +3,5 @@
 file="$(mktemp wl-clipboard-XXXXXX)"
 "$PASTE_CMD" > "$file"
 kak "$file"
-cat "$file" | "$COPY_CMD" -n
+"$COPY_CMD" -n < "$file"
 rm -f "$file"

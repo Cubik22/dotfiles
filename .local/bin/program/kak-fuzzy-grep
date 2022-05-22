@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # Search for text in files using ripgrep
 # Interactively restart ripgrep with reload action
@@ -17,23 +17,33 @@
 
 # see https://github.com/junegunn/fzf#3-interactive-ripgrep-integration
 
-RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
-INITIAL_QUERY=""
+session_id="$1"
+client_id="$2"
 
-# switch between rg and fzf
-IFS=: read -ra selected < <(
-    FZF_DEFAULT_COMMAND="$RG_PREFIX $(printf %q "$INITIAL_QUERY")" \
+RG_OPTIONS="--column --line-number --no-heading --color=always --smart-case"
+
+fzf_grep="$(
+    # shellcheck disable=SC2086
+    rg $RG_OPTIONS "" |
     fzf \
         --ansi \
-        --disabled \
-        --query "$INITIAL_QUERY" \
-        --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
-        --bind "ctrl-f:unbind(change,ctrl-f)+change-prompt(fzf> )+enable-search+clear-query+rebind(ctrl-r)" \
-        --bind "ctrl-r:unbind(ctrl-r)+change-prompt(ripgrep> )+disable-search+reload($RG_PREFIX {q} || true)+rebind(change,ctrl-f)" \
-        --prompt 'ripgrep> ' \
+        --color "hl:-1:underline,hl+:-1:underline:reverse" \
         --delimiter : \
         --preview 'bat --color=always --paging=never --theme=gruvbox-dark --style="numbers,changes" {1} --highlight-line {2}'
-)
+)"
+file="$(
+    echo "$fzf_grep" |
+    cut -d ":" -f 1
+)"
+line="$(
+    echo "$fzf_grep" |
+    cut -d ":" -f 2
+)"
+
+#!/usr/bin/env bash
+
+# RG_PREFIX="rg $RG_OPTIONS "
+# INITIAL_QUERY=""
 
 # use just rg
 # IFS=: read -ra selected < <(
@@ -45,8 +55,23 @@ IFS=: read -ra selected < <(
 #         # --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'
 # )
 
-session_id="$1"
-client_id="$2"
+# switch between rg and fzf
+# IFS=: read -ra selected < <(
+#     FZF_DEFAULT_COMMAND="$RG_PREFIX $(printf %q "$INITIAL_QUERY")" \
+#     fzf \
+#         --ansi \
+#         --disabled \
+#         --query "$INITIAL_QUERY" \
+#         --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
+#         --bind "ctrl-f:unbind(change,ctrl-f)+change-prompt(fzf> )+enable-search+clear-query+rebind(ctrl-r)" \
+#         --bind "ctrl-r:unbind(ctrl-r)+change-prompt(ripgrep> )+disable-search+reload($RG_PREFIX {q} || true)+rebind(change,ctrl-f)" \
+#         --prompt 'ripgrep> ' \
+#         --delimiter : \
+#         --preview 'bat --color=always --paging=never --theme=gruvbox-dark --style="numbers,changes" {1} --highlight-line {2}'
+# )
 
-printf -- '%s\n' "eval -client ${client_id} edit -existing ${selected[0]} ${selected[1]}" |
+# file="${selected[0]}"
+# line="${selected[1]}"
+
+printf -- '%s\n' "eval -client ${client_id} edit -existing ${file} ${line}" |
     kak -p "${session_id}"

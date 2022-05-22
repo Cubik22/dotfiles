@@ -28,6 +28,7 @@ evaluate-commands %sh{
         ui.kak/rc/ui.kak
         kakoune-text-objects/text-objects.kak
         kakoune-palette/palette.kak
+        kakoune-cd/cd.kak
         kakoune-state-save/state-save.kak
         kakoune-shellcheck/shellcheck.kak
         tiny.kak/rc/tiny.kak

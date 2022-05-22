@@ -1,0 +1,8 @@
+#!/bin/sh
+
+directories_path="$(find -L "${XDG_BIN_HOME:-$HOME/.local/bin}" -mindepth 1 -type d)"
+for directory in $directories_path; do
+    relative="$(echo "$directory" | cut -d "/" -f "4-")"
+    printf "\nshellcheck directory: %s\n" "$relative"
+    shellcheck "$directory"/*
+done

@@ -131,7 +131,7 @@ unset bash_data
 ### fzf
 
 # FZF_DEFAULT_COMMAND is used in multiple places
-export FZF_DEFAULT_COMMAND='fd --hidden --follow --exclude ".git" --exclude ".hg" --exclude ".svn" --color=always --full-path --strip-cwd-prefix'
+export FZF_DEFAULT_COMMAND='fd --hidden --follow --exclude=.git --exclude=.hg --exclude=.svn --color=always --full-path --strip-cwd-prefix'
 # gruvbox hard dark color and other default options
 # --multi --cycle
 # --color "hl:-1:underline,hl+:-1:underline:reverse"

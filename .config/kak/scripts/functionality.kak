@@ -44,14 +44,7 @@ define-command -docstring 'grep find files' find -menu -params 1 -shell-script-c
 # fzf
 define-command -docstring 'open files with fzf' fuzzy-files %{
     try %sh{
-        footclient --app-id 'float' sh -c "kak-fuzzy-files $kak_session $kak_client"
-    }
-}
-
-# nnn
-define-command -docstring 'open file with nnn' nnn-open %{
-    try %sh{
-        footclient --app-id 'float' sh -c "kak-nnn $kak_session $kak_client"
+        footclient --app-id 'float' -w "${FZF_RG_WIDTH}x${FZF_RG_HEIGHT}" sh -c "kak-fuzzy-files $kak_session $kak_client"
     }
 }
 
@@ -59,5 +52,12 @@ define-command -docstring 'open file with nnn' nnn-open %{
 define-command -docstring 'search with ripgrep and fzf' fuzzy-grep %{
     try %sh{
         footclient --app-id 'float' -w "${FZF_RG_WIDTH}x${FZF_RG_HEIGHT}" sh -c "kak-fuzzy-grep $kak_session $kak_client"
+    }
+}
+
+# nnn
+define-command -docstring 'open file with nnn' nnn-open %{
+    try %sh{
+        footclient --app-id 'float' -w "${FZF_RG_WIDTH}x${FZF_RG_HEIGHT}" sh -c "kak-nnn $kak_session $kak_client"
     }
 }
