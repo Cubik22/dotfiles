@@ -102,12 +102,12 @@ riverctl map normal "$gui" V spawn 'mpv-url $(wl-paste-env)'
 # Gui+T play copied url with mpv with ytdl mode and medium quality
 # shellcheck disable=SC2016
 riverctl map normal "$gui" T spawn 'mpv-url --medium $(wl-paste-env)'
-# Gui+Shift+T play copied url with mpv with ytdl mode and best quality
+# Gui+Shift+T play copied url with mpv with ytdl mode and worst quality
 # shellcheck disable=SC2016
-riverctl map normal "$gui"+Shift T spawn 'mpv-url --best $(wl-paste-env)'
-# Gui+Control+T play copied url with mpv with ytdl mode and worst quality
+riverctl map normal "$gui"+Shift T spawn 'mpv-url --worst $(wl-paste-env)'
+# Gui+Control+T play copied url with mpv with ytdl mode and best quality
 # shellcheck disable=SC2016
-riverctl map normal "$gui"+Control T spawn 'mpv-url --worst $(wl-paste-env)'
+riverctl map normal "$gui"+Control T spawn 'mpv-url --best $(wl-paste-env)'
 
 # Gui+Shift+F firefox menu
 riverctl map normal "$gui"+Shift F spawn "footclient-float firefox-menu"

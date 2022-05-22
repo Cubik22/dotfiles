@@ -134,12 +134,12 @@ colorscheme gruvbox-hard-dark
 
 # shades of green/yellow for insert mode
 hook global ModeChange (push|pop):.*:insert %{
-    set-face window PrimarySelection        white,bright-green+g
-    set-face window SecondarySelection      black,bright-green+g
-    set-face window PrimaryCursor           black,bright-yellow+fg
-    set-face window SecondaryCursor         black,bright-green+fg
-    set-face window PrimaryCursorEol        black,bright-yellow
-    set-face window SecondaryCursorEol      black,bright-green
+    set-face window PrimarySelection        white,green+g
+    set-face window SecondarySelection      black,green+g
+    set-face window PrimaryCursor           black,yellow+fg
+    set-face window SecondaryCursor         black,green+fg
+    set-face window PrimaryCursorEol        black,yellow
+    set-face window SecondaryCursorEol      black,green
 }
 
 # undo colour changes when leaving insert mode

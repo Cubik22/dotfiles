@@ -6,7 +6,7 @@ actions=$(cat << EOF
 normal
 private-incognito
 start-all
-kill-all
+xkill-all
 restart-all
 EOF
 )
@@ -26,7 +26,7 @@ case "$result" in
         riverctl spawn "chromium-spawn-all"
         # nohup chromium-spawn-all >"$chromium_data/start-all.log" 2>&1
     ;;
-    kill-all)
+    xkill-all)
         killall chromium
         # nohup killall chromium >"$chromium_data/kill-all.log" 2>&1
     ;;

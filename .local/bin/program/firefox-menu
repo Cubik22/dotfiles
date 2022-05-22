@@ -10,7 +10,7 @@ normal-private-incognito
 hard-private-incognito
 soft-private-incognito
 start-all
-kill-all
+xkill-all
 restart-all
 EOF
 )
@@ -30,7 +30,7 @@ case "$result" in
         riverctl spawn "firefox-spawn-all"
         # nohup firefox-spawn-all >"$firefox_data/start-all.log" 2>&1
     ;;
-    kill-all)
+    xkill-all)
         killall firefox
         # nohup killall firefox >"$firefox_data/kill-all.log" 2>&1
     ;;

@@ -75,8 +75,8 @@ macro ^R set browser firefox; open-in-browser-and-mark-read; set browser lynx --
 macro a set browser "riverctl spawn \"mpv-url --audio %u\""; open-in-browser-and-mark-read; set browser lynx -- "audio mpv"
 macro v set browser "riverctl spawn \"mpv-url %u\""; open-in-browser-and-mark-read; set browser lynx -- "video mpv"
 macro t set browser "riverctl spawn \"mpv-url --medium %u\""; open-in-browser-and-mark-read; set browser lynx -- "ytdl medium mpv"
-macro T set browser "riverctl spawn \"mpv-url --best %u\""; open-in-browser-and-mark-read; set browser lynx -- "ytdl best mpv"
-macro ^T set browser "riverctl spawn \"mpv-url --worst %u\""; open-in-browser-and-mark-read; set browser lynx -- "ytdl worst mpv"
+macro T set browser "riverctl spawn \"mpv-url --worst %u\""; open-in-browser-and-mark-read; set browser lynx -- "ytdl worst mpv"
+macro ^T set browser "riverctl spawn \"mpv-url --best %u\""; open-in-browser-and-mark-read; set browser lynx -- "ytdl best mpv"
 
 # wrap
 macro j set text-width 80 -- "text width half page"

@@ -9,8 +9,8 @@ map global normal <backspace> <space> -docstring 'remove all selections except m
 map global normal <a-backspace> <a-space> -docstring 'remove main selection'
 
 # remap 'i' and 'a' to enter insert mode without keeping selection
-map global normal i hli -docstring 'enter insert mode before cursor'
-map global normal a li -docstring 'enter insert mode after cursor'
+map global normal i <semicolon>i -docstring 'enter insert mode before cursor'
+map global normal a a<esc>li -docstring 'enter insert mode after cursor'
 
 # switch r and R
 map global normal r R -docstring 'replace all'
