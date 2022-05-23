@@ -1,0 +1,70 @@
+#!/bin/sh
+
+info=$(cat << EOF
+check-all-scripts [-b,--bashism]
+run shellcheck on all scripts
+if -b or --bashism is specified run also checkbashisms
+EOF
+)
+
+run_checkbashism=false
+
+if [ "$#" -ne 0 ]; then
+    case "$1" in
+        -h|--help)
+            echo "$info"
+            return 0
+        ;;
+        -b|--bashism)
+            run_checkbashism=true
+        ;;
+        *)
+            echo "error: parameter not recognized"
+            echo "$info"
+            return 1
+        ;;
+    esac
+fi
+
+check() {
+    destination="$1"
+    relative="$(echo "$destination" | cut -d "/" -f "4-")"
+    if [ -d "$destination" ]; then
+        printf "\nshellcheck directory: %s\n" "$relative"
+        shellcheck "$destination"/*
+        if [ "$run_checkbashism" = "true" ]; then
+            printf "\ncheckbashisms directory: %s\n" "$relative"
+            checkbashisms "$destination"/*
+        fi
+    else
+        printf "\nshellcheck file: %s\n" "$relative"
+        shellcheck "$destination"
+        if [ "$run_checkbashism" = "true" ]; then
+            printf "\ncheckbashisms file: %s\n" "$relative"
+            checkbashisms "$destination"
+        fi
+    fi
+}
+
+scripts_path="$(find -L "${XDG_BIN_HOME:-$HOME/.local/bin}" -mindepth 1 -type d)"
+for script_dir in $scripts_path; do
+    check "$script_dir"
+done
+
+shell_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/shell"
+check "$shell_config_dir"
+
+river_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/river"
+check "$river_config_dir"
+
+nnn_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/plugins"
+check "$nnn_config_dir"
+
+bash_profile_file="$HOME/.bash_profile"
+check "$bash_profile_file"
+
+bash_logout="$HOME/.bash_logout"
+check "$bash_logout"
+
+bashrc_file="$HOME/.bashrc"
+check "$bashrc_file"
