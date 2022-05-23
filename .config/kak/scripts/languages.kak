@@ -95,7 +95,7 @@ hook global WinSetOption language_options=true %{
 }
 
 # shell settings
-hook global BufCreate .*[.](inputrc|octaverc) %{
+hook global BufCreate .*[.](octaverc) %{
     set-option buffer filetype sh
 }
 hook global BufCreate .*(renviron|rprofile) %{

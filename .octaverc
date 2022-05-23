@@ -10,7 +10,7 @@ graphics_toolkit("gnuplot");
 # use man instead of help
 function man (name = "help");
 	# lock in memory so it's not removed by clear all
-	mlock(); 
+	mlock();
 	help(char(name));
 endfunction
 
