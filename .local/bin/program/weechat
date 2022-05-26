@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# start weechat in a detach session or connect to an existing session
+
+user_id="$(id --user)"
+weechat_socket="/tmp/weechat-dtach-$user_id"
+dtach -A "$weechat_socket" -Ez /usr/bin/weechat

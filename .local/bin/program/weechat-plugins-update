@@ -52,12 +52,15 @@ build() {
 
 # link files to scripts and script-opts
 link() {
-    ln -sfv "$plugins_cloned_dir/xmpp/jabber.py" "$WEECHAT_HOME/python/autoload/"
-    # ln -sfv "$plugins_cloned_dir/scripts/python/jabber.py" "$WEECHAT_HOME/python/autoload/"
+    python_autoload="$config_dir/python/autoload"
+    [ ! -d "$python_autoload" ] && mkdir -p "$python_autoload"
+
+    ln -sfv "$plugins_cloned_dir/xmpp/jabber.py" "$python_autoload"
+    # ln -sfv "$plugins_cloned_dir/scripts/python/jabber.py" "$python_autoload"
 
     # this version is more updated
-    ln -sfv "$plugins_cloned_dir/scripts/python/vimode.py" "$WEECHAT_HOME/python/autoload/"
-    # ln -sfv "$plugins_cloned_dir/vimode/vimode.py" "$WEECHAT_HOME/python/autoload/"
+    ln -sfv "$plugins_cloned_dir/scripts/python/vimode.py" "$python_autoload"
+    # ln -sfv "$plugins_cloned_dir/vimode/vimode.py" "$python_autoload"
 }
 
 clone_pull
