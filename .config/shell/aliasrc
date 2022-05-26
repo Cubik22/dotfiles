@@ -210,6 +210,8 @@ if [ "$OS_TYPE" = "desktop" ]; then
     alias ppl="pcon pull"
     alias pps="pcon push"
 
+    alias pad-all="pcon-add-all"
+
     # rcon
     if [ "$LOGNAME" = "root" ] || [ "$(id -u)" -eq 0 ]; then
         alias rst="rcon status"
@@ -252,6 +254,7 @@ else
     # shellcheck disable=SC2139
     alias ups="git -C $dotfiles_dir push"
     unset dotfiles_dir
+
     # pcon
     private_dir="$HOME/private"
     # shellcheck disable=SC2139
@@ -271,6 +274,7 @@ else
     # shellcheck disable=SC2139
     alias pps="git -C $private_dir push"
     unset private_dir
+
     # rcon
     config_dir="$HOME/config"
     # shellcheck disable=SC2139

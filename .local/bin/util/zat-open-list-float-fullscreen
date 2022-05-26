@@ -2,7 +2,7 @@
 
 info=$(cat << EOF
 SYNOPSIS
-        zat-open-list-float-fullscreen [-t tag] [-d directory] [-s start] [-e end]
+        zat-open-list-float-fullscreen [[option]...]
 
 DESCRIPTION
         open a list of files with zathura
@@ -78,14 +78,16 @@ find_open_file() {
     program="$2"
 
     # try wit and without 0 in front of file number
-    file="$(fd --type file --type symlink --exact-depth 1 "^0*${current}($|[^0-9])")"
+    files="$(fd --type file --type symlink --exact-depth 1 "^0*${current}($|[^0-9])")"
 
-    if [ -f "$file" ]; then
-        open_file "$program" "$file"
-        return 0
-    else
-        return 1
-    fi
+    for file in $files; do
+        if [ -f "$file" ]; then
+            open_file "$program" "$file"
+        else
+            return 1
+        fi
+    done
+    return 0
 }
 
 order=true
