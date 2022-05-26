@@ -1,10 +1,6 @@
 #!/bin/sh
 
-if [ -z "${WEECHAT_HOME}" ]; then
-    export WEECHAT_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/weechat"
-fi
-
-config_dir="$WEECHAT_HOME"
+config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/weechat"
 plugins_dir="$config_dir/plugins"
 plugins_cloned_dir="$config_dir/plugins-cloned"
 
@@ -52,7 +48,7 @@ build() {
 
 # link files to scripts and script-opts
 link() {
-    python_autoload="$config_dir/python/autoload"
+    python_autoload="${XDG_DATA_HOME:-$HOME/.local/share}/weechat/python/autoload"
     [ ! -d "$python_autoload" ] && mkdir -p "$python_autoload"
 
     ln -sfv "$plugins_cloned_dir/xmpp/jabber.py" "$python_autoload"

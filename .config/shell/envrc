@@ -256,7 +256,11 @@ export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/rc"
 export MBSYNCRC="$XDG_CONFIG_HOME/mbsync/mbsyncrc"
 
 # weechat
-export WEECHAT_HOME="$XDG_CONFIG_HOME/weechat"
+# With an empty value (recommended), XDG directories are used by default. If
+# non empty, a single directory for all files is used. The value can
+# also be 4 directories separated by colons, in this order: config, data,
+# cache, runtime.
+# export WEECHAT_HOME="$XDG_CONFIG_HOME/weechat"
 
 # notmuch
 # export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch-config"
