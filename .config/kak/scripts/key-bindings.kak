@@ -51,10 +51,10 @@ map global normal . <a-.>
 map global normal <a-.> .
 
 # select paragraphs
-map global normal \' ]p
-map global normal <a-'> [p
-map global normal \" }p
-map global normal <a-"> {p
+map global normal \" ]p
+map global normal <a-"> [p
+map global normal \' }p
+map global normal <a-'> {p
 
 # registers
 map global normal ^ \"
