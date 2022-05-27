@@ -61,6 +61,7 @@ link() {
     # old
     # ln -sfv "$plugins_cloned_dir/vimode/vimode.py" "$python_autoload"
 
+    ln -sfv "$plugins_cloned_dir/scripts/python/cmd_help.py" "$python_autoload"
     ln -sfv "$plugins_cloned_dir/scripts/python/buffer_autoset.py" "$python_autoload"
 }
 
