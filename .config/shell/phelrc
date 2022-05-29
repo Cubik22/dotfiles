@@ -276,6 +276,7 @@ tr
 time
 date cal
 uname
+pv
 diff -u
 ps -e
 pidof

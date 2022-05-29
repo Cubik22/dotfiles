@@ -19,7 +19,7 @@ export XKB_DEFAULT_LAYOUT="us"
 # remap "< >" key which is extra in us iso layout
 
 # remap "< >" key to enter level 2 (shift)
-export XKB_DEFAULT_OPTIONS="caps:escape_shifted_capslock,lv2:lsgt_switch"
+# export XKB_DEFAULT_OPTIONS="caps:escape_shifted_capslock,lv2:lsgt_switch"
 # remap "< >" key to compose key
 # export XKB_DEFAULT_OPTIONS="caps:escape_shifted_capslock,compose:102"
 
