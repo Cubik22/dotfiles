@@ -1,0 +1,82 @@
+#!/bin/sh
+
+# https://github.com/Bugswriter/myyt
+
+info=$(cat << EOF
+ytplay [option] search query
+search and play with invidious
+if search query is not specified it is asked
+
+options
+    -h, --help
+        print this info and exit
+    --river
+        start mpv with river
+EOF
+)
+
+river=false
+
+if [ "$#" -ne 0 ]; then
+    case "$1" in
+        -h|--help)
+            echo "$info"
+            return 0
+        ;;
+        --river)
+            river=true
+            shift 1
+        ;;
+    esac
+fi
+
+if [ "$#" -eq 0 ]; then
+    printf "search query: "
+    read -r query_space
+else
+    query_space="$*"
+fi
+
+query="$( \
+    echo "$query_space" | \
+    sed 's/ /+/g' \
+)"
+
+query_site="https://vid.puffyan.us"
+# query_site="https://inv.riverside.rocks"
+# query_site="https://invidious.osi.kr"
+# query_site="https://y.com.sb"
+# query_site="https://tube.cthd.icu"
+
+play_site="https://yewtu.be"
+
+urlstring="${query_site}/api/v1/search?&q=${query}&type=video"
+# urlstring="${query_site}/api/v1/search?&q=${query}&type=video&pretty=1"
+# echo "$urlstring"
+
+video_id="$( \
+    curl -s "$urlstring" | \
+    jq --raw-output '.[] | "\(.author) | \(.title) \(.videoId)"' | \
+    fzf --with-nth='1..-2' --no-multi --prompt 'video: ' | \
+    awk '{print $NF}' \
+)"
+[ -z "$video_id" ] && return 0
+video_url="$play_site/$video_id"
+
+options=$(cat << EOF
+normal
+best
+medium
+worst
+audio
+EOF
+)
+
+option="$(echo "$options" | fzf --prompt 'option: ')"
+[ -z "$option" ] && return 0
+
+if [ "$river" = "false" ]; then
+    mpv-url --"$option" "$video_url"
+else
+    riverctl spawn "mpv-url --$option $video_url"
+fi

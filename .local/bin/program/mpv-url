@@ -41,7 +41,7 @@ DESCRIPTION
         --worst
             use ytdl with worst quality
 
-        --no-ytdl
+        --no-ytdl, --normal
             do not use ytdl mode (default)
 EOF
 )
@@ -75,7 +75,7 @@ for param in "$@"; do
         --worst)
             quality="worst"
         ;;
-        --no-ytdl)
+        --no-ytdl|--normal)
             quality=false
         ;;
         *)

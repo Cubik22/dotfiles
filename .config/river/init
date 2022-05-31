@@ -54,7 +54,7 @@ alt="Mod1"
 # Delete Return Backspace Space Period Comma
 # {Up,Right,Down,Left} [0-9] F11
 # {H,J,K,L} Q F U N P
-# S E Z B I C M A V T
+# S E Z B I C M A V T Y
 
 # Gui+Control+Space footclient
 riverctl map normal "$gui"+Control Space spawn "footclient"
@@ -108,6 +108,9 @@ riverctl map normal "$gui"+Shift T spawn 'mpv-url --worst $(wl-paste-env)'
 # Gui+Control+T play copied url with mpv with ytdl mode and best quality
 # shellcheck disable=SC2016
 riverctl map normal "$gui"+Control T spawn 'mpv-url --best $(wl-paste-env)'
+
+# Gui+Y search and play invidious
+riverctl map normal "$gui" Y spawn "footclient-float ytplay --river"
 
 # Gui+Shift+F firefox menu
 riverctl map normal "$gui"+Shift F spawn "footclient-float firefox-menu"
