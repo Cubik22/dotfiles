@@ -1,0 +1,133 @@
+#!/bin/sh
+
+# https://github.com/Bugswriter/myyt
+# https://codeberg.org/librarian/documentation
+
+info=$(cat << EOF
+play [option] search query
+search and play with invidious (default) or odysee
+if search query is not specified it is asked
+
+options:
+    -h, --help
+        print this info and exit
+    --invidious, --youtube
+        search invidious (default)
+    --odysee, --lbry, --librarian
+        search odysee
+    --river
+        start mpv with river
+EOF
+)
+
+website="invidious"
+river=false
+
+if [ "$#" -ne 0 ]; then
+    while [ "$#" -gt 0 ]; do
+        case "$1" in
+            -h|--help)
+                echo "$info"
+                return 0
+            ;;
+            --invidious|--youtube)
+                website="invidious"
+                shift 1
+            ;;
+            --odysee|--lbry|--librarian)
+                website="odysee"
+                shift 1
+            ;;
+            --river)
+                river=true
+                shift 1
+            ;;
+            *)
+                break
+            ;;
+        esac
+    done
+fi
+
+if [ "$#" -eq 0 ]; then
+    printf "search query: "
+    read -r query_space
+else
+    query_space="$*"
+fi
+
+# query="$( \
+#     echo "$query_space" | \
+#     sed 's/ /+/g' \
+# )"
+
+max_results=40
+
+if [ "$website" = "invidious" ]; then
+    query="$( \
+        echo "$query_space" | \
+        tr ' ' '+' \
+    )"
+
+    invidious_query_site="https://vid.puffyan.us"
+    # invidious_query_site="https://inv.riverside.rocks"
+    # invidious_query_site="https://invidious.osi.kr"
+    # invidious_query_site="https://y.com.sb"
+    # invidious_query_site="https://tube.cthd.icu"
+
+    invidious_play_site="https://yewtu.be"
+
+    invidious_url_string="${invidious_query_site}/api/v1/search?q=${query}&type=video"
+    # invidious_url_string="${invidious_query_site}/api/v1/search?q=${query}&type=video&pretty=1"
+
+    invidious_video_id="$( \
+        curl -s "$invidious_url_string" | \
+        jq --raw-output '.[] | "\(.author) | \(.title) \(.videoId)"' | \
+        fzf --with-nth='1..-2' --no-multi --prompt 'invidious: ' | \
+        awk '{print $NF}' \
+    )"
+    [ -z "$invidious_video_id" ] && return 0
+
+    video_url="$invidious_play_site/$invidious_video_id"
+elif [ "$website" = "odysee" ]; then
+    query="$( \
+        echo "$query_space" | \
+        tr ' ' '-' \
+    )"
+
+    odysee_query_site="https://lighthouse.odysee.com"
+    # odysee_query_site="https://lighthouse.odysee.tv"
+    # odysee_query_site="https://lighthouse.lbry.com"
+
+    odysee_play_site="https://lbry.bcow.xyz"
+    # odysee_play_site="https://odysee.com"
+
+    odysee_url_string="${odysee_query_site}/search?s=${query}&size=${max_results}&claimType=file"
+
+    odysee_video_id="$( \
+        curl -s "$odysee_url_string" | \
+        jq --raw-output '.[] | "\(.name)"' | \
+        fzf --no-multi --prompt 'odysee: '\
+    )"
+    [ -z "$odysee_video_id" ] && return 0
+
+    video_url="$odysee_play_site/$odysee_video_id"
+fi
+
+options=$(cat << EOF
+normal
+best
+medium
+worst
+audio
+EOF
+)
+
+option="$(echo "$options" | fzf --prompt 'option: ')"
+[ -z "$option" ] && return 0
+
+if [ "$river" = "false" ]; then
+    mpv-url --"$option" "$video_url"
+else
+    riverctl spawn "mpv-url --$option $video_url"
+fi

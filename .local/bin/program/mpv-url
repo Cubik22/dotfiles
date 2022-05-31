@@ -123,6 +123,7 @@ if [ -n "$ytdl_format" ]; then
     fi
 fi
 
+echo "url: $url"
 echo "parameters passed to mpv:"
 echo "$parameters"
 echo
