@@ -5,7 +5,8 @@
 actions=$(cat << EOF
 copy-normal
 copy-search
-make-dir
+make-dir-child
+make-dir-root
 edit-normal
 edit-paste
 add-normal
@@ -21,7 +22,8 @@ result="$(echo "$actions" | fzf --prompt 'bookmark: ')"
 case "$result" in
     copy-normal) bookmark-copy ;;
     copy-search) bookmark-copy --from-clipboard ;;
-    make-dir) bookmark-create-directory ;;
+    make-dir-child) bookmark-create-directory child;;
+    make-dir-root) bookmark-create-directory root;;
     edit-normal) bookmark-edit ;;
     edit-paste) bookmark-edit --paste ;;
     add-normal) bookmark-add normal;;

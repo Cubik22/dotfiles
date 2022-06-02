@@ -1,7 +1,11 @@
 #!/bin/sh
 
+# resources:
 # https://github.com/Bugswriter/myyt
+# https://gitlab.com/TrueAuraCoral/otv-odysee-terminal-viewer/-/blob/main/OTV
 # https://codeberg.org/librarian/documentation
+# https://github.com/trizen/pipe-viewer
+# https://github.com/trizen/lbry-viewer
 
 info=$(cat << EOF
 play [option] search query
