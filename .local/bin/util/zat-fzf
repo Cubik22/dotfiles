@@ -1,0 +1,55 @@
+#!/bin/sh
+
+info=$(cat << EOF
+zat-fzf [base-directory]
+open a file to be read by zathura with fzf
+if base-directory is not specified consider ~/doc
+EOF
+)
+
+river=false
+
+if [ "$#" -ne 0 ]; then
+    while [ "$#" -gt 0 ]; do
+        case "$1" in
+            -h|--help)
+                echo "$info"
+                return 0
+            ;;
+            --river)
+                river=true
+                shift 1
+            ;;
+            *)
+                break
+            ;;
+        esac
+    done
+fi
+
+if [ "$#" -eq 0 ]; then
+    base_directory="$HOME/doc"
+else
+    base_directory="$1"
+    if [ ! -d "$base_directory" ]; then
+        echo "error: base-directory is not a directory"
+        echo "$info"
+        return 1
+    fi
+fi
+
+file="$( \
+    $FZF_DEFAULT_COMMAND \
+    --type=file \
+    --type=symlink \
+    --base-directory="$base_directory" \
+    '.*pdf$|.*cbz$|.*cbr$|.*djvu$' | \
+    fzf
+)"
+[ -z "$file" ] && return 0
+
+if [ "$river" = "false" ]; then
+    zat "$base_directory/$file"
+else
+    riverctl spawn "zat \"$base_directory/$file\""
+fi
