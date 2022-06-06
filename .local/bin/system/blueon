@@ -1,4 +1,4 @@
 #!/bin/sh
 
-doas sv up bluetoothd
+doas sv up bluetoothd || return 1
 bluetoothctl power on

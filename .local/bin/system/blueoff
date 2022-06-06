@@ -1,4 +1,4 @@
 #!/bin/sh
 
-bluetoothctl power off
+bluetoothctl power off || return 1
 doas sv down bluetoothd
