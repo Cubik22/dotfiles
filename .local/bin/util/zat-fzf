@@ -49,7 +49,7 @@ file="$( \
 [ -z "$file" ] && return 0
 
 if [ "$river" = "false" ]; then
-    zat "$base_directory/$file"
+    zat "$file"
 else
-    riverctl spawn "zat \"$base_directory/$file\""
+    riverctl spawn "zat \"$file\""
 fi

@@ -49,7 +49,7 @@ scrolloff 8
 
 # if set to a number greater than 0, all HTML will be rendered
 # to this maximum line length or the terminal width
-# text-width 80
+text-width 80
 
 # default browser
 browser lynx

@@ -1,0 +1,75 @@
+#!/bin/sh
+
+info=$(cat << EOF
+TODO
+EOF
+)
+read_file=false
+
+if [ "$#" -ne 0 ]; then
+    while [ "$#" -gt 0 ]; do
+        case "$1" in
+            -h|--help)
+                echo "$info"
+                return 0
+            ;;
+            --file)
+                read_file=true
+                shift 1
+            ;;
+            *)
+                break
+            ;;
+        esac
+    done
+fi
+
+if [ "$#" -eq 0 ]; then
+    printf "channel id: "
+    read -r channel_id
+else
+    channel_id="$1"
+fi
+
+odysee_query_site="https://api.odysee.com"
+# odysee_query_site="https://api.odysee.tv"
+# odysee_query_site="https://api.lbry.com"
+# odysee_query_site="https://api.lbry.tv"
+
+if [ "$read_file" = "false" ]; then
+    odysee_url_string="${odysee_query_site}/yt/resolve?channel_ids=${channel_id}"
+
+    name="$( \
+        curl -s "$odysee_url_string" | \
+        grep "$channel_id" | \
+        sed 's/.*@//' | \
+        sed 's/#.*//' | \
+        sed 's/.* .*//' \
+    )"
+    if [ -z "$name" ]; then
+        echo "not found"
+    else
+        echo "$name"
+    fi
+else
+    file="$1"
+    while read -r line; do
+        channel_id="$( \
+            echo "$line" | \
+            sed 's/.*feed\/channel\///' | \
+            sed 's/ .*//' \
+        )"
+        odysee_url_string="${odysee_query_site}/yt/resolve?channel_ids=${channel_id}"
+
+        name="$( \
+            curl -s "$odysee_url_string" | \
+            grep "$channel_id" | \
+            sed 's/.*@//' | \
+            sed 's/#.*//' | \
+            sed 's/.* .*//' \
+        )"
+        if [ -n "$name" ]; then
+            echo "$name"
+        fi
+    done < "$file"
+fi

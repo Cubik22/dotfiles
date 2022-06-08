@@ -102,6 +102,7 @@ elif [ "$website" = "odysee" ]; then
     odysee_query_site="https://lighthouse.odysee.com"
     # odysee_query_site="https://lighthouse.odysee.tv"
     # odysee_query_site="https://lighthouse.lbry.com"
+    # odysee_query_site="https://lighthouse.lbry.tv"
 
     odysee_play_site="https://lbry.bcow.xyz"
     # odysee_play_site="https://odysee.com"
