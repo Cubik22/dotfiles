@@ -95,6 +95,7 @@ parameters="--force-window=yes --ytdl=yes \
 
 if [ "$audio" = "true" ]; then
     parameters="$parameters --video=no --script-opts=osc-visibility=always"
+    ytdl_format="bestaudio"
 fi
 
 if [ "$open" = "true" ]; then

@@ -1,10 +1,24 @@
 #!/bin/sh
 
 info=$(cat << EOF
-TODO
+lbry-youtube [--id, --line, --file] id/line/file
+check if youtube channel is on lbry/odysee
+
+options:
+    -h, --help
+        print this help and return
+    --id
+        accept a channel id as input
+        default
+    --line
+        accept a line that contains the id as input
+        usually a link
+    --file
+        accept a file with lines containing id as input
 EOF
 )
-read_file=false
+
+action="id"
 
 if [ "$#" -ne 0 ]; then
     while [ "$#" -gt 0 ]; do
@@ -13,8 +27,16 @@ if [ "$#" -ne 0 ]; then
                 echo "$info"
                 return 0
             ;;
+            --id)
+                action="id"
+                shift 1
+            ;;
+            --line)
+                action="line"
+                shift 1
+            ;;
             --file)
-                read_file=true
+                action="file"
                 shift 1
             ;;
             *)
@@ -25,49 +47,90 @@ if [ "$#" -ne 0 ]; then
 fi
 
 if [ "$#" -eq 0 ]; then
-    printf "channel id: "
-    read -r channel_id
+    case "$action" in
+        id)
+            printf "channel id: "
+            read -r channel_id
+        ;;
+        line)
+            printf "line: "
+            read -r line
+        ;;
+        file)
+            printf "file: "
+            read -r file
+        ;;
+    esac
 else
-    channel_id="$1"
+    case "$action" in
+        id)
+            channel_id="$1"
+        ;;
+        line)
+            line="$1"
+        ;;
+        file)
+            file="$1"
+        ;;
+    esac
 fi
 
-odysee_query_site="https://api.odysee.com"
-# odysee_query_site="https://api.odysee.tv"
-# odysee_query_site="https://api.lbry.com"
-# odysee_query_site="https://api.lbry.tv"
+query_site="https://api.odysee.com"
+# query_site="https://api.odysee.tv"
+# query_site="https://api.lbry.com"
+# query_site="https://api.lbry.tv"
 
-if [ "$read_file" = "false" ]; then
-    odysee_url_string="${odysee_query_site}/yt/resolve?channel_ids=${channel_id}"
+search_site="https://lighthouse.odysee.com"
+# search_site="https://lighthouse.odysee.tv"
+# search_site="https://lighthouse.lbry.com"
+# search_site="https://lighthouse.lbry.tv"
 
+get_id_from_line() {
+    line="$1"
+    channel_id="$( \
+        echo "$line" | \
+        sed 's/.*\/channel\///' | \
+        sed 's/ .*//' \
+    )"
+    echo "$channel_id"
+}
+
+get_name_from_id() {
+    channel_id="$1"
+    query_site="$2"
+    url_string="${query_site}/yt/resolve?channel_ids=${channel_id}"
     name="$( \
-        curl -s "$odysee_url_string" | \
-        grep "$channel_id" | \
+        curl -s "$url_string" 2>/dev/null | \
+        grep "$channel_id" 2>dev/null | \
         sed 's/.*@//' | \
         sed 's/#.*//' | \
         sed 's/.* .*//' \
     )"
+    echo "$name"
+}
+
+search_name() {
+    name="$1"
+    search_site="$2"
+    url_string="${search_site}/search?s=${name}&size=1&claimType=channel"
+    curl -s "$url_string"
+}
+
+if [ ! "$action" = "file" ]; then
+    if [ "$action" = "line" ]; then
+        channel_id="$(get_id_from_line "$line")"
+    fi
+    name="$(get_name_from_id "$channel_id" "$query_site")"
     if [ -z "$name" ]; then
         echo "not found"
     else
         echo "$name"
+        get_correct_id "$name" "$search_site"
     fi
 else
-    file="$1"
     while read -r line; do
-        channel_id="$( \
-            echo "$line" | \
-            sed 's/.*feed\/channel\///' | \
-            sed 's/ .*//' \
-        )"
-        odysee_url_string="${odysee_query_site}/yt/resolve?channel_ids=${channel_id}"
-
-        name="$( \
-            curl -s "$odysee_url_string" | \
-            grep "$channel_id" | \
-            sed 's/.*@//' | \
-            sed 's/#.*//' | \
-            sed 's/.* .*//' \
-        )"
+        channel_id="$(get_id_from_line "$line")"
+        name="$(get_name_from_id "$channel_id" "$query_site")"
         if [ -n "$name" ]; then
             echo "$name"
         fi

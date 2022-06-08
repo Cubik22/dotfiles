@@ -1,0 +1,50 @@
+#!/bin/sh
+
+order() {
+    file="$1"
+    order=1
+    while IFS= read -r line; do
+        line_order="$( \
+            echo "$line" | \
+            grep '\"order\": [0-9]\+,'
+        )"
+        if [ -n "$line_order" ]; then
+            echo "$line" | \
+            sed "s/\"order\": [0-9]\+,/\"order\": $order,/"
+            order="$(( order + 1 ))"
+        else
+            echo "$line"
+        fi
+    done < "$file"
+}
+
+in_place=false
+if [ "$#" -ne 0 ]; then
+    case "$1" in
+        -i|--in-place)
+            in_place=true
+            shift 1
+        ;;
+    esac
+else
+    echo "error: please insert file"
+    return 1
+fi
+if [ "$#" -eq 0 ]; then
+    echo "error: please insert file"
+    return 1
+fi
+file="$1"
+if [ ! -f "$file" ]; then
+    echo "error: file inserted is not a file"
+    return 1
+fi
+
+if [ "$in_place" = "false" ]; then
+    order "$file"
+else
+    output_tmp="$(mktemp output-XXXXXX)"
+    order "$file" > "$output_tmp"
+    cat "$output_tmp" > "$file"
+    rm "$output_tmp"
+fi
