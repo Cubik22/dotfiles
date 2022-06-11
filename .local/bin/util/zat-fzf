@@ -44,7 +44,8 @@ file="$( \
     --type=symlink \
     "$@" \
     '.*pdf$|.*cbz$|.*cbr$|.*djvu$' | \
-    fzf
+    fzf \
+    --prompt 'zat: ' \
 )"
 [ -z "$file" ] && return 0
 

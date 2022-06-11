@@ -42,7 +42,7 @@ set_option_one_dash() {
     shift 1
     if [ "$#" -ge 2 ]; then
         if eval [ -z "\$$option" ]; then
-            eval "$option=$2"
+            eval "$option=\"$2\""
         else
             print_set_two_times "$option"
             return 1
@@ -59,7 +59,7 @@ set_option_two_dash() {
     option="$1"
     shift 1
     if eval [ -z "\$$option" ]; then
-        eval "$option=$(echo "$1" | cut -d '=' -f '2-')"
+        eval "$option=\"$(echo "$1" | cut -d '=' -f '2-')\""
     else
         print_set_two_times "$option"
         return 1

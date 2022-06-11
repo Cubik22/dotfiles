@@ -89,19 +89,20 @@ if [ "$fullscreen" = "true" ]; then
 fi
 
 ytdl_program="${YTDL:-yt-dlp}"
-parameters="--force-window=yes --ytdl=yes \
---script-opts=osc-visibility=never,ytdl_hook-ytdl_path=$ytdl_program"
-# parameters="--ytdl-raw-options=no-check-certificate="
+
+set -- --force-window=yes --ytdl=yes \
+--script-opts="osc-visibility=never,ytdl_hook-ytdl_path=$ytdl_program"
+# set -- --ytdl-raw-options=no-check-certificate=
 
 if [ "$audio" = "true" ]; then
-    parameters="$parameters --video=no --script-opts=osc-visibility=always"
+    set -- "$@" --video=no --script-opts=osc-visibility=always
     ytdl_format="bestaudio"
 fi
 
 if [ "$open" = "true" ]; then
-    parameters="$parameters --keep-open=yes"
+    set -- "$@" --keep-open=yes
 else
-    parameters="$parameters --keep-open=no"
+    set -- "$@" --keep-open=no
 fi
 
 case "$quality" in
@@ -119,16 +120,13 @@ esac
 # check if format is available
 if [ -n "$ytdl_format" ]; then
     if $ytdl_program --simulate --format="$ytdl_format" "$url" >/dev/null 2>&1; then
-        # shellcheck disable=SC2089
-        parameters="$parameters --ytdl-format=\\\"$ytdl_format\\\""
+        set -- "$@" --ytdl-format="$ytdl_format"
     fi
 fi
 
 echo "url: $url"
 echo "parameters passed to mpv:"
-echo "$parameters"
+echo "$@"
 echo
 
-# shellcheck disable=SC2086
-# shellcheck disable=SC2090
-mpv $parameters "$url"
+mpv "$@" "$url"

@@ -1,0 +1,54 @@
+#!/bin/sh
+
+info=$(cat << EOF
+zat-open-list-fullscreen-fzf [options passed to fd]
+open a list of files with zathura using zat-open-list-fullscreen
+optionally pass parameters to fd
+EOF
+)
+
+river=false
+
+if [ "$#" -ne 0 ]; then
+    while [ "$#" -gt 0 ]; do
+        case "$1" in
+            -h|--help)
+                echo "$info"
+                return 0
+            ;;
+            --river)
+                river=true
+            ;;
+            *)
+                break
+            ;;
+        esac
+        shift 1
+    done
+fi
+
+directory="$( \
+    $FZF_DEFAULT_COMMAND \
+    --type=directory \
+    "$@" | \
+    fzf \
+    --prompt 'zat-list: ' \
+)"
+[ -z "$directory" ] && return 0
+
+printf "wait time: "
+read -r wait_time
+
+if [ "$river" = "false" ]; then
+    if [ -n "$wait_time" ]; then
+        zat-open-list-float-fullscreen -w "$wait_time" -d "$directory"
+    else
+        zat-open-list-float-fullscreen -d "$directory"
+    fi
+else
+    if [ -n "$wait_time" ]; then
+        riverctl spawn "zat-open-list-float-fullscreen -w \"$wait_time\" -d \"$directory\""
+    else
+        riverctl spawn "zat-open-list-float-fullscreen -d \"$directory\""
+    fi
+fi

@@ -116,6 +116,8 @@ riverctl map normal "$gui" O spawn "footclient-run --fzf play --river --odysee"
 
 # Gui+R read file with zathura
 riverctl map normal "$gui" R spawn "footclient-run --fzf zat-fzf --river"
+# Gui+Shift+R read directory with zathura
+riverctl map normal "$gui"+Shift R spawn "footclient-run --fzf zat-open-list-float-fullscreen-fzf --river"
 
 # Gui+Shift+F firefox menu
 riverctl map normal "$gui"+Shift F spawn "footclient-float firefox-menu"

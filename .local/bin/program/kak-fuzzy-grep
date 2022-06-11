@@ -27,6 +27,7 @@ fzf_grep="$(
     rg $RG_OPTIONS "" |
     fzf \
         --ansi \
+        --prompt 'ripgrep: ' \
         --color "hl:-1:underline,hl+:-1:underline:reverse" \
         --delimiter : \
         --preview 'bat --color=always --paging=never --theme=gruvbox-dark --style="numbers,changes" {1} --highlight-line {2}'
