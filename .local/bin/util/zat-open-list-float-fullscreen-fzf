@@ -1,8 +1,8 @@
 #!/bin/sh
 
 info=$(cat << EOF
-zat-open-list-fullscreen-fzf [options passed to fd]
-open a list of files with zathura using zat-open-list-fullscreen
+zat-open-list-float-fullscreen-fzf [options passed to fd]
+open a list of files with zathura using zat-open-list-float-fullscreen
 optionally pass parameters to fd
 EOF
 )
