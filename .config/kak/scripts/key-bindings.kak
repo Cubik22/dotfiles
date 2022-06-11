@@ -241,9 +241,9 @@ evaluate-commands %sh{
         map global user C '<a-l><a-|>$copy_program<ret><a-c>'   -docstring 'change to end of line and copy to $info_program'
         map global user p '<a-!>$paste_program<ret>'            -docstring 'paste from $info_program (after)'
         map global user P '!$paste_program<ret>'                -docstring 'paste from $info_program (before)'
-        map global user <a-p> '<a-o>j !$paste_program<ret>'     -docstring 'paste from $info_program (below)'
-        map global user <a-P> '<a-O>k !$paste_program<ret>'     -docstring 'paste from $info_program (above)'
-        map global user r '!$paste_program<ret>d'               -docstring 'replace from $info_program'
+        map global user <a-p> '<a-o>j!$paste_program<ret>'      -docstring 'paste from $info_program (below)'
+        map global user <a-P> '<a-O>k!$paste_program<ret>'      -docstring 'paste from $info_program (above)'
+        map global user r 'd<ret>!$paste_program<ret>'          -docstring 'replace from $info_program'
     "
     # system clipboard (tiny.kak)
     # hook global RegisterModified '"' %{ nop %sh{

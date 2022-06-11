@@ -151,13 +151,25 @@ doas npm install -g typescript-language-server
 update-extra plugins
 
 # clone, build and install packages
-build-packages zls
-build-packages lua-language-server
-build-packages htop
-build-packages river
-build-packages waybar
-build-packages fuzzel
-build-packages foot
-build-packages libinput-gestures
-build-packages mozlz4
-build-packages fontforge
+packages=$(cat << EOF
+kakoune
+kak-lsp
+zls
+lua-langserver-server
+htop
+river
+waybar
+fuzzel
+foot
+libinput-gestures
+mozlz4
+fontforge
+EOF
+)
+for package in $packages; do
+    build-packages "$package"
+done
+
+# buil ffmpeg and mpv with sftp support
+ffmpeg-build
+mpv-buil

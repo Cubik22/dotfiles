@@ -104,10 +104,14 @@ kakoune_install() {
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/mawww/kakoune.git "$package_dir"
     else
+        # mkdir -p "$package_dir/saved"
+        # mv -f "$package_dir/src/ranges.cc" "$package_dir/saved"
         git -C "$package_dir" pull --recurse-submodules
     fi
 
     cd "$package_dir" || return 1
+
+    # doas chown 1000:1000 src/.version.o
 
     export CXX=clang++
     make -j8 || return 1
