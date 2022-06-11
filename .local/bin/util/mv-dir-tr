@@ -1,0 +1,22 @@
+#!/bin/sh
+
+dir="$1"
+change="$2"
+if [ "$#" -ge 3 ]; then
+    replace="$3"
+fi
+
+files="$(fd --type file --exact-depth 1 --search-path "$dir")"
+
+IFS='
+'
+for old_name in $files; do
+    if [ -n "$replace" ]; then
+        new_name="$(echo "$old_name" | tr "$change" "$replace")"
+    else
+        new_name="$(echo "$old_name" | tr --delete "$change")"
+    fi
+    if [ ! "$new_name" = "$old_name" ]; then
+        mv "$old_name" "$new_name"
+    fi
+done

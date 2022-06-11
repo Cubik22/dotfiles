@@ -125,7 +125,6 @@ if [ ! "$action" = "file" ]; then
         echo "not found"
     else
         echo "$name"
-        get_correct_id "$name" "$search_site"
     fi
 else
     while read -r line; do

@@ -65,7 +65,7 @@ if [ ! "$LOGNAME" = "root" ] && [ "$(id -u)" -ne 0 ]; then
     # _fzf_setup_completion path dka
 fi
 
-## /usr/share/fzf/key-bindings.bash without binding
+## /usr/share/fzf/key-bindings.bash with little modifications and without bindings
 
 __fzf_select__() {
   local cmd="${FZF_CTRL_T_COMMAND:-"command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
@@ -94,7 +94,7 @@ __fzf_cd__() {
   local cmd dir
   cmd="${FZF_ALT_C_COMMAND:-"command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
     -o -type d -print 2> /dev/null | cut -b3-"}"
-  dir=$(eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS" $(__fzfcmd) +m) && printf 'cd -- %q' "$dir"
+  dir=$(eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS" $(__fzfcmd) +m) && printf '%q' "$dir"
 }
 
 __fzf_history__() {
@@ -183,7 +183,7 @@ bind -m vi-insert -x '"\ec": _fzf_config'
 # at least it is saved in bash history, with standard no
 _fzf_cd_widget() {
     local directory
-    directory="$(__fzf_cd__ | sed 's/^cd -- //')"
+    directory="$(__fzf_cd__)"
     total_lenght="$(( ${#directory} + ${#READLINE_LINE} ))"
     READLINE_LINE="${READLINE_LINE}${directory}"
     READLINE_POINT="$total_lenght"
