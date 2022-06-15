@@ -1,4 +1,54 @@
 #!/bin/sh
 
-doas sv up bluetoothd || return 1
+user="$USER"
+hostname="$(cat /etc/hostname)"
+doas_ask_password="doas ($user@$hostname) password: "
+
+printf "%s" "$doas_ask_password"
+stty -echo
+read -r password
+stty echo
+printf "\n"
+
+result="$(/usr/bin/expect <<EOF
+spawn doas -- sv status bluetoothd
+expect "$doas_ask_password" {send -- "$password\r"}
+expect eof
+EOF
+)"
+last_line="$(echo "$result" | tail -n 1)"
+case "$last_line" in
+    *"Authentication failed"*)
+        echo "$last_line"
+        return 1
+    ;;
+esac
+
+bluetoothd_status="$(echo "$last_line" | sed 's/:.*//')"
+case "$bluetoothd_status" in
+    down)
+        result="$(/usr/bin/expect <<EOF
+spawn doas -- sv up bluetoothd
+expect "$doas_ask_password" {send -- "$password\r"}
+expect eof
+EOF
+)"
+        number_lines="$(echo "$result" | wc -l)"
+        if [ "$number_lines" -ne 2 ]; then
+            echo "error: sv up bluetoothd"
+            return 1
+        else
+            echo "success: sv up bluetoothd"
+        fi
+    ;;
+    run)
+        echo "bluetoothd is already running"
+        return 0
+    ;;
+    *)
+        echo "error: bluetooth status not recognized"
+        return 1
+    ;;
+esac
+
 bluetoothctl power on

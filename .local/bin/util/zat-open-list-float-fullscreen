@@ -80,6 +80,8 @@ find_open_file() {
     # try wit and without 0 in front of file number
     files="$(fd --type file --type symlink --exact-depth 1 "^0*${current}($|[^0-9])")"
 
+IFS='
+'
     for file in $files; do
         if [ -f "$file" ]; then
             open_file "$program" "$file"
