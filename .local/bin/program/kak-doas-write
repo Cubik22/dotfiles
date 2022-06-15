@@ -14,10 +14,10 @@ else
         user="$USER"
         hostname="$(cat /etc/hostname)"
 
-        /usr/bin/expect <<EOF
-        spawn doas -- cp "$tmpfile" "$kak_buffile"
-        expect "doas ($user@$hostname) password: " {send -- "$password\r"}
-        expect eof
+        expect <<EOF
+spawn doas -- cp "$tmpfile" "$kak_buffile"
+expect "doas ($user@$hostname) password: " {send -- "$password\r"}
+expect eof
 EOF
     else
         doas -- cp "$tmpfile" "$kak_buffile"

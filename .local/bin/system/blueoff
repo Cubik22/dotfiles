@@ -10,13 +10,13 @@ read -r password
 stty echo
 printf "\n"
 
-result="$(/usr/bin/expect <<EOF
+status_result="$(expect <<EOF
 spawn doas -- sv status bluetoothd
 expect "$doas_ask_password" {send -- "$password\r"}
 expect eof
 EOF
 )"
-last_line="$(echo "$result" | tail -n 1)"
+last_line="$(echo "$status_result" | tail -n 1)"
 case "$last_line" in
     *"Authentication failed"*)
         echo "$last_line"
@@ -39,13 +39,13 @@ case "$bluetoothd_status" in
     ;;
 esac
 
-result="$(/usr/bin/expect <<EOF
+down_result="$(expect <<EOF
 spawn doas -- sv down bluetoothd
 expect "$doas_ask_password" {send -- "$password\r"}
 expect eof
 EOF
 )"
-number_lines="$(echo "$result" | wc -l)"
+number_lines="$(echo "$down_result" | wc -l)"
 if [ "$number_lines" -ne 2 ]; then
     echo "error: sv down bluetoothd"
     return 1
