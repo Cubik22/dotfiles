@@ -43,7 +43,7 @@ file="$( \
     --type=file \
     --type=symlink \
     "$@" \
-    '.*pdf$|.*cbz$|.*cbr$|.*djvu$' | \
+    '.*pdf$|.*epub$|.*ps$|.*cbz$|.*cbr$|.*djvu$|.*djv$' | \
     fzf \
     --prompt 'zat: ' \
 )"

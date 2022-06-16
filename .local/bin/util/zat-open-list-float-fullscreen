@@ -57,7 +57,7 @@ open_file() {
 
     if [ -f "$file" ]; then
         case "$file" in
-            *.pdf|*.ps|*.djvu|*.djv)
+            *pdf|*epub|*ps|*cbz|*cbr|*djvu|*djv)
                 $program "$file"
                 if [ -n "$wait_time" ]; then
                     sleep "$wait_time"
