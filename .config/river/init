@@ -54,7 +54,7 @@ alt="Mod1"
 # Delete Return Backspace Space Period Comma
 # {Up,Right,Down,Left} [0-9] F11
 # {H,J,K,L} Q F U N P
-# S E Z B I C M A V T Y O R
+# S E Z B I C D M A V T Y O R
 
 # Gui+Control+Space footclient
 riverctl map normal "$gui"+Control Space spawn "footclient"
@@ -90,8 +90,13 @@ riverctl map normal "$gui" I spawn "footclient-float iwctl"
 # Gui+C bluetoothctl
 riverctl map normal "$gui" C spawn "footclient-float bluetoothctl"
 
-# Gui+M fuzzel
-riverctl map normal "$gui" M spawn "fuzzel.sh"
+# Gui+D disconnect
+riverctl map normal "$gui" D spawn "footclient-float disconnect"
+
+# Gui+M menu
+riverctl map normal "$gui" M spawn "footclient-float menu-application --river"
+# # Gui+M fuzzel
+# riverctl map normal "$gui" M spawn "fuzzel.sh"
 
 # Gui+A play copied url with mpv audio
 # shellcheck disable=SC2016

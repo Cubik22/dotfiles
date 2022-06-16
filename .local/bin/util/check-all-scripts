@@ -46,6 +46,8 @@ check() {
     fi
 }
 
+echo "checking scripts..."
+
 scripts_path="$(find -L "${XDG_BIN_HOME:-$HOME/.local/bin}" -mindepth 1 -type d)"
 for script_dir in $scripts_path; do
     check "$script_dir"

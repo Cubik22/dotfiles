@@ -1,0 +1,73 @@
+#!/bin/sh
+
+info=$(cat << EOF
+menu-application [--river]
+menu of xdg desktop application
+print to stdout the command
+with --river spawn with riverctl
+EOF
+)
+
+river=false
+
+if [ "$#" -ne 0 ]; then
+    case "$1" in
+        -h|--help)
+            echo "$info"
+            return 0
+        ;;
+        --river)
+            river=true
+            shift 1
+        ;;
+    esac
+fi
+
+get_program_from_file() {
+    file="$1"
+    grep '^Exec' "$file" | \
+    head -n 1 | \
+    sed 's/^Exec=//' | \
+    sed 's/ %[a-z]$//'
+}
+
+get_item_fzf() {
+    list="$1"
+    for item in $list; do
+        name="$( \
+            echo "$item" | \
+            rev | \
+            cut -d "/" -f 1 | \
+            cut -d "." -f 2 | \
+            rev \
+        )"
+        printf "%s %s\n" "$name" "$item"
+    done
+}
+
+applications_dir=$(cat << EOF
+$HOME/.local/share/applications
+/usr/local/share/applications
+/usr/share/applications
+EOF
+)
+
+search_paths=""
+for dir in $applications_dir; do
+    search_paths="$search_paths --search-path $dir"
+done
+
+# shellcheck disable=SC2086
+file="$( \
+    get_item_fzf "$(fd --type f $search_paths)" | \
+    fzf --with-nth='1..-2' --no-multi  --prompt="menu: " | \
+    cut -d " " -f 2 \
+)"
+[ -z "$file" ] && return 0
+
+program="$(get_program_from_file "$file")"
+if [ "$river" = "false" ]; then
+    echo "$program"
+elif [ "$river" = "true" ]; then
+    riverctl spawn "$program"
+fi
