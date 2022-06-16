@@ -17,6 +17,9 @@ DESCRIPTION
         if start and finish are not specified
         zathura tries to open all files in directory
         specifying one between start and end is also allowed
+        if files in the directory are not numbered,
+        it will open them in a random order
+        this action can be forced with --no-order
 
         -h, --help
             print this info and exit
@@ -180,11 +183,7 @@ if [ -n "$tag" ]; then
 fi
 
 files="$(fd --type file --type symlink --exact-depth 1)"
-if [ "$order" = "false" ]; then
-    for file in $files; do
-        open_file "$program" "$file"
-    done
-else
+if [ "$order" = "true" ]; then
     [ -z "$start" ] && start=0
     [ -z "$end" ] && end="$(echo "$files" | find-number-max-files)"
     ! is_number_print "$start" && return 1
@@ -195,6 +194,13 @@ else
         return 1
     fi
 
+    [ "$start" -eq 0 ] && [ "$end" -eq 0 ] && order="false"
+fi
+if [ "$order" = "false" ]; then
+    for file in $files; do
+        open_file "$program" "$file"
+    done
+else
     current="$start"
     while [ "$current" -le "$end" ]; do
         find_open_file "$current" "$program"

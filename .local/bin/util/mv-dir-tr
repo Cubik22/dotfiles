@@ -1,5 +1,20 @@
 #!/bin/sh
 
+info=$(cat << EOF
+mv-dir-tr directory change [replace]
+if replace is not specified use tr --delete
+EOF
+)
+
+if [ "$#" -ne 0 ]; then
+    case "$1" in
+        -h|--help)
+            echo "$info"
+            return 0
+        ;;
+    esac
+fi
+
 dir="$1"
 change="$2"
 if [ "$#" -ge 3 ]; then
