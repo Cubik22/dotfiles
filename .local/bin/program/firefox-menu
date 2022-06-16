@@ -10,16 +10,38 @@ normal-private-incognito
 hard-private-incognito
 soft-private-incognito
 start-all
+xkill-normal
+xkill-hard
+xkill-soft
 xkill-all
+restart-normal
+restart-hard
+restart-soft
 restart-all
 EOF
 )
 
+kill_profile() {
+    profile="$1"
+    pid="$( \
+        pgrep -f "firefox -P $profile" | \
+        tail -n 1 \
+    )"
+    # pid="$( \
+    #     ps -eo pid,args | \
+    #     grep "firefox -P $profile" | \
+    #     grep -v "grep" | \
+    #     tail -n 1 | \
+    #     cut -d " " -f 1 \
+    # )"
+    [ -n "$pid" ] && kill "$pid"
+}
+
 result="$(echo "$actions" | fzf --prompt 'firefox: ')"
 [ -z "$result" ] && return 0
 
-firefox_data="${XDG_DATA_HOME:-$HOME/.local/share}/firefox"
-[ ! -d "$firefox_data" ] && mkdir -p "$firefox_data"
+# firefox_data="${XDG_DATA_HOME:-$HOME/.local/share}/firefox"
+# [ ! -d "$firefox_data" ] && mkdir -p "$firefox_data"
 
 case "$result" in
     normal|hard|soft|normal-private-incognito|hard-private-incognito|soft-private-incognito)
@@ -30,9 +52,19 @@ case "$result" in
         riverctl spawn "firefox-spawn-all"
         # nohup firefox-spawn-all >"$firefox_data/start-all.log" 2>&1
     ;;
+    xkill-normal|xkill-hard|xkill-soft)
+        profile="$(echo "$result" | cut -d "-" -f 2)"
+        kill_profile "$profile"
+    ;;
     xkill-all)
         killall firefox
         # nohup killall firefox >"$firefox_data/kill-all.log" 2>&1
+    ;;
+    restart-normal|restart-hard|restart-soft)
+        profile="$(echo "$result" | cut -d "-" -f 2)"
+        kill_profile "$profile"
+        sleep 1
+        riverctl spawn "firefox-spawn $profile"
     ;;
     restart-all)
         killall firefox

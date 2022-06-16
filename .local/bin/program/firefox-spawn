@@ -6,23 +6,13 @@ if [ "$#" -eq 0 ]; then
     riverctl spawn "firefox"
 else
     case "$1" in
-        normal)
-            riverctl spawn "firefox -P normal"
+        normal|hard|soft)
+            profile="$1"
+            riverctl spawn "firefox -P $profile"
         ;;
-        hard)
-            riverctl spawn "firefox -P hard"
-        ;;
-        soft)
-            riverctl spawn "firefox -P soft"
-        ;;
-        normal-private-incognito)
-            riverctl spawn "firefox -P normal --private-window"
-        ;;
-        hard-private-incognito)
-            riverctl spawn "firefox -P hard --private-window"
-        ;;
-        soft-private-incognito)
-            riverctl spawn "firefox -P soft --private-window"
+        normal-private-incognito|hard-private-incognito|soft-private-incognito)
+            profile="$(echo "$1" | cut -d "-" -f 1)"
+            riverctl spawn "firefox -P $profile --private-window"
         ;;
         *)
             echo "error: wrong parameter"
