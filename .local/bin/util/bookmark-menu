@@ -3,13 +3,13 @@
 # menu with fzf in order to interact with bookmarks
 
 actions=$(cat << EOF
-copy-normal
+copy-base
 copy-search
 make-dir-child
 make-dir-root
-edit-normal
+edit-base
 edit-paste
-add-normal
+add-base
 add-copy
 add-article
 add-repo
@@ -20,13 +20,13 @@ result="$(echo "$actions" | fzf --prompt 'bookmark: ')"
 [ -z "$result" ] && return 0
 
 case "$result" in
-    copy-normal) bookmark-copy ;;
+    copy-base) bookmark-copy ;;
     copy-search) bookmark-copy --from-clipboard ;;
     make-dir-child) bookmark-create-directory child;;
     make-dir-root) bookmark-create-directory root;;
-    edit-normal) bookmark-edit ;;
+    edit-base) bookmark-edit ;;
     edit-paste) bookmark-edit --paste ;;
-    add-normal) bookmark-add normal;;
+    add-base) bookmark-add base;;
     add-copy) bookmark-add copy ;;
     add-article) bookmark-add article ;;
     add-repo) bookmark-add repo ;;

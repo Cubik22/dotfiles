@@ -90,7 +90,7 @@ bind-key j down
 bind-key k up
 bind-key l open
 bind-key h quit
-bind-key BACKSPACE quit
+# bind-key BACKSPACE quit
 bind-key H next
 bind-key L prev
 bind-key G end

@@ -1,0 +1,54 @@
+#!/bin/sh
+
+user="$USER"
+hostname="$(cat /etc/hostname)"
+doas_ask_password="doas ($user@$hostname) password: "
+
+printf "%s" "$doas_ask_password"
+stty -echo
+read -r password
+stty echo
+printf "\n"
+
+list_output="$(expect <<EOF
+spawn doas -- vkpurge list
+expect "$doas_ask_password" {send -- "$password\r"}
+expect eof
+EOF
+)"
+last_line="$(echo "$list_output" | tail -n 1)"
+case "$last_line" in
+    *"Authentication failed"*)
+        echo "$last_line"
+        return 1
+    ;;
+esac
+
+get_output() {
+    list="$1"
+    n_line=1
+IFS='
+'
+    for line in $list; do
+        if [ "$n_line" -ge 3 ]; then
+            echo "$line"
+        fi
+        n_line="$(( n_line + 1 ))"
+    done
+}
+
+kernel_list="$(get_output "$list_output")"
+
+echo "kernel list:"
+echo "$kernel_list"
+
+oldest_kernel="$(echo "$kernel_list" | head -n 1)"
+
+rm_output="$(expect <<EOF
+spawn doas -- vkpurge rm "$oldest_kernel"
+expect "$doas_ask_password" {send -- "$password\r"}
+expect eof
+EOF
+)"
+
+get_output "$rm_output"

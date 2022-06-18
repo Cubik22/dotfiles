@@ -334,6 +334,7 @@ else
 
         alias systemctl="sudo systemctl"
         alias journalctl="sudo journalctl"
+        alias ufw="sudo ufw"
     fi
 
     alias powertop="doas powertop"

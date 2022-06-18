@@ -3,10 +3,10 @@
 # add a bookmark
 
 if [ "$#" -eq 0 ]; then
-    mode="normal"
+    mode="base"
 else
     case "$1" in
-        normal|copy|repo|article)
+        base|copy|repo|article)
             mode="$1"
         ;;
         *)
@@ -30,7 +30,7 @@ file="$(fzf)"
 url="$("$PASTE_CMD" -n | sed 's/\/\(#\|\)$//')"
 
 case "$mode" in
-    normal)
+    base)
         # ask name to user
         printf "%s" "bookmark name: "
         read -r name
