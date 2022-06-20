@@ -65,3 +65,37 @@ set_option_two_dash() {
         return 1
     fi
 }
+
+# call it with: option "$@"
+# return value is the number to shift
+get_option_one_dash() {
+    option="$1"
+    shift 1
+    case "$1" in
+        -"$option")
+            echo "$2"
+            return 2
+        ;;
+        -"$option"*)
+            echo "$1" | cut -d "$option" -f "2-"
+            return 1
+        ;;
+    esac
+}
+
+# call it with: option "$@"
+# return value is the number to shift
+get_option_two_dash() {
+    option="$1"
+    shift 1
+    case "$1" in
+        --"$option")
+            echo "$2"
+            return 2
+        ;;
+        --"$option"=*)
+            echo "$1" | cut -d "=" -f "2-"
+            return 1
+        ;;
+    esac
+}

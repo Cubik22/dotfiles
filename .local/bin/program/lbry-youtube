@@ -101,7 +101,7 @@ get_name_from_id() {
     url_string="${query_site}/yt/resolve?channel_ids=${channel_id}"
     name="$( \
         curl -s "$url_string" 2>/dev/null | \
-        grep "$channel_id" 2>dev/null | \
+        grep "$channel_id" 2>/dev/null | \
         sed 's/.*@//' | \
         sed 's/#.*//' | \
         sed 's/.* .*//' \

@@ -1,54 +1,12 @@
 #!/bin/sh
 
-user="$USER"
-hostname="$(cat /etc/hostname)"
-doas_ask_password="doas ($user@$hostname) password: "
+service="bluetoothd"
 
-printf "%s" "$doas_ask_password"
-stty -echo
-read -r password
-stty echo
-printf "\n"
-
-status_result="$(expect <<EOF
-spawn doas -- sv status bluetoothd
-expect "$doas_ask_password" {send -- "$password\r"}
-expect eof
-EOF
-)"
-last_line="$(echo "$status_result" | tail -n 1)"
-case "$last_line" in
-    *"Authentication failed"*)
-        echo "$last_line"
-        return 1
-    ;;
-esac
-
-bluetoothd_status="$(echo "$last_line" | sed 's/:.*//')"
-case "$bluetoothd_status" in
-    down)
-        up_result="$(expect <<EOF
-spawn doas -- sv up bluetoothd
-expect "$doas_ask_password" {send -- "$password\r"}
-expect eof
-EOF
-)"
-        number_lines="$(echo "$up_result" | wc -l)"
-        if [ "$number_lines" -ne 2 ]; then
-            echo "error: sv up bluetoothd"
-            return 1
-        else
-            echo "success: sv up bluetoothd"
-        fi
-    ;;
-    run)
-        echo "bluetoothd is already running"
-        return 0
-    ;;
-    *)
-        echo "error: bluetooth status not recognized"
-        return 1
-    ;;
-esac
-
+after_file="$(mktemp)"
+cat << EOF > "$after_file"
 bluetoothctl power on
+EOF
+
+sv-smart --after="$after_file" up "$service"
+
+rm -rf "$after_file"

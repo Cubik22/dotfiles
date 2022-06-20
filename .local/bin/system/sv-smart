@@ -1,0 +1,151 @@
+#!/bin/sh
+
+info=$(cat << EOF
+sv-smart [--down down-file] [--run run-file] [--after after-file] action service
+run sv action service after checking if service is already down
+EOF
+)
+
+script_functions_file="${XDG_CONFIG_HOME:-$HOME/.config}/shell/script-functions"
+# shellcheck disable=SC1090
+[ -f "$script_functions_file" ] && . "$script_functions_file"
+unset script_functions_file
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -h|--help)
+            echo "$info"
+            return 0
+        ;;
+        -r*|--run*)
+            case "$1" in
+                -r*)
+                    run_option="$(get_option_one_dash r "$@")"
+                ;;
+                --run*)
+                    run_option="$(get_option_two_dash run "$@")"
+                ;;
+            esac
+            number_shift="$?"
+            shift "$number_shift"
+            if [ -f "$run_option" ]; then
+                run_file="$run_option"
+            else
+                echo "error: run file: $run_option not found"
+                echo "$info"
+                return 1
+            fi
+        ;;
+        -d*|--down*)
+            case "$1" in
+                -d*)
+                    down_option="$(get_option_one_dash d "$@")"
+                ;;
+                --down*)
+                    down_option="$(get_option_two_dash down "$@")"
+                ;;
+            esac
+            number_shift="$?"
+            shift "$number_shift"
+            if [ -f "$down_option" ]; then
+                down_file="$down_option"
+            else
+                echo "error: down file: $down_option not found"
+                echo "$info"
+                return 1
+            fi
+        ;;
+        -a*|--after*)
+            case "$1" in
+                -a*)
+                    after_option="$(get_option_one_dash a "$@")"
+                ;;
+                --after*)
+                    after_option="$(get_option_two_dash after "$@")"
+                ;;
+            esac
+            number_shift="$?"
+            shift "$number_shift"
+            if [ -f "$after_option" ]; then
+                after_file="$after_option"
+            else
+                echo "error: down file: $after_option not found"
+                echo "$info"
+                return 1
+            fi
+        ;;
+        -*|--*)
+            echo "error: option: $1 not recognized"
+            echo "$info"
+            return 1
+        ;;
+        *) break ;;
+    esac
+done
+
+if [ "$#" -ne 2 ]; then
+    echo "error: specify action service"
+    echo "$info"
+    return 1
+fi
+
+action="$1"
+service="$2"
+
+user="$USER"
+hostname="$(cat /etc/hostname)"
+doas_ask_password="doas ($user@$hostname) password: "
+
+printf "%s" "$doas_ask_password"
+stty -echo
+read -r password
+stty echo
+printf "\n"
+
+status_result="$(expect <<EOF
+spawn doas -- sv status "$service"
+expect "$doas_ask_password" {send -- "$password\r"}
+expect eof
+EOF
+)"
+last_line="$(echo "$status_result" | tail -n 1)"
+case "$last_line" in
+    *"Authentication failed"*|fail*)
+        echo "$last_line"
+        return 1
+    ;;
+esac
+
+service_status="$(echo "$last_line" | sed 's/:.*//')"
+case "$service_status" in
+    run)
+        [ "$action" = "up" ] && echo "$service is already $action"
+        [ -n "$run_file" ] && . "$run_file"
+        [ "$action" = "up" ] && return 0
+    ;;
+    down)
+        [ "$action" = "down" ] && echo "$service is already $action"
+        [ -n "$down_file" ] && . "$down_file"
+        [ "$action" = "down" ] && return 0
+    ;;
+    *)
+        echo "error: $service status not recognized"
+        return 1
+    ;;
+esac
+
+action_result="$(expect <<EOF
+spawn doas -- sv "$action" "$service"
+expect "$doas_ask_password" {send -- "$password\r"}
+expect eof
+EOF
+)"
+number_lines="$(echo "$action_result" | wc -l)"
+if [ "$number_lines" -ne 2 ]; then
+    echo "error: sv $action $service"
+    return 1
+else
+    echo "success: sv $action $service"
+fi
+
+[ -n "$after_file" ] && . "$after_file"
