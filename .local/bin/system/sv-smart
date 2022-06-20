@@ -74,7 +74,7 @@ while [ "$#" -gt 0 ]; do
                 return 1
             fi
         ;;
-        -*|--*)
+        -*)
             echo "error: option: $1 not recognized"
             echo "$info"
             return 1
@@ -120,11 +120,13 @@ service_status="$(echo "$last_line" | sed 's/:.*//')"
 case "$service_status" in
     run)
         [ "$action" = "up" ] && echo "$service is already $action"
+        # shellcheck disable=SC1090
         [ -n "$run_file" ] && . "$run_file"
         [ "$action" = "up" ] && return 0
     ;;
     down)
         [ "$action" = "down" ] && echo "$service is already $action"
+        # shellcheck disable=SC1090
         [ -n "$down_file" ] && . "$down_file"
         [ "$action" = "down" ] && return 0
     ;;
@@ -148,4 +150,5 @@ else
     echo "success: sv $action $service"
 fi
 
+# shellcheck disable=SC1090
 [ -n "$after_file" ] && . "$after_file"
