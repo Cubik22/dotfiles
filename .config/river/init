@@ -36,8 +36,8 @@ tail -f "$WOB_PIPE_CENTER" | wob --anchor "center" --width 400 &
 # tail -f "$WOB_PIPE_CENTER" | wob --anchor "center" --width 400 --height 400 &
 
 # load brightness level
-adjust_brightness.sh load
-# echo "brightness level is: $(adjust_brightness.sh load)"
+brightness-change load
+# echo "brightness level is: $(brightness-change load)"
 
 # scale everything (problems with partial scaling)
 # wlr-randr --output eDP-1 --scale 1.25
@@ -321,8 +321,8 @@ for mode in normal locked; do
     riverctl map "$mode" None XF86AudioStop  spawn 'playerctl stop'
 
     # brightness
-    riverctl map "$mode" None XF86MonBrightnessUp   spawn "adjust_brightness.sh up > $WOB_PIPE"
-    riverctl map "$mode" None XF86MonBrightnessDown spawn "adjust_brightness.sh down > $WOB_PIPE"
+    riverctl map "$mode" None XF86MonBrightnessUp   spawn "brightness-change up > $WOB_PIPE"
+    riverctl map "$mode" None XF86MonBrightnessDown spawn "brightness-change down > $WOB_PIPE"
 
     # Gui+F12 poweroff
     riverctl map "$mode" "$gui" F12 spawn "doas poweroff"

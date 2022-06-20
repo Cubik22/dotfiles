@@ -1,0 +1,118 @@
+#!/bin/sh
+
+info=$(cat << EOF
+brightness-change action
+
+action:
+    -h, --help
+        print this info message
+    up
+        increment brightness
+    down
+        decrease brightness
+    load
+        load brightness from file
+        usually used after reboot
+    percentage
+        set brightness to specified percentage
+EOF
+)
+
+error="please insert one parameter: 'up' 'down' 'load' or a percentage"
+
+if [ "$#" -ne 1 ]; then
+    echo "$error"
+    echo "you inserted $# parameters"
+    echo "$info"
+    return 1
+fi
+
+mode="$1"
+
+case "$mode" in
+    -h|--help)
+        echo "$info"
+        return 0
+    ;;
+    up|down|load) ;;
+    [0-9]*) ;;
+    *)
+        echo "$error"
+        echo "you passed $*"
+        echo "$info"
+        return 1
+    ;;
+esac
+
+brightness_path="/sys/class/backlight/intel_backlight/brightness"
+max_brightness_path="/sys/class/backlight/intel_backlight/max_brightness"
+
+current_brightness="$(cat $brightness_path)"
+max_brightness="$(cat $max_brightness_path)"
+switch_percentage=5
+switch_brightness="$(( max_brightness * switch_percentage / 100 ))"
+
+state_dir="${XDG_DATA_HOME:-$HOME/.local/share}/script"
+current_path="$state_dir/brightness_current"
+
+if [ ! -e "$current_path" ]; then
+    mkdir -p "$state_dir"
+    echo "$(( max_brightness / 2 ))" > "$current_path"
+elif [ ! -f "$current_path" ]; then
+    echo "error: current_path is not a file"
+    return 1
+fi
+
+if [ "$current_brightness" -gt "$switch_brightness" ]; then
+    situation="upper"
+elif [ "$current_brightness" -eq "$switch_brightness" ] &&
+    [ "$mode" = "up" ]; then
+    situation="upper"
+elif [ "$current_brightness" -lt "$switch_brightness" ]; then
+    situation="lower"
+elif [ "$current_brightness" -eq "$switch_brightness" ] &&
+    [ "$mode" = "down" ]; then
+    situation="lower"
+fi
+
+if [ "$situation" = "upper" ]; then
+    reference_brightness="$max_brightness"
+    number_steps=20
+elif [ "$situation" = "lower" ]; then
+    reference_brightness="$switch_brightness"
+    number_steps="$switch_percentage"
+fi
+
+step="$(( reference_brightness / number_steps ))"
+min_brightness="$(( step ))"
+
+if [ "$mode" = "up" ]; then
+    if [ "$current_brightness" -lt "$reference_brightness" ]; then
+        new_brightness="$(( current_brightness + step ))"
+    else
+        new_brightness="$current_brightness"
+    fi
+elif [ "$mode" = "down" ]; then
+    if [ "$current_brightness" -gt "$min_brightness" ]; then
+        new_brightness="$(( current_brightness - step ))"
+    else
+        new_brightness="$current_brightness"
+    fi
+elif [ "$mode" = "load" ]; then
+    new_brightness="$current_brightness"
+else
+    new_brightness="$(( mode * max_brightness / 100 ))"
+fi
+
+if [ "$new_brightness" -ge "$(( max_brightness + 1 ))" ]; then
+    real_brightness="$max_brightness"
+elif [ "$new_brightness" -le "$min_brightness" ]; then
+    real_brightness="$min_brightness"
+else
+    real_brightness="$new_brightness"
+fi
+
+echo "$real_brightness" > "$brightness_path"
+echo "$real_brightness" > "$current_path"
+
+echo "$(( 100 * real_brightness / max_brightness))"

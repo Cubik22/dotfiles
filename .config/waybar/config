@@ -141,8 +141,8 @@
         // "format": "{icon} {percent}%",
         // "states": [0,50],
         // "format-icons": ["", ""],
-        "on-click": "adjust_brightness.sh down > $WOB_PIPE",
-        "on-click-right": "adjust_brightness.sh up > $WOB_PIPE"
+        "on-click": "brightness-change down > $WOB_PIPE",
+        "on-click-right": "brightness-change up > $WOB_PIPE"
     },
 
     "network": {
