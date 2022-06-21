@@ -1,16 +1,74 @@
 #!/bin/sh
 
-iwctl_state="$( \
-    iwctl station wlan0 show | \
-    grep State | \
-    awk '{ print $NF }' \
-)"
-if [ "$iwctl_state" = "disconnected" ]; then
-    echo "iwctl already disconnected"
-elif [ "$iwctl_state" = "connected" ]; then
-    iwctl station wlan0 disconnect
-    echo "success: iwctl disconnected"
-else
-    echo "error: iwctl state not recognized"
-    return 1
-fi
+info=$(cat << EOF
+iwctl-off [-p, --password password] [runit/wifi]
+disconnect iwd/wifi
+EOF
+)
+
+script_functions_file="${XDG_CONFIG_HOME:-$HOME/.config}/shell/script-functions"
+# shellcheck disable=SC1090
+[ -f "$script_functions_file" ] && . "$script_functions_file"
+unset script_functions_file
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -h|--help)
+            echo "$info"
+            return 0
+        ;;
+        -p*|--password*)
+            case "$1" in
+                -p*)
+                    password="$(get_option_one_dash p "$@")"
+                ;;
+                --password*)
+                    password="$(get_option_two_dash password "$@")"
+                ;;
+            esac
+            number_shift="$?"
+            shift "$number_shift"
+        ;;
+        -*)
+            echo "error: option: $1 not recognized"
+            echo "$info"
+            return 1
+        ;;
+        runit|wifi)
+            action="$1"
+        ;;
+        *)
+            echo "error: $1 not recognized"
+            echo "$info"
+            return 1
+        ;;
+    esac
+done
+
+[ -z "$action" ] && action="runit"
+
+case "$action" in
+    runit)
+        if [ -z "$password" ]; then
+            sv-smart down iwd
+        else
+            sv-smart --password="$password" down iwd
+        fi
+    ;;
+    wifi)
+        iwctl_state="$( \
+            iwctl station wlan0 show | \
+            grep State | \
+            awk '{ print $NF }' \
+        )"
+        if [ "$iwctl_state" = "disconnected" ]; then
+            echo "iwctl already disconnected"
+        elif [ "$iwctl_state" = "connected" ]; then
+            iwctl station wlan0 disconnect
+            echo "success: iwctl disconnected"
+        else
+            echo "error: iwctl state not recognized"
+            return 1
+        fi
+    ;;
+esac

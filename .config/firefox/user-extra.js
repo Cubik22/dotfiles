@@ -83,7 +83,7 @@ user_pref("pdfjs.viewerCssTheme", 2);
 /* disable sidebar in pdf by default */
 user_pref("pdfjs.sidebarViewOnLoad", 0);
 
-/* always show bookmarks */
+/* never show bookmarks */
 user_pref("browser.toolbars.bookmarks.visibility", "never");
 // user_pref("browser.toolbars.bookmarks.visibility", "always");
 

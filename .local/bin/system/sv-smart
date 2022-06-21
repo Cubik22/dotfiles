@@ -1,8 +1,20 @@
 #!/bin/sh
 
 info=$(cat << EOF
-sv-smart [--down down-file] [--run run-file] [--after after-file] action service
+sv-smart [options] action service
 run sv action service after checking if service is already down
+
+option:
+    -h, --help
+        print this info and exit
+    -p, --password
+        use the specified password instead of asking it
+    -r, --run
+        file containing script to be run if service is running
+    -d, --down
+        file containing script to be run if service is down
+    -a, --after
+        file containing script to be run after action
 EOF
 )
 
@@ -16,6 +28,18 @@ while [ "$#" -gt 0 ]; do
         -h|--help)
             echo "$info"
             return 0
+        ;;
+        -p*|--password*)
+            case "$1" in
+                -p*)
+                    password="$(get_option_one_dash p "$@")"
+                ;;
+                --password*)
+                    password="$(get_option_two_dash password "$@")"
+                ;;
+            esac
+            number_shift="$?"
+            shift "$number_shift"
         ;;
         -r*|--run*)
             case "$1" in
@@ -96,11 +120,13 @@ user="$USER"
 hostname="$(cat /etc/hostname)"
 doas_ask_password="doas ($user@$hostname) password: "
 
-printf "%s" "$doas_ask_password"
-stty -echo
-read -r password
-stty echo
-printf "\n"
+if [ -z "$password" ]; then
+    printf "%s" "$doas_ask_password"
+    stty -echo
+    read -r password
+    stty echo
+    printf "\n"
+fi
 
 status_result="$(expect <<EOF
 spawn doas -- sv status "$service"

@@ -1,5 +1,47 @@
 #!/bin/sh
 
+info=$(cat << EOF
+blueoff [-p, --password password]
+disconnect bluetooth
+EOF
+)
+
+script_functions_file="${XDG_CONFIG_HOME:-$HOME/.config}/shell/script-functions"
+# shellcheck disable=SC1090
+[ -f "$script_functions_file" ] && . "$script_functions_file"
+unset script_functions_file
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -h|--help)
+            echo "$info"
+            return 0
+        ;;
+        -p*|--password*)
+            case "$1" in
+                -p*)
+                    password="$(get_option_one_dash p "$@")"
+                ;;
+                --password*)
+                    password="$(get_option_two_dash password "$@")"
+                ;;
+            esac
+            number_shift="$?"
+            shift "$number_shift"
+        ;;
+        -*)
+            echo "error: option: $1 not recognized"
+            echo "$info"
+            return 1
+        ;;
+        *)
+            echo "error: $1 not recognized"
+            echo "$info"
+            return 1
+        ;;
+    esac
+done
+
 service="bluetoothd"
 
 run_file="$(mktemp)"
@@ -7,6 +49,10 @@ cat << EOF > "$run_file"
 bluetoothctl power off || return 1
 EOF
 
-sv-smart --run="$run_file" down "$service"
+if [ -z "$password" ]; then
+    sv-smart --run="$run_file" down "$service"
+else
+    sv-smart --password="$password" --run="$run_file" down "$service"
+fi
 
 rm -rf "$run_file"
