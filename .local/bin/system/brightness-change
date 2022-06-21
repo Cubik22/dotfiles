@@ -35,8 +35,7 @@ case "$mode" in
         return 0
     ;;
     up|down|load) ;;
-    [0-9]*) ;;
-    *)
+    *[!0-9]*)
         echo "$error"
         echo "you passed $*"
         echo "$info"
@@ -49,8 +48,6 @@ max_brightness_path="/sys/class/backlight/intel_backlight/max_brightness"
 
 current_brightness="$(cat $brightness_path)"
 max_brightness="$(cat $max_brightness_path)"
-switch_percentage=5
-switch_brightness="$(( max_brightness * switch_percentage / 100 ))"
 
 state_dir="${XDG_DATA_HOME:-$HOME/.local/share}/script"
 current_path="$state_dir/brightness_current"
@@ -63,28 +60,35 @@ elif [ ! -f "$current_path" ]; then
     return 1
 fi
 
-if [ "$current_brightness" -gt "$switch_brightness" ]; then
-    situation="upper"
-elif [ "$current_brightness" -eq "$switch_brightness" ] &&
-    [ "$mode" = "up" ]; then
-    situation="upper"
-elif [ "$current_brightness" -lt "$switch_brightness" ]; then
-    situation="lower"
-elif [ "$current_brightness" -eq "$switch_brightness" ] &&
-    [ "$mode" = "down" ]; then
-    situation="lower"
-fi
+if [ "$mode" = "up" ] || [ "$mode" = "down" ]; then
+    switch_percentage=5
+    switch_brightness="$(( max_brightness * switch_percentage / 100 ))"
 
-if [ "$situation" = "upper" ]; then
-    reference_brightness="$max_brightness"
-    number_steps=20
-elif [ "$situation" = "lower" ]; then
-    reference_brightness="$switch_brightness"
-    number_steps="$switch_percentage"
-fi
+    if [ "$current_brightness" -gt "$switch_brightness" ]; then
+        situation="upper"
+    elif [ "$current_brightness" -eq "$switch_brightness" ] &&
+        [ "$mode" = "up" ]; then
+        situation="upper"
+    elif [ "$current_brightness" -lt "$switch_brightness" ]; then
+        situation="lower"
+    elif [ "$current_brightness" -eq "$switch_brightness" ] &&
+        [ "$mode" = "down" ]; then
+        situation="lower"
+    fi
 
-step="$(( reference_brightness / number_steps ))"
-min_brightness="$(( step ))"
+    if [ "$situation" = "upper" ]; then
+        reference_brightness="$max_brightness"
+        number_steps=20
+    elif [ "$situation" = "lower" ]; then
+        reference_brightness="$switch_brightness"
+        number_steps="$switch_percentage"
+    fi
+
+    step="$(( reference_brightness / number_steps ))"
+    min_brightness="$(( step ))"
+else
+    min_brightness=1
+fi
 
 if [ "$mode" = "up" ]; then
     if [ "$current_brightness" -lt "$reference_brightness" ]; then
