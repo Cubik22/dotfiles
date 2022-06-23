@@ -6,7 +6,7 @@ if [ "$#" -eq 0 ]; then
     mode="base"
 else
     case "$1" in
-        base|copy|repo|article)
+        base|title|copy|repo|article)
             mode="$1"
         ;;
         *)
@@ -35,6 +35,9 @@ case "$mode" in
         printf "%s" "bookmark name: "
         read -r name
     ;;
+    title)
+        name="$(url-title "$url")"
+	;;
     copy)
         # name is the same as url without http(s)://(www.)
         name="$(echo "$url" | sed 's/^http\(s\|\):\/\/\(www\.\|\)//')"

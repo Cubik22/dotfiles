@@ -3,13 +3,6 @@
 # play url with mpv
 # optional: use ytdl mode and pass quality
 
-# it is executed in the background
-set_fullscreen() {
-    # wait for mpv to load
-    sleep 10
-    riverctl toggle-fullscreen
-}
-
 print_info=$(cat << EOF
 SYNOPSIS
         mpv-url [option]... url
@@ -45,6 +38,13 @@ DESCRIPTION
             do not use ytdl mode (default)
 EOF
 )
+
+# it is executed in the background
+set_fullscreen() {
+    # wait for mpv to load
+    sleep 10
+    riverctl toggle-fullscreen
+}
 
 fullscreen=false
 audio=false

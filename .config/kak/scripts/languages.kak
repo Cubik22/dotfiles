@@ -68,6 +68,7 @@ define-command -hidden enable-lsp-options %{
 }
 
 # bash language server disconnects/reconnects
+# when changing comment out set-language-options below in sh
 # hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|latex|html|css|json|javascript|typescript) %{
 
 hook global WinSetOption filetype=(c|cpp|rust|zig|go|lua|python|r|latex|html|css|json|javascript|typescript) %{
@@ -143,6 +144,10 @@ hook global BufWritePost .* sh-additional-file-detection
 # shell
 hook global WinSetOption filetype=sh %{
     set-option buffer extra_word_chars '_' '-' '+'
+
+    # if not enabling language-server
+    set-language-options
+
     # indent also elif
     hook window InsertChar \n -group sh-indent %{
         evaluate-commands -draft -itersel %{

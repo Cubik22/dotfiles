@@ -10,6 +10,7 @@ make-dir-root
 edit-base
 edit-paste
 add-base
+add-title
 add-copy
 add-article
 add-repo
@@ -27,6 +28,7 @@ case "$result" in
     edit-base) bookmark-edit ;;
     edit-paste) bookmark-edit --paste ;;
     add-base) bookmark-add base;;
+    add-title) bookmark-add title;;
     add-copy) bookmark-add copy ;;
     add-article) bookmark-add article ;;
     add-repo) bookmark-add repo ;;
