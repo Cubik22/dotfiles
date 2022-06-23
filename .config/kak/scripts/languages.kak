@@ -62,11 +62,15 @@ define-command -hidden enable-lsp-options %{
             "
         fi
     }
+
     # showing diagnostics inline after their respective line (somewhat buggy)
     lsp-inlay-diagnostics-enable global
 }
 
-hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|latex|html|css|json|javascript|typescript) %{
+# bash language server disconnects/reconnects
+# hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|latex|html|css|json|javascript|typescript) %{
+
+hook global WinSetOption filetype=(c|cpp|rust|zig|go|lua|python|r|latex|html|css|json|javascript|typescript) %{
     # enable language options
     set-language-options
 
@@ -138,6 +142,7 @@ hook global BufWritePost .* sh-additional-file-detection
 
 # shell
 hook global WinSetOption filetype=sh %{
+    set-option buffer extra_word_chars '_' '-' '+'
     # indent also elif
     hook window InsertChar \n -group sh-indent %{
         evaluate-commands -draft -itersel %{

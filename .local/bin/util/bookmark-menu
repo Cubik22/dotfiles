@@ -16,7 +16,7 @@ add-repo
 EOF
 )
 
-result="$(echo "$actions" | fzf --prompt 'bookmark: ')"
+result="$(echo "$actions" | fzf --prompt "${FZF_BEFORE_PROMPT}bookmark: ")"
 [ -z "$result" ] && return 0
 
 case "$result" in

@@ -60,7 +60,7 @@ done
 # shellcheck disable=SC2086
 file="$( \
     get_item_fzf "$(fd --type f $search_paths)" | \
-    fzf --with-nth='1..-2' --no-multi  --prompt="menu: " | \
+    fzf --with-nth='1..-2' --no-multi  --prompt="${FZF_BEFORE_PROMPT}menu: " | \
     cut -d " " -f 2 \
 )"
 [ -z "$file" ] && return 0

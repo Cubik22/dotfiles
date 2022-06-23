@@ -32,7 +32,7 @@ directory="$( \
     --type=directory \
     "$@" | \
     fzf \
-    --prompt 'zat-list: ' \
+    --prompt "${FZF_BEFORE_PROMPT}zat-list: " \
 )"
 [ -z "$directory" ] && return 0
 

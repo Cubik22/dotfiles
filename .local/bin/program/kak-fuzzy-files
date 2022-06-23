@@ -16,7 +16,7 @@
 session_id="$1"
 client_id="$2"
 
-target="$($FZF_DEFAULT_COMMAND --type file | fzf --prompt 'file: ')"
+target="$($FZF_DEFAULT_COMMAND --type file | fzf --prompt "${FZF_BEFORE_PROMPT}file: ")"
 
 printf -- '%s\n' "eval -client $client_id edit -existing $target" |
     kak -p "$session_id"

@@ -87,7 +87,7 @@ if [ "$website" = "invidious" ]; then
     invidious_video_id="$( \
         curl -s "$invidious_url_string" | \
         jq --raw-output '.[] | "\(.author) | \(.title) \(.videoId)"' | \
-        fzf --with-nth='1..-2' --no-multi --prompt 'invidious: ' | \
+        fzf --with-nth='1..-2' --no-multi --prompt "${FZF_BEFORE_PROMPT}invidious: " | \
         awk '{print $NF}' \
     )"
     [ -z "$invidious_video_id" ] && return 0
@@ -112,7 +112,7 @@ elif [ "$website" = "odysee" ]; then
     odysee_video_id="$( \
         curl -s "$odysee_url_string" | \
         jq --raw-output '.[] | "\(.name)"' | \
-        fzf --no-multi --prompt 'odysee: '\
+        fzf --no-multi --prompt "${FZF_BEFORE_PROMPT}odysee: "\
     )"
     [ -z "$odysee_video_id" ] && return 0
 
@@ -128,7 +128,7 @@ audio
 EOF
 )
 
-option="$(echo "$options" | fzf --prompt 'option: ')"
+option="$(echo "$options" | fzf --prompt "${FZF_BEFORE_PROMPT}option: ")"
 [ -z "$option" ] && return 0
 
 if [ "$river" = "false" ]; then

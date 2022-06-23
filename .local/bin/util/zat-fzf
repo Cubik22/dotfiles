@@ -45,7 +45,7 @@ file="$( \
     "$@" \
     '.*pdf$|.*epub$|.*ps$|.*cbz$|.*cbr$|.*djvu$|.*djv$' | \
     fzf \
-    --prompt 'zat: ' \
+    --prompt "${FZF_BEFORE_PROMPT}zat: " \
 )"
 [ -z "$file" ] && return 0
 

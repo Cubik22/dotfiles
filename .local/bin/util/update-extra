@@ -159,7 +159,8 @@ pip_update() {
 
 ## npm
 npm_update() {
-    doas npm --global update
+    doas npm --location=global install npm
+    doas npm --location=global update
 }
 
 ## R

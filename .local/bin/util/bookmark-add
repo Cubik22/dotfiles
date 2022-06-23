@@ -22,7 +22,7 @@ cd "$bookmarks_dir" || return 1
 export FZF_DEFAULT_COMMAND="$FZF_DEFAULT_COMMAND --type file"
 # export FZF_DEFAULT_COMMAND="$FZF_DEFAULT_COMMAND --type file |
 #     rev | cut -d '/' -f 1,3- | rev"
-file="$(fzf)"
+file="$(fzf --prompt "${FZF_BEFORE_PROMPT}add: ")"
 
 [ ! -f "$file" ] && return 1
 

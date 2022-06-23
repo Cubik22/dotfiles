@@ -11,7 +11,7 @@ restart-all
 EOF
 )
 
-result="$(echo "$actions" | fzf --prompt 'chromium: ')"
+result="$(echo "$actions" | fzf --prompt "${FZF_BEFORE_PROMPT}chromium: ")"
 [ -z "$result" ] && return 0
 
 chromium_data="${XDG_DATA_HOME:-$HOME/.local/share}/chromium"

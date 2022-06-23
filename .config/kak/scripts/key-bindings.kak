@@ -224,7 +224,7 @@ map global user a '*%s<ret>'                                    -docstring 'sele
 map global goto m '<esc>m;' -docstring 'matching char'
 
 # buffer *debug*
-map global goto d '<esc>: buffer *debug*<ret>' -docstring 'buffer *debug*'
+map global goto u '<esc>: buffer *debug*<ret>' -docstring 'buffer *debug*'
 
 evaluate-commands %sh{
     copy_program="$COPY_CMD -n"

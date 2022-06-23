@@ -27,7 +27,7 @@ fzf_grep="$(
     rg $RG_OPTIONS "" |
     fzf \
         --ansi \
-        --prompt 'ripgrep: ' \
+        --prompt "${FZF_BEFORE_PROMPT}ripgrep: " \
         --color "hl:-1:underline,hl+:-1:underline:reverse" \
         --delimiter : \
         --preview 'bat --color=always --paging=never --theme=gruvbox-dark --style="numbers,changes" {1} --highlight-line {2}'
@@ -66,7 +66,7 @@ line="$(
 #         --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
 #         --bind "ctrl-f:unbind(change,ctrl-f)+change-prompt(fzf> )+enable-search+clear-query+rebind(ctrl-r)" \
 #         --bind "ctrl-r:unbind(ctrl-r)+change-prompt(ripgrep> )+disable-search+reload($RG_PREFIX {q} || true)+rebind(change,ctrl-f)" \
-#         --prompt 'ripgrep> ' \
+#         --prompt "${FZF_BEFORE_PROMPT}ripgrep: " \
 #         --delimiter : \
 #         --preview 'bat --color=always --paging=never --theme=gruvbox-dark --style="numbers,changes" {1} --highlight-line {2}'
 # )

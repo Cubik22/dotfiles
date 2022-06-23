@@ -37,7 +37,7 @@ kill_profile() {
     [ -n "$pid" ] && kill "$pid"
 }
 
-result="$(echo "$actions" | fzf --prompt 'firefox: ')"
+result="$(echo "$actions" | fzf --prompt "${FZF_BEFORE_PROMPT}firefox: ")"
 [ -z "$result" ] && return 0
 
 # firefox_data="${XDG_DATA_HOME:-$HOME/.local/share}/firefox"

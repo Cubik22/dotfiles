@@ -1,0 +1,36 @@
+#!/bin/sh
+
+info=$(cat << EOF
+mv-clean target
+change spaces with dashes and turn to lower case
+remove characters not used in files
+EOF
+)
+
+if [ "$#" -ne 0 ]; then
+    case "$1" in
+        -h|--help)
+            echo "$info"
+            return 0
+        ;;
+    esac
+fi
+
+for target in "$@"; do
+    rename="$( \
+        echo "$target" | \
+        tr ' ' '-' | \
+        tr '[:upper:]' '[:lower:]' | \
+        tr -d '(' | \
+        tr -d ')' | \
+        tr -d '[' | \
+        tr -d ']' | \
+        tr -d '{' | \
+        tr -d '}' | \
+        tr -d ',' | \
+        tr -d ';' | \
+        tr -d ':' \
+    )"
+
+    mv "$target" "$rename"
+done

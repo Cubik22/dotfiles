@@ -50,9 +50,10 @@ link_bookmark="$(
         --ansi \
         --query "$initial_query" \
         --color "hl:-1:underline,hl+:-1:underline:reverse" \
-        --delimiter : |
+        --delimiter : \
+        --prompt "${FZF_BEFORE_PROMPT}copy: " |
     cut -d ":" -f "2-" |
-    cut -d " " -f 1
+    cut -d " " -f "1"
 )"
 [ -n "$link_bookmark" ] && "$COPY_CMD" "$link_bookmark"
 
