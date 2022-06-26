@@ -3,13 +3,13 @@
 info=$(cat << EOF
 lbry-youtube [--id, --line, --file] id/line/file
 check if youtube channel is on lbry/odysee
+if you do not specify id/line/file it will try to guess it
 
 options:
     -h, --help
         print this help and return
     --id
         accept a channel id as input
-        default
     --line
         accept a line that contains the id as input
         usually a link
@@ -17,8 +17,6 @@ options:
         accept a file with lines containing id as input
 EOF
 )
-
-action="id"
 
 if [ "$#" -ne 0 ]; then
     while [ "$#" -gt 0 ]; do
@@ -47,6 +45,11 @@ if [ "$#" -ne 0 ]; then
 fi
 
 if [ "$#" -eq 0 ]; then
+    if [ -z "$action" ]; then
+        echo "error: specify action and/or object"
+        echo "$info"
+        return 1
+    fi
     case "$action" in
         id)
             printf "channel id: "
@@ -62,18 +65,35 @@ if [ "$#" -eq 0 ]; then
         ;;
     esac
 else
+    object="$1"
+    if [ -z "$action" ]; then
+        if [ -f "$object" ]; then
+            action="file"
+        else
+            case "$object" in
+                http://*|https://*)
+                    action="line"
+                ;;
+                *)
+                    action="id"
+                ;;
+            esac
+        fi
+    fi
     case "$action" in
         id)
-            channel_id="$1"
+            channel_id="$object"
         ;;
         line)
-            line="$1"
+            line="$object"
         ;;
         file)
-            file="$1"
+            file="$object"
         ;;
     esac
 fi
+
+echo "action: $action"
 
 query_site="https://api.odysee.com"
 # query_site="https://api.odysee.tv"
@@ -109,6 +129,7 @@ get_name_from_id() {
     echo "$name"
 }
 
+# not used
 search_name() {
     name="$1"
     search_site="$2"

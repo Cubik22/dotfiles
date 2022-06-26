@@ -815,24 +815,19 @@ fuzzel_install() {
 # https://github.com/jiixyj/epoll-shim
 # just when on bsd
 epoll_shim_install() {
-    echo "installing package: epoll-shim"
+    package="epoll-shim"
+    echo "installing package: $package"
+    package_dir="$dev/$package"
+    repository="https://github.com/jiixyj/epoll-shim.git"
 
-    if [ ! -d "$dev/epoll-shim" ]; then
-        action="install"
+    if [ ! -d "$package_dir" ]; then
+        git clone --recurse-submodules "$repository" "$package_dir"
     else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/jiixyj/epoll-shim.git "$dev/epoll-shim"
+        rm -rf "$package_dir/build"
+        git -C "$package_dir" pull --recurse-submodules
     fi
 
     cd "$dev/epoll-shim" || return 1
-
-    if [ "$action" = "update" ]; then
-        rm -rf build
-        git pull --recurse-submodules
-    fi
 
     mkdir build
 
@@ -855,24 +850,20 @@ foot_install() {
         # epoll_shim_install "dep"
     fi
 
-    echo "installing package: foot"
+    package="foot"
+    echo "installing package: $package"
+    package_dir="$dev/$package"
+    # repository="https://codeberg.org/dnkl/foot.git"
+    repository="https://codeberg.org/lbia/foot.git"
 
-    if [ ! -d "$dev/foot" ]; then
-        action="install"
+    if [ ! -d "$package_dir" ]; then
+        git clone --recurse-submodules "$repository" "$package_dir"
     else
-        action="update"
-    fi
-
-    if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://codeberg.org/dnkl/foot.git "$dev/foot"
+        rm -rf "$package_dir/bld/release"
+        git -C "$package_dir" pull --recurse-submodules
     fi
 
     cd "$dev/foot" || return 1
-
-    if [ "$action" = "update" ]; then
-        rm -rf bld/release
-        git pull --recurse-submodules
-    fi
 
     mkdir -p bld/release
 
@@ -884,11 +875,11 @@ foot_install() {
     # -Ddefault-terminfo=alacritty
 
     export CFLAGS="$CFLAGS -O3"
-    meson --buildtype=release -Dthemes=true --prefix="$prefix_dir" -Dterminfo=enabled -Db_lto=true ../..
-    # meson --buildtype=release -Dthemes=true --prefix="$prefix_dir_global" -Dterminfo=enabled -Ddefault-terminfo=xterm-256color -Db_lto=true ../..
-    meson configure -Db_pgo=generate
-    ninja
-    ninja test
+    meson --buildtype=release -Dthemes=true --prefix="$prefix_dir" -Dterminfo=enabled -Db_lto=true ../.. || return 1
+    # meson --buildtype=release -Dthemes=true --prefix="$prefix_dir_global" -Dterminfo=enabled -Ddefault-terminfo=xterm-256color -Db_lto=true ../.. || return 1
+    meson configure -Db_pgo=generate || return 1
+    ninja || return 1
+    ninja test || return 1
 
     # --term=xterm
     # --term=xterm-256color
@@ -903,10 +894,10 @@ foot_install() {
         sh -c "$dev/foot/scripts/generate-alt-random-writes.py --scroll --scroll-region --colors-regular --colors-bright --colors-256 --colors-rgb --attr-bold --attr-italic --attr-underline --sixel ${foot_tmp_file} && cat ${foot_tmp_file}"
     rm "${foot_tmp_file}"
 
-    meson configure -Db_pgo=use
-    ninja
-    ninja test
-    ninja install
+    meson configure -Db_pgo=use || return 1
+    ninja || return 1
+    ninja test || return 1
+    ninja install || return 1
 
     cd "$dev/foot" || return 1
 
