@@ -1,7 +1,7 @@
 #!/bin/sh
 
 info=$(cat << EOF
-iwctl-off [-p, --password password] [runit/wifi]
+iwdoff [-p, --password password] [runit/wifi]
 disconnect iwd/wifi
 EOF
 )

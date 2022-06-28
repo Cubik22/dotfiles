@@ -43,28 +43,30 @@ define-command -hidden enable-lsp-options %{
     set-option global lsp_hover_anchor true
     # indent lsp with spaces rather than tabs
     set-option global lsp_insert_spaces true
+
     # execute lsp-highlight-references every time the user pauses in normal mode
     # set-option global lsp_auto_highlight_references true
     # execute lsp-code-actions every time the user pauses in normal mode
-    set-option global lsp_auto_show_code_actions true
+    # set-option global lsp_auto_show_code_actions true
 
     # show inferred types, parameter names in function calls, and the types
     # of chained calls inline in the code
+    lsp-inlay-hints-enable global
     # currently rust-analyzer needs a different request
-    evaluate-commands %sh{
-        if [ ! "$kak_opt_filetype" = "rust" ]; then
-            printf "%s" "
-                lsp-inlay-hints-enable global
-            "
-        else
-            printf "%s" "
-                lsp-experimental-inlay-hints-enable global
-            "
-        fi
-    }
+    # evaluate-commands %sh{
+    #     if [ ! "$kak_opt_filetype" = "rust" ]; then
+    #         printf "%s" "
+    #             lsp-inlay-hints-enable global
+    #         "
+    #     else
+    #         printf "%s" "
+    #             lsp-experimental-inlay-hints-enable global
+    #         "
+    #     fi
+    # }
 
     # showing diagnostics inline after their respective line (somewhat buggy)
-    lsp-inlay-diagnostics-enable global
+    # lsp-inlay-diagnostics-enable global
 }
 
 # bash language server disconnects/reconnects
