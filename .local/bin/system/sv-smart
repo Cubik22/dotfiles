@@ -168,13 +168,14 @@ expect "$doas_ask_password" {send -- "$password\r"}
 expect eof
 EOF
 )"
-number_lines="$(echo "$action_result" | wc -l)"
-if [ "$number_lines" -ne 2 ]; then
-    echo "error: sv $action $service"
-    return 1
-else
-    echo "success: sv $action $service"
-fi
+echo "$action_result" | tail -n +3
+# number_lines="$(echo "$action_result" | wc -l)"
+# if [ "$number_lines" -ne 2 ]; then
+#     echo "error: sv $action $service"
+#     return 1
+# else
+#     echo "success: sv $action $service"
+# fi
 
 # shellcheck disable=SC1090
 [ -n "$after_file" ] && . "$after_file"
