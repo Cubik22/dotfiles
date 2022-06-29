@@ -6,7 +6,7 @@ if [ "$#" -eq 0 ]; then
     mode="base"
 else
     case "$1" in
-        base|title|copy|repo|article)
+        base|editor|title|copy|repo|article)
             mode="$1"
         ;;
         *)
@@ -37,6 +37,16 @@ case "$mode" in
             printf "%s" "bookmark name: "
             read -r name
         done
+    ;;
+    editor)
+        # ask name with editor
+        ask_file="$(mktemp)"
+        "${EDITOR:-kak}" "$ask_file"
+        number_lines="$(wc -l "$ask_file" | cut -d " " -f 1)"
+        name="$(cat "$ask_file")"
+        rm -f "$ask_file"
+        [ "$number_lines" -ne 1 ] && return 0
+        [ -z "$name" ] && return 0
     ;;
     title)
         name="$(url-title "$url")"

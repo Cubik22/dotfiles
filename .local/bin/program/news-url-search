@@ -1,0 +1,42 @@
+#!/bin/sh
+
+info=$(cat << EOF
+news-url-search url
+search and get news feeds in url page
+rss and atom
+EOF
+)
+
+if [ "$#" -ne 0 ]; then
+    case "$1" in
+        -h|--help)
+            echo "$info"
+            return 0
+        ;;
+    esac
+else
+    echo "error: insert url"
+    echo "$info"
+    return 1
+fi
+
+url="$1"
+
+website="$(curl -s "$url")"
+
+search_link() {
+    website="$1"
+    target="$2"
+
+    echo "$website" |
+        grep "$target" |
+        sed 's/^.*href=\"//' |
+        sed 's/\".*$//' |
+        sed 's/\/\(#\|\)$//'
+}
+
+rss_links="$(search_link "$website" "rss")"
+atom_links="$(search_link "$website" "atom")"
+
+[ -n "$rss_links" ] && echo "$rss_links"
+[ -n "$atom_links" ] && echo "$atom_links"

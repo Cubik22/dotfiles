@@ -10,6 +10,7 @@ rename-search
 edit-base
 edit-paste
 add-base
+add-editor
 add-title
 add-copy
 add-article
@@ -30,6 +31,7 @@ case "$result" in
     edit-base) bookmark-edit ;;
     edit-paste) bookmark-edit --paste ;;
     add-base) bookmark-add base ;;
+    add-editor) bookmark-add editor ;;
     add-title) bookmark-add title ;;
     add-copy) bookmark-add copy ;;
     add-article) bookmark-add article ;;
