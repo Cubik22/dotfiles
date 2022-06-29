@@ -3,6 +3,19 @@
 width="$FOOT_FLOAT_WIDTH"
 height="$FOOT_FLOAT_HEIGHT"
 
+case "$1" in
+    --fzf)
+        width="$FZF_RG_WIDTH"
+        height="$FZF_RG_HEIGHT"
+        shift 1
+    ;;
+    --foot)
+        width="$FOOT_FLOAT_WIDTH"
+        height="$FOOT_FLOAT_HEIGHT"
+        shift 1
+    ;;
+esac
+
 footclient \
     --window-size-pixels="${width}x${height}" \
     --app-id=float \

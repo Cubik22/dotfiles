@@ -18,6 +18,7 @@ restart-normal
 restart-hard
 restart-soft
 restart-all
+torbrowser
 EOF
 )
 
@@ -72,5 +73,8 @@ case "$result" in
         riverctl spawn "firefox-spawn-all"
         # nohup killall firefox >"$firefox_data/kill-all.log" 2>&1
         # nohup firefox-spawn-all >"$firefox_data/start-all.log" 2>&1
+    ;;
+    torbrowser)
+        riverctl spawn "torbrowser-launcher"
     ;;
 esac

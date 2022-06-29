@@ -20,6 +20,11 @@ EOF
 
 error="please insert one parameter: 'up' 'down' 'load' or a percentage"
 
+# options
+percentage_change_upper=5
+switch_percentage=10
+percentage_change_lower=1
+
 if [ "$#" -ne 1 ]; then
     echo "$error"
     echo "you inserted $# parameters"
@@ -61,7 +66,6 @@ elif [ ! -f "$current_path" ]; then
 fi
 
 if [ "$mode" = "up" ] || [ "$mode" = "down" ]; then
-    switch_percentage=5
     switch_brightness="$(( max_brightness * switch_percentage / 100 ))"
 
     if [ "$current_brightness" -gt "$switch_brightness" ]; then
@@ -78,10 +82,10 @@ if [ "$mode" = "up" ] || [ "$mode" = "down" ]; then
 
     if [ "$situation" = "upper" ]; then
         reference_brightness="$max_brightness"
-        number_steps=20
+        number_steps="$(( 100 / percentage_change_upper ))"
     elif [ "$situation" = "lower" ]; then
         reference_brightness="$switch_brightness"
-        number_steps="$switch_percentage"
+        number_steps="$(( switch_percentage / percentage_change_lower ))"
     fi
 
     step="$(( reference_brightness / number_steps ))"

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 info=$(cat << EOF
-mv-clean target
+mv-clean target [target ...]
 change spaces with dashes and turn to lower case
 remove characters not used in files
 EOF
@@ -29,8 +29,14 @@ for target in "$@"; do
         tr -d '}' | \
         tr -d ',' | \
         tr -d ';' | \
-        tr -d ':' \
+        tr -d ':' | \
+        sed 's/^-\+//' | \
+        sed 's/-\+/-/g' \
     )"
 
-    mv "$target" "$rename"
+    if [ ! "$rename" = "$target" ]; then
+        mv "$target" "$rename"
+    else
+        echo "$target is already clean"
+    fi
 done
