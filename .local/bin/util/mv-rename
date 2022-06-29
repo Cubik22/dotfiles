@@ -22,7 +22,7 @@ for target in "$@"; do
 done
 
 old_number="$(wc -l "$rename_file" | cut -d " " -f 1)"
-kak "$rename_file"
+"${EDITOR:-kak}" "$rename_file"
 new_number="$(wc -l "$rename_file" | cut -d " " -f 1)"
 
 if [ "$new_number" -ne "$old_number" ]; then

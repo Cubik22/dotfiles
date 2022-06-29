@@ -5,8 +5,8 @@
 actions=$(cat << EOF
 copy-base
 copy-search
-make-dir-child
-make-dir-root
+rename-base
+rename-search
 edit-base
 edit-paste
 add-base
@@ -14,6 +14,8 @@ add-title
 add-copy
 add-article
 add-repo
+make-dir-child
+make-dir-root
 EOF
 )
 
@@ -21,15 +23,17 @@ result="$(echo "$actions" | fzf --prompt "${FZF_BEFORE_PROMPT}bookmark: ")"
 [ -z "$result" ] && return 0
 
 case "$result" in
-    copy-base) bookmark-copy ;;
-    copy-search) bookmark-copy --from-clipboard ;;
-    make-dir-child) bookmark-create-directory child;;
-    make-dir-root) bookmark-create-directory root;;
+    copy-base) bookmark-search ;;
+    copy-search) bookmark-search --from-clipboard ;;
+    rename-base) bookmark-search --edit ;;
+    rename-search) bookmark-search --edit --from-clipboard ;;
     edit-base) bookmark-edit ;;
     edit-paste) bookmark-edit --paste ;;
-    add-base) bookmark-add base;;
-    add-title) bookmark-add title;;
+    add-base) bookmark-add base ;;
+    add-title) bookmark-add title ;;
     add-copy) bookmark-add copy ;;
     add-article) bookmark-add article ;;
     add-repo) bookmark-add repo ;;
+    make-dir-child) bookmark-create-directory child ;;
+    make-dir-root) bookmark-create-directory root ;;
 esac

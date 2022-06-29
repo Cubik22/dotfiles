@@ -6,8 +6,9 @@ if [ "$#" -eq 0 ]; then
     mode="normal"
 else
     case "$1" in
-        --normal) mode="normal" ;;
-        --paste) mode="paste" ;;
+        --normal|--paste)
+            mode="$(echo "$1" | cut -d '-' -f 3-)"
+        ;;
         *)
             echo "error: wrong parameter"
             return 1
@@ -33,4 +34,4 @@ fi
 
 number_line="$(wc -l "$file" | cut -d " " -f 1)"
 
-kak "$file" "+$number_line"
+"${EDITOR:-kak}" "$file" "+$number_line"

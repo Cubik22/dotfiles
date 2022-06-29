@@ -32,8 +32,11 @@ url="$("$PASTE_CMD" -n | sed 's/\/\(#\|\)$//')"
 case "$mode" in
     base)
         # ask name to user
-        printf "%s" "bookmark name: "
-        read -r name
+        while [ -z "$name" ]; do
+            clear
+            printf "%s" "bookmark name: "
+            read -r name
+        done
     ;;
     title)
         name="$(url-title "$url")"

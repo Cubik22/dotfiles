@@ -2,6 +2,6 @@
 
 file="$(mktemp wl-clipboard-XXXXXX)"
 "$PASTE_CMD" > "$file"
-kak "$file"
+"${EDITOR:-kak}" "$file"
 "$COPY_CMD" -n < "$file"
 rm -f "$file"

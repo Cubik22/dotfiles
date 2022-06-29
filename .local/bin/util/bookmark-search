@@ -1,0 +1,111 @@
+#!/bin/sh
+
+# search a bookmark
+
+bookmarks_dir="${XDG_LOCAL_HOME:=$HOME/.local}/etc/bookmarks"
+cd "$bookmarks_dir" || return 1
+
+if [ "$#" -eq 0 ]; then
+    initial_query="${*:-}"
+    mode="normal"
+else
+    while [ "$#" -ne 0 ]; do
+        case "$1" in
+            --normal|--edit)
+                mode="$(echo "$1" | cut -d '-' -f 3-)"
+            ;;
+            --from-clipboard)
+                # remove http(s)://(www.) and / or /# from end of url
+                initial_query="$(
+                    "$PASTE_CMD" -n |
+                    sed 's/^http\(s\|\):\/\/\(www\.\|\)//' |
+                    sed 's/\/\(#\|\)$//'
+                )"
+            ;;
+            *)
+                echo "error: argument not recognized"
+                return 1
+            ;;
+        esac
+        shift 1
+    done
+fi
+
+full_line_bookmark="$(
+    rg --color=always --no-heading --smart-case "" |
+    fzf \
+        --ansi \
+        --query "$initial_query" \
+        --color "hl:-1:underline,hl+:-1:underline:reverse" \
+        --delimiter : \
+        --prompt "${FZF_BEFORE_PROMPT}search: "
+)"
+[ -z "$full_line_bookmark" ] && return 0
+if [ "$mode" = "normal" ]; then
+    link_bookmark="$(
+        echo "$full_line_bookmark" |
+            cut -d ":" -f "2-" |
+            cut -d " " -f "1"
+    )"
+    [ -n "$link_bookmark" ] && "$COPY_CMD" "$link_bookmark"
+elif [ "$mode" = "edit" ]; then
+    relative_path="$( \
+        echo "$full_line_bookmark" | \
+        cut -d ":" -f 1 \
+    )"
+    line_bookmark="$( \
+        echo "$full_line_bookmark" | \
+        cut -d ":" -f 2- \
+    )"
+    file_bookmark="$bookmarks_dir/$relative_path"
+    edit_file="$(mktemp)"
+    echo "$line_bookmark" > "$edit_file"
+    "${EDITOR:-kak}" "$edit_file"
+    number_lines="$(wc -l "$edit_file" | cut -d " " -f 1)"
+    if [ "$number_lines" -ne 1 ]; then
+        echo "error: you have added or removed lines"
+        rm -f "$edit_file"
+        return 1
+    fi
+    new_file="$(mktemp)"
+    while read -r line; do
+        if [ ! "$line" = "$line_bookmark" ]; then
+            echo "$line" >> "$new_file"
+        else
+            cat "$edit_file" >> "$new_file"
+        fi
+    done < "$file_bookmark"
+    mv -f "$new_file" "$file_bookmark"
+    rm -f "$edit_file"
+fi
+
+# TODO: not working
+# remove_file_name() {
+#     input="$(cat)"
+#     first_part="$(
+#         printf "%s" "$input" |
+#         cut -d ":" -f "1"
+#     )"
+#     second_part="$(
+#         printf "%s" "$input" |
+#         cut -d ":" -f "2-"
+#     )"
+#     cutted_first_part="$(
+#         printf "%s" "$first_part" |
+#         rev |
+#         cut -d "/" -f "2-" |
+#         rev
+#     )"
+#     echo "$cutted_first_part:$second_part"
+# }
+
+#!/usr/bin/env bash
+# IFS=: read -ra selected < <(
+#     rg --color=always --line-number --no-heading --smart-case "" |
+#         fzf \
+#             --ansi \
+#             --query "$initial_query" \
+#             --color "hl:-1:underline,hl+:-1:underline:reverse" \
+#             --delimiter :
+# )
+# [ -n "${selected[0]}" ] && sed -n "${selected[1]}p" "${selected[0]}" | cut -d " " -f 1 | "$COPY_CMD"
