@@ -14,12 +14,25 @@ if [ "$#" -ne 0 ]; then
             return 0
         ;;
     esac
+else
+    file="$( \
+        $FZF_DEFAULT_COMMAND \
+        --type=file \
+        --type=symlink \
+        --exact-depth 1 \
+        '.*pdf$|.*epub$|.*ps$|.*cbz$|.*cbr$|.*djvu$|.*djv$' | \
+        fzf \
+        --prompt "${FZF_BEFORE_PROMPT}clean: " \
+    )"
+    [ -z "$file" ] && return 0
+    set -- "$file"
 fi
 
 for target in "$@"; do
     rename="$( \
         echo "$target" | \
         tr ' ' '-' | \
+        tr '_' '-' | \
         tr '[:upper:]' '[:lower:]' | \
         tr -d '(' | \
         tr -d ')' | \
