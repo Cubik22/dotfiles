@@ -53,8 +53,8 @@ build() {
 
 # link files to scripts and script-opts
 link() {
-    ln -sf "$plugins_dir/mpv/TOOLS/lua/autoload.lua"                    "$scripts_dir/autoload.lua"
-    ln -sf "$plugins_dir/zc62/autoloop.lua"                             "$scripts_dir/autoloop.lua"
+    # ln -sf "$plugins_dir/mpv/TOOLS/lua/autoload.lua"                    "$scripts_dir/autoload.lua"
+    # ln -sf "$plugins_dir/zc62/autoloop.lua"                             "$scripts_dir/autoloop.lua"
     ln -sf "$plugins_dir/fast-forward/main.lua"                         "$scripts_dir/fast-forward.lua"
     ln -sf "$plugins_dir/file-browser/file-browser.lua"                 "$scripts_dir/file-browser.lua"
     ln -sf "$plugins_dir/thumbnail/mpv_thumbnail_script_client_osc.lua" "$scripts_dir/thumbnail-client.lua"

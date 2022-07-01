@@ -22,7 +22,10 @@ fi
 
 url="$1"
 
-website="$(curl -s "$url")"
+error_file="$(mktemp)"
+website="$(curl --no-progress-meter "$url" 2>"$error_file")"
+cat "$error_file"
+rm -f "$error_file"
 
 search_link() {
     website="$1"

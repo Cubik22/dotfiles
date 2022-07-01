@@ -8,6 +8,8 @@ if you do not specify id/line/file it will try to guess it
 options:
     -h, --help
         print this help and return
+    -v, --verbose
+        print more output
     --id
         accept a channel id as input
     --line
@@ -18,6 +20,8 @@ options:
 EOF
 )
 
+verbose=false
+
 if [ "$#" -ne 0 ]; then
     while [ "$#" -gt 0 ]; do
         case "$1" in
@@ -25,22 +29,23 @@ if [ "$#" -ne 0 ]; then
                 echo "$info"
                 return 0
             ;;
+            -v|--verbose)
+                verbose=true
+            ;;
             --id)
                 action="id"
-                shift 1
             ;;
             --line)
                 action="line"
-                shift 1
             ;;
             --file)
                 action="file"
-                shift 1
             ;;
             *)
                 break
             ;;
         esac
+        shift 1
     done
 fi
 
@@ -93,7 +98,9 @@ else
     esac
 fi
 
-echo "action: $action"
+if [ "$verbose" = "true" ]; then
+    echo "action: $action"
+fi
 
 query_site="https://api.odysee.com"
 # query_site="https://api.odysee.tv"
@@ -143,7 +150,9 @@ if [ ! "$action" = "file" ]; then
     fi
     name="$(get_name_from_id "$channel_id" "$query_site")"
     if [ -z "$name" ]; then
-        echo "not found"
+        if [ "$verbose" = "true" ]; then
+            echo "not found"
+        fi
     else
         echo "$name"
     fi

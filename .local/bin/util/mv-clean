@@ -1,51 +1,85 @@
 #!/bin/sh
 
 info=$(cat << EOF
-mv-clean target [target ...]
+mv-clean target [option] [target ...]
 change spaces with dashes and turn to lower case
 remove characters not used in files
+option:
+    --ytdl
+        remove string id at the end of file downloaded with ytdl
 EOF
 )
 
+ytdl=false
+
 if [ "$#" -ne 0 ]; then
-    case "$1" in
-        -h|--help)
-            echo "$info"
-            return 0
-        ;;
-    esac
-else
-    file="$( \
+    while [ "$#" -ne 0 ]; do
+        case "$1" in
+            -h|--help)
+                echo "$info"
+                return 0
+            ;;
+            --ytdl)
+                ytdl=true
+            ;;
+            -*)
+                echo "error: option not recognized"
+                return 1
+            ;;
+            *)
+                break
+            ;;
+        esac
+        shift 1
+    done
+fi
+if [ "$#" -eq 0 ]; then
+    file="$(
         $FZF_DEFAULT_COMMAND \
         --type=file \
-        --type=symlink \
-        --exact-depth 1 \
-        '.*pdf$|.*epub$|.*ps$|.*cbz$|.*cbr$|.*djvu$|.*djv$' | \
+        --exact-depth 1 |
         fzf \
-        --prompt "${FZF_BEFORE_PROMPT}clean: " \
+        --prompt "${FZF_BEFORE_PROMPT}clean: "
     )"
     [ -z "$file" ] && return 0
     set -- "$file"
 fi
 
 for target in "$@"; do
-    rename="$( \
-        echo "$target" | \
-        tr ' ' '-' | \
-        tr '_' '-' | \
-        tr '[:upper:]' '[:lower:]' | \
-        tr -d '(' | \
-        tr -d ')' | \
-        tr -d '[' | \
-        tr -d ']' | \
-        tr -d '{' | \
-        tr -d '}' | \
-        tr -d ',' | \
-        tr -d ';' | \
-        tr -d ':' | \
-        sed 's/^-\+//' | \
-        sed 's/-\+/-/g' \
+    rename="$(
+        echo "$target" |
+        tr ' ' '-' |
+        tr '_' '-' |
+        tr '[:upper:]' '[:lower:]' |
+        tr -d '(' |
+        tr -d ')' |
+        tr -d '[' |
+        tr -d ']' |
+        tr -d '{' |
+        tr -d '}' |
+        tr -d ',' |
+        tr -d ';' |
+        tr -d ':' |
+        sed 's/^-\+//' |
+        sed 's/-\+/-/g'
     )"
+
+    if [ "$ytdl" = "true" ]; then
+        first_part="$(
+            echo "$rename" |
+            rev |
+            cut -d "-" -f 2- |
+            rev
+        )"
+        extension="$(
+            echo "$rename" |
+            rev |
+            cut -d "-" -f 1 |
+            rev |
+            cut -d "." -f 2-
+        )"
+        rename="${first_part}.${extension}"
+    fi
 
     if [ ! "$rename" = "$target" ]; then
         mv "$target" "$rename"

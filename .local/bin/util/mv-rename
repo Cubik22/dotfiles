@@ -14,14 +14,13 @@ if [ "$#" -ne 0 ]; then
         ;;
     esac
 else
-    file="$( \
+    file="$(
         $FZF_DEFAULT_COMMAND \
         --type=file \
         --type=symlink \
-        --exact-depth 1 \
-        '.*pdf$|.*epub$|.*ps$|.*cbz$|.*cbr$|.*djvu$|.*djv$' | \
+        --exact-depth 1 |
         fzf \
-        --prompt "${FZF_BEFORE_PROMPT}rename: " \
+        --prompt "${FZF_BEFORE_PROMPT}rename: "
     )"
     [ -z "$file" ] && return 0
     set -- "$file"

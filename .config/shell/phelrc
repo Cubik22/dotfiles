@@ -271,6 +271,7 @@ EOF
 # shellcheck disable=SC2034
 util_info=$(cat << EOF
 ## util
+watch
 tee
 tr
 time
