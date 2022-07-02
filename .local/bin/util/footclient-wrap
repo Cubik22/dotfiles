@@ -1,0 +1,39 @@
+#!/bin/sh
+
+# wrap spaced parameters in quotes
+program=""
+for param in "$@"; do
+    case "$param" in
+        *" "*)
+            program="$program \"$param\""
+        ;;
+        *)
+            program="$program $param"
+        ;;
+    esac
+done
+
+# get informations
+border_width="$(border-width)"
+height_bar="$(height-bar)"
+
+# set dimensions
+width="$(( WINDOW_WIDTH / 2 ))"
+height="$(( WINDOW_HEIGHT - 2 * border_width - height_bar ))"
+# semifull_height="$(( WINDOW_HEIGHT * 15 / 16 ))"
+
+# spawn program with riverctl
+riverctl spawn " \
+    footclient-run \
+        -o \" \
+            --window-size-pixels=${width}x${height} \
+            --app-id=float \
+        \" \
+        $program \
+"
+
+# wait for the window to become focused
+sleep 0.1
+
+# maximize window and move below bar
+riverctl snap down

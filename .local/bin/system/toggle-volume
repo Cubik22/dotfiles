@@ -38,9 +38,9 @@ fi
 
 state_dir="${XDG_DATA_HOME:-$HOME/.local/share}/script"
 if [ "$volume" = "audio" ]; then
-    status_path="$state_dir/audio_status"
+    status_path="$state_dir/audio-status"
 elif [ "$volume" = "microphone" ]; then
-    status_path="$state_dir/microphone_status"
+    status_path="$state_dir/microphone-status"
 else
     echo "error: first unreachable code"
     return 1

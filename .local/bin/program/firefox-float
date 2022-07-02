@@ -3,7 +3,21 @@
 # spawn firefox in a floating window
 # used with newsboat
 
-firefox "$@" > /dev/null 2>&1 &
+# wrap spaced parameters in quotes and spawn firefox
+parameters=""
+for param in "$@"; do
+    case "$param" in
+        *" "*)
+            parameters="$parameters \"$param\""
+        ;;
+        *)
+            parameters="$parameters $param"
+        ;;
+    esac
+done
+riverctl spawn "firefox $parameters"
+
+# firefox "$@" > /dev/null 2>&1 &
 
 # wait for the window to become focused
 # it is not a problem to wait a bit because

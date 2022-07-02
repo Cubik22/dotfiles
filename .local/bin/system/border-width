@@ -1,0 +1,16 @@
+#!/bin/sh
+
+default_border_width=3
+
+state_script_dir="${XDG_DATA_HOME:-$HOME/.local/share}/script"
+border_width_file="$state_script_dir/border-width"
+
+if [ ! -e "$border_width_file" ]; then
+    mkdir -p "$state_script_dir"
+    echo "$default_border_width" > "$border_width_file"
+elif [ ! -f "$border_width_file" ]; then
+    echo "error: border-width is not a file"
+    return 1
+fi
+
+cat "$border_width_file"

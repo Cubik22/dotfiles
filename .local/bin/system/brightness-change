@@ -54,14 +54,13 @@ max_brightness_path="/sys/class/backlight/intel_backlight/max_brightness"
 current_brightness="$(cat $brightness_path)"
 max_brightness="$(cat $max_brightness_path)"
 
-state_dir="${XDG_DATA_HOME:-$HOME/.local/share}/script"
-current_path="$state_dir/brightness_current"
-
+state_script_dir="${XDG_DATA_HOME:-$HOME/.local/share}/script"
+current_path="$state_script_dir/brightness-current"
 if [ ! -e "$current_path" ]; then
-    mkdir -p "$state_dir"
+    mkdir -p "$state_script_dir"
     echo "$(( max_brightness / 2 ))" > "$current_path"
 elif [ ! -f "$current_path" ]; then
-    echo "error: current_path is not a file"
+    echo "error: brightness-current is not a file"
     return 1
 fi
 

@@ -20,7 +20,10 @@ else
     return 1
 fi
 
-url="$1"
+url="$(
+    echo "$1" |
+    sed 's/\/\(#\|\)$//'
+)"
 
 error_file="$(mktemp)"
 website="$(curl --no-progress-meter "$url" 2>"$error_file")"
@@ -38,8 +41,24 @@ search_link() {
         sed 's/\/\(#\|\)$//'
 }
 
-rss_links="$(search_link "$website" "rss")"
-atom_links="$(search_link "$website" "atom")"
+print_link() {
+    links="$1"
+    IFS='
+'
+    for link in $links; do
+        case "$link" in
+            /*)
+                echo "${url}${link}"
+            ;;
+            *)
+                echo "$link"
+            ;;
+        esac
+    done
+}
 
-[ -n "$rss_links" ] && echo "$rss_links"
-[ -n "$atom_links" ] && echo "$atom_links"
+rss_links="$(search_link "$website" "/rss")"
+atom_links="$(search_link "$website" "/atom")"
+
+[ -n "$rss_links" ] && print_link "$rss_links"
+[ -n "$atom_links" ] && print_link "$atom_links"

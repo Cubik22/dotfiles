@@ -54,7 +54,7 @@ alt="Mod1"
 # Delete Return Backspace Space Period Comma
 # {Up,Right,Down,Left} [0-9] F11
 # {H,J,K,L} Q F U N P
-# S E Z B I C D M W A V T Y O R
+# S E Z B I C D M W A V T Y O R X
 
 # Gui+Control+Space footclient
 riverctl map normal "$gui"+Control Space spawn "footclient"
@@ -126,6 +126,10 @@ riverctl map normal "$gui" O spawn "footclient-run --fzf play --river --odysee"
 riverctl map normal "$gui" R spawn "footclient-run --fzf zat-fzf --river"
 # Gui+Shift+R read directory with zathura
 riverctl map normal "$gui"+Shift R spawn "footclient-run --fzf zat-open-list-float-fullscreen-fzf --river"
+
+# Gui+X open copied link with lynx
+# shellcheck disable=SC2016
+riverctl map normal "$gui" X spawn 'footclient-wrap lynx $(wl-paste-env)'
 
 # Gui+Shift+F firefox menu
 riverctl map normal "$gui"+Shift F spawn "footclient-float firefox-menu"
@@ -352,8 +356,8 @@ riverctl border-color-urgent 0xcc241d
 # riverctl border-color-focused 0x93a1a1
 # riverctl border-color-unfocused 0x586e75
 
-# set border width
-riverctl border-width 3
+# load border width from file so it can be read by other programs
+riverctl border-width "$(border-width)"
 
 # moving the cursor on another window change focus
 riverctl focus-follows-cursor disabled
