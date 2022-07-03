@@ -8,6 +8,7 @@ evaluate-commands %sh{
         kak-lsp --kakoune -s "$kak_session"
         printf "%s" "
             set-option global lsp_available true
+            hook global KakEnd .* lsp-exit
         "
     fi
 }
@@ -28,14 +29,12 @@ define-command -hidden set-language-options %{
 }
 
 define-command -hidden enable-lsp-options %{
-    # enable lsp in this window
-    lsp-enable-window
+    # completion trigger
+    # set-option global lsp_completion_trigger "execute-keys 'h<a-h><a-k>\S[^\h\n,=;*(){}\[\]]\z<ret>'"
 
     # enable debug logging for kak-lsp
     # set-option global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
 
-    # automatically show hover when you move around
-    # lsp-auto-hover-enable
     # exclude diagnostics
     # set-option global lsp_show_hover_format 'printf %s "${lsp_info}"'
 
@@ -43,6 +42,12 @@ define-command -hidden enable-lsp-options %{
     set-option global lsp_hover_anchor true
     # indent lsp with spaces rather than tabs
     set-option global lsp_insert_spaces true
+
+    # enable lsp in this window
+    lsp-enable-window
+
+    # automatically show hover when you move around
+    # lsp-auto-hover-enable
 
     # execute lsp-highlight-references every time the user pauses in normal mode
     # set-option global lsp_auto_highlight_references true
@@ -69,7 +74,7 @@ define-command -hidden enable-lsp-options %{
     # lsp-inlay-diagnostics-enable global
 }
 
-# bash language server disconnects/reconnects
+# bash language server disconnects-reconnects
 # when changing comment out set-language-options below in sh
 # hook global WinSetOption filetype=(sh|c|cpp|rust|zig|go|lua|python|r|latex|html|css|json|javascript|typescript) %{
 

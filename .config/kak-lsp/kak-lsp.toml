@@ -10,6 +10,7 @@
 # works only in unix sockets mode (-s/--session)
 # set to 0 to disable
 timeout = 0
+# timeout = 1800
 
 [language.bash]
 filetypes = ["sh"]
