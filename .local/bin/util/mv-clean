@@ -51,12 +51,20 @@ for target in "$@"; do
         tr ' ' '-' |
         tr '_' '-' |
         tr '[:upper:]' '[:lower:]' |
+        tr -d '!' |
+        tr -d '#' |
+        tr -d '$' |
+        tr -d '^' |
+        tr -d '*' |
         tr -d '(' |
         tr -d ')' |
         tr -d '[' |
         tr -d ']' |
         tr -d '{' |
         tr -d '}' |
+        tr -d '"' |
+        tr -d "'" |
+        tr -d '=' |
         tr -d ',' |
         tr -d ';' |
         tr -d ':' |

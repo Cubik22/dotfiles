@@ -1,0 +1,46 @@
+#!/bin/sh
+
+info=$(cat << EOF
+count-url file [file...]
+count urls in files
+lines that start with url
+used with newsboat urls files
+EOF
+)
+
+if [ "$#" -ne 0 ]; then
+    case "$1" in
+        -h|--help)
+            echo "$info"
+            return 0
+        ;;
+    esac
+else
+    echo "error: insert file"
+    return 1
+fi
+
+printf "\n"
+for file in "$@"; do
+    https_number=0
+    http_number=0
+    while read -r line; do
+        case "$line" in
+            https://*)
+                https_number="$(( https_number + 1 ))"
+            ;;
+            http://*)
+                http_number="$(( http_number + 1 ))"
+            ;;
+        esac
+    done < "$file"
+    total_number="$(( https_number + http_number ))"
+
+    cat << EOF
+file: $file
+https: $https_number
+http: $http_number
+total: $total_number
+
+EOF
+done

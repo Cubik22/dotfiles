@@ -22,6 +22,5 @@ esac
 
 footclient \
     --window-size-pixels="${width}x${height}" \
-    --app-id=float \
     "$@" \
     &

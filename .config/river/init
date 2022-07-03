@@ -57,7 +57,7 @@ alt="Mod1"
 # S E Z B I C D M W A V T Y O R X
 
 # Gui+Control+Space footclient
-riverctl map normal "$gui"+Control Space spawn "footclient"
+riverctl map normal "$gui"+Control Space spawn "footclient-default"
 # Gui+Control+Backspace footclient float
 riverctl map normal "$gui"+Control Backspace spawn "footclient-float"
 # Gui+Control+Return footclient float fullscreen
