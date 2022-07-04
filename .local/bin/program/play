@@ -120,19 +120,35 @@ elif [ "$website" = "odysee" ]; then
 fi
 
 options=$(cat << EOF
-normal
+video-normal
+video-loop
 best
 medium
 worst
-audio
+audio-normal
+audio-loop
 EOF
 )
 
 option="$(echo "$options" | fzf --prompt "${FZF_BEFORE_PROMPT}option: ")"
 [ -z "$option" ] && return 0
 
-if [ "$river" = "false" ]; then
-    mpv-url --"$option" "$video_url"
-else
-    riverctl spawn "mpv-url --$option $video_url"
-fi
+case "$option" in
+    video-normal|video-loop|audio-normal|audio-loop)
+        first_param="$(echo "$option" | cut -d "-" -f 1)"
+        second_param="$(echo "$option" | cut -d "-" -f 2)"
+        [ "$first_param" = "video" ] && first_param="normal"
+        if [ "$river" = "false" ]; then
+            mpv-url --"$first_param" --"$second_param" "$video_url"
+        else
+            riverctl spawn "mpv-url --\"$first_param\" --\"$second_param\" \"$video_url\""
+        fi
+    ;;
+    best|medium|worst)
+        if [ "$river" = "false" ]; then
+            mpv-url --"$option" "$video_url"
+        else
+            riverctl spawn "mpv-url --\"$option\" \"$video_url\""
+        fi
+    ;;
+esac

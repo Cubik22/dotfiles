@@ -75,6 +75,8 @@ export XDG_LIB_HOME="$XDG_LOCAL_HOME/lib"
 export XDG_INCLUDE_HOME="$XDG_LOCAL_HOME/include"
 export XDG_BIN_HOME="$XDG_LOCAL_HOME/bin"
 
+export SOURCE_HOME="$HOME/src"
+
 # rust local
 export RUSTUP_HOME_LOCAL="$XDG_LIB_HOME/rustup"
 export CARGO_HOME_LOCAL="$XDG_LIB_HOME/cargo"

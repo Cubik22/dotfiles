@@ -19,9 +19,10 @@
 # sleep 2
 
 # riverctl set-focused-tags "$(get_tags $footclient_pos)"
+# BUG: dies after first key pressed
 # if running just footclient
-sleep 0.5
-riverctl spawn footclient
+# sleep 0.5
+# riverctl spawn footclient-default
 
 # load audio status
 # it is done here in order to wait for pipewire to load in the backgroud

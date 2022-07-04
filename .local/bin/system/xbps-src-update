@@ -1,7 +1,6 @@
 #!/bin/sh
 
-dev_home="$HOME/dev"
-void_packages_dir="$dev_home/void-packages"
+void_packages_dir="$SOURCE_HOME/void-packages"
 xbps_src_bin="$void_packages_dir/xbps-src"
 
 if [ ! -d "$void_packages_dir" ]; then

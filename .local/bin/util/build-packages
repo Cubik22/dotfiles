@@ -12,8 +12,8 @@ etc_home="$local_home/etc"
 prefix_dir="$local_home"
 # prefix_dir_global="/usr/local"
 
-dev="$HOME/dev/package"
-[ ! -d "$dev" ] && mkdir -p "$dev"
+src="$SOURCE_HOME/package"
+[ ! -d "$src" ] && mkdir -p "$src"
 
 package_names="$(cat "$etc_home/script/build-packages")"
 
@@ -100,7 +100,7 @@ done
 kakoune_install() {
     package="kakoune"
     echo "installing package: $package"
-    package_dir="$dev/$package"
+    package_dir="$src/$package"
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/mawww/kakoune.git "$package_dir"
     else
@@ -125,7 +125,7 @@ kakoune_install() {
 kak_lsp_install() {
     package="kak-lsp"
     echo "installing package: $package"
-    package_dir="$dev/$package"
+    package_dir="$src/$package"
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/kak-lsp/kak-lsp.git "$package_dir"
     else
@@ -142,7 +142,7 @@ kak_lsp_install() {
 llvm_install() {
     package="llvm"
     echo "installing package: $package"
-    package_dir="$dev/$package"
+    package_dir="$src/$package"
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/llvm/llvm-project "$package_dir"
     else
@@ -210,7 +210,7 @@ zig_install() {
 
     package="zig"
     echo "installing package: $package"
-    package_dir="$dev/$package"
+    package_dir="$src/$package"
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/ziglang/zig.git  "$package_dir"
     else
@@ -233,7 +233,7 @@ zig_install() {
 ziget_install() {
     package="ziget"
     echo "installing package: $package"
-    package_dir="$dev/$package"
+    package_dir="$src/$package"
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/marler8997/ziget.git "$package_dir"
     else
@@ -255,7 +255,7 @@ zigup_install() {
 
     package="zigup"
     echo "installing package: $package"
-    package_dir="$dev/$package"
+    package_dir="$src/$package"
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/marler8997/zigup.git "$package_dir"
     else
@@ -298,7 +298,7 @@ zls_install() {
 
     package="zls"
     echo "installing package: $package"
-    package_dir="$dev/$package"
+    package_dir="$src/$package"
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/zigtools/zls.git "$package_dir"
     else
@@ -320,17 +320,17 @@ zls_install() {
 lua_language_server_install() {
     echo "installing package: lua-language-server"
 
-    if [ ! -d "$dev/lua-language-server" ]; then
+    if [ ! -d "$src/lua-language-server" ]; then
         action="install"
     else
         action="update"
     fi
 
     if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/sumneko/lua-language-server.git "$dev/lua-language-server"
+        git clone --recurse-submodules https://github.com/sumneko/lua-language-server.git "$src/lua-language-server"
     fi
 
-    cd "$dev/lua-language-server" || return 1
+    cd "$src/lua-language-server" || return 1
 
     if [ "$action" = "update" ]; then
         git pull --recurse-submodules
@@ -343,7 +343,7 @@ lua_language_server_install() {
 
     ./compile/install.sh
 
-    cd "$dev/lua-language-server" || return 1
+    cd "$src/lua-language-server" || return 1
 
     ./3rd/luamake/luamake rebuild
 
@@ -352,7 +352,7 @@ lua_language_server_install() {
 
     # directory used in kak-lsp/kak-lsp.toml
     if [ "$action" = "install" ]; then
-        doas ln -s "$dev/lua-language-server/bin/Linux" /usr/local/lib/lua-language-server
+        doas ln -s "$src/lua-language-server/bin/Linux" /usr/local/lib/lua-language-server
     fi
 }
 
@@ -363,28 +363,28 @@ lua_language_server_install() {
 htop_install() {
     echo "installing package: htop"
 
-    if [ ! -d "$dev/htop" ]; then
+    if [ ! -d "$src/htop" ]; then
         action="install"
     else
         action="update"
     fi
 
     if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://aur.archlinux.org/htop-vim.git "$dev/htop-vim"
+        git clone --recurse-submodules https://aur.archlinux.org/htop-vim.git "$src/htop-vim"
     fi
 
-    doas rm -rf "$dev/htop"
-    git clone --recurse-submodules https://github.com/htop-dev/htop.git "$dev/htop"
+    doas rm -rf "$src/htop"
+    git clone --recurse-submodules https://github.com/htop-dev/htop.git "$src/htop"
 
-    cd  "$dev/htop-vim" || return 1
+    cd  "$src/htop-vim" || return 1
 
     if [ "$action" = "update" ]; then
         git pull --recurse-submodules
     fi
 
-    cd "$dev/htop" || return 1
+    cd "$src/htop" || return 1
 
-    patch --forward --strip=1 --input="$dev/htop-vim/vim-keybindings.patch"
+    patch --forward --strip=1 --input="$src/htop-vim/vim-keybindings.patch"
 
 cat << EOF > screen.patch
     18a19
@@ -433,7 +433,7 @@ EOF
 libtorrent_install() {
     package="libtorrent"
     echo "installing package: $package"
-    package_dir="$dev/$package"
+    package_dir="$src/$package"
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/jesec/libtorrent.git "$package_dir"
     else
@@ -465,7 +465,7 @@ rtorrent_install() {
 
     package="rtorrent"
     echo "installing package: $package"
-    package_dir="$dev/$package"
+    package_dir="$src/$package"
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/jesec/rtorrent.git "$package_dir"
     else
@@ -477,7 +477,7 @@ rtorrent_install() {
     # curl -s -o "$package_dir/no_xmlrpc_c_compile.patch" \
     #     https://raw.githubusercontent.com/void-linux/void-packages/master/srcpkgs/rtorrent/patches/no_xmlrpc_c_compile.patch
 
-    # package_patch_dir="$dev/rtorrent-patch"
+    # package_patch_dir="$src/rtorrent-patch"
 
     # if [ ! -d "$package_patch_dir" ]; then
     #     git clone --recurse-submodules https://aur.archlinux.org/rtorrent-vi-color.git "$package_patch_dir"
@@ -513,17 +513,17 @@ rtorrent_install() {
 fontpreview_install() {
     echo "installing package: fontpreview"
 
-    if [ ! -d "$dev/fontpreview" ]; then
+    if [ ! -d "$src/fontpreview" ]; then
         action="install"
     else
         action="update"
     fi
 
     if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/sdushantha/fontpreview.git "$dev/fontpreview"
+        git clone --recurse-submodules https://github.com/sdushantha/fontpreview.git "$src/fontpreview"
     fi
 
-    cd "$dev/fontpreview" || return 1
+    cd "$src/fontpreview" || return 1
 
     if [ "$action" = "update" ]; then
         git pull --recurse-submodules
@@ -537,23 +537,23 @@ fontpreview_install() {
 lsix_install() {
     echo "installing package: lsix"
 
-    if [ ! -d "$dev/lsix" ]; then
+    if [ ! -d "$src/lsix" ]; then
         action="install"
     else
         action="update"
     fi
 
     if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/hackerb9/lsix.git "$dev/lsix"
+        git clone --recurse-submodules https://github.com/hackerb9/lsix.git "$src/lsix"
     fi
 
-    cd "$dev/lsix" || return 1
+    cd "$src/lsix" || return 1
 
     if [ "$action" = "update" ]; then
         git pull --recurse-submodules
     fi
 
-    doas install -Dm775 "$dev/lsix/lsix" /usr/local/bin/
+    doas install -Dm775 "$src/lsix/lsix" /usr/local/bin/
 }
 
 ### gn
@@ -561,17 +561,17 @@ lsix_install() {
 gn_install() {
     echo "installing package: gn"
 
-    if [ ! -d "$dev/gn" ]; then
+    if [ ! -d "$src/gn" ]; then
         action="install"
     else
         action="update"
     fi
 
     if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://gn.googlesource.com/gn "$dev/gn"
+        git clone --recurse-submodules https://gn.googlesource.com/gn "$src/gn"
     fi
 
-    cd "$dev/gn" || return 1
+    cd "$src/gn" || return 1
 
     if [ "$action" = "update" ]; then
         git pull --recurse-submodules
@@ -585,7 +585,7 @@ gn_install() {
     # out/gn_unittests
 
     if [ "$action" = "install" ]; then
-        doas ln -s "$dev/gn/out/gn" /usr/local/bin/
+        doas ln -s "$src/gn/out/gn" /usr/local/bin/
     fi
 }
 
@@ -593,11 +593,11 @@ gn_install() {
 wayland_install() {
     echo "installing package: wayland"
 
-    if [ ! -d "$dev/wayland" ]; then
-        git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland.git "$dev/wayland"
+    if [ ! -d "$src/wayland" ]; then
+        git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland.git "$src/wayland"
     fi
 
-    cd "$dev/wayland" || return 1
+    cd "$src/wayland" || return 1
 
     rm -rf build
     git pull --recurse-submodules
@@ -605,11 +605,11 @@ wayland_install() {
     meson build/ --prefix="$prefix_dir"
     ninja -C build/ install
 
-    if [ ! -d "$dev/wayland-protocols" ]; then
-        git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland-protocols.git "$dev/wayland-protocols"
+    if [ ! -d "$src/wayland-protocols" ]; then
+        git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland-protocols.git "$src/wayland-protocols"
     fi
 
-    cd "$dev/wayland-protocols" || return 1
+    cd "$src/wayland-protocols" || return 1
 
     rm -rf build
     git pull --recurse-submodules
@@ -617,11 +617,11 @@ wayland_install() {
     meson -Dtests=false build/ --prefix="$prefix_dir"
     ninja -C build/ install
 
-    if [ ! -d "$dev/wayland-utils" ]; then
-        git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland-utils.git "$dev/wayland-utils"
+    if [ ! -d "$src/wayland-utils" ]; then
+        git clone --recurse-submodules https://gitlab.freedesktop.org/wayland/wayland-utils.git "$src/wayland-utils"
     fi
 
-    cd "$dev/wayland-utils" || return 1
+    cd "$src/wayland-utils" || return 1
 
     rm -rf build
     git pull --recurse-submodules
@@ -640,17 +640,17 @@ wlroots_install() {
 
     echo "installing package: wlroots"
 
-    if [ ! -d "$dev/wlroots" ]; then
+    if [ ! -d "$src/wlroots" ]; then
         action="install"
     else
         action="update"
     fi
 
     if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://gitlab.freedesktop.org/wlroots/wlroots.git "$dev/wlroots"
+        git clone --recurse-submodules https://gitlab.freedesktop.org/wlroots/wlroots.git "$src/wlroots"
     fi
 
-    cd "$dev/wlroots" || return 1
+    cd "$src/wlroots" || return 1
 
     if [ "$action" = "update" ]; then
         rm -rf build
@@ -678,14 +678,14 @@ river_install() {
 
     package="river"
     echo "installing package: $package"
-    package_dir="$dev/$package"
+    package_dir="$src/$package"
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/riverwm/river.git "$package_dir"
     else
         git -C "$package_dir" pull --recurse-submodules
     fi
 
-    cd "$dev/river" || return 1
+    cd "$src/river" || return 1
 
     rm -rf zig-cache
 
@@ -695,13 +695,13 @@ river_install() {
 
     python3 -m pywayland.scanner -i "$data_home/wayland/wayland.xml" protocol/river-control-unstable-v1.xml protocol/river-status-unstable-v1.xml
 
-    if [ ! -d "$dev/river-utils" ]; then
-        git clone --recurse-submodules https://github.com/NickHastings/riverwm-utils.git "$dev/river-utils"
+    if [ ! -d "$src/river-utils" ]; then
+        git clone --recurse-submodules https://github.com/NickHastings/riverwm-utils.git "$src/river-utils"
     fi
 
-    cd "$dev/river-utils" || return 1
+    cd "$src/river-utils" || return 1
 
-    if [ -d "$dev/river-utils" ]; then
+    if [ -d "$src/river-utils" ]; then
         git pull --recurse-submodules
     fi
 
@@ -716,14 +716,14 @@ waybar_install() {
 
     package="waybar"
     echo "installing package: $package"
-    package_dir="$dev/$package"
+    package_dir="$src/$package"
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/Alexays/Waybar.git "$package_dir"
     else
         git -C "$package_dir" pull --recurse-submodules
     fi
 
-    cd "$dev/waybar" || return 1
+    cd "$src/waybar" || return 1
 
     # build options enabled/disabled
 
@@ -750,14 +750,14 @@ waybar_install() {
 fcft_install() {
     package="fcft"
     echo "installing package: $package"
-    package_dir="$dev/$package"
+    package_dir="$src/$package"
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://codeberg.org/dnkl/fcft.git "$package_dir"
     else
         git -C "$package_dir" pull --recurse-submodules
     fi
 
-    cd "$dev/fcft" || return 1
+    cd "$src/fcft" || return 1
 
     rm -rf build
 
@@ -779,17 +779,17 @@ fuzzel_install() {
 
     echo "installing package: fuzzel"
 
-    if [ ! -d "$dev/fuzzel" ]; then
+    if [ ! -d "$src/fuzzel" ]; then
         action="install"
     else
         action="update"
     fi
 
     if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://codeberg.org/dnkl/fuzzel.git "$dev/fuzzel"
+        git clone --recurse-submodules https://codeberg.org/dnkl/fuzzel.git "$src/fuzzel"
     fi
 
-    cd "$dev/fuzzel" || return 1
+    cd "$src/fuzzel" || return 1
 
     if [ "$action" = "update" ]; then
         rm -rf bld/release
@@ -817,7 +817,7 @@ fuzzel_install() {
 epoll_shim_install() {
     package="epoll-shim"
     echo "installing package: $package"
-    package_dir="$dev/$package"
+    package_dir="$src/$package"
     repository="https://github.com/jiixyj/epoll-shim.git"
 
     if [ ! -d "$package_dir" ]; then
@@ -827,7 +827,7 @@ epoll_shim_install() {
         git -C "$package_dir" pull --recurse-submodules
     fi
 
-    cd "$dev/epoll-shim" || return 1
+    cd "$src/epoll-shim" || return 1
 
     mkdir build
 
@@ -852,7 +852,7 @@ foot_install() {
 
     package="foot"
     echo "installing package: $package"
-    package_dir="$dev/$package"
+    package_dir="$src/$package"
     # repository="https://codeberg.org/dnkl/foot.git"
     repository="https://codeberg.org/lbia/foot.git"
 
@@ -863,7 +863,7 @@ foot_install() {
         git -C "$package_dir" pull --recurse-submodules
     fi
 
-    cd "$dev/foot" || return 1
+    cd "$src/foot" || return 1
 
     mkdir -p bld/release
 
@@ -891,7 +891,7 @@ foot_install() {
         --config=/dev/null \
         --override tweak.grapheme-shaping=no \
         --term=xterm \
-        sh -c "$dev/foot/scripts/generate-alt-random-writes.py --scroll --scroll-region --colors-regular --colors-bright --colors-256 --colors-rgb --attr-bold --attr-italic --attr-underline --sixel ${foot_tmp_file} && cat ${foot_tmp_file}"
+        sh -c "$src/foot/scripts/generate-alt-random-writes.py --scroll --scroll-region --colors-regular --colors-bright --colors-256 --colors-rgb --attr-bold --attr-italic --attr-underline --sixel ${foot_tmp_file} && cat ${foot_tmp_file}"
     rm "${foot_tmp_file}"
 
     meson configure -Db_pgo=use || return 1
@@ -899,7 +899,7 @@ foot_install() {
     ninja test || return 1
     ninja install || return 1
 
-    cd "$dev/foot" || return 1
+    cd "$src/foot" || return 1
 
     # terminfo
     sed 's/@default_terminfo@/foot/g' foot.info | tic -x -e foot,foot-direct -
@@ -910,7 +910,7 @@ foot_install() {
 libinput_gestures_install() {
     package="libinput-gestures"
     echo "installing package: $package"
-    package_dir="$dev/$package"
+    package_dir="$src/$package"
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/bulletmark/libinput-gestures "$package_dir"
     else
@@ -929,7 +929,7 @@ libinput_gestures_install() {
 mozlz4_install() {
     package="mozlz4"
     echo "installing package: $package"
-    package_dir="$dev/$package"
+    package_dir="$src/$package"
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/jusw85/mozlz4.git "$package_dir"
     else
@@ -957,7 +957,7 @@ fontforge_install() {
     package_name="fontforge"
     echo "installing package: $package_name"
 
-    package_dir="$dev/$package_name"
+    package_dir="$src/$package_name"
 
     if [ ! -d "$package_dir" ]; then
         git clone --recurse-submodules https://github.com/fontforge/fontforge.git "$package_dir"
@@ -981,17 +981,17 @@ fontforge_install() {
 qrupdate_install() {
     echo "installing package: qrupdate"
 
-    if [ ! -d "$dev/qrupdate" ]; then
+    if [ ! -d "$src/qrupdate" ]; then
         action="install"
     else
         action="update"
     fi
 
     if [ "$action" = "install" ]; then
-        mkdir "$dev/qrupdate"
+        mkdir "$src/qrupdate"
     fi
 
-    cd "$dev/qrupdate" || return 1
+    cd "$src/qrupdate" || return 1
 
     qrupdate_version=$(curl -s https://sourceforge.net/projects/qrupdate/files/latest/download | grep qrupdate | sed 's/^.*https\:\/\/downloads\.sourceforge\.net\/project\/qrupdate\/qrupdate\///' | sed 's/^.*qrupdate-//' | sed 's/\.tar\.gz.*$//')
 
@@ -1045,17 +1045,17 @@ EOF
 epstool_install() {
     echo "installing package: epstool"
 
-    if [ ! -d "$dev/epstool" ]; then
+    if [ ! -d "$src/epstool" ]; then
         action="install"
     else
         action="update"
     fi
 
     if [ "$action" = "install" ]; then
-        mkdir "$dev/epstool"
+        mkdir "$src/epstool"
     fi
 
-    cd "$dev/epstool" || return 1
+    cd "$src/epstool" || return 1
 
     epstool_version=$(curl -L http://www.ghostgum.com.au/software/epstool.htm | grep epstool- | grep .tar.gz | sed 's/^.*href="..\/download\/epstool-//' | sed 's/\.tar\.gz">.*$//')
 
@@ -1081,17 +1081,17 @@ epstool_install() {
 sundials_install() {
     echo "installing package: sundials"
 
-    if [ ! -d "$dev/sundials" ]; then
+    if [ ! -d "$src/sundials" ]; then
         action="install"
     else
         action="update"
     fi
 
     if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/LLNL/sundials.git "$dev/sundials"
+        git clone --recurse-submodules https://github.com/LLNL/sundials.git "$src/sundials"
     fi
 
-    cd "$dev/sundials" || return 1
+    cd "$src/sundials" || return 1
 
     if [ "$action" = "install" ]; then
         mkdir "instdir"
@@ -1104,7 +1104,7 @@ sundials_install() {
 
     cd builddir || return 1
 
-    doas cmake -DEXAMPLES_INSTALL_PATH="$dev/sundials/instdir/examples" \
+    doas cmake -DEXAMPLES_INSTALL_PATH="$src/sundials/instdir/examples" \
         -DCMAKE_BUILD_TYPE=Release \
         -DENABLE_KLU=ON -DKLU_INCLUDE_DIR=/usr/include -DKLU_LIBRARY_DIR=/usr/lib  \
         -DENABLE_LAPACK=ON -DLAPACK_LIBRARIES="/usr/lib/liblapack.so;/usr/lib/libopenblas.so" \
@@ -1127,18 +1127,18 @@ octave_install() {
 
     echo "installing package: octave"
 
-    if [ ! -d "$dev/octave" ]; then
+    if [ ! -d "$src/octave" ]; then
         action="install"
     else
         action="update"
     fi
 
     if [ "$action" = "install" ]; then
-        # hg clone https://www.octave.org/hg/octave "$dev/octave"
-        hg clone https://hg.savannah.gnu.org/hgweb/octave "$dev/octave"
+        # hg clone https://www.octave.org/hg/octave "$src/octave"
+        hg clone https://hg.savannah.gnu.org/hgweb/octave "$src/octave"
     fi
 
-    cd "$dev/octave" || return 1
+    cd "$src/octave" || return 1
 
     # if [ "$action" = "install" ]; then
     #     mkdir "download"
@@ -1176,17 +1176,17 @@ octave_install() {
 jna_install() {
     echo "installing package: jna"
 
-    if [ ! -d "$dev/jna" ]; then
+    if [ ! -d "$src/jna" ]; then
         action="install"
     else
         action="update"
     fi
 
     if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/java-native-access/jna.git "$dev/jna"
+        git clone --recurse-submodules https://github.com/java-native-access/jna.git "$src/jna"
     fi
 
-    cd "$dev/jna" || return 1
+    cd "$src/jna" || return 1
 
     if [ "$action" = "install" ]; then
         mkdir "download"
@@ -1220,21 +1220,21 @@ biglybt_install() {
 
     echo "installing package: biglybt"
 
-    if [ ! -d "$dev/biglybt" ]; then
+    if [ ! -d "$src/biglybt" ]; then
         action="install"
     else
         action="update"
     fi
 
     if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/BiglySoftware/BiglyBT.git "$dev/biglybt"
+        git clone --recurse-submodules https://github.com/BiglySoftware/BiglyBT.git "$src/biglybt"
 
-        mkdir "$dev/biglybt/download"
-        mkdir "$dev/biglybt/home"
-        mkdir "$dev/biglybt/install"
+        mkdir "$src/biglybt/download"
+        mkdir "$src/biglybt/home"
+        mkdir "$src/biglybt/install"
     fi
 
-    cd "$dev/biglybt" || return 1
+    cd "$src/biglybt" || return 1
 
     if [ "$action" = "install" ]; then
         mkdir "download"
@@ -1263,11 +1263,11 @@ biglybt_install() {
 
         # export app_java_home="/usr/$java_home_subpath"
 
-        # export HOME="$dev/biglybt/home"
+        # export HOME="$src/biglybt/home"
 
         # export SUDO_USER="$USER"
 
-        install_dir="$dev/biglybt/install/$version"
+        install_dir="$src/biglybt/install/$version"
 
         doas sh "$script_name" -dir "$install_dir"
 
@@ -1283,17 +1283,17 @@ biglybt_install() {
 wxwidgets_install() {
     echo "installing package: wxwidgets"
 
-    if [ ! -d "$dev/wxwidgets" ]; then
+    if [ ! -d "$src/wxwidgets" ]; then
         action="install"
     else
         action="update"
     fi
 
     if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/wxWidgets/wxWidgets.git "$dev/wxwidgets"
+        git clone --recurse-submodules https://github.com/wxWidgets/wxWidgets.git "$src/wxwidgets"
     fi
 
-    cd "$dev/wxwidgets" || return 1
+    cd "$src/wxwidgets" || return 1
 
     if [ "$action" = "update" ]; then
         git pull --recurse-submodules
@@ -1323,17 +1323,17 @@ amule_install() {
 
     echo "installing package: amule"
 
-    if [ ! -d "$dev/amule" ]; then
+    if [ ! -d "$src/amule" ]; then
         action="install"
     else
         action="update"
     fi
 
     if [ "$action" = "install" ]; then
-        git clone --recurse-submodules https://github.com/amule-project/amule.git "$dev/amule"
+        git clone --recurse-submodules https://github.com/amule-project/amule.git "$src/amule"
     fi
 
-    cd "$dev/amule" || return 1
+    cd "$src/amule" || return 1
 
     if [ "$action" = "update" ]; then
         git pull --recurse-submodules
@@ -1355,7 +1355,7 @@ amule_install() {
     doas ldconfig
 
     ## if errors when running
-    # cd "$dev"/wxwidgets
+    # cd "$src"/wxwidgets
     # src/common/sizer.cpp line 251
     #   comment: define ASSERT_NO_IGNORED_FLAGS
     # src/common/socketiohandler.cpp line 50

@@ -25,6 +25,9 @@ DESCRIPTION
         -o, --keep-open
             keep the window open
 
+        -l, --loop
+            loop video
+
         --best
             use ytdl with best quality
 
@@ -49,6 +52,7 @@ set_fullscreen() {
 fullscreen=false
 audio=false
 open=false
+loop=false
 quality=false
 
 for param in "$@"; do
@@ -65,6 +69,9 @@ for param in "$@"; do
         ;;
         -o|--keep-open)
             open=true
+        ;;
+        -l|--loop)
+            loop=true
         ;;
         --best)
             quality="best"
@@ -103,6 +110,10 @@ if [ "$open" = "true" ]; then
     set -- "$@" --keep-open=yes
 else
     set -- "$@" --keep-open=no
+fi
+
+if [ "$loop" = "true" ]; then
+    set -- "$@" --loop-file=inf
 fi
 
 case "$quality" in
