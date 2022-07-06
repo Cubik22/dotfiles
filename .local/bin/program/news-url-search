@@ -1,21 +1,49 @@
 #!/bin/sh
 
 info=$(cat << EOF
-news-url-search url
+news-url-search [option...] url
 search and get news feeds in url page
 rss and atom
+
+option:
+    -h, --help
+        print this help message
+    -a, --all
+        grep all occurances of rss and atom
+    -s, --simple
+        simply grep rss and atom without extracting urls
 EOF
 )
 
+all=false
+simple=false
+
 if [ "$#" -ne 0 ]; then
-    case "$1" in
-        -h|--help)
-            echo "$info"
-            return 0
-        ;;
-    esac
+    while [ "$#" -ne 0 ]; do
+        case "$1" in
+            -h|--help)
+                echo "$info"
+                return 0
+            ;;
+            -a|--all)
+                all=true
+            ;;
+            -s|--simple)
+                simple=true
+            ;;
+            -*)
+                echo "error: parameter $1 not recognized" >/dev/stderr
+                echo "$info"
+                return 1
+            ;;
+            *)
+                break
+            ;;
+        esac
+        shift 1
+    done
 else
-    echo "error: insert url"
+    echo "error: insert url" >/dev/stderr
     echo "$info"
     return 1
 fi
@@ -27,28 +55,76 @@ url="$(
 
 error_file="$(mktemp)"
 website="$(curl --no-progress-meter --location "$url" 2>"$error_file")"
-cat "$error_file"
+cat "$error_file" >/dev/stderr
 rm -f "$error_file"
+
+if [ "$all" = "false" ]; then
+    target="/\(rss\|atom\)"
+else
+    target="rss\|atom"
+fi
+
+if [ "$simple" = "true" ]; then
+    echo "$website" |
+    grep --text --color=auto "$target"
+    return 0
+fi
 
 search_link() {
     website="$1"
     target="$2"
 
     echo "$website" |
-        grep "$target" |
-        sed 's/^.*href=\"//' |
-        sed 's/\".*$//' |
-        sed 's/\/\(#\|\)$//'
+        grep --text "$target" |
+        sed "s/^.*href=[\"|\']//" |
+        sed "s/[\"|\'].*$//" |
+        sed "s/\/\(#\|\)$//"
 }
 
 print_link() {
     links="$1"
+    url_inside="$2"
+    last_sub="$(
+        echo "$url_inside" |
+        rev |
+        cut -d "/" -f 1 |
+        rev
+    )"
+    case "$last_sub" in
+        *.html|*.php)
+            origin_url="$(
+                echo "$url_inside" |
+                rev |
+                cut -d "/" -f 2- |
+                rev
+            )"
+        ;;
+        *)
+            origin_url="$url_inside"
+        ;;
+    esac
     IFS='
 '
     for link in $links; do
         case "$link" in
-            /*)
-                echo "${url}${link}"
+            /*|./*)
+                link="$(echo "$link" | sed 's/^\.//')"
+                echo "${origin_url}${link}"
+            ;;
+            ../*)
+                two_dots="$(echo "$link" | cut -d "/" -f 1)"
+                remaining_part="$(echo "$link" | cut -d "/" -f 2-)"
+                while [ "$two_dots" = ".." ]; do
+                    two_dots="$(echo "$remaining_part" | cut -d "/" -f 1)"
+                    remaining_part="$(echo "$remaining_part" | cut -d "/" -f 2-)"
+                    origin_url_inside="$(
+                        echo "$origin_url" |
+                        rev |
+                        cut -d "/" -f 2- |
+                        rev
+                    )"
+                done
+                echo "$origin_url_inside/$remaining_part"
             ;;
             *)
                 echo "$link"
@@ -57,8 +133,5 @@ print_link() {
     done
 }
 
-rss_links="$(search_link "$website" "/rss")"
-atom_links="$(search_link "$website" "/atom")"
-
-[ -n "$rss_links" ] && print_link "$rss_links"
-[ -n "$atom_links" ] && print_link "$atom_links"
+news_links="$(search_link "$website" "$target")"
+[ -n "$news_links" ] && print_link "$news_links" "$url"

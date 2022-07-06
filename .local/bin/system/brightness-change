@@ -48,11 +48,18 @@ case "$mode" in
     ;;
 esac
 
-brightness_path="/sys/class/backlight/intel_backlight/brightness"
-max_brightness_path="/sys/class/backlight/intel_backlight/max_brightness"
+brightness_home="$(find "/sys/class/backlight" -mindepth 1 -maxdepth 1)"
+if [ "$(echo "$brightness_home" | wc -l)" -ne 1 ]; then
+    echo "error: multiple brightness devices"
+    return 1
+fi
+brightness_path="$brightness_home/brightness"
+max_brightness_path="$brightness_home/max_brightness"
+# brightness_path="/sys/class/backlight/intel_backlight/brightness"
+# max_brightness_path="/sys/class/backlight/intel_backlight/max_brightness"
 
-current_brightness="$(cat $brightness_path)"
-max_brightness="$(cat $max_brightness_path)"
+current_brightness="$(cat "$brightness_path")"
+max_brightness="$(cat "$max_brightness_path")"
 
 state_script_dir="${XDG_DATA_HOME:-$HOME/.local/share}/script"
 current_path="$state_script_dir/brightness-current"
@@ -67,15 +74,21 @@ fi
 if [ "$mode" = "up" ] || [ "$mode" = "down" ]; then
     switch_brightness="$(( max_brightness * switch_percentage / 100 ))"
 
-    if [ "$current_brightness" -gt "$switch_brightness" ]; then
-        situation="upper"
-    elif [ "$current_brightness" -eq "$switch_brightness" ] &&
-        [ "$mode" = "up" ]; then
+    delta_permille=2
+    delta="$(( max_brightness * delta_permille / 1000 ))"
+    switch_brightness_low="$(( switch_brightness - delta ))"
+    switch_brightness_high="$(( switch_brightness + delta ))"
+    if [ "$current_brightness" -gt "$switch_brightness_low" ] &&
+        [ "$current_brightness" -lt "$switch_brightness_high" ]; then
+        current_brightness="$switch_brightness"
+        if [ "$mode" = "up" ]; then
+            situation="upper"
+        elif [ "$mode" = "down" ]; then
+            situation="lower"
+        fi
+    elif [ "$current_brightness" -gt "$switch_brightness" ]; then
         situation="upper"
     elif [ "$current_brightness" -lt "$switch_brightness" ]; then
-        situation="lower"
-    elif [ "$current_brightness" -eq "$switch_brightness" ] &&
-        [ "$mode" = "down" ]; then
         situation="lower"
     fi
 
@@ -111,9 +124,9 @@ else
     new_brightness="$(( mode * max_brightness / 100 ))"
 fi
 
-if [ "$new_brightness" -ge "$(( max_brightness + 1 ))" ]; then
+if [ "$new_brightness" -gt "$max_brightness" ]; then
     real_brightness="$max_brightness"
-elif [ "$new_brightness" -le "$min_brightness" ]; then
+elif [ "$new_brightness" -lt "$min_brightness" ]; then
     real_brightness="$min_brightness"
 else
     real_brightness="$new_brightness"

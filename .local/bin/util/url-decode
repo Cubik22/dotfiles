@@ -1,0 +1,8 @@
+#!/bin/sh
+
+for url in "$@"; do
+    echo "$url" |
+    awk -niord \
+    '{printf RT?$0chr("0x"substr(RT,2)):$0}' \
+    RS=%..
+done

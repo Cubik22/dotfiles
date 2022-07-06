@@ -127,6 +127,7 @@ medium
 worst
 audio-normal
 audio-loop
+copy
 EOF
 )
 
@@ -150,5 +151,8 @@ case "$option" in
         else
             riverctl spawn "mpv-url --\"$option\" \"$video_url\""
         fi
+    ;;
+    copy)
+        echo "$video_url" | "$COPY_CMD"
     ;;
 esac
