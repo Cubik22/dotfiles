@@ -103,6 +103,11 @@ directories_path="$(find -L "$XDG_BIN_HOME" -type d -printf %p:)"
 export PATH="${directories_path}${PATH}"
 unset directories_path
 
+if command -v systemctl >/dev/null 2>&1; then
+    systemctl --user import-environment PATH
+    systemctl --user import-environment SOURCE_HOME
+fi
+
 # manpath
 # if $MANPATH is set, manpath displays its value rather than determining it on the fly
 # if $MANPATH is prefixed by a colon, then the value of the variable is
