@@ -323,9 +323,9 @@ else
         alias apt-cache="sudo apt-cache"
         alias apt="sudo apt"
 
-        alias systemctl="sudo systemctl"
-        alias journalctl="sudo journalctl"
         alias ufw="sudo ufw"
+        # alias systemctl="sudo systemctl"
+        # alias journalctl="sudo journalctl"
     fi
 
     alias powertop="doas powertop"

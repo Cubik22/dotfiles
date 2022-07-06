@@ -1,26 +1,49 @@
 #!/bin/sh
 
 info=$(cat << EOF
-count-url file [file...]
+count-url [option] [file...]
 count urls in files
 lines that start with url
 used with newsboat urls files
+
+option:
+    -h, --help
+        print this info and exit
+    -t, --total
+        print just totals
 EOF
 )
 
+just_total=false
+
 if [ "$#" -ne 0 ]; then
-    case "$1" in
-        -h|--help)
-            echo "$info"
-            return 0
-        ;;
-    esac
+    while [ "$#" -ne 0 ]; do
+        case "$1" in
+            -h|--help)
+                echo "$info"
+                return 0
+            ;;
+            -t|--total)
+                just_total=true
+            ;;
+            -*)
+                echo "error: parameter $1 not recognized" >/dev/stderr
+                echo "$info"
+                return 1
+            ;;
+            *)
+                break
+            ;;
+        esac
+        shift 1
+    done
 else
-    echo "error: insert file"
+    echo "error: insert file" >/dev/stderr
     return 1
 fi
 
-printf "\n"
+https_total=0
+http_total=0
 for file in "$@"; do
     https_number=0
     http_number=0
@@ -35,12 +58,22 @@ for file in "$@"; do
         esac
     done < "$file"
     total_number="$(( https_number + http_number ))"
-
-    cat << EOF
+    https_total="$(( https_total + https_number ))"
+    http_total="$(( http_total + http_number ))"
+    if [ "$just_total" = "false" ]; then
+        cat << EOF
 file: $file
 https: $https_number
 http: $http_number
 total: $total_number
 
 EOF
+    fi
 done
+total_total="$(( https_total + http_total ))"
+[ "$just_total" = "false" ] && echo "total"
+cat << EOF
+https: $https_total
+http: $http_total
+total: $total_total
+EOF

@@ -12,11 +12,15 @@ option:
         grep all occurances of rss and atom
     -s, --simple
         simply grep rss and atom without extracting urls
+    -t, --try
+        force try urls
+        by default try urls just when no urls are found with grepping
 EOF
 )
 
 all=false
 simple=false
+try=false
 
 if [ "$#" -ne 0 ]; then
     while [ "$#" -ne 0 ]; do
@@ -30,6 +34,9 @@ if [ "$#" -ne 0 ]; then
             ;;
             -s|--simple)
                 simple=true
+            ;;
+            -t|--try)
+                try=true
             ;;
             -*)
                 echo "error: parameter $1 not recognized" >/dev/stderr
@@ -48,10 +55,32 @@ else
     return 1
 fi
 
+IFS='
+'
+
 url="$(
     echo "$1" |
     sed 's/\/\(#\|\)$//'
 )"
+last_sub="$(
+    echo "$url" |
+    rev |
+    cut -d "/" -f 1 |
+    rev
+)"
+case "$last_sub" in
+    *.html|*.php)
+        origin_url="$(
+            echo "$url" |
+            rev |
+            cut -d "/" -f 2- |
+            rev
+        )"
+    ;;
+    *)
+        origin_url="$url"
+    ;;
+esac
 
 error_file="$(mktemp)"
 website="$(curl --no-progress-meter --location "$url" 2>"$error_file")"
@@ -59,7 +88,7 @@ cat "$error_file" >/dev/stderr
 rm -f "$error_file"
 
 if [ "$all" = "false" ]; then
-    target="/\(rss\|atom\)"
+    target="application/\(rss\|atom\)+xml"
 else
     target="rss\|atom"
 fi
@@ -75,36 +104,16 @@ search_link() {
     target="$2"
 
     echo "$website" |
-        grep --text "$target" |
-        sed "s/^.*href=[\"|\']//" |
-        sed "s/[\"|\'].*$//" |
-        sed "s/\/\(#\|\)$//"
+    grep --text "$target" |
+    sed "s/^.*href=[\"|\']//" |
+    sed "s/[\"|\'].*$//" |
+    sed "s/\/\(#\|\)$//"
 }
 
 print_link() {
     links="$1"
-    url_inside="$2"
-    last_sub="$(
-        echo "$url_inside" |
-        rev |
-        cut -d "/" -f 1 |
-        rev
-    )"
-    case "$last_sub" in
-        *.html|*.php)
-            origin_url="$(
-                echo "$url_inside" |
-                rev |
-                cut -d "/" -f 2- |
-                rev
-            )"
-        ;;
-        *)
-            origin_url="$url_inside"
-        ;;
-    esac
-    IFS='
-'
+    origin_url="$2"
+
     for link in $links; do
         case "$link" in
             /*|./*)
@@ -114,11 +123,12 @@ print_link() {
             ../*)
                 two_dots="$(echo "$link" | cut -d "/" -f 1)"
                 remaining_part="$(echo "$link" | cut -d "/" -f 2-)"
+                origin_url_inside="$origin_url"
                 while [ "$two_dots" = ".." ]; do
                     two_dots="$(echo "$remaining_part" | cut -d "/" -f 1)"
                     remaining_part="$(echo "$remaining_part" | cut -d "/" -f 2-)"
                     origin_url_inside="$(
-                        echo "$origin_url" |
+                        echo "$origin_url_inside" |
                         rev |
                         cut -d "/" -f 2- |
                         rev
@@ -134,4 +144,43 @@ print_link() {
 }
 
 news_links="$(search_link "$website" "$target")"
-[ -n "$news_links" ] && print_link "$news_links" "$url"
+[ -n "$news_links" ] && print_link "$news_links" "$origin_url"
+
+if [ -n "$news_links" ] && [ "$try" = "false" ]; then
+    return 0
+fi
+
+check_url_exist() {
+    url_local="$1"
+
+    if wget --spider "$url_local" 2>/dev/null; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+subdomains_try="$(cat << EOF
+index
+index.xml
+index.php
+feed
+feed.xml
+feed.php
+rss
+rss.xml
+rss.php
+atom
+atom.xml
+atom.php
+feed/rss
+feed/atom
+feeds/posts/default
+feeds/news
+EOF
+)"
+echo "\ntry urls:"
+for sub_try in $subdomains_try; do
+    try_url="$origin_url/$sub_try"
+    check_url_exist "$try_url" && echo "$try_url"
+done
