@@ -179,7 +179,7 @@ feeds/posts/default
 feeds/news
 EOF
 )"
-echo "\ntry urls:"
+printf "\ntry urls:\n"
 for sub_try in $subdomains_try; do
     try_url="$origin_url/$sub_try"
     check_url_exist "$try_url" && echo "$try_url"
