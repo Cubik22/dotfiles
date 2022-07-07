@@ -90,6 +90,9 @@ map global insert <a-e> <end><esc>  -docstring "enter normal mode end of line"
 # paste in insert mode
 map global insert <a-p> <a-semicolon>P
 
+# delete previous word
+map global insert <a-w> <esc>bdi
+
 # build
 define-command build -docstring 'build in current directory' %{ nop %sh{
     if [ -f "Makefile" ]; then

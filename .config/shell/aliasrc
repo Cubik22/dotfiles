@@ -148,10 +148,6 @@ export weather="wttr.in"
 # curl wttr.in/:help
 
 if [ "$OS_TYPE" = "desktop" ]; then
-    # river
-    export gui="Mod4"
-    export alt="Mod1"
-
     # newsboat
     alias nb='newsboat'
     alias nbp='newsboat \

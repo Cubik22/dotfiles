@@ -17,6 +17,7 @@
     font-weight: bold;
 }
 
+#mode,
 #pulseaudio,
 #temperature,
 #cpu,
@@ -36,6 +37,9 @@
     color: #6b705c;
     background: #1d2021;
     /*border-radius: 10px;*/
+
+    /* disable animation on click */
+    transition-property: none;
 }
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
@@ -74,6 +78,17 @@
 #tags button.focused.urgent {
     color: red;
 }
+
+#mode {
+    color: #DDBEA9;
+}
+
+/*
+#window {
+    color: #DDBEA9;
+    padding-left: 50px;
+}
+*/
 
 #clock.date {
     font-weight: bold;

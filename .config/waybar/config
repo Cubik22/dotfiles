@@ -9,7 +9,9 @@
 
     "modules-left": [
         // "tray",
-        "river/tags"
+        "river/tags",
+        "river/mode"
+        // "river/window"
     ],
 
     "modules-center": [
@@ -28,6 +30,10 @@
     ],
 
     // MODULES
+
+    // "river/window": {
+    //     "max-length": 40
+    // },
 
     "clock#date": {
         "interval": 60,
