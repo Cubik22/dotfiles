@@ -18,9 +18,11 @@ case "$1" in
     ;;
 esac
 
-wl-paste-env -n | clipboard-tty-copy
+origin_cliboard_tty="$(clipboard-tty-paste)"
 
+wl-paste-env -n | clipboard-tty-copy
 # shellcheck disable=SC2086
 footclient $footclient_opts exec-with-clipboard-tty "$@"
-
 clipboard-tty-paste | wl-copy-env -n
+
+echo "$origin_cliboard_tty" | clipboard-tty-copy

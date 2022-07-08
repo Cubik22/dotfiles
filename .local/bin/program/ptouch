@@ -3,6 +3,7 @@
 # create a file and automatically add it with pcon
 # see stouch
 
-eval file="\${$#}"
-# shellcheck disable=SC2154
+# get last parameter
+for file in "$@"; do :; done
+
 stouch "$@" && pcon add "$file"

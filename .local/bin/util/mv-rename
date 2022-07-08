@@ -37,17 +37,18 @@ old_number="$(wc -l "$rename_file" | cut -d " " -f 1)"
 new_number="$(wc -l "$rename_file" | cut -d " " -f 1)"
 
 if [ "$new_number" -ne "$old_number" ]; then
-    echo "error: file has not the same number of lines as parameters passed"
+    echo "error: file has not the same number of lines as parameters passed" >/dev/stderr
+    rm -f "$rename_file"
     return 1
 fi
 
 number_target=1
 while read -r line; do
-    file=""
-    eval "file=\"\$$number_target\""
+    file="$1"
     if [ ! "$line" = "$file" ]; then
         mv "$file" "$line"
     fi
+    shift 1
     number_target="$(( number_target + 1 ))"
 done < "$rename_file"
 

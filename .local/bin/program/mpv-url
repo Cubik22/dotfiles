@@ -5,13 +5,14 @@
 
 print_info=$(cat << EOF
 SYNOPSIS
-        mpv-url [option]... url
+        mpv-url [mpv-option...] [option...] url
 
 DESCRIPTION
         play url with mpv
         optionally specifying quality
         if quality is not available play
         with default quality
+        options not below are passed to mpv
 
         -h, --help
             print this info and exit
@@ -55,7 +56,10 @@ open=false
 loop=false
 quality=false
 
-for param in "$@"; do
+number_parameters="$#"
+at_parameter=1
+while [ "$at_parameter" -le "$number_parameters" ]; do
+    param="$1"
     case "$param" in
         -h|--help)
             echo "$print_info"
@@ -85,10 +89,15 @@ for param in "$@"; do
         --no-ytdl|--normal)
             quality=false
         ;;
+        -*)
+            set -- "$@" "$param"
+        ;;
         *)
             url="$param"
         ;;
     esac
+    shift 1
+    at_parameter="$(( at_parameter + 1 ))"
 done
 
 if [ "$fullscreen" = "true" ]; then
@@ -97,7 +106,7 @@ fi
 
 ytdl_program="${YTDL:-yt-dlp}"
 
-set -- --force-window=yes --ytdl=yes \
+set -- "$@" --force-window=yes --ytdl=yes \
 --script-opts="osc-visibility=never,ytdl_hook-ytdl_path=$ytdl_program"
 # set -- --ytdl-raw-options=no-check-certificate=
 
@@ -135,9 +144,8 @@ if [ -n "$ytdl_format" ]; then
     fi
 fi
 
-echo "url: $url"
-echo "parameters passed to mpv:"
-echo "$@"
-echo
+printf "parameters passed to mpv:\n"
+printf "%s\n" "$@"
+printf "url: %s\n\n" "$url"
 
 mpv "$@" "$url"
