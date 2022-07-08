@@ -15,6 +15,7 @@ EOF
 )
 
 just_total=false
+# count_video=false
 
 if [ "$#" -ne 0 ]; then
     while [ "$#" -ne 0 ]; do
@@ -26,6 +27,9 @@ if [ "$#" -ne 0 ]; then
             -t|--total)
                 just_total=true
             ;;
+            # -v|--video)
+            #     count_video=true
+            # ;;
             -*)
                 echo "error: parameter $1 not recognized" >/dev/stderr
                 echo "$info"
@@ -41,6 +45,25 @@ else
     echo "error: insert file" >/dev/stderr
     return 1
 fi
+
+# TODO: count different video types
+# IFS='
+# '
+
+# count_types=$(cat << EOF
+# https:// https
+# http:// http
+# EOF
+# )
+
+# for count_type in $count_types; do
+#     count_url="$(echo "$count_type" | cut -d " " -f 1)"
+#     count_name="$(echo "$count_type" | cut -d " " -f 2)"
+#     echo "url: $count_url"
+#     echo "name: $count_name"
+# done
+
+# return 0
 
 https_total=0
 http_total=0

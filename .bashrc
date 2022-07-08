@@ -139,3 +139,6 @@ if command -v zoxide >/dev/null 2>&1; then
     eval "$(zoxide init bash)"
     # eval "$(zoxide init --cmd y bash)"
 fi
+
+# set tab to 4 instead of 8
+tabs 4

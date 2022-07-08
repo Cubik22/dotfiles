@@ -237,7 +237,9 @@ for mode in normal move; do
     riverctl map "$mode" "$key"+Control L send-layout-cmd "$layout" "main-location right"
 
     # monocle just for rivercarro
-    riverctl map "$mode" "$key" M send-layout-cmd rivercarro "main-location monocle"
+    if [ "$layout" = "rivercarro" ]; then
+        riverctl map "$mode" "$key" M send-layout-cmd "$layout" "main-location monocle"
+    fi
 done
 
 # {H,J,K,L} to move views big step

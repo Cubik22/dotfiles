@@ -272,8 +272,12 @@ EOF
 util_info=$(cat << EOF
 ## util
 watch
-tee
+tee [-a] cat and echo without using >
 tr
+bc math calculations
+fold
+paste
+split
 time
 date cal
 uname

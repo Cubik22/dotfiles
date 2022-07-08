@@ -1,5 +1,7 @@
 #!/bin/sh
 
+ytdl="${YTDL:-yt-dlp}"
+
 if [ "$#" -lt 1 ]; then
     echo "error: please insert at least one url"
     exit
@@ -11,7 +13,7 @@ for url in "$@"; do
     # ext="$(youtube-dl --get-filename "$url" \
     #     | rev | cut -d "." -f 1 | rev)"
     # full="${name}.${ext}"
-    # youtube-dl \
+    # $ytdl \
     #     --ignore-errors \
     #     --retries=infinite \
     #     --extract-audio \
@@ -24,7 +26,7 @@ for url in "$@"; do
     dir="$(mktemp -d audio-XXXXXX)"
     cd "$dir" || return 1
 
-    youtube-dl \
+    $ytdl \
         --ignore-errors \
         --retries=infinite \
         --extract-audio \

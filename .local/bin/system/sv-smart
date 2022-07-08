@@ -114,6 +114,10 @@ if [ "$#" -ne 2 ]; then
 fi
 
 action="$1"
+case "$action" in
+    start) action="up" ;;
+    stop) action="down" ;;
+esac
 service="$2"
 
 user="$USER"
@@ -141,6 +145,13 @@ case "$last_line" in
         return 1
     ;;
 esac
+
+if [ "$action" = "status" ]; then
+    echo "$status_result" | tail -n +3
+    # shellcheck disable=SC1090
+    [ -n "$after_file" ] && . "$after_file"
+    return 0
+fi
 
 service_status="$(echo "$last_line" | sed 's/:.*//')"
 case "$service_status" in

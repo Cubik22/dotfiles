@@ -1,5 +1,7 @@
 #!/bin/sh
 
+ytdl="${YTDL:-yt-dlp}"
+
 if [ "$#" -lt 1 ]; then
     echo "error: please insert at least one url"
     exit
@@ -9,7 +11,7 @@ for url in "$@"; do
     dir="$(mktemp -d video-XXXXXX)"
     cd "$dir" || return 1
 
-    youtube-dl \
+    $ytdl \
         --ignore-errors \
         --retries=infinite \
         --add-metadata \
