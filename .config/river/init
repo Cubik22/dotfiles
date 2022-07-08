@@ -1,6 +1,11 @@
 #!/bin/sh
 
+# get layout
 layout="$(setting-get river-layout rivertile)" || return "$?"
+
+# set the default layout generator, rivertile/rivercarro
+# river will send the process group of the init executable SIGTERM on exit
+riverctl default-layout "$layout"
 
 ### services
 
@@ -17,8 +22,8 @@ tail -f "$WOB_PIPE_CENTER" | wob --anchor "center" --width 400 &
 # tail -f "$WOB_PIPE_CENTER" | wob --anchor "center" --width 400 --height 400 &
 
 # load brightness level
-brightness-change load
-# echo "brightness level is: $(brightness-change load)"
+brightness_level="$(brightness-change load)"
+echo "brightness level is: $brightness_level"
 
 # scale everything (problems with partial scaling)
 # wlr-randr --output eDP-1 --scale 1.25
@@ -26,9 +31,9 @@ brightness-change load
 ### programs
 
 # Gui + key used
-# Delete Return Backspace Space Period Comma
-# {Up,Right,Down,Left} [0-9] F11
-# all keys taken
+# Delete Return Backspace Space
+# [0-9] F11
+# all letter keys taken
 
 # Gui+Control+Space footclient
 riverctl map normal Super+Control Space spawn "footclient-default"
@@ -111,7 +116,7 @@ riverctl map normal Super+Shift F spawn "footclient-float firefox-menu"
 # Gui+Shift+C chromium menu
 riverctl map normal Super+Shift C spawn "footclient-float chromium-menu"
 
-### Windows
+### windows
 
 # Gui+DoubleQuote move window mode
 riverctl declare-mode move
@@ -127,24 +132,26 @@ riverctl map passthrough Super F11 enter-mode normal
 # Gui+Shift+E to exit river
 riverctl map normal Super+Shift E exit
 
-# Gui+J and Gui+K to focus the next/previous view in the layout stack
-riverctl map normal Super J focus-view next
-riverctl map normal Super K focus-view previous
+for mode in normal move; do
+    # Gui+J and Gui+K to focus the next/previous view in the layout stack
+    riverctl map "$mode" Super J focus-view next
+    riverctl map "$mode" Super K focus-view previous
 
-# Gui+Shift+J and Gui+Shift+K to swap the focused view with the next/previous
-# view in the layout stack
-riverctl map normal Super+Shift J swap next
-riverctl map normal Super+Shift K swap previous
+    # Gui+H and Gui+L to swap the focused view with the previous/next
+    # view in the layout stack
+    riverctl map "$mode" Super H swap previous
+    riverctl map "$mode" Super L swap next
 
-# Gui+H and Gui+L to decrease/increase the main ratio of rivertile/rivercarro
-riverctl map normal Super H send-layout-cmd "$layout" "main-ratio -0.025"
-riverctl map normal Super L send-layout-cmd "$layout" "main-ratio +0.025"
+    # Gui+Shift+J and Gui+Shift+K to increment/decrement the main count of rivertile/rivercarro
+    riverctl map "$mode" Super+Shift J send-layout-cmd "$layout" "main-count +1"
+    riverctl map "$mode" Super+Shift K send-layout-cmd "$layout" "main-count -1"
 
-# Gui+Shift+H and Gui+Shift+L to increment/decrement the main count of rivertile/rivercarro
-riverctl map normal Super+Shift H send-layout-cmd "$layout" "main-count +1"
-riverctl map normal Super+Shift L send-layout-cmd "$layout" "main-count -1"
+    # Gui+Shift+H and Gui+Shift+L to decrease/increase the main ratio of rivertile/rivercarro
+    riverctl map "$mode" Super+Shift H send-layout-cmd "$layout" "main-ratio -0.025"
+    riverctl map "$mode" Super+Shift L send-layout-cmd "$layout" "main-ratio +0.025"
+done
 
-# used below
+# bitfield for all tags
 all_tags="$(((1 << 32) - 1))"
 
 # scratchpad
@@ -164,6 +171,7 @@ for mode in normal move; do
             key="None"
         ;;
     esac
+
     # Gui+Q to close the focused view
     riverctl map "$mode" "$key" Q close
 
@@ -213,16 +221,8 @@ for mode in normal move; do
     riverctl map "$mode" "$key" U spawn riverctl-float-fullscreen
 
     # Gui+{N,P} change tags
-    riverctl map "$mode" "$key" N     spawn "cycle-focused-tags next 9"
-    riverctl map "$mode" "$key" P     spawn "cycle-focused-tags previous 9"
-
-    # Gui+{Down,Up} move between tags
-    riverctl map "$mode" "$key" Down  spawn "cycle-focused-tags next 9"
-    riverctl map "$mode" "$key" Up    spawn "cycle-focused-tags previous 9"
-
-    # Gui+{Left,Right} move between browser windows
-    riverctl map "$mode" "$key" Left  spawn "wtype -M ctrl -M shift -k Tab -m shift -m ctrl"
-    riverctl map "$mode" "$key" Right spawn "wtype -M ctrl -k Tab -m ctrl"
+    riverctl map "$mode" "$key" N spawn "cycle-focused-tags next 9"
+    riverctl map "$mode" "$key" P spawn "cycle-focused-tags previous 9"
 
     # Gui+Left Mouse Button to move views
     riverctl map-pointer "$mode" "$key" BTN_LEFT move-view
@@ -230,82 +230,52 @@ for mode in normal move; do
     # Gui+Right Mouse Button to resize views
     riverctl map-pointer "$mode" "$key" BTN_RIGHT resize-view
 
-    if [ "$layout" = "rivercarro" ]; then
-        riverctl map "$mode" "$key" M send-layout-cmd "$layout" "main-location monocle"
-    fi
+    # Gui+Control+{J,K,H,L} to change layout orientation
+    riverctl map "$mode" "$key"+Control H send-layout-cmd "$layout" "main-location left"
+    riverctl map "$mode" "$key"+Control J send-layout-cmd "$layout" "main-location bottom"
+    riverctl map "$mode" "$key"+Control K send-layout-cmd "$layout" "main-location top"
+    riverctl map "$mode" "$key"+Control L send-layout-cmd "$layout" "main-location right"
+
+    # monocle just for rivercarro
+    riverctl map "$mode" "$key" M send-layout-cmd rivercarro "main-location monocle"
 done
 
-# Gui+Alt+Control+Shift+{J,K,H,L} to change layout orientation
-riverctl map normal Super+Alt+Control+Shift H send-layout-cmd "$layout" "main-location left"
-riverctl map normal Super+Alt+Control+Shift J send-layout-cmd "$layout" "main-location bottom"
-riverctl map normal Super+Alt+Control+Shift K send-layout-cmd "$layout" "main-location top"
-riverctl map normal Super+Alt+Control+Shift L send-layout-cmd "$layout" "main-location right"
-
-riverctl map move Alt H send-layout-cmd "$layout" "main-location left"
-riverctl map move Alt J send-layout-cmd "$layout" "main-location bottom"
-riverctl map move Alt K send-layout-cmd "$layout" "main-location top"
-riverctl map move Alt L send-layout-cmd "$layout" "main-location right"
-
-# Gui+Alt+{H,J,K,L} to move views big step
+# {H,J,K,L} to move views big step
 # TODO: when moving to top move below bar
-move_pixel_big=200
-riverctl map normal Super+Alt H move left   "$move_pixel_big"
-riverctl map normal Super+Alt J move down   "$move_pixel_big"
-riverctl map normal Super+Alt K move up     "$move_pixel_big"
-riverctl map normal Super+Alt L move right  "$move_pixel_big"
+move_pixel_big=100
+riverctl map move None H move left  "$move_pixel_big"
+riverctl map move None J move down  "$move_pixel_big"
+riverctl map move None K move up    "$move_pixel_big"
+riverctl map move None L move right "$move_pixel_big"
 
-riverctl map move None H move left   "$move_pixel_big"
-riverctl map move None J move down   "$move_pixel_big"
-riverctl map move None K move up     "$move_pixel_big"
-riverctl map move None L move right  "$move_pixel_big"
-
-# Gui+Alt+Shift+{H,J,K,L} to move views small step
+# Shift+{H,J,K,L} to move views small step
 move_pixel_small=20
-riverctl map normal Super+Alt+Shift H move left     "$move_pixel_small"
-riverctl map normal Super+Alt+Shift J move down     "$move_pixel_small"
-riverctl map normal Super+Alt+Shift K move up       "$move_pixel_small"
-riverctl map normal Super+Alt+Shift L move right    "$move_pixel_small"
+riverctl map move Shift H move left  "$move_pixel_small"
+riverctl map move Shift J move down  "$move_pixel_small"
+riverctl map move Shift K move up    "$move_pixel_small"
+riverctl map move Shift L move right "$move_pixel_small"
 
-riverctl map move Shift H move left     "$move_pixel_small"
-riverctl map move Shift J move down     "$move_pixel_small"
-riverctl map move Shift K move up       "$move_pixel_small"
-riverctl map move Shift L move right    "$move_pixel_small"
-
-# Gui+Alt+Control+{H,J,K,L} to snap views to screen edges
+# Alt+{H,J,K,L} to snap views to screen edges
 # when snapping to top move below bar
-riverctl map normal Super+Alt+Control H snap    left
-riverctl map normal Super+Alt+Control J snap    down
-riverctl map normal Super+Alt+Control K spawn   riverctl-snap-up-bar
-riverctl map normal Super+Alt+Control L snap    right
+riverctl map move Alt H snap left
+riverctl map move Alt J snap down
+riverctl map move Alt K snap up
+# riverctl map move Alt K spawn riverctl-snap-up-bar
+riverctl map move Alt L snap right
 
-riverctl map move Control H snap    left
-riverctl map move Control J snap    down
-riverctl map move Control K spawn   riverctl-snap-up-bar
-riverctl map move Control L snap    right
-
-# Gui+Control+{H,J,K,L} to resize views big step
+# Movement+{H,J,K,L} to resize views big step
 resize_pixel_big=100
-riverctl map normal Super+Control H resize horizontal  "-$resize_pixel_big"
-riverctl map normal Super+Control J resize vertical    "$resize_pixel_big"
-riverctl map normal Super+Control K resize vertical    "-$resize_pixel_big"
-riverctl map normal Super+Control L resize horizontal  "$resize_pixel_big"
+riverctl map move None Left  resize horizontal "-$resize_pixel_big"
+riverctl map move None Down  resize vertical   "$resize_pixel_big"
+riverctl map move None Up    resize vertical   "-$resize_pixel_big"
+riverctl map move None Right resize horizontal "$resize_pixel_big"
 
-riverctl map move Super H resize horizontal  "-$resize_pixel_big"
-riverctl map move Super J resize vertical    "$resize_pixel_big"
-riverctl map move Super K resize vertical    "-$resize_pixel_big"
-riverctl map move Super L resize horizontal  "$resize_pixel_big"
-
-# Gui+Control+Shift+{H,J,K,L} to resize views small step
-resize_pixel_small=10
-riverctl map normal Super+Control+Shift H resize horizontal  "-$resize_pixel_small"
-riverctl map normal Super+Control+Shift J resize vertical    "$resize_pixel_small"
-riverctl map normal Super+Control+Shift K resize vertical    "-$resize_pixel_small"
-riverctl map normal Super+Control+Shift L resize horizontal  "$resize_pixel_small"
-
-riverctl map move Control+Shift H resize horizontal  "-$resize_pixel_small"
-riverctl map move Control+Shift J resize vertical    "$resize_pixel_small"
-riverctl map move Control+Shift K resize vertical    "-$resize_pixel_small"
-riverctl map move Control+Shift L resize horizontal  "$resize_pixel_small"
+# Control+Shift+{H,J,K,L} to resize views small step
+resize_pixel_small=20
+riverctl map move Control+Shift H resize horizontal "-$resize_pixel_small"
+riverctl map move Control+Shift J resize vertical   "$resize_pixel_small"
+riverctl map move Control+Shift K resize vertical   "-$resize_pixel_small"
+riverctl map move Control+Shift L resize horizontal "$resize_pixel_small"
 
 # various media key mapping
 for mode in normal locked; do
@@ -412,10 +382,6 @@ river-init-extra
 
 # set volume and start programs
 river-init-session &
-
-# set and exec into the default layout generator, rivertile/rivercarro
-# river will send the process group of the init executable SIGTERM on exit
-riverctl default-layout "$layout"
 
 # starting with runit
 # TODO: /run is mounted noexec so can't use XDG_RUNTIME_DIR
