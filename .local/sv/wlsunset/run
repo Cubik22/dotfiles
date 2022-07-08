@@ -1,4 +1,5 @@
 #!/bin/sh
+
 # Turin coordinates
 exec wlsunset -l 45.1 -L 7.7
 # Lausanne coordinates

@@ -27,9 +27,26 @@ if [ "$#" -ne 0 ]; then
 fi
 
 check() {
+    mode="normal"
+    case "$1" in
+        --all)
+            mode="all"
+            shift 1
+        ;;
+    esac
     destination="$1"
     relative="$(echo "$destination" | cut -d "/" -f "4-")"
-    if [ -d "$destination" ]; then
+    if [ "$mode" = "all" ]; then
+        printf "\nshellcheck directory: %s\n" "$relative"
+        scripts="$(find "$destination" -type f -executable)"
+        # shellcheck disable=SC2086
+        shellcheck $scripts
+        if [ "$run_checkbashism" = "true" ]; then
+            printf "\ncheckbashisms directory: %s\n" "$relative"
+            # shellcheck disable=SC2086
+            checkbashisms $scripts
+        fi
+    elif [ -d "$destination" ]; then
         printf "\nshellcheck directory: %s\n" "$relative"
         shellcheck "$destination"/*
         if [ "$run_checkbashism" = "true" ]; then
@@ -52,6 +69,9 @@ scripts_path="$(find -L "${XDG_BIN_HOME:-$HOME/.local/bin}" -mindepth 1 -type d)
 for script_dir in $scripts_path; do
     check "$script_dir"
 done
+
+services_path="${XDG_LOCAL_HOME:-$HOME/.local}/sv"
+check --all "$services_path"
 
 shell_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/shell"
 check "$shell_config_dir"

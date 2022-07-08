@@ -1,0 +1,40 @@
+#!/bin/sh
+
+info=$(cat << EOF
+setting-set setting value
+set value of setting
+EOF
+)
+
+if [ "$#" -ne 0 ]; then
+    case "$1" in
+        -h|--help)
+            echo "$info"
+            return 0
+        ;;
+    esac
+fi
+
+if [ "$#" -ne 2 ]; then
+    echo "error: insert two parameters" >/dev/stderr
+    echo "$info"
+    return 1
+fi
+
+setting="$1"
+value="$2"
+
+state_script_dir="${XDG_DATA_HOME:-$HOME/.local/share}/script"
+if [ ! -e "$state_script_dir" ]; then
+    mkdir -p "$state_script_dir"
+elif [ ! -d "$state_script_dir" ]; then
+    echo "error: $state_script_dir is not a directory" >dev/stderr
+    return 1
+fi
+setting_dir="$state_script_dir/$setting"
+if [ -e "$setting_dir" ] && [ ! -f "$setting_dir" ]; then
+    echo "error: $setting_dir is not a file" >/dev/stderr
+    return 1
+fi
+
+echo "$value" > "$setting_dir"

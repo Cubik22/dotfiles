@@ -678,14 +678,15 @@ river_install() {
 
     package="river"
     echo "installing package: $package"
-    package_dir="$src/$package"
-    if [ ! -d "$package_dir" ]; then
-        git clone --recurse-submodules https://github.com/riverwm/river.git "$package_dir"
+    river_dir="$src/$package"
+    river_url="https://github.com/riverwm/river.git"
+    if [ ! -d "$river_dir" ]; then
+        git clone --recurse-submodules "$river_url" "$river_dir"
     else
-        git -C "$package_dir" pull --recurse-submodules
+        git -C "$river_dir" pull --recurse-submodules
     fi
 
-    cd "$src/river" || return 1
+    cd "$river_dir" || return 1
 
     rm -rf zig-cache
 
@@ -695,13 +696,29 @@ river_install() {
 
     python3 -m pywayland.scanner -i "$data_home/wayland/wayland.xml" protocol/river-control-unstable-v1.xml protocol/river-status-unstable-v1.xml
 
-    if [ ! -d "$src/river-utils" ]; then
-        git clone --recurse-submodules https://github.com/NickHastings/riverwm-utils.git "$src/river-utils"
+    rivercarro_dir="$src/rivercarro"
+    rivercarro_url="https://git.sr.ht/~novakane/rivercarro"
+    if [ ! -d "$rivercarro_dir" ]; then
+        git clone --recurse-submodules "$rivercarro_url" "$rivercarro_dir"
     fi
 
-    cd "$src/river-utils" || return 1
+    cd "$rivercarro_dir" || return 1
 
-    if [ -d "$src/river-utils" ]; then
+    if [ -d "$rivercarro_dir" ]; then
+        git pull --recurse-submodules
+    fi
+
+    zig build -Drelease-safe --prefix "$prefix_dir" install
+
+    utils_dir="$src/river-utils"
+    utils_url="https://github.com/NickHastings/riverwm-utils.git"
+    if [ ! -d "$utils_dir" ]; then
+        git clone --recurse-submodules "$utils_url" "$utils_dir"
+    fi
+
+    cd "$utils_dir" || return 1
+
+    if [ -d "$utils_dir" ]; then
         git pull --recurse-submodules
     fi
 

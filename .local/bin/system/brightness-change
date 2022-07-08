@@ -61,16 +61,6 @@ max_brightness_path="$brightness_home/max_brightness"
 current_brightness="$(cat "$brightness_path")"
 max_brightness="$(cat "$max_brightness_path")"
 
-state_script_dir="${XDG_DATA_HOME:-$HOME/.local/share}/script"
-current_path="$state_script_dir/brightness-current"
-if [ ! -e "$current_path" ]; then
-    mkdir -p "$state_script_dir"
-    echo "$(( max_brightness / 2 ))" > "$current_path"
-elif [ ! -f "$current_path" ]; then
-    echo "error: brightness-current is not a file"
-    return 1
-fi
-
 if [ "$mode" = "up" ] || [ "$mode" = "down" ]; then
     switch_brightness="$(( max_brightness * switch_percentage / 100 ))"
 
@@ -133,6 +123,6 @@ else
 fi
 
 echo "$real_brightness" > "$brightness_path"
-echo "$real_brightness" > "$current_path"
+setting-set "brightness-current" "$real_brightness" || return "$?"
 
 echo "$(( 100 * real_brightness / max_brightness))"

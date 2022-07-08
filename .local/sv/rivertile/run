@@ -1,2 +1,0 @@
-#!/bin/sh
-exec rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.6

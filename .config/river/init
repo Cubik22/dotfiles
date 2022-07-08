@@ -1,27 +1,8 @@
 #!/bin/sh
 
-### start all program/services in the background
+layout="$(setting-get river-layout rivertile)" || return "$?"
 
-## starting services with runsvdir
-
-# start foot server
-# foot --server &
-
-# start pipewire (before waybar otherwise PulseAudio module may not start)
-# pipewire &
-# pipewire-pulse &
-# # pipewire-media-session &
-
-# start waybar
-# waybar &
-
-# Turin coordinates
-# wlsunset -l 45.1 -L 7.7 &
-# Lausanne coordinates
-# wlsunset -l 46.5 -L 6.6 &
-
-# libinput-gestures
-# libinput-gestures &
+### services
 
 # wob
 if [ -p "$WOB_PIPE" ] || [ -p "$WOB_PIPE_CENTER" ]; then
@@ -42,12 +23,12 @@ brightness-change load
 # scale everything (problems with partial scaling)
 # wlr-randr --output eDP-1 --scale 1.25
 
-### Programs
+### programs
 
 # Gui + key used
 # Delete Return Backspace Space Period Comma
 # {Up,Right,Down,Left} [0-9] F11
-# keys all used
+# all keys taken
 
 # Gui+Control+Space footclient
 riverctl map normal Super+Control Space spawn "footclient-default"
@@ -86,10 +67,10 @@ riverctl map normal Super C spawn "footclient-float bluetoothctl"
 # Gui+D disconnect
 riverctl map normal Super D spawn "footclient-float disconnect"
 
-# Gui+M menu
-riverctl map normal Super M spawn "footclient-float menu-application --river"
-# # Gui+M fuzzel
-# riverctl map normal Super M spawn "fuzzel.sh"
+# Gui+G menu
+riverctl map normal Super G spawn "footclient-float menu-application --river"
+# # Gui+G fuzzel
+# riverctl map normal Super G spawn "fuzzel.sh"
 
 # Gui+W weather
 riverctl map normal Super W spawn "footclient-float --fzf weather-cli --less --home"
@@ -132,9 +113,9 @@ riverctl map normal Super+Shift C spawn "footclient-float chromium-menu"
 
 ### Windows
 
-# Gui+G move window mode
+# Gui+DoubleQuote move window mode
 riverctl declare-mode move
-riverctl map normal Super G enter-mode move
+riverctl map normal Super+Shift Apostrophe enter-mode move
 riverctl map move None Escape enter-mode normal
 
 # Gui+F11 passthrough mode. This mode has only a single mapping to return to
@@ -155,13 +136,13 @@ riverctl map normal Super K focus-view previous
 riverctl map normal Super+Shift J swap next
 riverctl map normal Super+Shift K swap previous
 
-# Gui+H and Gui+L to decrease/increase the main ratio of rivertile(1)
-riverctl map normal Super H send-layout-cmd rivertile "main-ratio -0.025"
-riverctl map normal Super L send-layout-cmd rivertile "main-ratio +0.025"
+# Gui+H and Gui+L to decrease/increase the main ratio of rivertile/rivercarro
+riverctl map normal Super H send-layout-cmd "$layout" "main-ratio -0.025"
+riverctl map normal Super L send-layout-cmd "$layout" "main-ratio +0.025"
 
-# Gui+Shift+H and Gui+Shift+L to increment/decrement the main count of rivertile(1)
-riverctl map normal Super+Shift H send-layout-cmd rivertile "main-count +1"
-riverctl map normal Super+Shift L send-layout-cmd rivertile "main-count -1"
+# Gui+Shift+H and Gui+Shift+L to increment/decrement the main count of rivertile/rivercarro
+riverctl map normal Super+Shift H send-layout-cmd "$layout" "main-count +1"
+riverctl map normal Super+Shift L send-layout-cmd "$layout" "main-count -1"
 
 # used below
 all_tags="$(((1 << 32) - 1))"
@@ -185,14 +166,6 @@ for mode in normal move; do
     esac
     # Gui+Q to close the focused view
     riverctl map "$mode" "$key" Q close
-
-    # Gui+Period and Gui+Comma to focus the next/previous output
-    riverctl map "$mode" "$key" Period focus-output next
-    riverctl map "$mode" "$key" Comma focus-output previous
-
-    # Gui+Shift+{Period,Comma} to send the focused view to the next/previous output
-    riverctl map "$mode" "$key"+Shift Period send-to-output next
-    riverctl map "$mode" "$key"+Shift Comma send-to-output previous
 
     # Gui+Backspace focus previous tags
     riverctl map "$mode" "$key" Backspace focus-previous-tags
@@ -256,18 +229,22 @@ for mode in normal move; do
 
     # Gui+Right Mouse Button to resize views
     riverctl map-pointer "$mode" "$key" BTN_RIGHT resize-view
+
+    if [ "$layout" = "rivercarro" ]; then
+        riverctl map "$mode" "$key" M send-layout-cmd "$layout" "main-location monocle"
+    fi
 done
 
 # Gui+Alt+Control+Shift+{J,K,H,L} to change layout orientation
-riverctl map normal Super+Alt+Control+Shift H send-layout-cmd rivertile "main-location left"
-riverctl map normal Super+Alt+Control+Shift J send-layout-cmd rivertile "main-location bottom"
-riverctl map normal Super+Alt+Control+Shift K send-layout-cmd rivertile "main-location top"
-riverctl map normal Super+Alt+Control+Shift L send-layout-cmd rivertile "main-location right"
+riverctl map normal Super+Alt+Control+Shift H send-layout-cmd "$layout" "main-location left"
+riverctl map normal Super+Alt+Control+Shift J send-layout-cmd "$layout" "main-location bottom"
+riverctl map normal Super+Alt+Control+Shift K send-layout-cmd "$layout" "main-location top"
+riverctl map normal Super+Alt+Control+Shift L send-layout-cmd "$layout" "main-location right"
 
-riverctl map move Alt H send-layout-cmd rivertile "main-location left"
-riverctl map move Alt J send-layout-cmd rivertile "main-location bottom"
-riverctl map move Alt K send-layout-cmd rivertile "main-location top"
-riverctl map move Alt L send-layout-cmd rivertile "main-location right"
+riverctl map move Alt H send-layout-cmd "$layout" "main-location left"
+riverctl map move Alt J send-layout-cmd "$layout" "main-location bottom"
+riverctl map move Alt K send-layout-cmd "$layout" "main-location top"
+riverctl map move Alt L send-layout-cmd "$layout" "main-location right"
 
 # Gui+Alt+{H,J,K,L} to move views big step
 # TODO: when moving to top move below bar
@@ -404,6 +381,10 @@ riverctl focus-follows-cursor disabled
 # set repeat rate
 riverctl set-repeat 100 250
 
+# hide cursor
+riverctl hide-cursor timeout 1000
+riverctl hide-cursor when-typing enabled
+
 # cursor theme
 # remember to change also .config/shell/envrc
 # remember to change also .config/gtk-{2, 3}.0/{config, settings.ini}
@@ -432,12 +413,9 @@ river-init-extra
 # set volume and start programs
 river-init-session &
 
-# set and exec into the default layout generator, rivertile
+# set and exec into the default layout generator, rivertile/rivercarro
 # river will send the process group of the init executable SIGTERM on exit
-riverctl default-layout rivertile
-
-# start rivertile without padding
-# rivertile -view-padding 0 -outer-padding 0 -main-ratio 0.6
+riverctl default-layout "$layout"
 
 # starting with runit
 # TODO: /run is mounted noexec so can't use XDG_RUNTIME_DIR

@@ -1,0 +1,25 @@
+#!/bin/sh
+
+layout="$(setting-get river-layout rivertile)" || return "$?"
+main_ratio="0.6"
+
+case "$layout" in
+    rivertile)
+        exec rivertile \
+            -view-padding 0 \
+            -outer-padding 0 \
+            -main-location left \
+            -main-count 1 \
+            -main-ratio "$main_ratio"
+    ;;
+    rivercarro)
+        exec rivercarro \
+            -no-smart-gaps \
+            -inner-gaps 0 \
+            -outer-gaps 0 \
+            -main-location left \
+            -main-count 1 \
+            -main-ratio "$main_ratio" \
+            -width-ratio 1.0
+    ;;
+esac
