@@ -78,6 +78,16 @@ TAB: menu-complete
 # $else
 # $endif
 
+$if profanity
+"\C-p": prof_win_prev
+"\C-n": prof_win_next
+"\C-u": prof_win_pageup
+"\C-d": prof_win_pagedown
+"\C-h": prof_subwin_pageup
+"\C-l": prof_subwin_pagedown
+"\C-y": prof_win_clear
+$endif
+
 ## for linux console and RH/Debian xterm
 # "\e[1~": beginning-of-line
 # "\e[4~": end-of-line

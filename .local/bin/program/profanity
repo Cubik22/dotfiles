@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# start profanity in a detach session or connect to an existing session
+
+user_id="$(id --user)"
+profanity_socket="/tmp/profanity-dtach-$user_id"
+dtach -A "$profanity_socket" -Ez /usr/bin/profanity

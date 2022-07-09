@@ -1,0 +1,19 @@
+[connection]
+carbons=true
+
+# buggy
+# mam=true
+
+[omemo]
+policy=always
+log=on
+
+[ui]
+history=true
+
+[logging]
+chlog=true
+grlog=true
+
+[chatstates]
+outtype=false

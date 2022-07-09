@@ -1,0 +1,13 @@
+/*** userContent.css ***/
+
+/* wikipedia do not span all width */
+@-moz-document domain(wikipedia.org) {
+    body {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        max-width: 1000px !important;
+    }
+    .mw-body {
+        margin-left: 0px !important;
+    }
+}

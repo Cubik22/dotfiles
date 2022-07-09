@@ -66,13 +66,11 @@ case "$result" in
     restart-normal|restart-hard|restart-soft)
         profile="$(echo "$result" | cut -d "-" -f 2)"
         kill_profile "$profile"
-        sleep 1
-        riverctl spawn "firefox-spawn $profile"
+        riverctl spawn "sleep 1 && firefox-spawn $profile"
     ;;
     restart-all)
         killall firefox
-        sleep 2
-        riverctl spawn "firefox-spawn-all"
+        riverctl spawn "sleep 2 && firefox-spawn-all"
         # nohup killall firefox >"$firefox_data/kill-all.log" 2>&1
         # nohup firefox-spawn-all >"$firefox_data/start-all.log" 2>&1
     ;;

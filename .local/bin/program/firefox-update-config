@@ -139,7 +139,7 @@ for profile in $profiles; do
     for config in $configs; do
         case "$config" in
             chrome)
-                cp -r "$firefox_dir/base" "$profile_dir/chrome"
+                cp -f "$firefox_dir/base"/* "$profile_dir/chrome"
             ;;
             search)
                 mozlz4 -z "$firefox_dir/search.json" "$profile_dir/search.json.mozlz4"

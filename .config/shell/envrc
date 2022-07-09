@@ -205,7 +205,7 @@ export LYNX_LSS="$XDG_CONFIG_HOME/lynx/lynx.lss"
 
 # less
 # prompt: top_column-bottom_column/total_column percentage%
-less_prompt="%lt-%lb?L/%L. ?e(END) :?pB%pB\%..%t"
+less_prompt="?lt%lt-%lb?L/%L ..?e(END):?pB%pB\%..%t"
 export LESS="-g -i -m -j-4 -x4 -Pm$less_prompt"
 # -x1,5
 # additional parameters
