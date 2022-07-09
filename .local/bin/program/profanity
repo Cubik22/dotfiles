@@ -4,4 +4,4 @@
 
 user_id="$(id --user)"
 profanity_socket="/tmp/profanity-dtach-$user_id"
-dtach -A "$profanity_socket" -Ez /usr/bin/profanity
+dtach -A "$profanity_socket" -E -r winch -z /usr/bin/profanity

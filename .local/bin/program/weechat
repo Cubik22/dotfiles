@@ -4,4 +4,4 @@
 
 user_id="$(id --user)"
 weechat_socket="/tmp/weechat-dtach-$user_id"
-dtach -A "$weechat_socket" -Ez /usr/bin/weechat
+dtach -A "$weechat_socket" -E -z /usr/bin/weechat
